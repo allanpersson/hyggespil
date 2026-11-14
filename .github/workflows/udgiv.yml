@@ -155,24 +155,23 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -x
           v="${{ steps.version.outputs.version }}"
-          {
-            echo "## Hyggespil $v"
-            echo ""
-            echo "Se [CHANGELOG.md](https://github.com/$GITHUB_REPOSITORY/blob/main/CHANGELOG.md) for hvad der er nyt."
-            echo ""
-            echo "Hent: Indstillinger -> Marketplace -> Hyggespil -> Opdater, og genstart Home Assistant."
-            echo "Vises versionen ikke: slaa Pre-release til for repositoriet i Marketplace."
-          } > /tmp/noter.md
-          if gh release view "$v" >/dev/null 2>&1; then
-            echo "Udgivelsen findes - opdaterer tekst og asset"
-            gh release edit "$v" --prerelease --notes-file /tmp/noter.md
-            gh release upload "$v" hyggespil.zip --clobber
+          echo "## Hyggespil $v" > /tmp/noter.md
+          echo "" >> /tmp/noter.md
+          echo "Se CHANGELOG.md for hvad der er nyt." >> /tmp/noter.md
+          echo "" >> /tmp/noter.md
+          echo "Hent: Indstillinger -> Marketplace -> Hyggespil -> Opdater, og genstart Home Assistant." >> /tmp/noter.md
+          ls -l hyggespil.zip || { echo "zippet mangler"; exit 1; }
+          if gh release view "$v" --json tagName >/dev/null 2>&1; then
+            gh release edit "$v" --prerelease --notes-file /tmp/noter.md 2>&1 || true
+            gh release upload "$v" hyggespil.zip --clobber 2>&1
           else
-            gh release create "$v" --title "Hyggespil $v" --notes-file /tmp/noter.md --prerelease
-            gh release upload "$v" hyggespil.zip
+            gh release create "$v" --title "Hyggespil $v" --notes-file /tmp/noter.md --prerelease 2>&1
+            gh release upload "$v" hyggespil.zip 2>&1
           fi
-          gh release view "$v" --json tagName,prerelease,assets
+          gh release view "$v" --json tagName,isPrerelease,assets 2>&1
+
       - name: Status
         if: always()
         run: |
