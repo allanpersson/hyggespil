@@ -1,27 +1,33 @@
 # Ændringer
 
-Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
+Versionerne følger [Semantic Versioning](https://semver.org/lang/da/). Alle udgivelser er indtil videre
+markeret som prerelease (beta), fordi indholdet løbende udvides og afprøves af spillere.
+
+## 0.1.0-beta.5 – 2026-11-14
+
+- Renhed i repoet: den byggede udgivelsespakke (`out/hyggespil.zip`) er taget ud af git igen. Indholdet af spillet er uændret.
+
+## 0.1.0-beta.4 – 2026-11-14
+
+- CHANGELOG for de to foregående udgivelser, så versionshistorikken kan læses ét sted.
+- Hjælpe-scripts i `tools/` har ASCII-navne og kan køres på tværs af systemer.
 
 ## 0.1.0-beta.3 – 2026-11-14
 
 - Udgivelsespakken indeholder ikke længere udviklerens kildeoversigt (`ledger.json`) – renere pakke og mindre download.
-- Hjælpecripts i `tools/` har nu ASCII-navne, så de kan køres på alle systemer.
 
 ## 0.1.0-beta.2 – 2026-11-14
 
 - De seneste kildekontrollerede spørgsmål og færdselsregler er med (puljerne er vokset siden beta.1).
-- Spillet betjenes nu fra integrationens egne filer (`/hyggespil_files/…`); den tidligere mappe i `config/www/hyggespil` er ikke længere i brug.
-- Flere børnespørgsmål til de tynde alderstrin, og retten af en række formularer i feedback- og låsesystemet.
+- Spillet betjenes fra integrationens egne filer (`/hyggespil_files/…`); den tidligere mappe i `config/www/hyggespil` er ikke længere i brug.
 
 ## 0.1.0-beta.1 – 2026-11-14
 
-Første offentlige udgave (beta).
+Første udgave.
 
-- Home Assistant-integration: spillet vises som panel i sidebjælken og installeres via Marketplace/HACS.
+- Home Assistant-integration med panel i sidebjælken, opsætning via Marketplace/HACS.
 - 55 spil og over 6.000 spørgsmål, opgaver og kort på dansk.
-- Alderstilpasning: hvert barn har sit eget niveau, som automatisk bliver sværere eller lettere efter svarene. 🔞 skjules, når en spiller er under 18 år.
-- 🔞-sektionen låses med en kode, man selv vælger på hver enhed. Der er ingen fælles kode.
-- 💬 Feedback-knap i alle spil, som åbner en færdigudfyldt sag på GitHub. Intet sendes automatisk.
-- Ingen eksterne tjenester: spillet henter intet fra internettet.
-
-Kendte begrænsninger står i [README.md](README.md#kendte-begrænsninger-i-betaen).
+- Alderstilpasning: hvert barn spiller på sit eget niveau, der bliver sværere ved mange rigtige svar og lettere ved få.
+- 🔞-afsnit bag en kode, man selv vælger på enheden – ingen fælles kode i kildekoden.
+- 💬 Feedback-knap i alle spil, der åbner en færdigudfyldt GitHub-sag. Intet sendes automatisk.
+- Kører helt lokalt: ingen eksterne tjenester, ingen statistik, spillernes data forlader ikke enheden.
