@@ -2,9 +2,11 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
-## 0.2.10 - 2026-11-14
+## 0.2.10 – 2026-11-14
 
-- Tydelig fald-animation på glasbroen
+### Ændret
+- 🌉 **Glasbroen viser tydeligt, når en spiller falder**: en cirkel i spillerens farve falder ned gennem broen, broen ryster, og der står stort «💥 <navn> faldt!» efterfulgt af «▶ Nu går turen videre til <næste>» i den næste spillers farve. Knapperne er låst, mens animationen kører, så man ikke kommer til at trykke for den forrige spiller.
+
 ## 0.2.9 – 2026-11-14
 
 ### Rettet

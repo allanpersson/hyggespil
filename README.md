@@ -179,6 +179,11 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.10 – 2026-11-14
+
+**Ændret**
+- 🌉 **Glasbroen viser tydeligt, når en spiller falder**: en cirkel i spillerens farve falder ned gennem broen, broen ryster, og der står stort «💥 <navn> faldt!» efterfulgt af «▶ Nu går turen videre til <næste>» i den næste spillers farve. Knapperne er låst, mens animationen kører, så man ikke kommer til at trykke for den forrige spiller.
+
 ### 0.2.9 – 2026-11-14
 
 **Rettet**
@@ -247,13 +252,6 @@ en kop kaffe:
 
 **Ændret**
 - README viser nu altid den installerede version og ændringslogen for de nyeste udgivelser – den opdateres automatisk ved hver udgivelse.
-
-### 0.2.2 – 2026-11-14
-
-**Rettet**
-- hassfest afviste manifestet («Domain is missing an IoT Class») – `iot_class: calculated` er tilbage.
-- CI skubber robust (rebase og gentag), og synkroniseringen laver ét commit i stedet for ét pr. fil.
-- Ny overvågning af filer, udgivelse og CI (`tools/overvaag.js`).
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
