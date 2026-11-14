@@ -1,4 +1,5 @@
 /* Hyggespil: version, feedback-repo og SHA-256 (bruges til den selvvalgte 🔞-kode).
+   version er altid x.x.x og sættes automatisk af CI ved hver udgivelse.
    Udvikler: Allan Persson. Licens: MIT. */
 (function(){
 if(window.HSCFG)return;
