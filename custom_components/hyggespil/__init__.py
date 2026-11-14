@@ -8,6 +8,7 @@ config/www. Spillernavne, aldre, point og grupper gemmes kun i browseren på den
 """
 from __future__ import annotations
 
+import json
 import logging
 from pathlib import Path
 
@@ -25,6 +26,17 @@ _LOGGER = logging.getLogger(__name__)
 
 WWW_DIR = Path(__file__).parent / "www"
 _STATIC_REGISTERED = f"{DOMAIN}_static_registered"
+
+
+def _version() -> str:
+    """Returnér den installerede version, så den kan ses i loggen."""
+    try:
+        return str(json.loads((Path(__file__).parent / "manifest.json").read_text(encoding="utf-8"))["version"])
+    except (OSError, ValueError, KeyError):
+        return "ukendt"
+
+
+VERSION = _version()
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
@@ -50,6 +62,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         require_admin=False,
         update=True,
     )
+    _LOGGER.info("Hyggespil %s er klar – panelet ligger i sidebjælken", VERSION)
     return True
 
 

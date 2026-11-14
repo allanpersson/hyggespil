@@ -136,7 +136,14 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add custom_components/hyggespil/manifest.json custom_components/hyggespil/www/hs-cfg.js CHANGELOG.md
           git commit -m "Udgivelse $v (automatisk)"
-          git push origin HEAD:main
+          # main kan være flyttet, mens jobbet kørte (fx en synkronisering): rebase og prøv igen
+          for i in 1 2 3; do
+            git fetch origin main
+            git rebase origin/main || { echo "rebase fejlede"; exit 1; }
+            if git push origin HEAD:main; then break; fi
+            echo "push afvist, prøver igen ($i/3)"
+            sleep 5
+          done
           git tag -f "$v"
           git push -f origin "refs/tags/$v"
 
