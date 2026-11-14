@@ -7,9 +7,9 @@
 
   const st = document.createElement('style');
   st.textContent =
-    '.flwrap{position:relative;width:min(88vw,360px);height:min(88vw,360px);margin:10px auto 0}'
+    '.flwrap{position:relative;width:min(92vw,380px);height:min(92vw,380px);margin:10px auto 0}'
     + '.flring{position:absolute;inset:12%;border-radius:50%;border:2px dashed rgba(255,255,255,.14)}'
-    + '.flbottle{position:absolute;left:50%;bottom:50%;width:46px;height:130px;margin-left:-23px;transform-origin:50% 100%;z-index:2;filter:drop-shadow(0 6px 14px rgba(0,0,0,.45))}'
+    + '.flbottle{position:absolute;left:50%;bottom:50%;width:44px;height:104px;margin-left:-22px;transform-origin:50% 100%;z-index:2;filter:drop-shadow(0 6px 14px rgba(0,0,0,.45))}'
     + '.flbottle svg{width:100%;height:100%;display:block}'
     + '.flp{position:absolute;left:50%;top:50%;margin:-30px 0 0 -42px;width:84px;display:flex;flex-direction:column;align-items:center;gap:3px;transition:transform .2s}'
     + '.flp span{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:900;color:#111;font-size:18px;border:2px solid rgba(255,255,255,.5)}'
@@ -28,14 +28,14 @@
 
   /* ---------------- Flaskehalsen peger på ---------------- */
   let fl = { vinkel: 0, valgt: null, travl: false, ladning: 0, ur: null };
-  const FL_R = 142;
+  let FL_R = 132;
 
   function flLand() {
     if (!fl.travl) return;
     fl.travl = false;
     const n = Math.max(1, players.length), step = 360 / n;
-    const idx = Math.round((((fl.vinkel % 360) + 360) % 360) / step) % n;
-    fl.vinkel = idx * step;              // snapper præcist på spilleren
+    const idx = fl.valgt == null ? Math.round((((fl.vinkel % 360) + 360) % 360) / step) % n : fl.valgt;
+    fl.vinkel = idx * step;
     fl.valgt = idx;
     g.ph = 1;
     render();
@@ -45,6 +45,7 @@
     init() { fl = { vinkel: 0, valgt: null, travl: false, ladning: 0, ur: null }; g.ph = 0; },
     render() {
       const n = Math.max(1, players.length), step = 360 / n;
+      FL_R = Math.max(88, Math.min(138, Math.min(window.innerWidth * 0.92, 380) / 2 - 34));
       const chips = players.map((p, i) =>
         '<div class="flp' + (fl.valgt === i ? ' sel' : '') + '" style="transform:rotate(' + (i * step) + 'deg) translateY(-' + FL_R + 'px) rotate(' + (-i * step) + 'deg)' + '">'
         + '<span style="background:' + p.c + '">' + esc((p.n || '?')[0]).toUpperCase() + '</span>'
@@ -53,15 +54,19 @@
       let o = '<div class="card glass"><div class="q">🍾 Flaskehalsen peger på</div>'
         + '<div class="flwrap"><div class="flring"></div>'
         + '<div class="flbottle" id="flbottle" style="transform:rotate(' + fl.vinkel + 'deg)">'
-        + '<svg viewBox="0 0 60 170"><defs>'
+        + '<svg viewBox="0 0 80 200"><defs>'
         + '<linearGradient id="flg" x1="0" y1="0" x2="1" y2="0">'
-        + '<stop offset="0" stop-color="#0e7c6b"/><stop offset=".45" stop-color="#39d6b8"/><stop offset="1" stop-color="#0a5d51"/>'
+        + '<stop offset="0" stop-color="#0b5d51"/><stop offset=".32" stop-color="#2fbfa3"/>'
+        + '<stop offset=".58" stop-color="#7ef0d3"/><stop offset="1" stop-color="#0a4a41"/>'
         + '</linearGradient></defs>'
-        + '<rect x="24" y="2" width="12" height="44" rx="5" fill="url(#flg)"/>'
-        + '<rect x="20" y="6" width="20" height="9" rx="3" fill="#f4d35e"/>'
-        + '<path d="M18 46h24v104a12 12 0 0 1-24 0z" fill="url(#flg)"/>'
-        + '<ellipse cx="27" cy="70" rx="4" ry="14" fill="#ffffff55"/>'
-        + '<circle cx="30" cy="128" r="7" fill="#ffffff22"/>'
+        + '<rect x="34" y="2" width="12" height="16" rx="3" fill="#c9a227" stroke="#8a6d12" stroke-width="1.5"/>'
+        + '<path d="M31 18h18v16c0 11 4 16 10 24 8 10 11 21 11 35v88a15 15 0 0 1-15 15H35a15 15 0 0 1-15-15v-88c0-14 3-25 11-35 6-8 10-13 10-24V18z" '
+        + 'fill="url(#flg)" stroke="#063f37" stroke-width="2.2"/>'
+        + '<rect x="25" y="120" width="30" height="38" rx="7" fill="#f6f1e0" opacity=".95"/>'
+        + '<rect x="29" y="128" width="22" height="4" rx="2" fill="#0a4a41" opacity=".55"/>'
+        + '<rect x="29" y="136" width="16" height="3" rx="1.5" fill="#0a4a41" opacity=".35"/>'
+        + '<ellipse cx="30" cy="86" rx="4.5" ry="30" fill="#ffffff40"/>'
+        + '<ellipse cx="50" cy="150" rx="3" ry="18" fill="#00000022"/>'
         + '</svg></div>' + chips + '</div>';
       if (g.ph === 0) {
         o += '<div class="flpower"><div id="flbar"></div></div>'
@@ -87,7 +92,7 @@
         fl.ladning = 0; fl.valgt = null;
         stopLad();
         ladeUr = setInterval(() => {
-          fl.ladning = Math.min(1, fl.ladning + 0.035);
+          fl.ladning = Math.min(1, fl.ladning + 0.018);
           const b = $('flbar'); if (b) b.style.width = Math.round(fl.ladning * 100) + '%';
         }, 60);
       };
@@ -95,12 +100,21 @@
         if (!ladeUr) return;
         stopLad();
         const el = document.getElementById('flbottle');
-        const dur = 2 + fl.ladning * 2;
-        const ekstra = 540 + Math.round(fl.ladning * 1620) + Math.floor(Math.random() * 360);
+        const n2 = Math.max(1, players.length), step2 = 360 / n2;
+        /* Vælg spilleren med kryptografisk tilfældighed – så er chancen præcis lige stor. */
+        let idx;
+        try { const a = new Uint32Array(1); crypto.getRandomValues(a); idx = a[0] % n2; }
+        catch (e) { idx = Math.floor(Math.random() * n2); }
+        const mål = idx * step2 + (Math.random() - 0.5) * step2 * 0.45;   // lidt variation i feltet
+        const nu = ((fl.vinkel % 360) + 360) % 360;
+        const delta = ((mål - nu) % 360 + 360) % 360;
+        const omgange = 3 + Math.round(fl.ladning * 4);                    // 3-7 omgange
+        const dur = 2.4 + fl.ladning * 2.4;                                // 2,4-4,8 s
+        fl.valgt = idx;
         fl.travl = true;
-        fl.vinkel += ekstra;
+        fl.vinkel += omgange * 360 + delta;
         if (el) {
-          el.style.transition = 'transform ' + dur.toFixed(2) + 's cubic-bezier(.12,.85,.15,1)';
+          el.style.transition = 'transform ' + dur.toFixed(2) + 's cubic-bezier(.14,.8,.16,1)';
           el.style.transform = 'rotate(' + fl.vinkel + 'deg)';
         }
         setTimeout(flLand, dur * 1000 + 220);
