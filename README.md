@@ -61,6 +61,8 @@ Herefter ligger **Hyggespil** i sidebjælken.
 Ny version? Jeg udgiver en prerelease med den rigtige zip-fil, hver gang jeg hæver versionen i
 `custom_components/hyggespil/manifest.json` – du henter den samme vej igen.
 
+Fejler downloaden hos dig (fx "no usable manifest.json"), så følg [installationsguiden for fejlfinding](docs/installation-fejl.md).
+
 **Uden Marketplace/HACS:** kopiér mappen `custom_components/hyggespil` til `config/custom_components/` i din Home Assistant, genstart, og tilføj integrationen som i trin 4.
 
 Vil du have spillet på et dashboard, kan du bruge et websidekort med adressen `/hyggespil_files/hs.html`.
