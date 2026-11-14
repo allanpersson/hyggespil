@@ -10,7 +10,7 @@ import zipfile
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 COMP = os.path.join(ROOT, "custom_components", "hyggespil")
 # Udgivelsen må ikke indeholde udviklerens egne filer: kildeoversigten og kildetjekkets mellemresultater.
-UNDGÅ = {"ledger.json", "verify_state.json", "extra_pending.json", "hs-user-pools.js"}
+UNDGÅ = {"extra.json", "ledger.json", "verify_state.json", "extra_pending.json", "hs-user-pools.js"}
 
 
 def build(dest: str = ROOT) -> str:
