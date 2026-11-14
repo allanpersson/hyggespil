@@ -7,6 +7,12 @@ name: Daglig udgivelse
 on:
   schedule:
     - cron: "20 7 * * *"        # kl. 07:20 UTC = 08:20 dansk vintertid
+  push:
+    branches: [main]
+    paths:
+      - 'custom_components/hyggespil/www/**'
+      - 'custom_components/hyggespil/*.py'
+      - 'custom_components/hyggespil/translations/**'
   workflow_dispatch:
     inputs:
       tving:
@@ -35,7 +41,23 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Er dette CI's eget loop?
+        id: loop
+        run: |
+          for v in 0.1.0-beta.1 0.1.0-beta.2 0.1.0-beta.3 0.1.0-beta.4 0.1.0-beta.5 0.1.0-beta.6 0.1.0-beta.7 0.1.0-beta.8 0.1.0-beta.9 0.1.0-beta.10; do
+            s=$(git log -1 --pretty=%s)
+            if echo "$s" | grep -qE "automatisk|automatisk|Udgivelse [0-9]"; then
+              if [ "$v" = "0.1.0-beta.1" ]; then echo "loop=ja" >> "$GITHUB_OUTPUT"; echo "Springer over: HEAD er CI's egen versions-commit"; exit 0; fi
+            fi
+          done
+          if git log -1 --pretty=%an | grep -q "github-actions"; then
+            echo "loop=ja" >> "$GITHUB_OUTPUT"; echo "Springer over: sidste commit er fra CI"
+          else
+            echo "loop=nej" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Næste version
+        if: steps.loop.outputs.loop == 'nej'
         id: version
         run: |
           tags=$(git tag -l '[0-9]*.[0-9]*.[0-9]*-beta.*' | tr '\n' ' ')
@@ -45,6 +67,7 @@ jobs:
           echo "næste version: $naeste"
 
       - name: Er der nyt indhold?
+        if: steps.loop.outputs.loop == 'nej'
         id: indhold
         run: |
           seneste=$(git tag --sort=-creatordate | grep -E '^[0-9]+\.[0-9]+\.[0-9]+' | head -n1 || true)
@@ -66,7 +89,7 @@ jobs:
           fi
 
       - name: Sæt version i spillet og CHANGELOG
-        if: steps.indhold.outputs.ja == 'ja'
+        if: steps.loop.outputs.loop == 'nej' && steps.indhold.outputs.ja == 'ja'
         run: |
           v="${{ steps.version.outputs.version }}"
           seneste=$(git tag --sort=-creatordate | grep -E '^[0-9]+\.[0-9]+\.[0-9]+' | head -n1 || echo "")
@@ -93,13 +116,13 @@ jobs:
           PY
 
       - name: Tjek inden udgivelse
-        if: steps.indhold.outputs.ja == 'ja'
+        if: steps.loop.outputs.loop == 'nej' && steps.indhold.outputs.ja == 'ja'
         run: |
           node tools/build.js check
           python tools/verify_integration.py
 
       - name: Commit og sæt tag
-        if: steps.indhold.outputs.ja == 'ja'
+        if: steps.loop.outputs.loop == 'nej' && steps.indhold.outputs.ja == 'ja'
         run: |
           v="${{ steps.version.outputs.version }}"
           git config user.name "github-actions[bot]"
@@ -111,7 +134,7 @@ jobs:
           git push -f origin "refs/tags/$v"
 
       - name: Byg zippet FRA tagget
-        if: steps.indhold.outputs.ja == 'ja'
+        if: steps.loop.outputs.loop == 'nej' && steps.indhold.outputs.ja == 'ja'
         run: |
           git checkout --detach "${{ steps.version.outputs.version }}"
           python tools/make_zip.py .
@@ -128,7 +151,7 @@ jobs:
           echo "zippet indholder $(unzip -l hyggespil.zip | tail -n 1 | awk '{print $2}') filer"
 
       - name: Opret udgivelse med zip
-        if: steps.indhold.outputs.ja == 'ja'
+        if: steps.loop.outputs.loop == 'nej' && steps.indhold.outputs.ja == 'ja'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
