@@ -411,9 +411,11 @@
         if (medTid) bipper(660, 120, 0.12);
         res(true);
       };
-      /* Fortryd: luk boksen og gå til spiloversigten uden at starte noget */
+      /* Fortryd: luk boksen og gå til spiloversigten uden at starte noget.
+         Ankeret sættes, så man lander ved det spil, man trykkede på. */
       const tilMenu = () => {
         gemValg(); o.remove(); stopUr(false);
+        try { if (spil && window.hsAnker) window.hsAnker(spil); } catch (e) {}
         res(false);
         try { window.go('home'); } catch (e) {}
       };

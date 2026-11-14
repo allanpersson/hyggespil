@@ -197,23 +197,31 @@ window.render=function(){
  return r};
 
 /* ---------- forsiden: børnespil øverst, ikke-tilpassede spil nederst og nedtonet ---------- */
+/* Anker: «← Alle spil» skal lande ved det spil, man kom fra – også når man fortryder
+   i indstillingsboksen, før spillet er startet (så sættes ankeret af spilvalg.js). */
+window.hsAnker=function(id){try{if(id)localStorage.setItem('hs_hjem',JSON.stringify({id:String(id)}))}catch(e){}};
 const go0=window.go;
 window.go=function(v){
  const fra=(typeof view==='string'&&view&&view!=='home')?view:null;
- if(fra&&v==='home')try{localStorage.setItem('hs_hjem',JSON.stringify({id:fra}))}catch(e){}
+ if(fra&&v==='home')window.hsAnker(fra);
  const r=go0.apply(this,arguments);
- if(v==='home'&&fra){setTimeout(function(){
-  try{
-   const gemt=JSON.parse(localStorage.getItem('hs_hjem')||'null');if(!gemt||gemt.id!==fra)return;
-   const b=[].slice.call(document.querySelectorAll('#main button.gc')).find(function(x){return (x.getAttribute('onclick')||'').indexOf("'"+fra+"'")>=0});
-   if(!b)return;
-   const g=b.closest('.grid');const overskrift=g&&g.previousElementSibling;
-   const mal=overskrift||b;
-   const y=mal.getBoundingClientRect().top+window.scrollY-14;
-   window.scrollTo({top:Math.max(0,y),behavior:'instant'});
-   localStorage.removeItem('hs_hjem');
-  }catch(e){}
- },120);}
+ if(v==='home'){
+  const rul=function(){
+   try{
+    const gemt=JSON.parse(localStorage.getItem('hs_hjem')||'null');
+    const id=gemt&&gemt.id;
+    if(!id)return;
+    const b=[].slice.call(document.querySelectorAll('#main button.gc')).find(function(x){return (x.getAttribute('onclick')||'').indexOf("'"+id+"'")>=0});
+    if(!b)return;
+    /* rul til selve spillkortet (ikke sektionsoverskriften), så man lander ved spillet */
+    const y=b.getBoundingClientRect().top+window.scrollY-90;
+    window.scrollTo({top:Math.max(0,y),behavior:'instant'});
+    localStorage.removeItem('hs_hjem');
+   }catch(e){}
+  };
+  setTimeout(rul,120);
+  setTimeout(rul,450);          /* mobil: layout kan nå at ændre sig efter første forsøg */
+ }
  return r;};
 const h0=window.home;
 window.home=function(){const r=h0.apply(this,arguments);
