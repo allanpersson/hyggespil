@@ -3,7 +3,7 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.19<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.18<!-- version:end -->
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
@@ -181,6 +181,16 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.19 – 2026-11-14
+
+**Rettet**
+- 🍾 **Flasken ligner nu en rigtig flaske** (kork, skuldre, krop, etiket og lys) i stedet for en grøn kapsel, og den er tilpasset, så spillernes navne ikke længere gemmer sig bag den.
+- ⏳ **Længere opladning**: man kan holde inde i op til ca. 3,5 sekunder, og flasken snurrer 3–7 omgange i 2,4–4,8 sekunder.
+- ⚖️ **Præcis lige stor chance**: spilleren vælges med `crypto.getRandomValues`, og flaskens slutvinkel styres derefter til den valgte spillers felt. Fordelingen er dermed 1/n uanset hvor mange der spiller.
+
+**Tilføjet**
+- 🔍 Kvalitetskontrollen tjekker nu også **sprog og grammatik** via LanguageTool (dansk) med `node tools/kvalitet.js --sprog`. Fundene skrives i kvalitetsrapporten; egennavne markeres ofte fejlagtigt og skal vurderes manuelt.
+
 ### 0.2.18 – 2026-11-14
 
 **Rettet**
@@ -220,16 +230,6 @@ en kop kaffe:
 
 **Ændret**
 - 🏛️ **Græker eller sygdom** bruger nu **latinske sygdomsnavne** i stedet for de danske (fx «Osteoporosis» og «Scorbutus» frem for «Knogleskørhed» og «Skørbug»), så ordene lyder lige så fremmede som grækernavnene. Puljen er på 108 ord (58 grækere/guder + 50 sygdomme). Hvert sygdomsnavn er slået op på engelsk og ført videre til den danske artikel via sproglink, hvor begge beskriver en sygdom; kilderne er opdateret i [docs/kilder-graeker-sygdom.md](docs/kilder-graeker-sygdom.md).
-
-### 0.2.11 – 2026-11-14
-
-**Tilføjet**
-- 🏛️ **Græker eller sygdom** – 107 ord, hvor man gætter, om det er en græsk person/gud eller en sygdom (fx «Platon» og «Psoriasis»). Hvert ord er kontrolleret i dansk og engelsk Wikipedia; kilderne står i [docs/kilder-graeker-sygdom.md](docs/kilder-graeker-sygdom.md).
-- ⚽ **Dansk fodbold** – 44 spørgsmål om Superligaen og danske klubbers stiftelsesår.
-- 🌍 **International fodbold** – 71 spørgsmål om VM, EM og Champions League. Kilder: [docs/kilder-fodbold.md](docs/kilder-fodbold.md).
-
-**Rettet**
-- **Intet indhold stikker længere ud over skærmen**: lange ord og kodebrikker ombrydes, glyf-rækkerne i kodespillene wrapper og skaleres efter skærmbredden, og billeder/SVG'er holdes inden for kortet.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->

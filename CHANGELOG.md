@@ -2,10 +2,16 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
-## 0.2.19 - 2026-11-14
+## 0.2.19 – 2026-11-14
 
-- Flaske: realistisk SVG, laengere opladning og helt lige stor chance
-- Kvalitetskontrol tjekker nu ogsaa sprog og grammatik
+### Rettet
+- 🍾 **Flasken ligner nu en rigtig flaske** (kork, skuldre, krop, etiket og lys) i stedet for en grøn kapsel, og den er tilpasset, så spillernes navne ikke længere gemmer sig bag den.
+- ⏳ **Længere opladning**: man kan holde inde i op til ca. 3,5 sekunder, og flasken snurrer 3–7 omgange i 2,4–4,8 sekunder.
+- ⚖️ **Præcis lige stor chance**: spilleren vælges med `crypto.getRandomValues`, og flaskens slutvinkel styres derefter til den valgte spillers felt. Fordelingen er dermed 1/n uanset hvor mange der spiller.
+
+### Tilføjet
+- 🔍 Kvalitetskontrollen tjekker nu også **sprog og grammatik** via LanguageTool (dansk) med `node tools/kvalitet.js --sprog`. Fundene skrives i kvalitetsrapporten; egennavne markeres ofte fejlagtigt og skal vurderes manuelt.
+
 ## 0.2.18 – 2026-11-14
 
 ### Rettet
