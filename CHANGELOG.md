@@ -2,6 +2,9 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
+## 0.2.11 - 2026-11-14
+
+- Nye spil: Graeker eller sygdom, dansk og international fodboldquiz
 ## 0.2.10 – 2026-11-14
 
 ### Ændret
