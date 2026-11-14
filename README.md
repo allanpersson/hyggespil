@@ -255,4 +255,11 @@ Værktøj til vedligeholdelse: `node tools/krypt.js laas` (krypter), `laas-op` (
 
 ## Udvikling
 
+### Udgivelser og ændringslog
+
+Udgivelser laves af CI, når spillets filer ændrer sig. For at få de rigtige noter med **i selve
+udgivelsen** (i stedet for bagefter) skrives de i [`docs/udgivelsesnoter.md`](docs/udgivelsesnoter.md),
+inden ændringen pushes. CI bruger dem som afsnit i `CHANGELOG.md`, i README og som udgivelsesnote på
+GitHub og tømmer derefter filen. Er filen tom, bruges commit-beskederne.
+
 Se [CONTRIBUTING.md](CONTRIBUTING.md). Tredjepartsindhold: [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

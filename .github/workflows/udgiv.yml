@@ -114,10 +114,17 @@ jobs:
           open(p, "w", encoding="utf-8").write(s)
           print("manifest og spillet melder version", v)
           PY
-          python tools/opdater_readme.py
-          if [ -z "$seneste" ]; then range="HEAD"; else range="$seneste..HEAD"; fi
-          git log "$range" --no-merges --pretty=format:'- %s' | grep -vE '^- (Overvaagning|Opdater overvaag|Dokumentation|README|Foelger CI|Fjerner |Rettet installationsfejlen|Rettet traeopslag|Logger version|Beskriver)' > /tmp/nyheder.txt || true
-          test -s /tmp/nyheder.txt || echo '- Vedligeholdelse og fejlretning.' > /tmp/nyheder.txt
+          # Kuraterede noter til denne udgivelse? Så bruges de med det samme.
+          NOTES="docs/udgivelsesnoter.md"
+          if [ -f "$NOTES" ] && [ -n "$(sed -E 's/<!--.*-->//g' "$NOTES" | tr -d '[:space:]')" ]; then
+            echo "bruger kuraterede noter fra $NOTES"
+            sed -E 's/<!--.*-->//g' "$NOTES" | sed '/^[[:space:]]*$/d' | sed 's/[[:space:]]*$//' > /tmp/nyheder.txt
+            : > "$NOTES"
+          else
+            if [ -z "$seneste" ]; then range="HEAD"; else range="$seneste..HEAD"; fi
+            git log "$range" --no-merges --pretty=format:'- %s' | grep -vE '^- (Overvaagning|Opdater overvaag|Dokumentation|README|Foelger CI|Fjerner |Rettet installationsfejlen|Rettet traeopslag|Logger version|Beskriver)' > /tmp/nyheder.txt || true
+            test -s /tmp/nyheder.txt || echo '- Vedligeholdelse og fejlretning.' > /tmp/nyheder.txt
+          fi
           { echo ""; echo "## $v - $(date +%F)"; echo ""; cat /tmp/nyheder.txt; } > /tmp/afsnit.md
           python - <<'PY'
           p = "CHANGELOG.md"
@@ -127,6 +134,10 @@ jobs:
           s = (s[:i] + "\n" + nyt.strip() + s[i:]) if i >= 0 else (s + nyt)
           open(p, "w", encoding="utf-8").write(s)
           PY
+          # README opdateres EFTER changelog-afsnittet, så "Nyheder" får den nye version med.
+          python tools/opdater_readme.py
+          grep -q "^## $v" CHANGELOG.md || { echo "FEJL: CHANGELOG mangler afsnittet for $v"; exit 1; }
+          grep -q "Version:.*$v" README.md || { echo "FEJL: README melder ikke version $v"; exit 1; }
 
       - name: Tjek inden udgivelse
         if: steps.loop.outputs.loop == 'nej' && steps.indhold.outputs.ja == 'ja'
@@ -143,7 +154,7 @@ jobs:
           v="${{ steps.version.outputs.version }}"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add custom_components/hyggespil/manifest.json custom_components/hyggespil/www/hs-cfg.js CHANGELOG.md README.md
+          git add custom_components/hyggespil/manifest.json custom_components/hyggespil/www/hs-cfg.js CHANGELOG.md README.md docs/udgivelsesnoter.md
           git commit -m "Udgivelse $v (automatisk)"
           # main kan være flyttet, mens jobbet kørte (fx en synkronisering): rebase og prøv igen
           for i in 1 2 3; do
