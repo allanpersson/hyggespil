@@ -182,6 +182,7 @@ window.game=function(){const r=gm0.apply(this,arguments);
    else if(L.minor&&!L.kid&&view==='dare')h='🧒 Tilpasset '+esc(p.n)+' ('+p.age+' år)';
    else if(anyKid()&&gm(view).grp!==GRP_K)h='🧑 Voksenniveau – '+esc(p.n);
    if(bar&&h)bar.insertAdjacentHTML('afterend','<div class="lvb" id="lvb">'+h+'</div>');
+
   }
  }catch(e){}
  return r};
@@ -196,6 +197,24 @@ window.render=function(){
  return r};
 
 /* ---------- forsiden: børnespil øverst, ikke-tilpassede spil nederst og nedtonet ---------- */
+const go0=window.go;
+window.go=function(v){
+ const fra=(typeof view==='string'&&view&&view!=='home')?view:null;
+ if(fra&&v==='home')try{localStorage.setItem('hs_hjem',JSON.stringify({id:fra}))}catch(e){}
+ const r=go0.apply(this,arguments);
+ if(v==='home'&&fra){setTimeout(function(){
+  try{
+   const gemt=JSON.parse(localStorage.getItem('hs_hjem')||'null');if(!gemt||gemt.id!==fra)return;
+   const b=[].slice.call(document.querySelectorAll('#main button.gc')).find(function(x){return (x.getAttribute('onclick')||'').indexOf("'"+fra+"'")>=0});
+   if(!b)return;
+   const g=b.closest('.grid');const overskrift=g&&g.previousElementSibling;
+   const mal=overskrift||b;
+   const y=mal.getBoundingClientRect().top+window.scrollY-14;
+   window.scrollTo({top:Math.max(0,y),behavior:'instant'});
+   localStorage.removeItem('hs_hjem');
+  }catch(e){}
+ },120);}
+ return r;};
 const h0=window.home;
 window.home=function(){const r=h0.apply(this,arguments);
  try{
@@ -220,6 +239,8 @@ window.home=function(){const r=h0.apply(this,arguments);
    const first=m.querySelector('.grp');
    if(first&&first!==kidsSec.h)[kidsSec.h].concat(kidsSec.extra,[kidsSec.grid]).forEach(e=>m.insertBefore(e,first));
    secs.forEach(s=>{if(s!==kidsSec&&s.grid&&s.grid.isConnected)s.grid.classList.add('adl')});
+   /* husket anker: rul til det spil, man lige har lukket */
+   /* forankring håndteres i go()-wrappen nedenfor */
   }
  }catch(e){console.warn('HS5 home',e)}
  return r};
