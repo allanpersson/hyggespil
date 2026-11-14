@@ -2,20 +2,14 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
-## 0.2.20 - 2026-11-14
+## 0.2.21 – 2026-11-14
 
-<!--
-  Udgivelsesnoter til NÆSTE udgivelse.
-  Skriv punkterne her, inden du pusher en ændring af spillets indhold. Så bruger CI dem
-  direkte i CHANGELOG.md, i README og i udgivelsesnoterne på GitHub – med det samme, uden
-  at nogen skal skrive dem bagefter. Filen tømmes automatisk af workflowen ved udgivelsen.
-  Skriv i Markdown, fx:
-  ### Tilføjet
-  - 🍾 Ny leg: Flaskehalsen
-  ### Rettet
-  - Teksten i X blev rettet
-  Er filen tom (kun denne kommentar), falder CI tilbage på commit-beskederne.
--->
+### Rettet
+- 🍾 **Flasken** er en rigtig SVG-flaske (kork, skuldre, krop, etiket), kan lades længere op og rammer alle spillere med præcis lige stor chance (krypto-valg).
+- 🔍 **Kvalitetskontrollen** tjekker nu også sprog og grammatik via LanguageTool.
+
+### Ændret
+- **Børnepuljerne** udvides automatisk med 20 kort pr. aldersgruppe (3–5, 6–8, 9–11, 12–14) — første runde gav 241 nye kort.
 ## 0.2.19 – 2026-11-14
 
 ### Rettet
