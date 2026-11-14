@@ -52,7 +52,7 @@ function check() {
     lines.forEach((l, i) => { for (const [re, what] of FORBIDDEN) { const m = re.exec(l); if (m) { bad++; log(`PRIVAT INDHOLD ${f}:${i + 1} (${what}): ${m[0].slice(0, 40)}`) } } });
   }
   const v = versions();
-  if (v.manifest !== v.game) { bad++; log(`VERSION: manifest.json (${v.manifest}) != www/hs-cfg.js (${v.game})`) }
+  if (!String(v.game).startsWith(v.manifest)) { bad++; log(`VERSION: ${v.game} er ikke bygget på basis ${v.manifest}`) }
   log(`check: ${n} js-filer, version ${v.manifest}, ${bad} fejl`);
   return bad === 0;
 }
