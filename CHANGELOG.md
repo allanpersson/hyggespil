@@ -2,6 +2,9 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
+## 0.2.5 - 2026-11-14
+
+- Tilfoejer oplæsning af spoergsmaal (TTS) og opdaterede udgivelsesnoter
 ## 0.2.4 – 2026-11-14
 
 ### Rettet
