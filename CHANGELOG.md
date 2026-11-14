@@ -2,24 +2,6 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
-## 0.1.0-beta.10 – 2026-11-14
-
-- Genskaber __init__.py
-- Fjerner udviklerhjælp prov_ci.md
-- Fjerner udviklerhjælp klar_ci.js
-- Fjerner udviklerhjælp __init__.py
-- Opdater validate.yml
-- Opdater udgiv.yml
-- Tilføj prov_ci.md
-- Opdater validate.yml
-- Tilføj naeste_version.py
-- Tilføj kopier_ha.js
-- Tilføj klar_ci.js
-- Opdater build.js
-- Opdater hs-cfg.js
-- Opdater manifest.json
-- Opdater validate.yml
-- Tilføj udgiv.yml
 ## 0.1.0-beta.8 – 2026-11-14
 
 ### Tilføjet
