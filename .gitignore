@@ -1,11 +1,4 @@
-# Filer som natjobberne skriver i spillets mappe, men som ikke hører til udgivelsen:
-# kildeoversigten (ledger.json) og mellemresultater fra kildetjekket.
-custom_components/hyggespil/www/ledger.json
-custom_components/hyggespil/www/verify_state.json
-custom_components/hyggespil/www/extra_pending.json
-custom_components/hyggespil/www/hs-user-pools.js
-
-# Python og editor
+# Python
 __pycache__/
 *.py[cod]
 node_modules/
@@ -13,6 +6,20 @@ node_modules/
 .idea/
 Thumbs.db
 .DS_Store
-out/
 *.bak
 *.tmp
+
+# Udgivelseszippet bygges af tools/make_zip.py
+out/
+
+# Nøgler og lokale mellemresultater — må ALDRIG lande i repoet
+tools/secrets/
+*.token
+github.json
+
+# Filer som natjobberne skriver i spillets mappe, men som ikke hører til udgivelsen:
+# kildeoversigten (ledger.json) og mellemresultater fra kildetjekket.
+custom_components/hyggespil/www/ledger.json
+custom_components/hyggespil/www/verify_state.json
+custom_components/hyggespil/www/extra_pending.json
+custom_components/hyggespil/www/hs-user-pools.js
