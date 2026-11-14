@@ -1,0 +1,154 @@
+name: Daglig udgivelse
+
+# Bygger og udgiver en ny prerelease, når spillets indhold er ændret siden sidste udgivelse.
+# Kører hver morgen efter natjobberne og kan skydes manuelt. Versionen udledes fra de eksisterende
+# tags, så CI aldrig behøver at skrive versionsnumre tilbage til main (basis er 0.1.0).
+
+on:
+  schedule:
+    - cron: "20 7 * * *"        # kl. 07:20 UTC = 08:20 dansk vintertid
+  workflow_dispatch:
+    inputs:
+      tving:
+        description: Udgiv også selv om indholdet ser uændret ud
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: udgivelse
+  cancel-in-progress: false
+
+jobs:
+  udgiv:
+    name: Byg og udgiv prerelease
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Næste version
+        id: version
+        run: |
+          tags=$(git tag -l '[0-9]*.[0-9]*.[0-9]*-beta.*' | tr '\n' ' ')
+          naeste=$(python tools/naeste_version.py "$tags")
+          echo "version=$naeste" >> "$GITHUB_OUTPUT"
+          echo "eksisterende tags: ${tags:-ingen}"
+          echo "næste version: $naeste"
+
+      - name: Er der nyt indhold?
+        id: indhold
+        run: |
+          seneste=$(git tag --sort=-creatordate | grep -E '^[0-9]+\.[0-9]+\.[0-9]+' | head -n1 || true)
+          if [ -z "$seneste" ]; then
+            echo "Ingen tidligere udgivelse – udgiver."
+            echo "ja=ja" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          if [ "${{ inputs.tving }}" = "true" ]; then
+            echo "Tvinget udgivelse."
+            echo "ja=ja" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          if git diff --quiet "$seneste" HEAD -- custom_components/hyggespil; then
+            echo "Ingen ændring i spilfilerne siden $seneste – ingen udgivelse."
+            echo "ja=nej" >> "$GITHUB_OUTPUT"
+          else
+            echo "Ændret siden $seneste:"
+            git diff --stat "$seneste" HEAD -- custom_components/hyggespil | tail -n 8
+            echo "ja=ja" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Sæt version i spillet og CHANGELOG
+        if: steps.indhold.outputs.ja == 'ja'
+        run: |
+          v="${{ steps.version.outputs.version }}"
+          seneste=$(git tag --sort=-creatordate | grep -E '^[0-9]+\.[0-9]+\.[0-9]+' | head -n1 || echo "")
+          python - "$v" <<'PY'
+          import re, sys
+          v = sys.argv[1]
+          p = "custom_components/hyggespil/www/hs-cfg.js"
+          s = open(p, encoding="utf-8").read()
+          s = re.sub(r"version:'[\w.\-]+'", "version:'" + v + "'", s, count=1)
+          open(p, "w", encoding="utf-8").write(s)
+          print("spillet melder version", v)
+          PY
+          if [ -z "$seneste" ]; then range="HEAD"; else range="$seneste..HEAD"; fi
+          git log "$range" --no-merges --pretty=format:'- %s' > /tmp/nyheder.txt
+          test -s /tmp/nyheder.txt || echo '- Vedligeholdelse og CI.' > /tmp/nyheder.txt
+          { echo ""; echo "## $v – $(date +%F)"; echo ""; cat /tmp/nyheder.txt; } > /tmp/afsnit.md
+          python - <<'PY'
+          p = "CHANGELOG.md"
+          s = open(p, encoding="utf-8").read()
+          nyt = open("/tmp/afsnit.md", encoding="utf-8").read()
+          i = s.find("\n## ")
+          s = (s[:i] + "\n" + nyt.strip() + s[i:]) if i >= 0 else (s + nyt)
+          open(p, "w", encoding="utf-8").write(s)
+          PY
+
+      - name: Tjek inden udgivelse
+        if: steps.indhold.outputs.ja == 'ja'
+        run: |
+          node tools/build.js check
+          python tools/verify_integration.py
+
+      - name: Commit og sæt tag
+        if: steps.indhold.outputs.ja == 'ja'
+        run: |
+          v="${{ steps.version.outputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add custom_components/hyggespil/www/hs-cfg.js CHANGELOG.md
+          git commit -m "Udgivelse $v (automatisk)"
+          git push origin HEAD:main
+          git tag -f "$v"
+          git push -f origin "refs/tags/$v"
+
+      - name: Byg zippet FRA tagget
+        if: steps.indhold.outputs.ja == 'ja'
+        run: |
+          git checkout --detach "${{ steps.version.outputs.version }}"
+          python tools/make_zip.py .
+          test -f hyggespil.zip || { echo "Zippet blev ikke lavet"; exit 1; }
+          # indholdet af zippet skal kunne bruges af Home Assistant
+          if ! unzip -l hyggespil.zip | grep -q "custom_components/hyggespil/manifest.json"; then
+            echo "FEJL: zippet indeholder ikke custom_components/hyggespil/manifest.json"
+            unzip -l hyggespil.zip | head -n 20
+            exit 1
+          fi
+          if unzip -l hyggespil.zip | grep -E "ledger.json|secrets|extra.json|sidehjelper" ; then
+            echo "FEJL: zippet indeholder filer, der ikke må udgives"; exit 1
+          fi
+          echo "zippet indholder $(unzip -l hyggespil.zip | tail -n 1 | awk '{print $2}') filer"
+
+      - name: Opret udgivelse med zip
+        if: steps.indhold.outputs.ja == 'ja'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          v="${{ steps.version.outputs.version }}"
+          besked=$(printf 'Se [CHANGELOG.md](https://github.com/%s/blob/main/CHANGELOG.md) for hvad der er nyt.\n\nHent: **Indstillinger → Marketplace → Hyggespil → Opdatér** (prerelease; slå „Pre-release“ til for repositoriet, hvis versionen ikke vises), efterfulgt af genstart af Home Assistant.\n' "$GITHUB_REPOSITORY")
+          if gh release view "$v" >/dev/null 2>&1; then
+            gh release edit "$v" --prerelease --notes "$besked"
+            gh release upload "$v" hyggespil.zip --clobber
+          else
+            gh release create "$v" hyggespil.zip --title "Hyggespil $v" --notes "$besked" --prerelease --target main
+          fi
+          gh release view "$v" --json tagName,prerelease,assets
+
+      - name: Status
+        if: always()
+        run: |
+          echo "næste version: ${{ steps.version.outputs.version }}"
+          echo "udgivet: ${{ steps.indhold.outputs.ja }}"
+          if [ "${{ steps.indhold.outputs.ja }}" = "nej" ]; then
+            echo "Ingen ny udgivelse denne gang – spilfilerne er uændrede."
+          else
+            echo "Ny udgivelse: ${{ steps.version.outputs.version }}"
+          fi
