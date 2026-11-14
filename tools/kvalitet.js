@@ -87,17 +87,84 @@ console.log('puljer:', Object.keys(pools).filter(k => Array.isArray(pools[k])).l
   '| fund:', fund.length);
 console.log(Object.entries(prPool).map(([k, v]) => k + '=' + v).join(' '));
 
-const alvor = fund.filter(f => f.fejl.some(x => ALVORLIG.has(x)));
-const linjer = ['# Kvalitetsrapport', '', `Genereret ${new Date().toISOString().slice(0, 10)} af \`tools/kvalitet.js\`.`, '',
-  '| Regel | Antal |', '|---|---|',
-  ...Object.entries(prPool).sort((a, b) => b[1] - a[1]).map(([k, v]) => `| ${k} | ${v} |`), '',
-  '## Poster med alvorlige fejl', ''];
-for (const f of alvor.slice(0, 80)) linjer.push(`- **${f.pool}** #${f.idx}: ${f.tekst} — ${f.fejl.join(', ')}`);
-if (!alvor.length) linjer.push('Ingen.');
-fs.writeFileSync(path.join(ROD, 'docs', 'kvalitetsrapport.md'), linjer.join('\n') + '\n');
-
-if (process.argv.includes('--fejl') && alvor.length) {
-  console.error(`\n${alvor.length} post(er) med alvorlige fejl – se docs/kvalitetsrapport.md`);
-  process.exit(1);
+/* ---- sprog- og grammatiktjek via LanguageTool (kun når --sprog er sat) ---- */
+async function sprogtjek() {
+  const kandidater = [];
+  for (const [pool, liste] of Object.entries(pools)) {
+    if (!Array.isArray(liste)) continue;
+    liste.forEach((it, idx) => {
+      const t = tekstAf(it);
+      if (t && t.length >= 8) kandidater.push({ pool, idx, tekst: t });
+    });
+  }
+  console.log('sprogtjek: ' + kandidater.length + ' tekster');
+  const fundSprog = [];
+  const BATCH = 60;                       // LanguageTool: højst 20 KB og 20 kald/min
+  for (let i = 0; i < kandidater.length; i += BATCH) {
+    const del = kandidater.slice(i, i + BATCH);
+    let tekst = '', start = [];
+    for (const x of del) { const t = x.tekst.trim(); start.push(tekst.length); tekst += t + '\n'; x.tekst = t; }
+    if (tekst.length > 19000) {           // hold os under grænsen
+      del.length = Math.max(1, Math.floor(del.length * 19000 / tekst.length));
+      tekst = ''; start = [];
+      for (const x of del) { const t = x.tekst.trim(); start.push(tekst.length); tekst += t + '\n'; x.tekst = t; }
+    }
+    try {
+      const svar = await fetch('https://api.languagetool.org/v2/check', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'User-Agent': 'Hyggespil-kvalitet/1.0' },
+        body: new URLSearchParams({ text: tekst, language: 'da-DK', enabledOnly: 'false' }).toString(),
+      }).then(r => r.json());
+      for (const m of svar.matches || []) {
+        if ((m.rule && m.rule.id) === 'WHITESPACE_RULE') continue;
+        const hvem = del.findLastIndex((_, k) => start[k] <= m.offset);
+        if (hvem < 0) continue;
+        const x = del[hvem];
+        const type = (m.rule && (m.rule.issueType || (m.rule.category && m.rule.category.id))) || 'ukendt';
+        fundSprog.push({ pool: x.pool, idx: x.idx, tekst: x.tekst.slice(0, 80),
+          besked: m.message, type, regel: (m.rule && m.rule.id) || '', ord: tekst.substr(m.offset, m.length).slice(0, 40) });
+      }
+    } catch (e) {
+      console.log('sprogtjek-kald fejlede (springer resten over): ' + e.message);
+      break;
+    }
+    await new Promise(r => setTimeout(r, 3200));   // respekter rate limit
+  }
+  const prType = {};
+  for (const f of fundSprog) prType[f.type] = (prType[f.type] || 0) + 1;
+  console.log('sprogfund:', fundSprog.length, JSON.stringify(prType));
+  return { fundSprog, prType };
 }
-console.log('rapport skrevet til docs/kvalitetsrapport.md (' + alvor.length + ' alvorlige)');
+
+(async () => {
+  let sprog = { fundSprog: [], prType: {} };
+  if (process.argv.includes('--sprog')) sprog = await sprogtjek();
+
+  const alvor = fund.filter(f => f.fejl.some(x => ALVORLIG.has(x)));
+  const linjer = ['# Kvalitetsrapport', '', `Genereret ${new Date().toISOString().slice(0, 10)} af \`tools/kvalitet.js\`.`, '',
+    '| Regel | Antal |', '|---|---|',
+    ...Object.entries(prPool).sort((a, b) => b[1] - a[1]).map(([k, v]) => `| ${k} | ${v} |`), '',
+    '## Poster med alvorlige fejl', ''];
+  for (const f of alvor.slice(0, 80)) linjer.push(`- **${f.pool}** #${f.idx}: ${f.tekst} — ${f.fejl.join(', ')}`);
+  if (!alvor.length) linjer.push('Ingen.');
+
+  if (process.argv.includes('--sprog')) {
+    linjer.push('', '## Sprog og grammatik (LanguageTool, da-DK)', '');
+    linjer.push('| Type | Antal |', '|---|---|',
+      ...Object.entries(sprog.prType).sort((a, b) => b[1] - a[1]).map(([k, v]) => `| ${k} | ${v} |`));
+    linjer.push('', '### Eksempler', '');
+    for (const f of sprog.fundSprog.slice(0, 60)) {
+      linjer.push(`- **${f.pool}** #${f.idx}: «${f.ord}» – ${f.besked} (${f.regel || f.type})`);
+    }
+    if (!sprog.fundSprog.length) linjer.push('Ingen fund.');
+  }
+
+  fs.writeFileSync(path.join(ROD, 'docs', 'kvalitetsrapport.md'), linjer.join('\n') + '\n');
+
+  if (process.argv.includes('--fejl') && alvor.length) {
+    console.error(`\n${alvor.length} post(er) med alvorlige fejl – se docs/kvalitetsrapport.md`);
+    process.exit(1);
+  }
+  console.log('rapport skrevet til docs/kvalitetsrapport.md (' + alvor.length + ' alvorlige' +
+    (process.argv.includes('--sprog') ? ', ' + sprog.fundSprog.length + ' sprogfund' : '') + ')');
+})();

@@ -34,6 +34,20 @@ node tools/kvalitet.js --fejl   # returnér fejlkode ved alvorlige fejl
 Filerne er krypterede, så værktøjet dekrypterer dem i hukommelsen – det skriver aldrig klartekst til
 disken.
 
+## Sprog og grammatik
+
+Ud over de tekstuelle regler kan værktøjet køre teksten gennem **LanguageTool** (dansk), som finder
+stavefejl og grammatiske fejl:
+
+```bash
+node tools/kvalitet.js --sprog
+```
+
+Det kræver netværk og respekterer LanguageTools gratis grænse (20 kald i minuttet, 20 KB pr. kald).
+Kaldet sker **kun** under kvalitetskontrollen — spillet selv laver aldrig opslag. Resultatet skrives
+i rapporten under «Sprog og grammatik»; egennavne og sammensatte ord bliver ofte markeret som mulige
+stavefejl og skal vurderes af et menneske.
+
 ## Hvad der stadig er manuelt
 
 Automatikken fjerner ikke indhold af sig selv. Et spørgsmål kan være grammatisk korrekt og stadig
