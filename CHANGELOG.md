@@ -2,9 +2,6 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
-## 0.2.17 - 2026-11-14
-
-- Kvalitetskontrol af spoergsmaal og svar
 ## 0.2.15 – 2026-11-14
 
 ### Tilføjet

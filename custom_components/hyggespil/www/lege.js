@@ -7,15 +7,16 @@
 
   const st = document.createElement('style');
   st.textContent =
-    '.flwrap{position:relative;width:min(86vw,340px);height:min(86vw,340px);margin:8px auto 0}'
-    + '.flbottle{position:absolute;left:50%;bottom:50%;width:30px;height:150px;margin-left:-15px;transform-origin:50% 100%;z-index:2}'
-    + '.flneck{position:absolute;left:9px;top:0;width:12px;height:52px;border-radius:6px 6px 2px 2px;background:linear-gradient(180deg,#d7f9e9,#2ec4b6)}'
-    + '.flbody{position:absolute;left:0;bottom:0;width:30px;height:105px;border-radius:14px 14px 10px 10px;background:linear-gradient(180deg,#2ec4b6,#0b7a6e)}'
-    + '.flp{position:absolute;left:50%;top:50%;margin:-26px 0 0 -38px;width:76px;display:flex;flex-direction:column;align-items:center;gap:2px}'
-    + '.flp span{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:900;color:#111;font-size:16px}'
-    + '.flp b{font-size:11px;max-width:76px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}'
-    + '.flpower{height:14px;border-radius:9px;background:rgba(255,255,255,.14);overflow:hidden;margin:14px auto 0;max-width:340px}'
-    + '.flpower>div{height:100%;width:0;background:linear-gradient(90deg,#2ec4b6,#ffd166,#ff5d8f)}'
+    '.flwrap{position:relative;width:min(88vw,360px);height:min(88vw,360px);margin:10px auto 0}'
+    + '.flring{position:absolute;inset:12%;border-radius:50%;border:2px dashed rgba(255,255,255,.14)}'
+    + '.flbottle{position:absolute;left:50%;bottom:50%;width:46px;height:130px;margin-left:-23px;transform-origin:50% 100%;z-index:2;filter:drop-shadow(0 6px 14px rgba(0,0,0,.45))}'
+    + '.flbottle svg{width:100%;height:100%;display:block}'
+    + '.flp{position:absolute;left:50%;top:50%;margin:-30px 0 0 -42px;width:84px;display:flex;flex-direction:column;align-items:center;gap:3px;transition:transform .2s}'
+    + '.flp span{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:900;color:#111;font-size:18px;border:2px solid rgba(255,255,255,.5)}'
+    + '.flp b{font-size:12px;max-width:84px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:rgba(0,0,0,.35);padding:2px 8px;border-radius:10px}'
+    + '.flp.sel span{box-shadow:0 0 0 4px #ffd166,0 0 26px #ffd166;transform:scale(1.12)}'
+    + '.flpower{height:16px;border-radius:10px;background:rgba(255,255,255,.12);overflow:hidden;margin:16px auto 0;max-width:340px;border:1px solid rgba(255,255,255,.12)}'
+    + '.flpower>div{height:100%;width:0;background:linear-gradient(90deg,#2ec4b6,#ffd166,#ff5d8f);transition:width .06s linear}'
     + '.spkrow{display:flex;gap:12px;justify-content:center;margin:14px 0 4px;flex-wrap:wrap}'
     + '.spk{width:clamp(78px,22vw,104px);height:clamp(104px,29vw,138px);border-radius:20px;display:grid;place-items:center;'
     + 'background:rgba(255,255,255,.08);border:2px solid var(--c);transition:transform .12s,box-shadow .12s;transform-origin:center}'
@@ -27,7 +28,7 @@
 
   /* ---------------- Flaskehalsen peger på ---------------- */
   let fl = { vinkel: 0, valgt: null, travl: false, ladning: 0, ur: null };
-  const FL_R = 128;
+  const FL_R = 142;
 
   function flLand() {
     if (!fl.travl) return;
@@ -45,14 +46,23 @@
     render() {
       const n = Math.max(1, players.length), step = 360 / n;
       const chips = players.map((p, i) =>
-        '<div class="flp" style="transform:rotate(' + (i * step) + 'deg) translateY(-' + FL_R + 'px) rotate(' + (-i * step) + 'deg)'
-        + (fl.valgt === i ? ';box-shadow:0 0 0 3px #ffd166,0 0 26px #ffd16688;border-radius:16px' : '') + '">'
+        '<div class="flp' + (fl.valgt === i ? ' sel' : '') + '" style="transform:rotate(' + (i * step) + 'deg) translateY(-' + FL_R + 'px) rotate(' + (-i * step) + 'deg)' + '">'
         + '<span style="background:' + p.c + '">' + esc((p.n || '?')[0]).toUpperCase() + '</span>'
         + '<b>' + esc(p.n) + '</b></div>').join('');
       const tid = fl.travl ? (2 + fl.ladning * 2).toFixed(2) : '0';
       let o = '<div class="card glass"><div class="q">🍾 Flaskehalsen peger på</div>'
-        + '<div class="flwrap"><div class="flbottle" id="flbottle" style="transform:rotate(' + fl.vinkel + 'deg);transition:transform ' + tid + 's cubic-bezier(.15,.85,.2,1)">'
-        + '<div class="flneck"></div><div class="flbody"></div></div>' + chips + '</div>';
+        + '<div class="flwrap"><div class="flring"></div>'
+        + '<div class="flbottle" id="flbottle" style="transform:rotate(' + fl.vinkel + 'deg)">'
+        + '<svg viewBox="0 0 60 170"><defs>'
+        + '<linearGradient id="flg" x1="0" y1="0" x2="1" y2="0">'
+        + '<stop offset="0" stop-color="#0e7c6b"/><stop offset=".45" stop-color="#39d6b8"/><stop offset="1" stop-color="#0a5d51"/>'
+        + '</linearGradient></defs>'
+        + '<rect x="24" y="2" width="12" height="44" rx="5" fill="url(#flg)"/>'
+        + '<rect x="20" y="6" width="20" height="9" rx="3" fill="#f4d35e"/>'
+        + '<path d="M18 46h24v104a12 12 0 0 1-24 0z" fill="url(#flg)"/>'
+        + '<ellipse cx="27" cy="70" rx="4" ry="14" fill="#ffffff55"/>'
+        + '<circle cx="30" cy="128" r="7" fill="#ffffff22"/>'
+        + '</svg></div>' + chips + '</div>';
       if (g.ph === 0) {
         o += '<div class="flpower"><div id="flbar"></div></div>'
           + '<div class="row" style="margin-top:12px"><button class="btn big" id="flspin">Hold inde og slip</button></div>'
@@ -84,11 +94,16 @@
       const slip = () => {
         if (!ladeUr) return;
         stopLad();
+        const el = document.getElementById('flbottle');
+        const dur = 2 + fl.ladning * 2;
         const ekstra = 540 + Math.round(fl.ladning * 1620) + Math.floor(Math.random() * 360);
         fl.travl = true;
         fl.vinkel += ekstra;
-        render();
-        setTimeout(flLand, (2 + fl.ladning * 2) * 1000 + 250);
+        if (el) {
+          el.style.transition = 'transform ' + dur.toFixed(2) + 's cubic-bezier(.12,.85,.15,1)';
+          el.style.transform = 'rotate(' + fl.vinkel + 'deg)';
+        }
+        setTimeout(flLand, dur * 1000 + 220);
       };
       knap.addEventListener('pointerdown', start);
       window.addEventListener('pointerup', slip, { once: true });
