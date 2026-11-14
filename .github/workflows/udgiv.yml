@@ -1,8 +1,14 @@
 name: Daglig udgivelse
 
-# Bygger og udgiver en ny prerelease, når spillets indhold er ændret siden sidste udgivelse.
-# Kører hver morgen efter natjobberne og kan skydes manuelt. Versionen udledes fra de eksisterende
-# tags, så CI aldrig behøver at skrive versionsnumre tilbage til main (basis er 0.1.0).
+# Bygger og udgiver en ny almindelig version (x.x.x), når spillets indhold er ændret.
+# Kører hver morgen efter natjobberne og kan skydes manuelt.
+#
+# Vigtigt: versionen er ALTID x.x.x uden -beta. GitHub Marketplace/HACS læser
+# /releases/latest, som springer prereleases over – en prerelease får derfor
+# Marketplace til at vise en commit-SHA i stedet for en version.
+#
+# Zippet bygges med integrationens filer i roden (se tools/make_zip.py), fordi både
+# Marketplace og HACS pakker zippet ud direkte i custom_components/<domæne>.
 
 on:
   schedule:
@@ -12,6 +18,7 @@ on:
     paths:
       - 'custom_components/hyggespil/www/**'
       - 'custom_components/hyggespil/*.py'
+      - 'custom_components/hyggespil/manifest.json'
       - 'custom_components/hyggespil/translations/**'
   workflow_dispatch:
     inputs:
@@ -29,7 +36,7 @@ concurrency:
 
 jobs:
   udgiv:
-    name: Byg og udgiv prerelease
+    name: Byg og udgiv ny version
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -44,14 +51,9 @@ jobs:
       - name: Er dette CI's eget loop?
         id: loop
         run: |
-          for v in 0.1.0-beta.1 0.1.0-beta.2 0.1.0-beta.3 0.1.0-beta.4 0.1.0-beta.5 0.1.0-beta.6 0.1.0-beta.7 0.1.0-beta.8 0.1.0-beta.9 0.1.0-beta.10; do
-            s=$(git log -1 --pretty=%s)
-            if echo "$s" | grep -qE "automatisk|automatisk|Udgivelse [0-9]"; then
-              if [ "$v" = "0.1.0-beta.1" ]; then echo "loop=ja" >> "$GITHUB_OUTPUT"; echo "Springer over: HEAD er CI's egen versions-commit"; exit 0; fi
-            fi
-          done
           if git log -1 --pretty=%an | grep -q "github-actions"; then
-            echo "loop=ja" >> "$GITHUB_OUTPUT"; echo "Springer over: sidste commit er fra CI"
+            echo "loop=ja" >> "$GITHUB_OUTPUT"
+            echo "Springer over: sidste commit er CI's egen versions-commit"
           else
             echo "loop=nej" >> "$GITHUB_OUTPUT"
           fi
@@ -60,8 +62,8 @@ jobs:
         if: steps.loop.outputs.loop == 'nej'
         id: version
         run: |
-          tags=$(git tag -l '[0-9]*.[0-9]*.[0-9]*-beta.*' | tr '\n' ' ')
-          naeste=$(python tools/naeste_version.py "$tags")
+          tags=$(git tag -l | tr '\n' ' ')
+          naeste=$(python tools/naeste_version.py "$tags" --stabil)
           echo "version=$naeste" >> "$GITHUB_OUTPUT"
           echo "eksisterende tags: ${tags:-ingen}"
           echo "næste version: $naeste"
@@ -70,9 +72,9 @@ jobs:
         if: steps.loop.outputs.loop == 'nej'
         id: indhold
         run: |
-          seneste=$(git tag --sort=-creatordate | grep -E '^[0-9]+\.[0-9]+\.[0-9]+' | head -n1 || true)
+          seneste=$(git tag --sort=-creatordate | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | head -n1 || true)
           if [ -z "$seneste" ]; then
-            echo "Ingen tidligere udgivelse – udgiver."
+            echo "Ingen tidligere udgivelse - udgiver."
             echo "ja=ja" >> "$GITHUB_OUTPUT"; exit 0
           fi
           if [ "${{ inputs.tving }}" = "true" ]; then
@@ -80,7 +82,7 @@ jobs:
             echo "ja=ja" >> "$GITHUB_OUTPUT"; exit 0
           fi
           if git diff --quiet "$seneste" HEAD -- custom_components/hyggespil; then
-            echo "Ingen ændring i spilfilerne siden $seneste – ingen udgivelse."
+            echo "Ingen ændring i spilfilerne siden $seneste - ingen udgivelse."
             echo "ja=nej" >> "$GITHUB_OUTPUT"
           else
             echo "Ændret siden $seneste:"
@@ -88,24 +90,28 @@ jobs:
             echo "ja=ja" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Sæt version i spillet og CHANGELOG
+      - name: Sæt version i manifest, spillet og CHANGELOG
         if: steps.loop.outputs.loop == 'nej' && steps.indhold.outputs.ja == 'ja'
         run: |
           v="${{ steps.version.outputs.version }}"
-          seneste=$(git tag --sort=-creatordate | grep -E '^[0-9]+\.[0-9]+\.[0-9]+' | head -n1 || echo "")
+          seneste=$(git tag --sort=-creatordate | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | head -n1 || echo "")
           python - "$v" <<'PY'
-          import re, sys
+          import json, re, sys
           v = sys.argv[1]
+          m = "custom_components/hyggespil/manifest.json"
+          data = json.load(open(m, encoding="utf-8"))
+          data["version"] = v
+          open(m, "w", encoding="utf-8").write(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
           p = "custom_components/hyggespil/www/hs-cfg.js"
           s = open(p, encoding="utf-8").read()
           s = re.sub(r"version:'[\w.\-]+'", "version:'" + v + "'", s, count=1)
           open(p, "w", encoding="utf-8").write(s)
-          print("spillet melder version", v)
+          print("manifest og spillet melder version", v)
           PY
           if [ -z "$seneste" ]; then range="HEAD"; else range="$seneste..HEAD"; fi
           git log "$range" --no-merges --pretty=format:'- %s' > /tmp/nyheder.txt
           test -s /tmp/nyheder.txt || echo '- Vedligeholdelse og CI.' > /tmp/nyheder.txt
-          { echo ""; echo "## $v – $(date +%F)"; echo ""; cat /tmp/nyheder.txt; } > /tmp/afsnit.md
+          { echo ""; echo "## $v - $(date +%F)"; echo ""; cat /tmp/nyheder.txt; } > /tmp/afsnit.md
           python - <<'PY'
           p = "CHANGELOG.md"
           s = open(p, encoding="utf-8").read()
@@ -118,6 +124,7 @@ jobs:
       - name: Tjek inden udgivelse
         if: steps.loop.outputs.loop == 'nej' && steps.indhold.outputs.ja == 'ja'
         run: |
+          python tools/tjek_manifest.py
           node tools/build.js check
           python tools/verify_integration.py
 
@@ -127,7 +134,7 @@ jobs:
           v="${{ steps.version.outputs.version }}"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add custom_components/hyggespil/www/hs-cfg.js CHANGELOG.md
+          git add custom_components/hyggespil/manifest.json custom_components/hyggespil/www/hs-cfg.js CHANGELOG.md
           git commit -m "Udgivelse $v (automatisk)"
           git push origin HEAD:main
           git tag -f "$v"
@@ -139,23 +146,24 @@ jobs:
           git checkout --detach "${{ steps.version.outputs.version }}"
           python tools/make_zip.py .
           test -f hyggespil.zip || { echo "Zippet blev ikke lavet"; exit 1; }
-          # indholdet af zippet skal kunne bruges af Home Assistant
-          if ! unzip -l hyggespil.zip | grep -q "custom_components/hyggespil/manifest.json"; then
-            echo "FEJL: zippet indeholder ikke custom_components/hyggespil/manifest.json"
-            unzip -l hyggespil.zip | head -n 20
+          # Zippet udpakkes direkte i custom_components/<domæne>: manifest.json SKAL ligge i roden.
+          if ! unzip -Z1 hyggespil.zip | grep -qx "manifest.json"; then
+            echo "FEJL: manifest.json ligger ikke i zippets rod - Marketplace/HACS kan ikke installere det"
+            unzip -Z1 hyggespil.zip | head -n 20
             exit 1
           fi
-          if unzip -l hyggespil.zip | grep -E "ledger.json|secrets|extra.json|sidehjelper" ; then
-            echo "FEJL: zippet indeholder filer, der ikke må udgives"; exit 1
+          if unzip -Z1 hyggespil.zip | grep -qE "^(custom_components/|ledger\.json$|extra\.json$|.*secrets)"; then
+            echo "FEJL: zippet har en indpakket rod eller indeholder filer, der ikke må udgives"
+            unzip -Z1 hyggespil.zip | head -n 20
+            exit 1
           fi
-          echo "zippet indholder $(unzip -l hyggespil.zip | tail -n 1 | awk '{print $2}') filer"
+          echo "zippet indeholder $(unzip -Z1 hyggespil.zip | wc -l) filer"
 
       - name: Opret udgivelse med zip
         if: steps.loop.outputs.loop == 'nej' && steps.indhold.outputs.ja == 'ja'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          set -x
           v="${{ steps.version.outputs.version }}"
           echo "## Hyggespil $v" > /tmp/noter.md
           echo "" >> /tmp/noter.md
@@ -164,13 +172,13 @@ jobs:
           echo "Hent: Indstillinger -> Marketplace -> Hyggespil -> Opdater, og genstart Home Assistant." >> /tmp/noter.md
           ls -l hyggespil.zip || { echo "zippet mangler"; exit 1; }
           if gh release view "$v" --json tagName >/dev/null 2>&1; then
-            gh release edit "$v" --prerelease --notes-file /tmp/noter.md 2>&1 || true
+            gh release edit "$v" --notes-file /tmp/noter.md 2>&1 || true
             gh release upload "$v" hyggespil.zip --clobber 2>&1
           else
-            gh release create "$v" --title "Hyggespil $v" --notes-file /tmp/noter.md --prerelease 2>&1
+            gh release create "$v" --title "Hyggespil $v" --notes-file /tmp/noter.md 2>&1
             gh release upload "$v" hyggespil.zip 2>&1
           fi
-          gh release view "$v" --json tagName,isPrerelease,assets 2>&1
+          gh release view "$v" --json tagName,assets,isPrerelease 2>&1
 
       - name: Status
         if: always()
@@ -178,7 +186,7 @@ jobs:
           echo "næste version: ${{ steps.version.outputs.version }}"
           echo "udgivet: ${{ steps.indhold.outputs.ja }}"
           if [ "${{ steps.indhold.outputs.ja }}" = "nej" ]; then
-            echo "Ingen ny udgivelse denne gang – spilfilerne er uændrede."
+            echo "Ingen ny udgivelse denne gang - spilfilerne er uændrede."
           else
             echo "Ny udgivelse: ${{ steps.version.outputs.version }}"
           fi
