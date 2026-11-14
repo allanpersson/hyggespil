@@ -2,6 +2,9 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
+## 0.2.7 - 2026-11-14
+
+- Lykkehjulet som referencehjulet og nye dramatiske lyde
 ## 0.2.6 – 2026-11-14
 
 ### Tilføjet
