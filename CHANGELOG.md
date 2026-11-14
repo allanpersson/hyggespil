@@ -2,6 +2,15 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
+## 0.2.2 - 2026-11-14
+
+- Logger version ved start, et-commit-synk og robust CI-push
+- Opdater overvaag.js
+- Opdater overvaag.yml
+- Fjerner ci_status.js
+- Fjerner auto_release.js
+- Fjerner extra.json
+- Fjerner udgiv-zip.yml
 ## 0.2.1 - 2026-11-14
 
 - Opdater hs-cfg.js
