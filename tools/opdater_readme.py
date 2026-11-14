@@ -54,7 +54,7 @@ def ryd(linjer: list[str]) -> str:
 
 def ønsket_indhold() -> tuple[str, str]:
     v = version()
-    version_linje = f"**Version:** {v}"
+    version_linje = f"· **Version:** {v}"
     dele = []
     stabile = [a for a in afsnit() if "-beta" not in a[0]]
     for navn, dato, linjer in stabile[:ANTAL_VERSIONER]:
@@ -69,18 +69,19 @@ def ønsket_indhold() -> tuple[str, str]:
     return version_linje, nyheder
 
 
-def udskift(tekst: str, start: str, slut: str, nyt: str) -> str:
+def udskift(tekst: str, start: str, slut: str, nyt: str, inline: bool = False) -> str:
     mønster = re.compile(re.escape(start) + r".*?" + re.escape(slut), re.S)
     if not mønster.search(tekst):
         raise SystemExit(f"FEJL: markerne {start} / {slut} findes ikke i README.md")
-    return mønster.sub(start + "\n" + nyt + "\n" + slut, tekst)
+    erstatning = start + (nyt if inline else "\n" + nyt + "\n") + slut
+    return mønster.sub(erstatning, tekst)
 
 
 def main() -> None:
     tjek = "--tjek" in sys.argv
     tekst = open(README, encoding="utf-8").read()
     version_linje, nyheder = ønsket_indhold()
-    ny = udskift(tekst, VERSION_START, VERSION_SLUT, version_linje)
+    ny = udskift(tekst, VERSION_START, VERSION_SLUT, version_linje, inline=True)
     ny = udskift(ny, NYHEDER_START, NYHEDER_SLUT, nyheder)
 
     if ny == tekst:

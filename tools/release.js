@@ -28,17 +28,24 @@ const api = async (p, m = 'GET', b) => {
   const tag = await api(`/repos/${owner}/${name}/git/refs`, 'POST', { ref: 'refs/tags/' + VERSION, sha: head });
   console.log((tag.ok ? 'tag sat på main: ' : 'tag findes allerede: ') + VERSION);
   let rel = (await api(`/repos/${owner}/${name}/releases/tags/${VERSION}`)).json;
+  const changelog = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
+  const m = changelog.match(new RegExp('^## ' + VERSION.replace(/\./g, '\\.') + '\\s+[–-]\\s+.*?$([\\s\\S]*?)(?=^## |(?![\\s\\S]))', 'm'));
+  const krop = m ? m[1].trim() : 'Se CHANGELOG.md for hvad der er nyt.';
+  const noter = '## Hyggespil ' + VERSION + '\n\n' + krop +
+    '\n\n---\nHent: **Indstillinger → Marketplace → Hyggespil** → Opdater, og genstart Home Assistant.\n';
   if (!rel || rel.tag_name !== VERSION || process.argv.includes('--tving')) {
     if (rel && rel.id && process.argv.includes('--tving')) await api(`/repos/${owner}/${name}/releases/${rel.id}`, 'DELETE');
     const k = await api(`/repos/${owner}/${name}/releases`, 'POST', {
-      tag_name: VERSION, name: 'Hyggespil ' + VERSION, prerelease: false, draft: false, target_commitish: 'main',
-      body: 'Se [CHANGELOG.md](https://github.com/' + REPO + '/blob/main/CHANGELOG.md) for hvad der er ændret.\n\n' +
-        'Sådan henter du den: **Indstillinger → Marketplace → Hyggespil** → download → genstart Home Assistant.',
+      tag_name: VERSION, name: 'Hyggespil', prerelease: false, draft: false, target_commitish: 'main',
+      body: noter,
     });
     rel = k.json;
     console.log(k.ok ? 'udgivelse oprettet: ' + rel.html_url : 'udgivelsesfejl: HTTP ' + k.status + ' ' + JSON.stringify(k.json).slice(0, 220));
     if (!k.ok) process.exit(1);
-  } else console.log('udgivelsen findes: ' + rel.html_url);
+  } else {
+    await api(`/repos/${owner}/${name}/releases/${rel.id}`, 'PATCH', { body: noter });
+    console.log('udgivelsen findes (noterne opdateret): ' + rel.html_url);
+  }
   cp.execSync(`python "${path.join(ROOT, 'tools', 'make_zip.py')}" "${path.join(ROOT, 'out')}"`, { stdio: 'inherit' });
   const data = fs.readFileSync(path.join(ROOT, 'out', 'hyggespil.zip'));
   const gammel = (rel.assets || []).find(a => a.name === 'hyggespil.zip');

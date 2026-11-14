@@ -3,11 +3,7 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT
-
-<!-- version:start -->
-**Version:** 0.2.4
-<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.4<!-- version:end -->
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
@@ -48,6 +44,8 @@ Når du vælger et spil, åbner en boks **inden spillet starter** (og igen med *
 - **Spændingsmusik** – vælg en lydfil fra din enhed (maks. 8 MB). Den spiller de sidste sekunder af
   nedtællingen og stopper, når tiden er gået. Filen gemmes kun på den enhed, I spiller på, og kræver
   en valgt tid. Browseren kræver et klik før lyd – det klik, du giver ved «Start spil», tæller.
+- **Oplæsning** – læs spørgsmålet højt med enhedens egen stemme, eller få det læst op gennem en
+  Home Assistant-højttaler. **🔊** i spillets bjælke læser igen. Se [docs/oplaesning.md](docs/oplaesning.md).
 
 Valgene huskes til næste gang.
 
@@ -166,6 +164,7 @@ Faktaspørgsmål (tal, rekorder, geografi, sprog, love og færdselsregler) er ko
 - Spillet findes kun på dansk.
 - Sensoren og blueprintet er testet som kode og YAML, men ikke i en kørende Home Assistant endnu.
   Musikafspilning kræver, at browseren har fået et klik (det gør «Start spil»).
+- Oplæsning bruger de stemmer, enheden har. Mangler der en dansk stemme, bliver udtalen derefter.
 
 ## Nyheder
 

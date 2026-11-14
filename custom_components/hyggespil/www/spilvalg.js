@@ -16,7 +16,8 @@
   const aes = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const esc = aes;
   const spillere = () => { try { const h = window.hsSpil; return (h && h.players) || []; } catch (e) { return []; } };
-  const STANDARD = { tid: 0, bonus: 0, bonusInden: 10, musikStart: 10, musikNavn: '', lyd: true };
+  const STANDARD = { tid: 0, bonus: 0, bonusInden: 10, musikStart: 10, musikNavn: '', lyd: true,
+    oplaes: false, taleRate: 1, stemme: '', haTts: '', haPlayer: '' };
   let valg = Object.assign({}, STANDARD, (LS && LS.get('valg', {})) || {});
   const gemValg = () => { try { LS.set('valg', valg); } catch (e) {} };
 
@@ -268,6 +269,20 @@
         '</div>' +
         '<p class="hint" style="text-align:left;margin:6px 0 0">Spiller de sidste ' +
         '<input class="in" id="hsv-start" type="number" min="3" max="120" value="' + valg.musikStart + '" style="width:70px;text-align:center;padding:4px 8px"> sekunder af nedtællingen (kræver en tid). Filen gemmes kun på denne enhed.</p>' +
+        '<h3 style="margin:16px 0 6px">🔊 Oplæsning af spørgsmål</h3>' +
+        '<label style="display:flex;gap:8px;align-items:center;font-weight:700;cursor:pointer">' +
+        '<input type="checkbox" id="hsv-oplaes"' + (valg.oplaes ? ' checked' : '') + '> Læs spørgsmålet op, når det vises</label>' +
+        '<div class="row" style="justify-content:flex-start;margin-top:8px">' +
+        '<select class="in" id="hsv-stemme" style="max-width:230px;text-align:left"></select>' +
+        '<input class="in" id="hsv-rate" type="number" min="0.5" max="2" step="0.1" value="' + valg.taleRate + '" title="Talehastighed" style="width:80px;text-align:center">' +
+        '<button class="btn ghost" id="hsv-prov" style="padding:8px 12px;border-radius:12px">Prøv</button>' +
+        '</div>' +
+        '<p class="hint" style="text-align:left;margin:6px 0 0">Bruger enhedens egne stemmer – ingen forbindelse til internettet.</p>' +
+        '<details style="margin-top:8px"><summary class="hint" style="cursor:pointer">Læs op via en Home Assistant-højttaler i stedet</summary>' +
+        '<div class="row" style="justify-content:flex-start;margin-top:8px">' +
+        '<input class="in" id="hsv-hatts" placeholder="tts-entity, fx tts.piper" value="' + esc(valg.haTts || '') + '" style="max-width:240px">' +
+        '<input class="in" id="hsv-haplayer" placeholder="media_player.stue" value="' + esc(valg.haPlayer || '') + '" style="max-width:240px">' +
+        '</div><p class="hint" style="text-align:left;margin:6px 0 0">Udfyld begge felter for at bruge højttaleren. Ellers læses der op i browseren.</p></details>' +
         '<div class="row" style="margin-top:18px"><button class="btn big green" id="hsv-startspil">Start spil</button>' +
         '<button class="btn ghost" id="hsv-uden">Uden tid</button></div></div>';
       document.body.appendChild(o);
@@ -281,6 +296,18 @@
       $('hsv-egen').oninput = () => { const v = +$('hsv-egen').value; if (v >= 5) { valg.tid = v; opdaterKnapper(); } };
       $('hsv-inden').oninput = () => { const v = +$('hsv-inden').value; if (v >= 3) valg.bonusInden = v; };
       $('hsv-start').oninput = () => { const v = +$('hsv-start').value; if (v >= 3) valg.musikStart = v; };
+      /* oplæsning */
+      const stemmer = (window.HSTTS && window.HSTTS.stemmer) ? window.HSTTS.stemmer() : [];
+      const selv = $('hsv-stemme');
+      selv.innerHTML = stemmer.length
+        ? stemmer.map(s => '<option value="' + esc(s.voiceURI || s.name) + '"' + ((valg.stemme === (s.voiceURI || s.name)) ? ' selected' : '') + '>' + esc(s.name) + ' (' + esc(s.lang) + ')</option>').join('')
+        : '<option value="">Enhedens standardsstemme</option>';
+      $('hsv-oplaes').onchange = e => { valg.oplaes = e.target.checked; gemValg(); };
+      selv.onchange = e => { valg.stemme = e.target.value; gemValg(); };
+      $('hsv-rate').oninput = e => { const v = +e.target.value; if (v >= 0.5 && v <= 2) { valg.taleRate = v; gemValg(); } };
+      $('hsv-prov').onclick = () => { if (window.HSTTS) window.HSTTS.tal('Om lidt bliver det din tur. Hvad er Danmarks hovedstad?', true); };
+      $('hsv-hatts').oninput = e => { valg.haTts = e.target.value.trim(); gemValg(); };
+      $('hsv-haplayer').oninput = e => { valg.haPlayer = e.target.value.trim(); gemValg(); };
       $('hsv-fil').onchange = async e => {
         const f = e.target.files && e.target.files[0];
         if (!f) return;
