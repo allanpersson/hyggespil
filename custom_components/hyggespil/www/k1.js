@@ -1,0 +1,277 @@
+/* Børn & unge – puljer. age = mindste alder (spillet viser punkter fra alder-6 til alder). Tekster til award/cards/secret har formatet "alder|tekst". */
+(function(){
+const A=(k,rows)=>{DATA[k]=(DATA[k]||[]).concat(rows)};
+const Q=(age,q,c,w1,w2,w3,e)=>({q,o:[c,w1,w2,w3],a:0,age,e:e||''});
+const O=(age,odd,a,b,c,e)=>({o:[odd,a,b,c],a:0,age,e:e||''});
+const E=(age,q,a,u,n)=>({q,a,u:u||'',n:n||'',age});
+const T=(age,s,t,e)=>({s,t,e:e||'',age});
+const R=(age,a,b)=>({a,b,age});
+const W=(age,a,...c)=>({a,age,c});
+
+A('kwho',[
+W(4,'Elefant','Jeg er det største dyr, der lever på land.','Jeg kan veje flere tusinde kilo.','Jeg bor i Afrika og Asien.','Jeg har to store stødtænder og store ører.','Jeg bruger min lange snabel til at drikke med.'),
+W(4,'Giraf','Jeg bor på savannen i Afrika.','Jeg spiser blade fra høje træer.','Min tunge er mere end 40 centimeter lang.','Jeg kan blive omkring 5 meter høj.','Jeg har den længste hals af alle dyr.'),
+W(4,'Pingvin','Jeg lever mest på den sydlige halvkugle.','Jeg svømmer rigtig godt.','Jeg har sort ryg og hvid mave.','Jeg er en fugl, men jeg kan ikke flyve.','Jeg vralter rundt på isen.'),
+W(4,'Kænguru','Jeg bor i Australien.','Jeg er et pungdyr.','Jeg har en kraftig hale, som jeg støtter mig til.','Mine unger vokser op i en pose på min mave.','Jeg bevæger mig ved at hoppe.'),
+W(4,'Egern','Jeg bor i træer.','Jeg samler nødder til vinteren.','Jeg har en stor busket hale.','Jeg kan have rød eller næsten sort pels.','Jeg klatrer hurtigt op og ned ad stammer.'),
+W(4,'Ræv','Jeg er et rovdyr i hundefamilien.','Jeg lever også i Danmark.','Jeg bor i en hule under jorden.','Jeg har rødbrun pels og en busket hale.','I eventyrene er jeg kendt for at være snu.'),
+W(4,'Skildpadde','Jeg lægger æg.','Nogle af mine arter kan blive over 100 år gamle.','Jeg går meget langsomt.','Jeg har et hårdt skjold på ryggen.','Jeg kan trække hovedet ind i skjoldet.'),
+W(6,'Delfin','Jeg er et pattedyr, ikke en fisk.','Jeg trækker vejret gennem et hul oven på hovedet.','Jeg kommunikerer med klik og fløjt.','Jeg lever i flokke i havet.','Jeg elsker at hoppe over bølgerne.'),
+W(6,'Honningbi','Jeg bor i en stor familie med en dronning.','Jeg lever af nektar og pollen.','Jeg kan lave en dans, der viser vejen til blomsterne.','Jeg kan stikke.','Jeg laver honning.'),
+W(6,'Frø','Jeg lever både i vand og på land.','Jeg begyndte livet som haletudse.','Jeg har lange bagben og kan hoppe langt.','Jeg fanger insekter med min tunge.','Jeg siger «kvæk».'),
+W(6,'Kamel','Jeg kan gå i dagevis uden at drikke.','Jeg kan have én eller to pukler.','Min pukkel er fyldt med fedt.','Jeg har lange øjenvipper, der beskytter mod sand.','Jeg kaldes «ørkenens skib».'),
+W(6,'Ugle','Jeg flyver næsten lydløst.','Jeg er mest vågen om natten.','Mine øjne sidder fremad og er store.','Jeg kan dreje hovedet næsten helt rundt.','Jeg siger «uhu».'),
+W(6,'Isbjørn','Jeg bor i Arktis.','Jeg er en fremragende svømmer.','Jeg jager sæler på isen.','Mine hår er gennemsigtige, men ser hvide ud.','Jeg er det største landlevende rovdyr.'),
+W(6,'Sommerfugl','Jeg begynder som et lille æg.','Jeg bliver først til en larve.','Derefter bliver jeg til en puppe.','Jeg har fire vinger i smukke farver.','Jeg smager med mine fødder.'),
+W(8,'Blæksprutte','Jeg har tre hjerter.','Jeg har otte arme.','Mit blod er blåt.','Jeg kan skifte farve for at gemme mig.','Jeg sprøjter blæk, når jeg bliver bange.'),
+W(8,'Flagermus','Jeg er det eneste pattedyr, der kan flyve ordentligt.','Jeg sover med hovedet nedad.','Jeg er mest vågen om natten.','Jeg finder vej i mørket med ekkolyd.','Jeg spiser blandt andet insekter.'),
+W(8,'Chamæleon','Jeg bor mest i Afrika og på Madagaskar.','Jeg er en slags firben og klatrer i træer.','Mine øjne kan kigge i to forskellige retninger på samme tid.','Min tunge kan skyde langt ud for at fange insekter.','Jeg kan skifte farve.'),
+W(8,'Gepard','Jeg er en slags kat.','Jeg bor på savannen i Afrika.','Jeg har sorte pletter og sorte striber ved øjnene.','Jeg kan løbe over 100 km/t i korte stræk.','Jeg er det hurtigste dyr på land.'),
+W(10,'Blåhval','Jeg er et pattedyr og trækker vejret gennem et blæsehul.','Jeg spiser kun små krebsdyr, der hedder krill.','Jeg kan blive omkring 30 meter lang.','Min stemme kan høres langt væk under vand.','Jeg er det største dyr, der nogensinde har levet.')
+]);
+
+A('kmove',[
+'3|Hop rundt som en frø, og sig «kvæk» fem gange.',
+'3|Brøl som en løve, og vis dine kløer.',
+'3|Gå som en elefant: brug en arm som snabel, og stamp i gulvet.',
+'4|Flyv rundt som en flagermus med armene som vinger i 10 sekunder.',
+'4|Krybe som en slange, og hvæs.',
+'4|Gå på tæer som en kat, og mjav på tre forskellige måder.',
+'4|Vralt som en pingvin hen til den anden ende af rummet.',
+'4|Lad som om du er en bi, der danser rundt om en blomst og summer.',
+'4|Svøm som en fisk gennem luften, og lav fiskemund.',
+'6|Stå på ét ben som en flamingo, og tæl højt til 15 uden at sætte det andet ned.',
+'6|Lav 10 hop som en kænguru uden at stoppe.',
+'6|Spil en abe, der leder efter lopper og kradser sig i 15 sekunder.',
+'6|Vis, hvordan en edderkop går, med fingrene som otte ben.',
+'6|Lav lyden af fem forskellige dyr – de andre gætter hvilke.',
+'6|Stå helt stille som en statue i 20 sekunder, mens de andre prøver at få dig til at grine.',
+'8|Gå baglæns som en krabbe rundt i rummet.',
+'8|Vær et dovendyr: bevæg dig så langsomt som muligt i 20 sekunder.',
+'8|Spil en sulten løve, der opdager en zebra – du spiller begge dyr.',
+'8|Lav tre dyrelyde i træk, og lad de andre gætte dyrene uden at du siger ord.',
+'10|Vis en hel dag fra et dyrs liv uden ord: stå op, spis, leg og sov.',
+'10|Fortæl en kort historie, hvor du kun må lyde som ét dyr, fx kun «muh».',
+'10|Imiter en kendt person, til de andre gætter hvem det er.',
+'13|Lav en 20 sekunders dyreudgave af en filmscene – de andre gætter filmen.',
+'13|Spil et dyr, mens du taler som en nyhedsoplæser: «Og nu til dagens vejr…»'
+]);
+
+A('kriddle',[
+{q:'Hvad har fire ben, men kan ikke gå?',a:'Et bord (eller en stol).',age:4},
+{q:'Hvad kan man både drikke og tage et bad i?',a:'Vand.',age:4},
+{q:'Hvad har hænder, men kan ikke klappe?',a:'Et ur.',age:6},
+{q:'Hvad bliver vådere, jo mere det tørrer?',a:'Et håndklæde.',age:6},
+{q:'Hvad har en tunge, men kan ikke tale?',a:'En sko.',age:6},
+{q:'Hvad har tænder, men kan ikke bide?',a:'En kam.',age:6},
+{q:'Hvad er tungest: et kilo fjer eller et kilo bly?',a:'Ingen af dem – de vejer begge ét kilo.',age:6},
+{q:'Hvad kan du fange, men ikke kaste?',a:'En forkølelse.',age:8},
+{q:'Hvilken måned har 28 dage?',a:'Alle måneder.',age:8},
+{q:'Hvad har et hoved og en hale, men ingen krop?',a:'En mønt.',age:8},
+{q:'Hvad bliver større, jo mere man tager fra det?',a:'Et hul.',age:8},
+{q:'Hvad har en nøgle, men kan ikke åbne en dør?',a:'Et klaver (eller et tastatur).',age:8},
+{q:'Jo mere du tager, jo flere efterlader du. Hvad er det?',a:'Fodspor.',age:8},
+{q:'Hvad skal man knække, før man kan bruge det?',a:'Et æg.',age:8},
+{q:'Hvis der er tre æbler, og du tager to, hvor mange har du så?',a:'To – dem du tog.',age:8},
+{q:'Hvad kan løbe, men ikke gå?',a:'Vand (i en å) – eller en næse.',age:8},
+{q:'Hvad bliver ved med at stige, men aldrig falder?',a:'Din alder.',age:10},
+{q:'Hvad kan man bryde uden at røre ved det?',a:'Et løfte.',age:10},
+{q:'Hvad har 13 hjerter, men ingen andre organer?',a:'Et spil kort (hjerter er 13 kort i spillet).',age:10},
+{q:'Hvad kan rejse verden rundt, mens det bliver siddende i hjørnet?',a:'Et frimærke.',age:10},
+{q:'Hvad kan du fylde et rum med, uden at det fylder noget?',a:'Lys.',age:10},
+{q:'Jeg taler uden mund og hører uden ører. Jeg har ingen krop, men jeg lever af vind. Hvad er jeg?',a:'Et ekko.',age:13},
+{q:'Hvad er så skrøbeligt, at man ødelægger det, så snart man siger dets navn?',a:'Stilhed.',age:13},
+{q:'Jo mere der er af mig, jo mindre kan du se. Hvad er jeg?',a:'Mørke.',age:13}
+]);
+
+A('kquiz',[
+Q(4,'Hvad kalder man en baby-ko?','Kalv','Føl','Lam','Kid'),
+Q(4,'Hvilken farve får man, når man blander blå og gul?','Grøn','Orange','Lilla','Brun'),
+Q(4,'Hvad hedder Danmarks hovedstad?','København','Aarhus','Odense','Roskilde'),
+Q(4,'Hvilket dyr har en snabel?','Elefant','Næsehorn','Flodhest','Giraf'),
+Q(4,'Hvad kalder man en lille frø, der stadig har hale og svømmer i vandet?','Haletudse','Larve','Puppe','Fiskeyngel'),
+Q(6,'Hvilken planet er tættest på Solen?','Merkur','Venus','Mars','Jorden'),
+Q(6,'Hvilken planet kaldes «den røde planet»?','Mars','Venus','Jupiter','Saturn'),
+Q(6,'Hvad hedder verdens største hav?','Stillehavet','Atlanterhavet','Det Indiske Ocean','Nordishavet'),
+Q(6,'Hvilket organ pumper blodet rundt i kroppen?','Hjertet','Lungerne','Maven','Leveren'),
+Q(6,'Hvilket dyr er det hurtigste på land?','Gepard','Løve','Hest','Struds'),
+Q(6,'Hvilket af disse dyr er ikke et pattedyr?','Haj','Delfin','Flagermus','Hval'),
+Q(6,'Hvilken gas har vi brug for at indånde for at leve?','Ilt','Kuldioxid','Brint','Helium'),
+Q(6,'Hvad hedder det danske flag?','Dannebrog','Danefæ','Fanebrog','Dannemark'),
+Q(6,'Hvilket land kommer LEGO fra?','Danmark','Sverige','Tyskland','Norge'),
+Q(6,'Hvem skrev eventyret «Den grimme ælling»?','H.C. Andersen','Astrid Lindgren','Brødrene Grimm','Karen Blixen'),
+Q(6,'Hvilken ø ligger Odense på?','Fyn','Sjælland','Lolland','Als'),
+Q(8,'Hvor mange tænder har et voksent menneske normalt, inklusive visdomstænder?','32','28','30','36'),
+Q(8,'Hvad kaldes et dyr, der kun spiser planter?','Planteæder','Rovdyr','Alleæder','Insektæder'),
+Q(8,'Hvilken planet er kendt for sine smukke ringe?','Saturn','Jupiter','Mars','Merkur'),
+Q(8,'Hvad kalder man det, når vand bliver til damp?','Fordampning','Kondensering','Frysning','Smeltning'),
+Q(8,'Hvilket sprog taler man i Brasilien?','Portugisisk','Spansk','Engelsk','Fransk'),
+Q(8,'Hvad hedder hovedstaden i Norge?','Oslo','Bergen','Stockholm','Helsinki'),
+Q(8,'Hvad er glas hovedsageligt lavet af?','Sand','Ler','Træ','Plastik'),
+Q(10,'Hvad hedder Jordens eneste naturlige måne?','Månen','Phobos','Titan','Europa'),
+Q(10,'Hvilket grundstof har det kemiske symbol O?','Ilt','Brint','Kvælstof','Kulstof'),
+Q(10,'Hvem malede «Mona Lisa»?','Leonardo da Vinci','Michelangelo','Pablo Picasso','Vincent van Gogh'),
+Q(10,'Hvad er hovedstaden i Australien?','Canberra','Sydney','Melbourne','Perth'),
+Q(10,'Hvilken af disse fugle kan ikke flyve?','Struds','Svale','Ugle','Spurv'),
+Q(10,'Hvad er verdens højeste bjerg over havets overflade?','Mount Everest','K2','Kilimanjaro','Mont Blanc'),
+Q(10,'Hvad hedder den store ørken i Nordafrika?','Sahara','Gobi','Kalahari','Atacama'),
+Q(13,'Hvilket år faldt Berlinmuren?','1989','1985','1987','1991'),
+Q(13,'Hvad er den kemiske formel for vand?','H₂O','CO₂','NaCl','O₂'),
+Q(13,'Hvilket grundstof har symbolet Au?','Guld','Sølv','Aluminium','Argon'),
+Q(13,'Hvilken planet er den største i vores solsystem?','Jupiter','Saturn','Neptun','Uranus'),
+Q(13,'Hvilket land har flest indbyggere i dag?','Indien','Kina','USA','Indonesien'),
+Q(13,'Hvem er kendt for relativitetsteorien?','Albert Einstein','Isaac Newton','Niels Bohr','Galileo Galilei'),
+Q(13,'Hvilket organ filtrerer blodet og laver urin?','Nyrerne','Leveren','Milten','Bugspytkirtlen'),
+Q(13,'Hvilken dansk fysiker fik Nobelprisen i fysik i 1922?','Niels Bohr','H.C. Ørsted','Tycho Brahe','Ole Rømer')
+]);
+
+A('kchar',[
+'4|Elefant','4|Slange','4|Frø','4|Kænguru','4|Pingvin','4|Løve','4|Abe','4|Haj','4|Kat, der vasker sig','4|Børste tænder','4|Spise is','4|Sove','4|Grine højt','4|Tage et bad',
+'6|Brandmand','6|Frisør','6|Pilot','6|Bager','6|Læge','6|Fisker','6|Cykle','6|Spille fodbold','6|Svømme','6|Klatre i et træ','6|Spille guitar','6|Gå i regnvejr med paraply',
+'8|Stå på skøjter','8|Tage et billede','8|Bage en kage','8|Løbe efter bussen','8|Tegne et billede','8|Slå en kolbøtte','8|Fange en sommerfugl',
+'10|Astronaut','10|Detektiv','10|Bjergbestiger','10|Dykker','10|Cirkusartist','10|Jonglør','10|Surfe på en bølge','10|Kok, der brænder maden på',
+'13|Fodboldkommentator','13|Influencer, der filmer en video','13|Bilmekaniker','13|Dirigent','13|Dyrlæge','13|Livredder'
+]);
+
+A('kword',[
+'5|Find ord, der rimer på «sol» – hvem finder flest på 20 sekunder?',
+'5|Nævn så mange dyr som muligt, der starter med B – hvem finder flest på 30 sekunder?',
+'5|Hvem kan nævne flest farver på 20 sekunder?',
+'5|Find ord, der rimer på «hus» – hvem finder flest?',
+'6|Find ord, der rimer på «bil» – hvem finder flest på 20 sekunder?',
+'6|Hvem kan nævne flest ting, der findes i et køkken, på 20 sekunder?',
+'6|Sig «Fem flade flødeboller på et flot fad» fem gange hurtigt – hvem fejler mindst?',
+'6|Nævn så mange frugter som muligt – ingen må gentage en frugt, der allerede er nævnt.',
+'8|Lav en sætning, hvor alle ord starter med samme bogstav – den sjoveste vinder.',
+'8|Nævn så mange lande som muligt, der starter med S, på 30 sekunder.',
+'8|Hvem kan stave «giraf» baglæns først?',
+'8|Sig «Sebastian sælger sjove sokker» tre gange hurtigt uden fejl.',
+'10|Find et ord for hvert bogstav i dit navn – hvem finder flest på 30 sekunder?',
+'10|Nævn fem hovedstæder i Europa så hurtigt som muligt.',
+'10|Fortæl et eventyr på 30 sekunder, hvor I skiftes til at sige ét ord ad gangen.',
+'13|Lav et rap-vers på fire linjer om en af spillerne – de andre dømmer.',
+'13|Beskriv et dyr uden at nævne dets navn eller sige, hvor det bor – de andre gætter.'
+]);
+
+A('krather',[
+R(4,'Kunne tale med dyr','Kunne flyve'),
+R(4,'Have en pony','Have en hund'),
+R(4,'Bo i et træhus','Bo i en hule'),
+R(4,'Spise is hver dag, men aldrig slik','Spise slik hver dag, men aldrig is'),
+R(6,'Være usynlig','Kunne læse tanker'),
+R(6,'Have en robot som ven','Have en drage som ven'),
+R(6,'Svømme som en fisk','Løbe som en gepard'),
+R(6,'Bo på Månen','Bo under havet'),
+R(6,'Kunne lave tryllekunster','Være verdens bedste til alle sportsgrene'),
+R(8,'Have fri fra skole én dag hver uge','Have tre ugers ekstra ferie om året'),
+R(8,'Kun kunne gå baglæns','Kun kunne tale i rim'),
+R(8,'Møde en dinosaur','Møde en ægte pirat'),
+R(8,'Være verdens mindste i en dag','Være verdens største i en dag'),
+R(10,'Rejse tilbage i tiden','Rejse frem i tiden'),
+R(10,'Have en hemmelig superkraft','Være berømt for alt det, du kan'),
+R(10,'Aldrig føle dig træt','Aldrig føle dig sulten'),
+R(13,'Aldrig mere bruge sociale medier','Aldrig mere se film og serier'),
+R(13,'Kunne tale alle sprog','Kunne spille alle instrumenter'),
+R(13,'Bo i en storby','Bo på landet'),
+R(13,'Rejse jorden rundt i et år','Have et job, du elsker, og aldrig flytte')
+]);
+
+A('ktf',[
+T(4,'En edderkop er et insekt.',false,'En edderkop er et spindlerdyr med otte ben. Insekter har seks ben.'),
+T(4,'Pingviner kan flyve.',false,'De er fugle, men bruger vingerne til at svømme med.'),
+T(4,'Solen er en stjerne.',true,'Solen er en stjerne – den nærmeste til Jorden.'),
+T(4,'De fleste fisk trækker vejret med gæller.',true,''),
+T(6,'Delfiner er fisk.',false,'Delfiner er pattedyr, de trækker vejret med lunger og får mælk af deres mor.'),
+T(6,'Månen lyser af sig selv.',false,'Månen kaster solens lys tilbage.'),
+T(6,'Jorden bruger omkring 365 dage på at gå rundt om Solen.',true,'Præcis cirka 365 og en kvart dag – derfor har vi skudår.'),
+T(6,'Strudsen er den største fugl i verden.',true,''),
+T(6,'Flagermus er blinde.',false,'Flagermus kan godt se – de bruger også ekkolyd til at finde vej.'),
+T(6,'Sommerfugle smager med fødderne.',true,'De har smagsceller på fødderne.'),
+T(8,'Lyn rammer aldrig det samme sted to gange.',false,'Høje bygninger som Empire State Building rammes af lyn mange gange om året.'),
+T(8,'Blæksprutter har tre hjerter.',true,''),
+T(8,'Kameler gemmer vand i deres pukler.',false,'Puklerne er fyldt med fedt, ikke vand.'),
+T(8,'Guldfisk har kun tre sekunders hukommelse.',false,'De kan huske langt mere end det – forsøg viser flere uger og måneder.'),
+T(8,'Tomater er botanisk set en frugt (et bær).',true,''),
+T(8,'Kaktus gemmer vand i stilken.',true,''),
+T(10,'Lyd bevæger sig hurtigere end lys.',false,'Lys er langt hurtigere – derfor ser vi lynet, før vi hører tordenen.'),
+T(10,'Et voksent menneske har flere end 200 knogler.',true,'Cirka 206.'),
+T(10,'Vand koger ved 100 °C ved normalt lufttryk.',true,''),
+T(10,'Hajer har et skelet af brusk og ikke af knogler.',true,''),
+T(10,'Danmark er en del af Skandinavien.',true,''),
+T(10,'Mount Everest ligger i Afrika.',false,'Mount Everest ligger i Himalaya i Asien, på grænsen mellem Nepal og Kina.'),
+T(10,'Chokolade er giftigt for hunde.',true,'Chokolade indeholder stoffet theobromin, som hunde ikke tåler.'),
+T(13,'Mennesker bruger kun 10 % af deres hjerne.',false,'Det er en myte – vi bruger hele hjernen, bare ikke alle dele lige meget hele tiden.'),
+T(13,'Vikinger havde horn på deres hjelme.',false,'Der er ingen beviser for, at vikinger brugte hjelme med horn. Det er en senere myte.'),
+T(13,'Napoleon var usædvanligt lille af vækst.',false,'Han var cirka gennemsnitlig for sin tid. Myten kommer bl.a. fra forskellen på franske og engelske tommer.'),
+T(13,'Den Kinesiske Mur kan ses fra Månen med det blotte øje.',false,'Det kan den ikke.')
+]);
+
+A('kodd',[
+O(4,'Bil','Hund','Kat','Kanin','Bil er ikke et dyr.'),
+O(4,'Stol','Banan','Pære','Appelsin','En stol er ikke en frugt.'),
+O(4,'Sko','Rød','Blå','Grøn','En sko er ikke en farve.'),
+O(6,'Hval','Haj','Torsk','Sild','Hvalen er et pattedyr – de andre er fisk.'),
+O(6,'Kanin','Tiger','Løve','Gepard','Kaninen er ikke en kat – de andre er katte.'),
+O(6,'Edderkop','Bi','Myre','Sommerfugl','Edderkoppen har otte ben og er ikke et insekt.'),
+O(6,'Pingvin','Ørn','Svale','Spurv','Pingvinen kan ikke flyve.'),
+O(8,'Månen','Mars','Venus','Jupiter','Månen er ikke en planet.'),
+O(8,'Kartoffel','Æble','Pære','Kirsebær','Kartoflen er en knold – de andre er frugter.'),
+O(8,'Vand','Ilt','Brint','Guld','Vand er en forbindelse (H₂O) – de andre er grundstoffer.'),
+O(8,'Jylland','Fyn','Sjælland','Bornholm','Jylland er en halvø – de andre er øer.'),
+O(8,'Struds','Flagermus','Hval','Hest','Strudsen er en fugl – de andre er pattedyr.'),
+O(10,'Trommer','Violin','Cello','Kontrabas','Trommer er slagtøj – de andre er strygeinstrumenter.'),
+O(10,'Berlin','Oslo','Stockholm','Helsinki','Berlin ligger ikke i Norden.'),
+O(10,'Plastik','Kobber','Jern','Guld','Plastik er ikke et metal.'),
+O(10,'Barcelona','Rom','Paris','Madrid','Barcelona er ikke en hovedstad.'),
+O(13,'Picasso','Pythagoras','Newton','Einstein','Picasso var maler – de andre var matematikere eller fysikere.'),
+O(13,'Photoshop','Python','Java','JavaScript','Photoshop er et program – de andre er programmeringssprog.')
+]);
+
+A('kest',[
+E(4,'Hvor mange dage er der i en uge?',7,'dage'),
+E(4,'Hvor mange hjørner har en trekant?',3,'hjørner'),
+E(4,'Hvor mange fingre har du på begge hænder tilsammen?',10,'fingre'),
+E(6,'Hvor mange timer er der i et døgn?',24,'timer'),
+E(6,'Hvor mange ben har en edderkop?',8,'ben'),
+E(6,'Hvor mange ben har en bille?',6,'ben'),
+E(6,'Hvor mange sider har en terning?',6,'sider'),
+E(6,'Hvor mange planeter er der i vores solsystem?',8,'planeter'),
+E(6,'Hvor mange minutter er der i en time?',60,'minutter'),
+E(8,'Hvor mange dage har februar i et skudår?',29,'dage'),
+E(8,'Hvor mange hjerter har en blæksprutte?',3,'hjerter'),
+E(8,'Hvor mange bogstaver er der i det danske alfabet?',29,'bogstaver'),
+E(8,'Hvor mange måneder har præcis 30 dage?',4,'måneder','April, juni, september og november.'),
+E(8,'Hvor mange dage er der i et almindeligt år?',365,'dage'),
+E(10,'Hvor mange knogler har et voksent menneske?',206,'knogler'),
+E(10,'Hvor mange ben har en hummer?',10,'ben'),
+E(10,'Hvor mange øjne har en honningbi?',5,'øjne','To store og tre små.'),
+E(10,'Hvor mange stjerner er der på EU\'s flag?',12,'stjerner'),
+E(10,'Hvor mange ringe er der i de olympiske ringe?',5,'ringe'),
+E(10,'Hvor mange spillere har et fodboldhold på banen ad gangen?',11,'spillere'),
+E(13,'Hvor mange tangenter har et standardklaver?',88,'tangenter'),
+E(13,'Hvor mange kromosomer har et menneske normalt i hver celle?',46,'kromosomer'),
+E(13,'Hvor mange grader er der i en hel cirkel?',360,'grader'),
+E(13,'Hvor mange sekunder er der i et døgn?',86400,'sekunder')
+]);
+
+A('klik',[
+'8|Hvem af jer ville mest sandsynligt komme for sent til sin egen fødselsdag?',
+'8|Hvem af jer ville mest sandsynligt vinde en konkurrence i at spise flest pandekager?',
+'8|Hvem af jer kan mest sandsynligt få en hel klasse til at grine?',
+'8|Hvem af jer ville mest sandsynligt blive en berømt tegner?',
+'8|Hvem af jer ville mest sandsynligt tage et kæledyr med i skole?',
+'8|Hvem af jer ville mest sandsynligt gemme sig bedst i fangeleg?',
+'10|Hvem af jer ville mest sandsynligt blive astronaut?',
+'10|Hvem af jer ville mest sandsynligt glemme sin madpakke?',
+'10|Hvem af jer ville mest sandsynligt vinde en konkurrence i at holde sig vågen længst?',
+'10|Hvem af jer ville mest sandsynligt blive verdensberømt?',
+'10|Hvem af jer ville mest sandsynligt finde på en opfindelse, der virkelig virker?',
+'10|Hvem af jer ville mest sandsynligt redde en dyreunge?',
+'13|Hvem af jer ville mest sandsynligt blive influencer?',
+'13|Hvem af jer ville mest sandsynligt ende som direktør?',
+'13|Hvem af jer ville mest sandsynligt glemme, at telefonen er på lydløs?',
+'13|Hvem af jer ville mest sandsynligt rejse jorden rundt alene?',
+'13|Hvem af jer ville mest sandsynligt komme til at le på det forkerte tidspunkt?',
+'13|Hvem af jer ville mest sandsynligt starte sin egen virksomhed?'
+]);
+})();
