@@ -1,0 +1,14 @@
+{
+  "domain": "hyggespil",
+  "name": "Hyggespil",
+  "codeowners": ["@allanpersson"],
+  "config_flow": true,
+  "dependencies": ["frontend", "http"],
+  "documentation": "https://github.com/allanpersson/hyggespil",
+  "integration_type": "service",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/allanpersson/hyggespil/issues",
+  "requirements": [],
+  "single_config_entry": true,
+  "version": "0.1.0-beta.1"
+}
