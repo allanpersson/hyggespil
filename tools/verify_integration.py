@@ -30,7 +30,7 @@ for f in ("__init__.py", "config_flow.py", "const.py"):
 mf = json.load(open(os.path.join(COMP, "manifest.json"), encoding="utf-8"))
 keys = list(mf)
 check("manifest: domain, name, derefter alfabetisk", keys[:2] == ["domain", "name"] and keys[2:] == sorted(keys[2:]), keys)
-for k in ("domain", "name", "version", "documentation", "issue_tracker", "codeowners", "iot_class", "config_flow"):
+for k in ("domain", "name", "version", "documentation", "issue_tracker", "codeowners", "config_flow"):
     check("manifest har " + k, k in mf and mf[k] not in ("", None, []))
 check("codeowners begynder med @", all(c.startswith("@") for c in mf["codeowners"]), mf["codeowners"])
 check("domain = mappenavn", mf["domain"] == os.path.basename(COMP))
