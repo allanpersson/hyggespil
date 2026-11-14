@@ -126,6 +126,7 @@ jobs:
         if: steps.loop.outputs.loop == 'nej' && steps.indhold.outputs.ja == 'ja'
         run: |
           python tools/tjek_manifest.py
+          node tools/krypt.js --tjek
           node tools/build.js check
           python tools/verify_integration.py
           python tools/tjek_installation.py

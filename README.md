@@ -179,6 +179,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.13 – 2026-11-14
+
+**Ændret**
+- 🏛️ **Græker eller sygdom er gjort sværere**: de mest åbenlyse navne (Sokrates, Platon, Zeus, Athene …) er ude, bi-navne som «fra Elea» er fjernet, og der er kommet mange mere ukendte filosoffer, læger, astronomer og digtere ind. Sygdomsnavnene står på latin uden «Morbus»-præfiks (fx «Addison», «Scorobutus» → «Scorbutus», «Osteoporosis»). Puljen er på 111 ord.
+- 🔊 **«Opsæt stemme»-knap** i indstillingsboksen: viser de præcise trin for Android/iOS/Windows/macOS, og på Android kan knappen åbne telefonens taleindstillinger direkte. Bruges når enheden mangler en dansk stemme.
+
 ### 0.2.12 – 2026-11-14
 
 **Ændret**
@@ -236,18 +242,27 @@ en kop kaffe:
 **Ændret**
 - Mens oplæsningen taler, **dæmpes musikken** til ca. 14 % i stedet for at stoppe, så spørgsmålet altid kan høres – og musikken går op igen bagefter.
 
-### 0.2.5 – 2026-11-14
-
-**Tilføjet**
-- 🔊 **Oplæsning af spørgsmål** – læs spørgsmålet højt, når det vises. Vælg stemme og hastighed i indstillingerne; **🔊** i spillets bjælke læser igen, og et tryk mere stopper. Virker med enhedens egne stemmer (intet sendes ud) eller gennem en Home Assistant-højttaler via `tts.speak`. Se [docs/oplaesning.md](docs/oplaesning.md).
-- Spil hvor oplæsning ville afsløre svaret (Forbudte ord, Gæt og vis, Lykkehjulet) og bræt-/3D-spillene læses ikke op.
-
-**Ændret**
-- **Udgivelsesnoterne viser nu ændringerne** direkte i Marketplace i stedet for «Se CHANGELOG.md», og udgivelserne hedder bare «Hyggespil» ved siden af versionsnummeret.
-- README henter version og ændringslog automatisk og fejler i CI, hvis den kommer bagud.
-
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
+
+## 🔒 Krypterede spørgsmålspuljer
+
+Spørgsmål, svar og forklaringer ligger **ikke som læsbar tekst** i repositoryet eller i `www/`.
+Hver puljefil er en base64-blob, der først dekrypteres, når spillet starter i browseren
+(`www/hs-krypto.js`), og først derefter lægges ind i `DATA`. Det gør det ikke trivielt at snuse
+svarene op fra GitHub eller fra «vis kilde» i browseren, og det gør det besværligt at kopiere hele
+puljen ind i en anden app.
+
+**Vær opmærksom på:** nøglen skal ligge i browseren, for at spillet kan køre uden en server. En
+besluttet person kan derfor stadig trække nøglen ud og dekryptere indholdet. Det her er **anti-snyd
+og kopibeskyttelse i praksis**, ikke kryptografisk hemmeligholdelse.
+
+Kilder og forklaringer kan stadig læses i [`docs/`](docs/) — fx
+[kilder til fodboldquizzerne](docs/kilder-fodbold.md) og
+[kilder til græker/sygdom](docs/kilder-graeker-sygdom.md).
+
+Værktøj til vedligeholdelse: `node tools/krypt.js laas` (krypter), `laas-op` (dekrypter til
+`hyggespil-tools/klart/` til redigering) og `--tjek` (CI-kontrol af at alt kan dekrypteres).
 
 ## Udvikling
 
