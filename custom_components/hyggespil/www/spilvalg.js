@@ -352,6 +352,7 @@
         '<select class="in" id="hsv-stemme" style="max-width:230px;text-align:left"></select>' +
         '<input class="in" id="hsv-rate" type="number" min="0.5" max="2" step="0.1" value="' + valg.taleRate + '" title="Talehastighed" style="width:80px;text-align:center">' +
         '<button class="btn ghost" id="hsv-prov" style="padding:8px 12px;border-radius:12px">Prøv</button>' +
+        '<button class="btn ghost" id="hsv-opsaet" style="padding:8px 12px;border-radius:12px">Opsæt stemme</button>' +
         '</div>' +
         '<p class="hint" style="text-align:left;margin:6px 0 0">Bruger enhedens egne stemmer – ingen forbindelse til internettet.</p>' +
         '<details style="margin-top:8px"><summary class="hint" style="cursor:pointer">Læs op via en Home Assistant-højttaler i stedet</summary>' +
@@ -394,6 +395,7 @@
       selv.onchange = e => { valg.stemme = e.target.value; gemValg(); };
       $('hsv-rate').oninput = e => { const v = +e.target.value; if (v >= 0.5 && v <= 2) { valg.taleRate = v; gemValg(); } };
       $('hsv-prov').onclick = () => { if (window.HSTTS) window.HSTTS.tal('Om lidt bliver det din tur. Hvad er Danmarks hovedstad?', true); };
+      $('hsv-opsaet').onclick = () => { if (window.HSTTS && window.HSTTS.guide) window.HSTTS.guide(); };
       $('hsv-hatts').onchange = $('hsv-hatts').oninput = e => { valg.haTts = e.target.value.trim(); gemValg(); };
       $('hsv-haplayer').onchange = $('hsv-haplayer').oninput = e => { valg.haPlayer = e.target.value.trim(); gemValg(); };
       $('hsv-fil').onchange = async e => {

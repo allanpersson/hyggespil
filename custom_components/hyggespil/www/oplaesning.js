@@ -59,11 +59,13 @@
       return;
     }
     if (typeof speechSynthesis === 'undefined') {
-      /* Ingen stemme på enheden: prøv højttaleren, ellers sig det højt */
+      /* Ingen stemme på enheden: prøv højttaleren, ellers vis opsætningsvejledningen */
       if (v.haTts && v.haPlayer && haTal(tekst)) return;
-      if (window.HSV) visBesked('Enheden har ingen oplæsning – slå den til i telefonens indstillinger, eller vælg en Home Assistant-højttaler.');
+      guide();
       return;
     }
+    /* Chrome på Android kan svare "ingen stemmer", indtil listen er hentet – tjek og vejled */
+    if (!stemmer().length && !v.haTts) { setTimeout(() => { if (!stemmer().length) guide(); }, 1200); }
     try {
       speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(tekst.slice(0, 600));
@@ -89,6 +91,46 @@
       setTimeout(() => d.remove(), 6000);
     } catch (e) {}
   }
+
+  /* Opsætning af stemme: viser hvad man skal gøre – og en knap der åbner telefonens taleindstillinger */
+  function guide() {
+    if (document.getElementById('hsv-tts-guide')) return;
+    const ua = navigator.userAgent;
+    const android = /Android/i.test(ua), ios = /iPhone|iPad|iPod/i.test(ua);
+    const trin = android
+      ? 'Indstillinger → System → Sprog og input → Tekst-til-tale → vælg en dansk stemme (installér den, hvis den mangler).'
+      : ios
+        ? 'Indstillinger → Tilgængelighed → Oplæst indhold → Stemmer → Dansk.'
+        : 'Windows: Indstillinger → Tid og sprog → Tale. macOS: Systemindstillinger → Tilgængelighed → Oplæst indhold.';
+    const o = document.createElement('div');
+    o.id = 'hsv-tts-guide'; o.className = 'modal'; o.style.zIndex = '85';
+    o.innerHTML = '<div class="mbox" style="max-width:520px">'
+      + '<h2 style="margin-top:0">🔊 Slå oplæsning til</h2>'
+      + '<p class="hint" style="text-align:left">Denne enhed har ingen dansk stemme til rådighed for spillet endnu. '
+      + 'Sådan får du lyd på:</p>'
+      + '<p class="hint" style="text-align:left;font-size:16px">' + esc(trin) + '</p>'
+      + '<p class="hint" style="text-align:left">Har du en Home Assistant-højttaler, kan du i stedet vælge den under ⚙ → Oplæsning.</p>'
+      + '<div class="row" style="margin-top:16px">'
+      + (android ? '<button class="btn big green" id="hsv-tts-aabn">Åbn taleindstillinger</button>' : '')
+      + '<button class="btn" id="hsv-tts-igen">Prøv igen</button>'
+      + '<button class="btn ghost" id="hsv-tts-luk">Luk</button></div></div>';
+    document.body.appendChild(o);
+    const $ = id => o.querySelector('#' + id);
+    if ($('hsv-tts-aabn')) $('hsv-tts-aabn').onclick = () => {
+      try { location.href = 'intent:#Intent;action=com.android.settings.TTS_SETTINGS;end'; }
+      catch (e) { visBesked('Åbn: ' + trin); }
+    };
+    $('hsv-tts-igen').onclick = () => {
+      try { speechSynthesis.getVoices(); } catch (e) {}
+      const n = stemmer().length;
+      o.remove();
+      if (n) { tal('Oplæsning virker nu. God fornøjelse!', true); visBesked('Oplæsning virker – ' + n + ' stemmer fundet.'); }
+      else { guide(); }
+    };
+    $('hsv-tts-luk').onclick = () => o.remove();
+    o.addEventListener('click', e => { if (e.target === o) o.remove(); });
+  }
+
   function stop() { try { speechSynthesis.cancel(); } catch (e) {} duk(false); }
 
   /* Den tekst, der står som spørgsmål på skærmen lige nu */
@@ -154,5 +196,5 @@
   /* Stemmer ankommer asynkront i nogle browsere – bed om listen med det samme */
   try { if (window.speechSynthesis) speechSynthesis.getVoices(); } catch (e) {}
 
-  window.HSTTS = { tal, stop, stemmer, spoergsmaal, maaskeLaes };
+  window.HSTTS = { tal, stop, stemmer, spoergsmaal, maaskeLaes, guide };
 })();
