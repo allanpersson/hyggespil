@@ -37,3 +37,6 @@ custom_components/hyggespil/www/hs-user-pools.js
 custom_components/hyggespil/www/extra.json
 tools/*.log
 custom_components/hyggespil/www/backup.js.local
+
+# Midlertidige udvikler-scripts (altid med underscore)
+tools/_*.js
