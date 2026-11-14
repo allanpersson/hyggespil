@@ -1,15 +1,28 @@
-/* Hyggespil v8: Lykkehjulet + dødsspilsleg (rødt lys/grønt lys, glasbro, kugler). (Færdselsloven og kulturspil kommer i egne filer.) */
+/* Hyggespil v8: Lykkehjulet + Squid Games (rødt lys/grønt lys, glasbro, kugler). (Færdselsloven og kulturspil kommer i egne filer.) */
 (function(){
 if(window.__hs3)return;window.__hs3=true;
 const rnd=n=>Math.random()*n|0,pick=a=>a[rnd(a.length)];
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=rnd(i+1);[a[i],a[j]]=[a[j],a[i]]}return a};
-const GRP_S='🦑 Dødsspils-leg';
+const GRP_S='🦑 Squid Games';
 const st=document.createElement('style');
 st.textContent='.tiles{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;margin:14px 0}.word{display:flex;gap:4px}.tile{width:34px;height:44px;border-radius:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);display:grid;place-items:center;font-weight:900;font-size:22px}.tile.on{background:#fff;color:#1b1340}.tile.pun{background:none;border:0;width:16px}'
 +'.kb{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0}.kb button{width:42px;height:46px;border-radius:10px;font-weight:800;font-size:18px;background:rgba(255,255,255,.16);color:#fff;border:0}.kb button:disabled{opacity:.25}'
 +'.cash{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:6px 0}.cash span{padding:6px 12px;border-radius:14px;border:2px solid;font-weight:800}'
 +'.rl{height:min(46vh,320px);border-radius:24px;display:grid;place-items:center;font-size:clamp(34px,9vw,72px);font-weight:900;color:#fff;text-align:center;margin:12px 0;transition:background .12s}'
-+'.bridge{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:380px;margin:10px auto}.bridge div{padding:10px;border-radius:12px;text-align:center;font-weight:800;background:rgba(255,255,255,.1)}.bridge .ok{background:#2ec4b6;color:#062}.bridge .no{background:#e63946;color:#fff;text-decoration:line-through}.bridge .cur{outline:3px solid #ffb703}';
++'.gb{position:relative;overflow:hidden;border-radius:24px;padding:clamp(14px,3vw,26px) 10px 18px;margin:10px auto;max-width:440px;background:linear-gradient(180deg,#04121f 0%,#0a2440 46%,#123a5c 74%,#061726 100%);box-shadow:inset 0 0 70px rgba(0,0,0,.65)}'+
+'.gbh{height:2px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);opacity:.6;margin-bottom:6px}'+
+'.gbrow{display:flex;justify-content:center;gap:10px;transform-origin:50% 100%;margin-bottom:clamp(5px,1.4vw,11px)}'+
+'.gbt{width:clamp(58px,16vw,84px);height:clamp(26px,6vw,38px);border-radius:7px/14px;display:grid;place-items:center;font-size:10px;font-weight:800;letter-spacing:.06em;color:rgba(255,255,255,.55);cursor:default;'+
+'background:linear-gradient(158deg,rgba(214,241,255,.30) 0%,rgba(255,255,255,.07) 44%,rgba(140,205,255,.20) 100%);border:1px solid rgba(214,241,255,.55);box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset 0 -7px 14px rgba(0,0,0,.28),0 7px 16px rgba(0,0,0,.45)}'+
+'.gbt.safe{background:linear-gradient(158deg,rgba(126,240,205,.55),rgba(46,196,182,.28));border-color:#7efcf1;color:#eafffb;box-shadow:0 0 16px rgba(46,220,190,.5),inset 0 1px 0 rgba(255,255,255,.7)}'+
+'.gbt.no{background:linear-gradient(160deg,rgba(255,120,120,.30),rgba(60,0,0,.5));border-color:rgba(255,150,150,.5);color:#ffdede;text-decoration:line-through}'+
+'.gbt.no::after{content:"";position:absolute;width:0;height:0}'+
+'.gbt.cur{outline:2px solid #ffd166;outline-offset:2px;animation:gbr 1.6s infinite}'+
+'.gbt.go{animation:fall .9s ease-in forwards}'+
+'.gbfall{position:absolute;left:50%;top:44%;transform:translateX(-50%);font-size:clamp(20px,6vw,30px);animation:fall 1.5s ease-in forwards;pointer-events:none}'+
+'.gbtur{display:flex;justify-content:center;margin-top:4px}.gbmand{width:16px;height:16px;border-radius:50%;box-shadow:0 0 14px rgba(255,255,255,.55)}'+
+'@keyframes gbr{0%,100%{box-shadow:0 0 0 rgba(255,209,102,.0),inset 0 1px 0 rgba(255,255,255,.5)}50%{box-shadow:0 0 22px rgba(255,209,102,.75),inset 0 1px 0 rgba(255,255,255,.6)}}'+
+'@keyframes fall{0%{transform:translateY(0) scale(1);opacity:1}20%{transform:translateY(-6px) scale(.97)}100%{transform:translateY(190px) scale(.55) rotate(9deg);opacity:0}}';
 document.head.appendChild(st);
 
 /* ================= Lykkehjulet ================= */
@@ -48,8 +61,12 @@ function wheelSVG(rot){
   const c=i*w,a0=c-w/2,a1=c+w/2,p0=P(a0,R),p1=P(a1,R),v=WH[i];
   const fill=v==='FALLIT'?'#111':v==='MIST TUR'?'#6c757d':v==='GRATIS'?'#ffd166':WCOL[i%WCOL.length];
   s+='<path d="M0 0L'+p0[0]+' '+p0[1]+'A'+R+' '+R+' 0 0 1 '+p1[0]+' '+p1[1]+'Z" fill="'+fill+'" stroke="#fff" stroke-width="1.2"/>';
-  const col=(v==='FALLIT'||v==='MIST TUR')?'#fff':'#111',txt=String(v);
-  s+='<text transform="rotate('+c+') translate(0,-62)" text-anchor="middle" font-size="'+(txt.length>5?7:11)+'" font-weight="900" fill="'+col+'" dominant-baseline="middle">'+txt+'</text>';
+  const mørk=(fill==='#111'||fill==='#6c757d'),col=mørk?'#fff':'#111',txt=String(v),k=txt.replace(/[^A-Z0-9]/g,'').split("").length||1;
+  const fs2=k<=4?15:k<=6?12:9,linje=fs2*1.02,top=72+(k-1)*linje/2,vendt=(c>90&&c<270)?180:0;
+  for(let j=0;j<k;j++){
+   const bogstav=txt.replace(/[^A-Z0-9]/g,'')[j];if(!bogstav)continue;
+   s+='<text transform="rotate('+c+') translate(0,'+(top-j*linje)+') rotate('+(-c+vendt)+')" text-anchor="middle" font-size="'+fs2+'" font-weight="900" fill="'+col+'" dominant-baseline="central">'+bogstav+'</text>';
+  }
  }
  return s+'</g><circle r="9" fill="#fff" stroke="#999"/></svg>';
 }
@@ -157,30 +174,37 @@ KINDS.rl={
  }
 };
 function gbNew(){const n=players.length;return {safe:Array.from({length:8},()=>rnd(2)),known:0,order:shuffle(players.map((_,i)=>i)),cur:0,out:[],fin:[],pos:0,msg:''}}
+const gbHTML=b=>{ // broen ses fra den lave side: man starter hos fjern og går ned mod os
+ let h='<div class="gb"><div class="gbh"></div>'; for(let i=7;i>=0;i--){const s=8-i,k=i<b.known,cur=(i===b.known&&b.cur<b.order.length);
+  h+='<div class="gbrow" style="transform:scale('+s/8+')">';
+  for(let j=0;j<2;j++){const god=k?(b.safe[i]===j):(cur&&b.val===j);
+   h+='<div class="gbt'+(k?(b.safe[i]===j?' safe':' no'):'')+(cur&&!k&&b.val===j?' go':'')+(cur&&!k?' cur':'')+'">'+(k&&b.safe[i]===j?'✓':'')+'</div>'}
+  h+='</div>'}
+ h+='<div class="gbtur">'+(b.cur<b.order.length?'<span class="gbmand" style="background:'+players[b.order[b.cur]].c+'"></span>':'')+'</div></div>';
+ return h};
 KINDS.glass={
  init(){g.gb=gbNew();g.gdone=false},
  render(){
-  const b=g.gb,p=b.cur<b.order.length?players[b.order[b.cur]]:null;
-  let steps='<div class="bridge">';
-  for(let i=0;i<8;i++){const k=i<b.known;for(const s of [0,1]){steps+='<div class="'+(k?(b.safe[i]===s?'ok':'no'):'')+' '+((i===b.known&&p)?'cur':'')+'">'+(s?'Højre':'Venstre')+(k&&b.safe[i]===s?' ✓':'')+'</div>'}}
-  steps+='</div>';
-  let o='<div class="card glass"><div class="q">🌉 Glasbroen</div><p class="hint" style="text-align:left">8 par glasfliser – kun den ene i hvert par bærer. Hver spiller går i tur og ordning; vælger du forkert, falder du. Det, der blev afsløret, kan de næste bruge – så det er en fordel at gå sent!</p>'+steps;
+  const b=g.gb,inde=b.cur<b.order.length,p=inde?players[b.order[b.cur]]:null;
+  let o='<div class="card glass"><div class="q">🌉 Glasbroen</div>'+gbHTML(b);
+  o+='<p class="hint" style="text-align:left">Broen ses fra den side, vi står på – spillerne starter oppe i den fjerne ende og skal hele vejen ned til os. 8 par glasfliser – kun den ene i hvert par bærer.'+(inde?' <b>'+esc(p.n)+'</b> står ved flise nr. '+(b.known+1)+' af 8.':'')+'</p>';
   if(b.msg)o+='<p class="hint" style="font-size:16px">'+b.msg+'</p>';
-  if(p){o+='<div class="row"><span class="tag" style="background:'+p.c+';color:#111">'+esc(p.n)+' står ved fliser nr. '+(b.known+1)+'</span></div><div class="row"><button class="btn big" id="gl0">⬅️ Venstre</button><button class="btn big" id="gl1">Højre ➡️</button></div>';}
-  else{const f=b.fin;o+='<div class="ans" style="font-size:clamp(20px,3.5vw,30px)">'+(f.length?'🏆 Kom over: '+f.map(i=>esc(players[i].n)).join(', ')+' (+2 hver)':'Ingen kom over broen i denne omgang.')+'</div><div class="row"><button class="btn big green" id="nx">Ny bro →</button></div>';}
+  if(p){o+='<div class="row"><button class="btn big" id="gl0">⬅️ Venstre flise</button><button class="btn big" id="gl1">Højre flise ➡️</button></div>'}
+  else{const f=b.fin;o+='<div class="ans" style="font-size:clamp(20px,3.5vw,30px)">'+(f.length?'🏆 Kom over: '+f.map(i=>esc(players[i].n)).join(', ')+' (+2 hver)':'Ingen kom over broen i denne omgang.')+'</div><div class="row"><button class="btn big green" id="nx">Ny bro →</button></div>'}
   return o+'</div>';
  },
  bind(){
   const $=id=>document.getElementById(id),b=g.gb;
-  [0,1].forEach(s=>{if($('gl'+s))$('gl'+s).onclick=()=>{
-   const pi=b.order[b.cur],ok=b.safe[b.known]===s;
-   if(ok){b.known++;b.msg='✅ '+esc(players[pi].n)+' valgte rigtigt!';
-    if(b.known>=8){b.fin.push(pi);add(pi,2);boom();b.cur++;b.msg=esc(players[pi].n)+' nåede over!';
-     // resten af spillerne følger den afslørede vej
-     while(b.cur<b.order.length){const q=b.order[b.cur];b.fin.push(q);add(q,2);b.cur++}}
-   }else{b.msg='💥 '+esc(players[pi].n)+' faldt! Fliserne afsløres for de næste.';b.known++;b.out.push(pi);b.cur++;
-    if(b.known>=8)b.cur=b.order.length}
-   render()}});
+  [0,1].forEach(s=>{const el=$('gl'+s);if(!el)return;el.onclick=()=>{
+   const pi=b.order[b.cur];b.val=s;render();               // viser springet, mens flisen knuser
+   setTimeout(()=>{
+    const ok=b.safe[b.known]===s;
+    if(ok){b.known++;b.val=null;b.msg='✅ '+esc(players[pi].n)+' har flisen under fødderne – ét skridt nærmere os';
+     if(b.known>=8){b.fin.push(pi);add(pi,2);boom();b.cur++;b.msg='🏃 '+esc(players[pi].n)+' nåede ned og over!';
+      while(b.cur<b.order.length){const q=b.order[b.cur];b.fin.push(q);add(q,2);b.cur++}}   // de sidste følger den afslørede vej
+    }else{b.msg='💥 '+esc(players[pi].n)+' faldt! Flisen er afsløret for de næste.';b.known++;b.val=null;b.out.push(pi);b.cur++;
+     if(b.known>=8)b.cur=b.order.length}
+    render()},520)}});
  }
 };
 KINDS.marb={
