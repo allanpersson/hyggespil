@@ -5,11 +5,15 @@ Udvikler: Allan Persson · Licens: MIT
 Integrationen serverer spillets filer direkte fra sin egen mappe (www/) og viser spillet i et
 panel i sidebjælken. Den skriver ingenting i Home Assistants konfiguration og rører ikke
 config/www. Spillernavne, aldre, point og grupper gemmes kun i browseren på den enhed, der spilles på.
+
+Spillet kan fortælle Home Assistant, hvad der sker (tjenesten ``hyggespil.status``), så lys og
+andre automatiseringer kan bygges på det – se docs/spaending.md.
 """
 from __future__ import annotations
 
 import json
 import logging
+from datetime import UTC, datetime
 from pathlib import Path
 
 from homeassistant.components.frontend import (
@@ -18,7 +22,7 @@ from homeassistant.components.frontend import (
 )
 from homeassistant.components.http import StaticPathConfig
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, ServiceCall
 
 from .const import DOMAIN, PANEL_ICON, PANEL_TITLE, PANEL_URL, URL_BASE
 
@@ -26,6 +30,9 @@ _LOGGER = logging.getLogger(__name__)
 
 WWW_DIR = Path(__file__).parent / "www"
 _STATIC_REGISTERED = f"{DOMAIN}_static_registered"
+_SERVICE_REGISTERED = f"{DOMAIN}_service_registered"
+_PLATFORMS = ["sensor"]
+FELTER = ("spil", "spil_navn", "spillere", "sekunder", "tid", "urgency", "puls", "musik")
 
 
 def _version() -> str:
@@ -37,6 +44,21 @@ def _version() -> str:
 
 
 VERSION = _version()
+
+
+async def _async_status(hass: HomeAssistant, call: ServiceCall) -> None:
+    """Modtag spillets tilstand: gem på sensoren og send en hændelse."""
+    data: dict = {"state": str(call.data.get("state") or "klar")}
+    for felt in FELTER:
+        if felt in call.data and call.data[felt] is not None:
+            data[felt] = call.data[felt]
+    data["opdateret"] = datetime.now(UTC).isoformat()
+
+    sensor = hass.data.get(DOMAIN, {}).get("sensor")
+    if sensor is not None:
+        sensor.ny_status(data)
+
+    hass.bus.async_fire(f"{DOMAIN}_spil_status", data)
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
@@ -51,6 +73,15 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             [StaticPathConfig(URL_BASE, str(WWW_DIR), False)]
         )
         hass.data[_STATIC_REGISTERED] = True
+
+    if not hass.data.get(_SERVICE_REGISTERED):
+        async def _async_status_call(call: ServiceCall) -> None:
+            await _async_status(hass, call)
+
+        hass.services.async_register(DOMAIN, "status", _async_status_call)
+        hass.data[_SERVICE_REGISTERED] = True
+
+    await hass.config_entries.async_forward_entry_setups(entry, _PLATFORMS)
 
     async_register_built_in_panel(
         hass,
@@ -67,6 +98,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Fjern panelet. Spillernes data i browseren røres ikke."""
+    """Fjern panelet og sensoren. Spillernes data i browseren røres ikke."""
+    unloaded = await hass.config_entries.async_unload_platforms(entry, _PLATFORMS)
+    if unloaded:
+        hass.data.get(DOMAIN, {}).pop("sensor", None)
     async_remove_panel(hass, DOMAIN, warn_if_unknown=False)
-    return True
+    return unloaded

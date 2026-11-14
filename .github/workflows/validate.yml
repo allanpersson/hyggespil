@@ -48,3 +48,7 @@ jobs:
         run: python tools/verify_integration.py
       - name: Kan zippet installeres? (samme udpakning som Marketplace/HACS)
         run: python tools/tjek_installation.py
+      - name: Blueprint til spændingslyset
+        run: |
+          python -m pip install --quiet pyyaml
+          python tools/tjek_blueprint.py

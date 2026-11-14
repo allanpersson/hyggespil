@@ -32,6 +32,15 @@ Desuden: point og stilling, grupper med løbende stilling fra aften til aften, o
 
 ![Et spil i gang – 💬 øverst til højre er feedback-knappen](docs/spil.jpg)
 
+### ⏱️ Timer, hurtige svar og spænding i lyset
+Inden et spil starter kan du vælge en **nedtælling** (fx 30 eller 60 sekunder pr. spørgsmål),
+**ekstra point for et hurtigt svar** og et **lokalt musikstykke**, der spiller de sidste sekunder.
+Undervejs ændrer du det med ⚙ i spillets bjælke.
+
+Integrationen opretter sensoren **`sensor.hyggespil_spil`**, så lyset kan pulsere, jo tættere på
+udløb man er – der følger et blueprint med. Se [docs/spaending.md](docs/spaending.md) for
+sensorens attributter, blueprintet og eksempler på automatiseringer.
+
 ### Børn og alder
 Skriv alder på spillerne under **👥 Spillere**. Så sker der dette:
 

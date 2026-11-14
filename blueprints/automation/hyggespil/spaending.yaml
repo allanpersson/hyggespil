@@ -1,0 +1,98 @@
+blueprint:
+  name: Hyggespil – spænding i lyset
+  description: >
+    Lader lyset pulsere som et hjertebank, mens der spilles Hyggespil.
+    Jo tættere på nedtællingens udløb, jo hurtigere og kraftigere blinker lyset.
+    Bruger sensoren `sensor.hyggespil_spil` (attributterne `urgency`, `sekunder` og `puls`).
+  domain: automation
+  source_url: https://github.com/allanpersson/hyggespil/blob/main/blueprints/automation/hyggespil/spaending.yaml
+  input:
+    sensor:
+      name: Hyggespil-sensor
+      description: Sensoren integrationen opretter
+      default: sensor.hyggespil_spil
+      selector:
+        entity:
+          filter:
+            domain: sensor
+    lys:
+      name: Lys
+      description: De lamper der skal pulsere (kan være et område)
+      selector:
+        target:
+          entity:
+            filter:
+              domain: light
+    farve:
+      name: Farve
+      description: Farven lyset blinker i
+      default: [255, 70, 90]
+      selector:
+        color_rgb:
+    maks:
+      name: Kraftigste lysstyrke (%)
+      default: 100
+      selector:
+        number:
+          min: 5
+          max: 100
+          unit_of_measurement: "%"
+    min:
+      name: Svageste lysstyrke (%)
+      description: Lyset skifter mellem denne og den kraftigste værdi
+      default: 15
+      selector:
+        number:
+          min: 1
+          max: 100
+          unit_of_measurement: "%"
+    slut:
+      name: Lysstyrke når spillet slutter (%)
+      default: 60
+      selector:
+        number:
+          min: 1
+          max: 100
+          unit_of_measurement: "%"
+
+mode: restart
+max_exceeded: silent
+
+trigger:
+  - platform: state
+    entity_id: !input sensor
+    to: "spiller"
+
+variables:
+  sensor: !input sensor
+  lys: !input lys
+  farve: !input farve
+  maks: !input maks
+  min: !input min
+  slut: !input slut
+
+action:
+  - repeat:
+      while:
+        - condition: state
+          entity_id: !input sensor
+          state: "spiller"
+        - condition: template
+          value_template: "{{ (state_attr(sensor, 'sekunder') | float(0)) > 0 }}"
+      sequence:
+        - variables:
+            u: "{{ state_attr(sensor, 'urgency') | float(0) }}"
+            # 1 på "slaget", 0.45 mellem slagene – forskellen bliver større mod udløb
+            slag: "{{ 1 if (repeat.index % 2) == 1 else (0.75 - 0.45 * u) }}"
+        - service: light.turn_on
+          target: !input lys
+          data:
+            brightness_pct: "{{ (min + (maks - min) * (0.25 + 0.75 * u) * slag) | round(0) }}"
+            rgb_color: "{{ farve }}"
+        - delay:
+            milliseconds: "{{ (1000 - 820 * u) | round(0) }}"
+  - service: light.turn_on
+    target: !input lys
+    data:
+      brightness_pct: "{{ slut }}"
+      rgb_color: "{{ farve }}"

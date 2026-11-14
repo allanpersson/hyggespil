@@ -116,6 +116,8 @@ const GAMES=[
 ];
 const gm=id=>GAMES.find(a=>a.id===id);
 const pool=k=>k==='num'?DATA.num.concat(own):(DATA[k]||[]);
+/* Åbner spillets indre for udvidelser (spilvalg.js): spillere, visning og valgmuligheder */
+window.hsSpil={get players(){return players},get view(){return view},get g(){return g},gm,pool};
 const idOf=it=>typeof it==='string'?it:(it.q&&it.a!==undefined&&typeof it.a!=='object'?it.q:(it.q||it.s||it.t||it.w||(it.o&&it.o[0])||it.b||it.a||it.c||JSON.stringify(it)))+(it.a&&typeof it.a==='object'?'|'+it.a[0]:'');
 function draw(gk,list){let seen=LS.get('seen2_'+gk,[]);let av=list.filter(x=>!seen.includes(idOf(x)));if(!av.length){seen=[];av=list}const it=av[Math.random()*av.length|0];seen.push(idOf(it));LS.set('seen2_'+gk,seen);return it}
 function boom(){const em=['🎉','🍷','✨','🥂','🎊','⭐'];for(let i=0;i<34;i++){const s=document.createElement('div');s.className='conf';s.textContent=em[i%em.length];s.style.left=Math.random()*100+'vw';s.style.animationDelay=Math.random()*.6+'s';s.style.fontSize=(18+Math.random()*20)+'px';document.body.appendChild(s);setTimeout(()=>s.remove(),3200)}}

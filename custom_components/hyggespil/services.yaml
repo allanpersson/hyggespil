@@ -1,0 +1,73 @@
+# Tjenesten hyggespil.status kaldes af spillets panel, men kan også bruges i automatiseringer
+# og i Udviklerværktøjer → Tjenester, fx til at teste lyset uden at spille.
+status:
+  name: Spillets tilstand
+  description: Fortæller Home Assistant hvad der sker i Hyggespil (bruges af sensor.hyggespil_spil og automatiseringer).
+  fields:
+    state:
+      name: Tilstand
+      description: klar, spiller eller slut
+      required: true
+      example: spiller
+      selector:
+        select:
+          options:
+            - klar
+            - spiller
+            - slut
+    spil:
+      name: Spillets id
+      example: tf
+      selector:
+        text:
+    spil_navn:
+      name: Spillets navn
+      example: Sandt eller falsk
+      selector:
+        text:
+    spillere:
+      name: Spillere
+      example: "['Allan', 'Mette']"
+      selector:
+        object:
+    sekunder:
+      name: Sekunder tilbage
+      description: Nedtællingens resterende sekunder (0 når tiden er gået)
+      example: 12
+      selector:
+        number:
+          min: 0
+          max: 3600
+          unit_of_measurement: s
+    tid:
+      name: Valgt tid
+      description: Den tid, der blev valgt før spillet startede
+      example: 60
+      selector:
+        number:
+          min: 0
+          max: 3600
+          unit_of_measurement: s
+    urgency:
+      name: Spænding (0-1)
+      description: 0 i starten af nedtællingen, 1 når tiden er gået
+      example: 0.75
+      selector:
+        number:
+          min: 0
+          max: 1
+          step: 0.01
+    puls:
+      name: Pulsslag (0-1)
+      description: Et hjertebank, der går hurtigere og kraftigere, jo tættere man er på udløb
+      example: 0.6
+      selector:
+        number:
+          min: 0
+          max: 1
+          step: 0.01
+    musik:
+      name: Spændingsmusik
+      description: Om der er valgt et lokalt musikstykke
+      selector:
+        boolean:

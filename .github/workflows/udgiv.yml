@@ -127,6 +127,7 @@ jobs:
           python tools/tjek_manifest.py
           node tools/build.js check
           python tools/verify_integration.py
+          python tools/tjek_installation.py
 
       - name: Commit og sæt tag
         if: steps.loop.outputs.loop == 'nej' && steps.indhold.outputs.ja == 'ja'

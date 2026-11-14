@@ -81,12 +81,26 @@ class ConfigFlow:
 
 
 mod("homeassistant")
-mod("homeassistant.core", HomeAssistant=object)
+mod("homeassistant.core", HomeAssistant=object, ServiceCall=object)
 mod("homeassistant.config_entries", ConfigEntry=object, ConfigFlow=ConfigFlow, ConfigFlowResult=dict)
 mod("homeassistant.components")
 mod("homeassistant.components.http", StaticPathConfig=StaticPathConfig)
 mod("homeassistant.components.frontend", async_register_built_in_panel=async_register_built_in_panel,
     async_remove_panel=async_remove_panel)
+
+
+class SensorEntity:
+    """Attrap for Home Assistants SensorEntity."""
+
+    hass = None
+
+    def async_write_ha_state(self):
+        self.skrevet = getattr(self, "skrevet", 0) + 1
+
+
+mod("homeassistant.components.sensor", SensorEntity=SensorEntity)
+mod("homeassistant.helpers")
+mod("homeassistant.helpers.entity_platform", AddEntitiesCallback=object)
 
 sys.dont_write_bytecode = True
 sys.path.insert(0, os.path.dirname(COMP))
@@ -99,10 +113,49 @@ class FakeHTTP:
         calls["static"].extend(cfgs)
 
 
+class FakeServices:
+    def __init__(self):
+        self.registrerede = {}
+
+    def async_register(self, domain, navn, handler):
+        self.registrerede[f"{domain}.{navn}"] = handler
+
+
+class FakeBus:
+    def __init__(self):
+        self.hændelser = []
+
+    def async_fire(self, navn, data):
+        self.hændelser.append((navn, data))
+
+
+class FakeConfigEntries:
+    async def async_forward_entry_setups(self, entry, platforms):
+        calls.setdefault("platforme", []).append(list(platforms))
+        # Home Assistant ville kalde platformens async_setup_entry her
+        from hyggespil import sensor as sensor_platform
+
+        def add(entities):
+            for e in entities:
+                e.hass = FakeHass.current      # Home Assistant sætter hass, når enheden tilføjes
+            calls.setdefault("enheder", []).extend(entities)
+
+        await sensor_platform.async_setup_entry(FakeHass.current, entry, add)
+
+    async def async_unload_platforms(self, entry, platforms):
+        return True
+
+
 class FakeHass:
+    current = None
+
     def __init__(self):
         self.data = {}
         self.http = FakeHTTP()
+        self.services = FakeServices()
+        self.bus = FakeBus()
+        self.config_entries = FakeConfigEntries()
+        FakeHass.current = self
 
     async def async_add_executor_job(self, fn, *args):
         return fn(*args)
@@ -125,6 +178,27 @@ async def run():
     check("iframe-panel med spillets URL", len(p) == 1 and p[0]["component"] == "iframe"
           and p[0]["config"] == {"url": const.PANEL_URL} and p[0]["path"] == "hyggespil", p)
     check("spillets URL ligger under den statiske sti", const.PANEL_URL.startswith(const.URL_BASE + "/"))
+
+    # ---- sensor og tjeneste (lys/automationer) ----
+    check("tjenesten hyggespil.status er registreret", "hyggespil.status" in hass.services.registrerede,
+          list(hass.services.registrerede))
+    check("sensoren er oprettet", len(calls.get("enheder", [])) == 1, calls.get("enheder"))
+    sensor = hass.data.get("hyggespil", {}).get("sensor")
+    check("sensoren er kendt af integrationen", sensor is not None)
+    if sensor is not None:
+        check("sensoren starter som klar", sensor._attr_native_value == "klar", sensor._attr_native_value)
+
+        class Call:
+            data = {"state": "spiller", "spil": "tf", "spil_navn": "Sandt eller falsk",
+                    "sekunder": 12, "tid": 30, "urgency": 0.6, "puls": 0.8, "spillere": ["A", "B"]}
+
+        await hass.services.registrerede["hyggespil.status"](Call())
+        check("tjenesten opdaterer sensoren", sensor._attr_native_value == "spiller", sensor._attr_native_value)
+        a = sensor._attr_extra_state_attributes
+        check("sensoren får sekunder og puls", a.get("sekunder") == 12 and a.get("puls") == 0.8, a)
+        check("sensoren skrives til Home Assistant", getattr(sensor, "skrevet", 0) >= 1)
+        navne = [n for n, _ in hass.bus.hændelser]
+        check("hændelsen hyggespil_spil_status sendes", "hyggespil_spil_status" in navne, navne)
 
     check("async_unload_entry lykkes", await integration.async_unload_entry(hass, object()) is True)
     check("panelet fjernes", calls["removed"] == ["hyggespil"])
