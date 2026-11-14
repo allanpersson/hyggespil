@@ -127,7 +127,7 @@ function render(){
  if(players.length<2&&!modal)modal='pl';
  app.innerHTML=`<header><h1 onclick="go('home')">🍷 Hyggespil</h1>
  <button class="btn ghost" onclick="modal='pl';render()">👥 Spillere</button>
- <button class="btn ghost" onclick="modal='q';render()">➕ Spørgsmål</button>
+ <button class="btn ghost" onclick="modal='q';render()">➕ Foreslå spørgsmål</button>
  <button class="btn ghost" onclick="newEvening()">↺ Ny aften</button></header>
  <div id="score"></div><div id="main"></div>${modal?modalHTML():''}`;
  renderScore();
@@ -162,7 +162,7 @@ function bindModal(){
   document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{players.splice(+b.dataset.del,1);save();g={};if(view!=='home'&&players.length<2)view='home';render()});
   document.querySelectorAll('[data-col]').forEach(b=>b.onchange=()=>{players[+b.dataset.col].c=b.value;save();renderScore()});
  }
- if(modal==='q')$('saveq').onclick=()=>{const q=$('qq').value.trim(),a=parseNum($('qa').value),u=$('qu').value.trim();if(!q||a===null){$('qq').classList.add('shake');return}own.push({q,a,u});LS.set('own',own);render()};
+ if(modal==='q'&&$('saveq'))$('saveq').onclick=()=>{const q=$('qq').value.trim(),a=parseNum($('qa').value),u=$('qu').value.trim();if(!q||a===null){$('qq').classList.add('shake');return}own.push({q,a,u});LS.set('own',own);render()};
 }
 
 function home(){
