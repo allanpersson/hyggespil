@@ -1,0 +1,23 @@
+const fs=require('fs'),path=require('path');
+const ROOT=path.join(__dirname,'..');
+const tok=JSON.parse(fs.readFileSync(path.join(ROOT,'tools','secrets','github.json'),'utf8')).token.trim();
+const H={Authorization:'Bearer '+tok,'User-Agent':'x',Accept:'application/vnd.github+json'};
+const j=async p=>(await(await fetch('https://api.github.com'+p,{headers:H})).json());
+(async()=>{
+  const refs=await j('/repos/allanpersson/hyggespil/git/refs/tags');
+  console.log('TAG-refs: '+(Array.isArray(refs)?refs.map(r=>r.ref.replace('refs/tags/','')).join(', '):JSON.stringify(refs).slice(0,200)));
+  const rel=await j('/repos/allanpersson/hyggespil/releases');
+  console.log('\nRELEASES:');
+  for(const r of (Array.isArray(rel)?rel:[])) console.log(`  ${r.tag_name} · prerelease=${r.prerelease} · draft=${r.draft} · assets=[${r.assets.map(a=>a.name+' '+a.size+'B').join(', ')||'INGEN'}] · ${new Date(r.published_at||r.created_at).toISOString().slice(0,16)}Z`);
+  const commits=await j('/repos/allanpersson/hyggespil/commits?per_page=12');
+  console.log('\nSIDSTE COMMITS:');
+  for(const c of (Array.isArray(commits)?commits:[])) console.log('  '+c.sha.slice(0,7)+'  '+c.commit.message.split('\n')[0].slice(0,80));
+  const branch=await j('/repos/allanpersson/hyggespil/branches/main');
+  console.log('\nmain spids: '+(branch.commit&&branch.commit.sha.slice(0,7)));
+  const hc=await (await fetch('https://raw.githubusercontent.com/allanpersson/hyggespil/main/hacs.json',{headers:{'User-Agent':'x'}})).text();
+  console.log('hacs.json på GitHub:\n'+hc);
+  const mf=await j('/repos/allanpersson/hyggespil/contents/custom_components/hyggespil/manifest.json?ref=main');
+  console.log('manifest.version på GitHub: '+JSON.parse(Buffer.from(mf.content,'base64')).version);
+  const wf=await j('/repos/allanpersson/hyggespil/contents/.github/workflows');
+  console.log('workflows: '+((wf.length?wf:[]).map(f=>f.name).join(', ')));
+})();
