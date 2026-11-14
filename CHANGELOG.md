@@ -2,6 +2,9 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
+## 0.2.1 - 2026-11-14
+
+- Opdater hs-cfg.js
 ## 0.1.0-beta.8 – 2026-11-14
 
 ### Tilføjet
