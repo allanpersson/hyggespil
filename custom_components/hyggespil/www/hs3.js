@@ -35,6 +35,27 @@ wst.textContent='.wcard{transition:box-shadow .4s}.wturn{display:flex;align-item
 +'.wwheel{position:relative;width:min(78vw,320px);margin:6px auto}.wwheel svg{width:100%;display:block;filter:drop-shadow(0 8px 14px rgba(0,0,0,.45))}.wptr{position:absolute;left:50%;top:-6px;transform:translateX(-50%);width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-top:28px solid #ffd166;filter:drop-shadow(0 2px 3px rgba(0,0,0,.6));z-index:2}'
 +'.wkb{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0}.wkb button{width:42px;height:46px;border-radius:10px;font-weight:800;font-size:18px;background:rgba(255,255,255,.16);color:#fff;border:0}.wkb button:disabled{opacity:.22}.wsol{padding:14px;border-radius:16px;background:rgba(255,255,255,.1);font-weight:900;font-size:clamp(20px,5vw,30px);letter-spacing:.06em;text-align:center;margin:10px 0}';
 document.head.appendChild(wst);
+/* Animation når en spiller falder på glasbroen */
+const gst=document.createElement('style');
+gst.textContent='.gb{position:relative;overflow:hidden}'
++'.gbfald{position:absolute;inset:0;display:grid;place-items:center;z-index:3;pointer-events:none;'
++'background:radial-gradient(circle at 50% 55%,rgba(230,57,70,.45),rgba(10,6,30,.15) 70%);animation:gbInd .25s ease-out both}'
++'@keyframes gbInd{from{opacity:0}to{opacity:1}}'
++'.gbfald .fig{position:absolute;top:14%;width:36px;height:36px;border-radius:50%;background:var(--c);'
++'box-shadow:0 0 22px var(--c),0 0 0 3px #fff3;animation:gbFald 1.1s cubic-bezier(.45,0,.9,.6) forwards}'
++'@keyframes gbFald{0%{transform:translateY(0) rotate(0);opacity:1}65%{transform:translateY(300px) rotate(430deg);opacity:1}'
++'100%{transform:translateY(400px) rotate(560deg) scale(.55);opacity:0}}'
++'.gbfald .tekst{font-weight:900;font-size:clamp(20px,4.4vw,32px);color:#fff;text-shadow:0 3px 14px #000,0 0 26px #e63946;'
++'text-align:center;animation:gbTekst .45s .5s both}'
++'@keyframes gbTekst{from{transform:scale(.55);opacity:0}to{transform:scale(1);opacity:1}}'
++'.gbfald .nyt{margin-top:12px;padding:9px 18px;border-radius:30px;background:var(--c,#fff);color:#111;font-weight:900;'
++'font-size:clamp(15px,3vw,20px);box-shadow:0 6px 20px #0006;animation:gbNyt .5s 1.05s both}'
++'@keyframes gbNyt{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}'
++'.gbryste{animation:gbRyst .5s .12s 2}'
++'@keyframes gbRyst{20%{transform:translateX(-7px)}60%{transform:translateX(7px)}100%{transform:none}}'
++'.gbtur2{display:flex;align-items:center;gap:8px;justify-content:center;margin:10px 0 2px;font-weight:800}'
++'.gbtur2 .p{width:22px;height:22px;border-radius:50%;background:var(--c);box-shadow:0 0 0 2px #fff4}';
+document.head.appendChild(gst);
 const ABC='ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ',VOW='AEIOUYÆØÅ',VCOST=250;
 /* Lykkehjulet som det danske tv-hjul: 24 felter, tekst der følger hjulet (radialt),
    "KR" ved kanten og et gråt nav. Værdierne er spillets egne (FALLIT/TABT TUR/JOKER). */
@@ -200,12 +221,20 @@ KINDS.rl={
 };
 function gbNew(){const n=players.length;return {safe:Array.from({length:8},()=>rnd(2)),known:0,order:shuffle(players.map((_,i)=>i)),cur:0,out:[],fin:[],pos:0,msg:''}}
 const gbHTML=b=>{ // broen ses fra den lave side: man starter hos fjern og går ned mod os
- let h='<div class="gb"><div class="gbh"></div>'; for(let i=7;i>=0;i--){const s=8-i,k=i<b.known,cur=(i===b.known&&b.cur<b.order.length);
+ let h='<div class="gb'+(b.fald?' gbryste':'')+'"><div class="gbh"></div>'; for(let i=7;i>=0;i--){const s=8-i,k=i<b.known,cur=(i===b.known&&b.cur<b.order.length);
   h+='<div class="gbrow" style="transform:scale('+s/8+')">';
   for(let j=0;j<2;j++){const god=k?(b.safe[i]===j):(cur&&b.val===j);
    h+='<div class="gbt'+(k?(b.safe[i]===j?' safe':' no'):'')+(cur&&!k&&b.val===j?' go':'')+(cur&&!k?' cur':'')+'">'+(k&&b.safe[i]===j?'✓':'')+'</div>'}
   h+='</div>'}
- h+='<div class="gbtur">'+(b.cur<b.order.length?'<span class="gbmand" style="background:'+players[b.order[b.cur]].c+'"></span>':'')+'</div></div>';
+ h+='<div class="gbtur">'+(b.cur<b.order.length?'<span class="gbmand" style="background:'+players[b.order[b.cur]].c+'"></span>':'')+'</div>';
+ if(b.fald){
+  const næste=b.cur<b.order.length?players[b.order[b.cur]]:null;
+  h+='<div class="gbfald" style="--c:'+b.fald.c+'"><div class="fig"></div>'
+   +'<div><div class="tekst">💥 '+esc(b.fald.n)+' faldt!</div>'
+   +(næste?'<div class="nyt" style="--c:'+næste.c+'">▶ Nu går turen videre til '+esc(næste.n)+'</div>':'')
+   +'</div></div>';
+ }
+ h+='</div>';
  return h};
 KINDS.glass={
  init(){g.gb=gbNew();g.gdone=false},
@@ -214,7 +243,7 @@ KINDS.glass={
   let o='<div class="card glass"><div class="q">🌉 Glasbroen</div>'+gbHTML(b);
   o+='<p class="hint" style="text-align:left">Broen ses fra den side, vi står på – spillerne starter oppe i den fjerne ende og skal hele vejen ned til os. 8 par glasfliser – kun den ene i hvert par bærer.'+(inde?' <b>'+esc(p.n)+'</b> står ved flise nr. '+(b.known+1)+' af 8.':'')+'</p>';
   if(b.msg)o+='<p class="hint" style="font-size:16px">'+b.msg+'</p>';
-  if(p){o+='<div class="row"><button class="btn big" id="gl0">⬅️ Venstre flise</button><button class="btn big" id="gl1">Højre flise ➡️</button></div>'}
+  if(p){o+='<div class="row"><button class="btn big" id="gl0"'+(b.fald?' disabled':'')+'>⬅️ Venstre flise</button><button class="btn big" id="gl1"'+(b.fald?' disabled':'')+'>Højre flise ➡️</button></div>'}
   else{const f=b.fin;o+='<div class="ans" style="font-size:clamp(20px,3.5vw,30px)">'+(f.length?'🏆 Kom over: '+f.map(i=>esc(players[i].n)).join(', ')+' (+2 hver)':'Ingen kom over broen i denne omgang.')+'</div><div class="row"><button class="btn big green" id="nx">Ny bro →</button></div>'}
   return o+'</div>';
  },
@@ -227,8 +256,13 @@ KINDS.glass={
     if(ok){b.known++;b.val=null;b.msg='✅ '+esc(players[pi].n)+' har flisen under fødderne – ét skridt nærmere os';
      if(b.known>=8){b.fin.push(pi);add(pi,2);boom();b.cur++;b.msg='🏃 '+esc(players[pi].n)+' nåede ned og over!';
       while(b.cur<b.order.length){const q=b.order[b.cur];b.fin.push(q);add(q,2);b.cur++}}   // de sidste følger den afslørede vej
-    }else{b.msg='💥 '+esc(players[pi].n)+' faldt! Flisen er afsløret for de næste.';b.known++;b.val=null;b.out.push(pi);b.cur++;
-     if(b.known>=8)b.cur=b.order.length}
+    }else{const faldt=players[pi];
+     b.fald={n:faldt.n,c:faldt.c};
+     b.msg='💥 '+esc(faldt.n)+' faldt! Flisen er afsløret for de næste.';
+     b.known++;b.val=null;b.out.push(pi);b.cur++;
+     if(b.known>=8)b.cur=b.order.length;
+     setTimeout(()=>{b.fald=null;render()},1900)   // vis faldet, og lad derefter den nye spiller tage over
+    }
     render()},520)}});
  }
 };

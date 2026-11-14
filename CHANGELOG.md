@@ -2,9 +2,11 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
-## 0.2.9 - 2026-11-14
+## 0.2.9 – 2026-11-14
 
-- Alle spil lander ved det spil man kom fra
+### Rettet
+- **«← Alle spil» lander nu ved det spil, du kom fra** – også når du fortryder i indstillingsboksen, før spillet er startet. Før røg man til toppen af forsiden. Der rulles til selve spillkortet (med luft over), og der prøves igen efter et øjeblik, så det også virker på mobil.
+
 ## 0.2.8 – 2026-11-14
 
 ### Ændret

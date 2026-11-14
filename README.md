@@ -179,6 +179,11 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.9 – 2026-11-14
+
+**Rettet**
+- **«← Alle spil» lander nu ved det spil, du kom fra** – også når du fortryder i indstillingsboksen, før spillet er startet. Før røg man til toppen af forsiden. Der rulles til selve spillkortet (med luft over), og der prøves igen efter et øjeblik, så det også virker på mobil.
+
 ### 0.2.8 – 2026-11-14
 
 **Ændret**
@@ -249,11 +254,6 @@ en kop kaffe:
 - hassfest afviste manifestet («Domain is missing an IoT Class») – `iot_class: calculated` er tilbage.
 - CI skubber robust (rebase og gentag), og synkroniseringen laver ét commit i stedet for ét pr. fil.
 - Ny overvågning af filer, udgivelse og CI (`tools/overvaag.js`).
-
-### 0.2.1 – 2026-11-14
-
-**Rettet**
-- Versionsnummeret nederst på spillets forside følger nu udgivelsen.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
