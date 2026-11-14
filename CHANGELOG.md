@@ -2,6 +2,9 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
+## 0.2.15 - 2026-11-14
+
+- Nye lege: Flaskehalsen, S P K og dansk reality quiz
 ## 0.2.13 – 2026-11-14
 
 ### Ændret
