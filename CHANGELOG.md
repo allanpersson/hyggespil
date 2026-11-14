@@ -2,6 +2,12 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
+## 0.1.0-beta.2 – 2026-11-14
+
+- De seneste kildekontrollerede spørgsmål og færdselsregler er med (puljerne er vokset siden beta.1).
+- Spillet betjenes nu fra integrationens egne filer (`/hyggespil_files/…`); den tidligere mappe i `config/www/hyggespil` er ikke længere i brug.
+- Flere børnespørgsmål til de tynde alderstrin, og retten af en række formularer i feedback- og låsesystemet.
+
 ## 0.1.0-beta.1 – 2026-11-14
 
 Første offentlige udgave (beta).
