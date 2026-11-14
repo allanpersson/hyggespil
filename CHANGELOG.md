@@ -2,6 +2,11 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
+## 0.1.0-beta.3 – 2026-11-14
+
+- Udgivelsespakken indeholder ikke længere udviklerens kildeoversigt (`ledger.json`) – renere pakke og mindre download.
+- Hjælpecripts i `tools/` har nu ASCII-navne, så de kan køres på alle systemer.
+
 ## 0.1.0-beta.2 – 2026-11-14
 
 - De seneste kildekontrollerede spørgsmål og færdselsregler er med (puljerne er vokset siden beta.1).
