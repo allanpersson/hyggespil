@@ -62,10 +62,15 @@ function wheelSVG(rot){
   const fill=v==='FALLIT'?'#111':v==='MIST TUR'?'#6c757d':v==='GRATIS'?'#ffd166':WCOL[i%WCOL.length];
   s+='<path d="M0 0L'+p0[0]+' '+p0[1]+'A'+R+' '+R+' 0 0 1 '+p1[0]+' '+p1[1]+'Z" fill="'+fill+'" stroke="#fff" stroke-width="1.2"/>';
   const mørk=(fill==='#111'||fill==='#6c757d'),col=mørk?'#fff':'#111',txt=String(v),k=txt.replace(/[^A-Z0-9]/g,'').split("").length||1;
-  const fs2=k<=4?15:k<=6?12:9,linje=fs2*1.02,top=72+(k-1)*linje/2,vendt=(c>90&&c<270)?180:0;
+  const fs2=k<=4?15:k<=6?12:9,linje=fs2*1.02,top=72+(k-1)*linje/2,indre=top-(k-1)*linje;
+  /* Bogstaverne skal altid stå op på skærmen – også efter hjulet har drejet.
+     Rækkefølgen vælges, så ordet læses venstre→højre (vandret) eller oppefra→ned (lodret). */
+  const synlig=c+rot,rad=synlig*Math.PI/180,cos=Math.cos(rad),sin=Math.sin(rad);
+  const indreFørst=Math.abs(cos)>=Math.abs(sin)?cos>0:sin>0;
   for(let j=0;j<k;j++){
    const bogstav=txt.replace(/[^A-Z0-9]/g,'')[j];if(!bogstav)continue;
-   s+='<text transform="rotate('+c+') translate(0,'+(top-j*linje)+') rotate('+(-c+vendt)+')" text-anchor="middle" font-size="'+fs2+'" font-weight="900" fill="'+col+'" dominant-baseline="central">'+bogstav+'</text>';
+   const y=indreFørst?indre+j*linje:top-j*linje;
+   s+='<text transform="rotate('+c+') translate(0,'+y.toFixed(2)+') rotate('+(-c-rot)+')" text-anchor="middle" font-size="'+fs2+'" font-weight="900" fill="'+col+'" dominant-baseline="central">'+bogstav+'</text>';
   }
  }
  return s+'</g><circle r="9" fill="#fff" stroke="#999"/></svg>';

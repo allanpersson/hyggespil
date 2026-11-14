@@ -108,9 +108,10 @@ jobs:
           open(p, "w", encoding="utf-8").write(s)
           print("manifest og spillet melder version", v)
           PY
+          python tools/opdater_readme.py
           if [ -z "$seneste" ]; then range="HEAD"; else range="$seneste..HEAD"; fi
-          git log "$range" --no-merges --pretty=format:'- %s' > /tmp/nyheder.txt
-          test -s /tmp/nyheder.txt || echo '- Vedligeholdelse og CI.' > /tmp/nyheder.txt
+          git log "$range" --no-merges --pretty=format:'- %s' | grep -vE '^- (Overvaagning|Opdater overvaag|Dokumentation|README|Foelger CI|Fjerner |Rettet installationsfejlen|Rettet traeopslag|Logger version)' > /tmp/nyheder.txt || true
+          test -s /tmp/nyheder.txt || echo '- Vedligeholdelse og fejlretning.' > /tmp/nyheder.txt
           { echo ""; echo "## $v - $(date +%F)"; echo ""; cat /tmp/nyheder.txt; } > /tmp/afsnit.md
           python - <<'PY'
           p = "CHANGELOG.md"
@@ -135,7 +136,7 @@ jobs:
           v="${{ steps.version.outputs.version }}"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add custom_components/hyggespil/manifest.json custom_components/hyggespil/www/hs-cfg.js CHANGELOG.md
+          git add custom_components/hyggespil/manifest.json custom_components/hyggespil/www/hs-cfg.js CHANGELOG.md README.md
           git commit -m "Udgivelse $v (automatisk)"
           # main kan være flyttet, mens jobbet kørte (fx en synkronisering): rebase og prøv igen
           for i in 1 2 3; do

@@ -2,22 +2,38 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
-## 0.2.3 - 2026-11-14
+## 0.2.3 – 2026-11-14
 
-- Timer, hurtigt-svar-point, spaendingsmusik og sensor til lys/automationer
-- Dokumentation opdateret til 0.2.2 og version i loggen
-## 0.2.2 - 2026-11-14
+### Tilføjet
+- ⏱️ **Nedtælling pr. spørgsmål** – vælg 30/45/60/90/120 sekunder eller din egen tid, før spillet starter. Ringen nederst skifter fra blå til gul til rød og bipper ved udløb.
+- ⚡ **Ekstra point for hurtigt svar** – 0-3 point, hvis svaret falder inden for det valgte antal sekunder (én gang pr. spiller pr. spørgsmål).
+- 🎵 **Spændingsmusik** – en lokal lydfil, der spiller de sidste sekunder af nedtællingen. Gemmes kun på enheden (maks. 8 MB).
+- 📡 **`sensor.hyggespil_spil`** med `spil`, `sekunder`, `tid`, `urgency`, `puls`, `spillere` og `musik`, plus tjenesten `hyggespil.status` og hændelsen `hyggespil_spil_status`.
+- 🔆 **Blueprint** «Hyggespil – spænding i lyset»: lyset pulserer med stigende hastighed og udsving, jo tættere på udløb man er.
+- 📖 [docs/spaending.md](docs/spaending.md) med opsætning, attributter og egne automatiseringer.
 
-- Logger version ved start, et-commit-synk og robust CI-push
-- Opdater overvaag.js
-- Opdater overvaag.yml
-- Fjerner ci_status.js
-- Fjerner auto_release.js
-- Fjerner extra.json
-- Fjerner udgiv-zip.yml
-## 0.2.1 - 2026-11-14
+### Ændret
+- README viser nu altid den installerede version og ændringslogen for de nyeste udgivelser – den opdateres automatisk ved hver udgivelse.
 
-- Opdater hs-cfg.js
+## 0.2.2 – 2026-11-14
+
+### Rettet
+- hassfest afviste manifestet («Domain is missing an IoT Class») – `iot_class: calculated` er tilbage.
+- CI skubber robust (rebase og gentag), og synkroniseringen laver ét commit i stedet for ét pr. fil.
+- Ny overvågning af filer, udgivelse og CI (`tools/overvaag.js`).
+
+## 0.2.1 – 2026-11-14
+
+### Rettet
+- Versionsnummeret nederst på spillets forside følger nu udgivelsen.
+
+## 0.2.0 – 2026-11-14
+
+### Rettet
+- **Marketplace/HACS kunne ikke installere**: udgivelseszippet var pakket ind i `custom_components/hyggespil/`, men udpakkes direkte i `custom_components/hyggespil`. Nu ligger `manifest.json` i zippets rod.
+- Versioner er rene `x.x.x` (ikke prereleases), så Marketplace viser en version i stedet for en commit-SHA.
+- Nye CI-tjek: `tools/tjek_installation.py` (udpakker som Marketplace/HACS) og `tools/tjek_manifest.py` (hassfests regler).
+
 ## 0.1.0-beta.8 – 2026-11-14
 
 ### Tilføjet
