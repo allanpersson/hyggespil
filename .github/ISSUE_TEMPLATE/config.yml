@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Sikkerhed eller privatliv
+    url: https://github.com/allanpersson/hyggespil/security/advisories/new
+    about: Meld sikkerheds- og privatlivsproblemer fortroligt her – ikke som en åben sag.
