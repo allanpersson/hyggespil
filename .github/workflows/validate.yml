@@ -40,7 +40,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Tjek manifest som Home Assistant
+        run: python tools/tjek_manifest.py
       - name: Syntaks og privatlivskontrol
         run: node tools/build.js check
       - name: Integrationens logik (uden Home Assistant)
         run: python tools/verify_integration.py
+      - name: Kan zippet installeres? (samme udpakning som Marketplace/HACS)
+        run: python tools/tjek_installation.py
