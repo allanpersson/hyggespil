@@ -181,6 +181,21 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.18 – 2026-11-14
+
+**Rettet**
+- 🍾 **Flaskehalsen drejer nu rigtigt**: flasken animeres på det eksisterende element (CSS-transition) i stedet for at blive genoptegnet, så man ser den snurre i 2–4 sekunder og lande på en spiller. Grafikken er samtidig løftet: SVG-flaske med gradient og lys, cirkelring og større spillerkort, der ikke længere skjules bag flasken.
+
+### 0.2.17 – 2026-11-14
+
+**Tilføjet**
+- 🔍 **Kvalitetskontrol** (`tools/kvalitet.js`): gennemgår puljerne for tomme tekster, dubletter, svar der står i spørgsmålet, HTML-rester, skæve citationstegn/parenteser og tal uden for rimelige grænser. Rapporten ligger i [docs/kvalitetsrapport.md](docs/kvalitetsrapport.md) og laves på ny i CI ved hver ændring. Se [docs/kvalitet.md](docs/kvalitet.md).
+
+### 0.2.16 – 2026-11-14
+
+**Rettet**
+- 🔊 **Oplæsning i Home Assistant-appen**: appens WebView giver ikke spillet adgang til telefonens tale, også selv om dansk tekst-til-tale er installeret. Spillet opdager det nu og tilbyder **«Åbn i Chrome»** (hvor oplæsningen virker) samt Home Assistant-højttaleren. Der ventes også længere på Androids stemmeliste.
+
 ### 0.2.15 – 2026-11-14
 
 **Tilføjet**
@@ -215,26 +230,6 @@ en kop kaffe:
 
 **Rettet**
 - **Intet indhold stikker længere ud over skærmen**: lange ord og kodebrikker ombrydes, glyf-rækkerne i kodespillene wrapper og skaleres efter skærmbredden, og billeder/SVG'er holdes inden for kortet.
-
-### 0.2.10 – 2026-11-14
-
-**Ændret**
-- 🌉 **Glasbroen viser tydeligt, når en spiller falder**: en cirkel i spillerens farve falder ned gennem broen, broen ryster, og der står stort «💥 <navn> faldt!» efterfulgt af «▶ Nu går turen videre til <næste>» i den næste spillers farve. Knapperne er låst, mens animationen kører, så man ikke kommer til at trykke for den forrige spiller.
-
-### 0.2.9 – 2026-11-14
-
-**Rettet**
-- **«← Alle spil» lander nu ved det spil, du kom fra** – også når du fortryder i indstillingsboksen, før spillet er startet. Før røg man til toppen af forsiden. Der rulles til selve spillkortet (med luft over), og der prøves igen efter et øjeblik, så det også virker på mobil.
-
-### 0.2.8 – 2026-11-14
-
-**Ændret**
-- 🎵 **Lydene er nu rigtige optagelser** fra OpenGameArt i stedet for egen syntese: dyb spændingsflade, fare på vej, ur der tikker, langsomt ur, hjerteslag, krigstrommer, drama-sting, filmisk whoosh, forkert svar, sejr og fanfare – 11 optagelser plus «tid er gået». De er trimmet og lydnormaliseret (MP3, 96 kbps, ca. −16 LUFS).
-- Licenserne er CC0 og CC-BY. CC-BY-filerne er krediteret i [docs/lyd.md](docs/lyd.md), `THIRD_PARTY_NOTICES.md` og `custom_components/hyggespil/www/lyd/CREDITS.txt`, som følger med udgivelsen.
-
-**Tilføjet**
-- ☕ **Støt projektet** – Buy Me a Coffee-badge i README og i spillets feedback-fod.
-- `tools/hent_lyde.py` henter, trimmer og koder lydene igen og genskaber krediteringsfilen.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
