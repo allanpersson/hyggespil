@@ -40,3 +40,11 @@ custom_components/hyggespil/www/backup.js.local
 
 # Midlertidige udvikler-scripts (altid med underscore)
 tools/_*.js
+# Midlertidig udviklerhjælp (én underscore; ikke __init__.py)
+tools/_[^_]*
+tools/klar_ci.js
+tools/verificer.js
+tools/ci.js
+tools/sammenlign_trae.js
+tools/kaede.js
+tools/gransk_ordspil.js
