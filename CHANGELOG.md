@@ -2,9 +2,6 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
-## 0.2.21 - 2026-11-14
-
-- Retter versionsnummer til 0.2.19
 ## 0.2.19 – 2026-11-14
 
 ### Rettet
