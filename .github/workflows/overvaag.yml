@@ -1,0 +1,37 @@
+name: Overvågning
+
+# Tjekker efter hver push og hver morgen, at
+#   * alle filer på main er identiske med den version, der blev pushet,
+#   * den nyeste udgivelse er en almindelig x.x.x med et zip, Marketplace kan installere,
+#   * ingen workflow står med en fejl.
+# Fejler noget, bliver det synligt her – i stedet for først at dukke op hos brugerne.
+
+on:
+  schedule:
+    - cron: "40 7 * * *"        # lige efter den daglige udgivelse
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  overvaag:
+    name: Filer, udgivelse og CI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Overvåg GitHub
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node tools/overvaag.js
