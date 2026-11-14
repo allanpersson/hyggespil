@@ -1,0 +1,5 @@
+# Ensifies linjeafslutninger i arkiverne (LF) og markerer binære filer.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
