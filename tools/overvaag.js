@@ -10,7 +10,7 @@ const hemmelig = path.join(ROOT, 'tools', 'secrets', 'github.json');
 const TOKEN = process.env.GITHUB_TOKEN || (fs.existsSync(hemmelig) ? JSON.parse(fs.readFileSync(hemmelig, 'utf8')).token.trim() : '');
 if (!TOKEN) { console.error('mangler GITHUB_TOKEN (eller tools/secrets/github.json)'); process.exit(1); }
 const H = { Authorization: 'Bearer ' + TOKEN, 'User-Agent': 'hyggespil-overvaag', Accept: 'application/vnd.github+json' };
-const GIT = process.env.GIT || 'git';
+const GIT = process.env.GIT || (fs.existsSync('C:\\Program Files\\Git\\cmd\\git.exe') ? 'C:\\Program Files\\Git\\cmd\\git.exe' : 'git');
 const G = 'https://api.github.com/repos/allanpersson/hyggespil';
 const UDVIKLER = f => /(^|\/)_[^_][^/]*\.(js|py|md)$/.test(f) || f.startsWith('tools/klar_');
 const fejl = [];
@@ -32,14 +32,21 @@ async function hentJson(p, init) {
     for (const f of filer) {
       if (!påMain.has(f)) { mangler.push(f); continue; }
       const lokal = g(`show HEAD:"${f.replace(/"/g, '\\"')}"`);
-      const r = await fetch(G + '/contents/' + f.split('/').map(encodeURIComponent).join('/') + '?ref=main', { headers: H });
+      const r = await fetch(G + '/contents/' + f.split('/').map(encodeURIComponent).join('/') + '?ref=main', { headers: { ...H, Accept: 'application/vnd.github.raw+json' } });
       if (!r.ok) { mangler.push(f); continue; }
       const web = Buffer.from(await r.arrayBuffer());
-      if (Buffer.compare(web, lokal) !== 0) afviger.push(f);
+      if (Buffer.compare(web, lokal) !== 0) {
+        let i = 0;
+        while (i < Math.min(web.length, lokal.length) && web[i] === lokal[i]) i++;
+        afviger.push({ f, fra: i, lokal: lokal.length, web: web.length });
+      }
     }
     console.log(`FILER: ${filer.length} tjekket — ${mangler.length} mangler, ${afviger.length} afviger`);
     for (const f of mangler) { console.log('  MANGLER PÅ GITHUB: ' + f); fejl.push('fil mangler: ' + f); }
-    for (const f of afviger) { console.log('  AFVIGER: ' + f); fejl.push('fil afviger: ' + f); }
+    for (const a of afviger) {
+      console.log(`  AFVIGER: ${a.f}  (lokal ${a.lokal} B, GitHub ${a.web} B, første forskel ved byte ${a.fra})`);
+      fejl.push('fil afviger: ' + a.f);
+    }
   }
 
   // 2) UDGIVELSE: /releases/latest skal være en almindelig x.x.x med et brugbart zip
