@@ -23,3 +23,7 @@ custom_components/hyggespil/www/ledger.json
 custom_components/hyggespil/www/verify_state.json
 custom_components/hyggespil/www/extra_pending.json
 custom_components/hyggespil/www/hs-user-pools.js
+
+# Lokalt byggede udgivelsespakker
+ud/
+/hyggespil.zip
