@@ -17,15 +17,9 @@ on:
     branches: [main]
     paths:
       - 'custom_components/hyggespil/www/**'
+      - '!custom_components/hyggespil/www/hs-cfg.js'
       - 'custom_components/hyggespil/*.py'
       - 'custom_components/hyggespil/translations/**'
-    # Versions- og dokumentationsrettelser må ikke udløse en udgivelse
-    paths-ignore:
-      - 'custom_components/hyggespil/www/hs-cfg.js'
-      - 'custom_components/hyggespil/manifest.json'
-      - 'CHANGELOG.md'
-      - 'README.md'
-      - 'docs/**'
   workflow_dispatch:
     inputs:
       tving:
