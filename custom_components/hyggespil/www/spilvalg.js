@@ -85,14 +85,13 @@
   /* Indbyggede lyde – filerne ligger i www/lyd og er lavet af tools/lav_lyde.py (egne, MIT).
      De sidste fire er loops; resten spiller én gang. */
   const LYDE = [
-    ['spaending', 'Dyb spænding (loop)'], ['mork', 'Mørk puls (loop)'], ['tikken', 'Ur der tikker (loop)'],
-    ['hjerte', 'Hjerteslag (loop)'], ['hvisken', 'Hviskende luft (loop)'],
-    ['rister', 'Stigende spænding'], ['trommehvirvel', 'Trommehvirvel'], ['boom', 'Dramatisk stød'],
-    ['sting', 'Drama-sting'], ['cymbal', 'Bækken-svulm'], ['mystik', 'Mystisk tema'],
-    ['quizintro', 'Quiz-intro'], ['vinder', 'Sejr'], ['forkert', 'Forkert svar'],
-    ['uret', 'Nedtælling'], ['sirene', 'Tid er gået'],
+    ['spaending', 'Dyb spænding'], ['fare', 'Fare på vej'], ['tikken', 'Ur der tikker (loop)'],
+    ['langsomt-ur', 'Langsomt ur (loop)'], ['hjerte', 'Hjerteslag (loop)'],
+    ['trommer', 'Krigstrommer'], ['sting', 'Drama-sting'], ['whoosh', 'Filmisk whoosh'],
+    ['forkert', 'Forkert svar'], ['vinder', 'Sejr'], ['fanfare', 'Fanfare'],
+    ['sirene', 'Tid er gået'],
   ];
-  const LOOP = new Set(['spaending', 'mork', 'tikken', 'hjerte', 'hvisken']);
+  const LOOP = new Set(['tikken', 'langsomt-ur', 'hjerte']);
   const MUSIK_VOL = 0.85, DUK_VOL = 0.12;
 
   async function spilMusik() {
@@ -345,6 +344,7 @@
         '<p class="hint" id="hsv-filnavn" style="text-align:left;margin:6px 0 0">' + (valg.musikNavn ? esc(valg.musikNavn) : '') + '</p>' +
         '<p class="hint" style="text-align:left;margin:6px 0 0">Spiller de sidste ' +
         '<input class="in" id="hsv-start" type="number" min="3" max="120" value="' + valg.musikStart + '" style="width:70px;text-align:center;padding:4px 8px"> sekunder af nedtællingen (kræver en tid). Vælg «Ingen musik» for at slå det helt fra – også midt i spillet med 🎵-knappen.</p>' +
+        '<p class="hint" style="text-align:left;margin:2px 0 0;font-size:11px">Lyde fra OpenGameArt (CC0/CC-BY) og egen syntese – kreditering står i <code>lyd/CREDITS.txt</code>.</p>' +
         '<h3 style="margin:16px 0 6px">🔊 Oplæsning af spørgsmål</h3>' +
         '<label style="display:flex;gap:8px;align-items:center;font-weight:700;cursor:pointer">' +
         '<input type="checkbox" id="hsv-oplaes"' + (valg.oplaes ? ' checked' : '') + '> Læs spørgsmålet op, når det vises</label>' +

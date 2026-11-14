@@ -1,0 +1,73 @@
+Lyde i Hyggespil
+================
+
+Nogle lyde kommer fra OpenGameArt og bruges under deres licens.
+CC-BY kræver kreditering – den står her og i docs/lyd.md.
+
+spaending.mp3
+  Titel:   Space Impending Danger SFX (space1)
+  Ophav:   aquinn
+  Licens:  CC0
+  Kilde:   https://opengameart.org/content/space-impending-danger-sfx
+
+fare.mp3
+  Titel:   Space Impending Danger SFX (space2)
+  Ophav:   aquinn
+  Licens:  CC0
+  Kilde:   https://opengameart.org/content/space-impending-danger-sfx
+
+tikken.mp3
+  Titel:   Ticking clock
+  Ophav:   bart
+  Licens:  CC0
+  Kilde:   https://opengameart.org/content/ticking-clock
+
+langsomt-ur.mp3
+  Titel:   Slow Office Clock Tick
+  Ophav:   medicinestorm
+  Licens:  CC-BY 4.0
+  Kilde:   https://opengameart.org/content/slow-clock-ticking-seamless-looping-sfx-sound-effect
+
+hjerte.mp3
+  Titel:   Heartbeat sounds (slow, reverb)
+  Ophav:   bart
+  Licens:  CC0
+  Kilde:   https://opengameart.org/content/heartbeat-sounds
+
+trommer.mp3
+  Titel:   Horde War Drums loop
+  Ophav:   william-hector
+  Licens:  CC0
+  Kilde:   https://opengameart.org/content/horde-war-drums-loop
+
+sting.mp3
+  Titel:   Mystery Sting
+  Ophav:   railkill
+  Licens:  CC0
+  Kilde:   https://opengameart.org/content/mystery-sting
+
+whoosh.mp3
+  Titel:   "Day 1" Cinematic transition sound
+  Ophav:   copyc4t
+  Licens:  CC-BY 3.0
+  Kilde:   https://opengameart.org/content/day-1-cinematic-transition-sound
+
+forkert.mp3
+  Titel:   Wrong choice, Caught
+  Ophav:   davidw
+  Licens:  CC-BY 3.0
+  Kilde:   https://opengameart.org/content/wrong-choice-caught
+
+vinder.mp3
+  Titel:   Win sound effect
+  Ophav:   listener
+  Licens:  CC0
+  Kilde:   https://opengameart.org/content/win-sound-effect
+
+fanfare.mp3
+  Titel:   Hyper-Ultra-Fanfare
+  Ophav:   zane-little-music
+  Licens:  CC0
+  Kilde:   https://opengameart.org/content/hyper-ultra-fanfare
+
+Øvrige lyde (sirene) er syntetiseret af projektet selv og er MIT.

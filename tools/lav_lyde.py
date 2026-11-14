@@ -1,10 +1,7 @@
-"""Laver Hyggespils indbyggede drama- og quizlyde fra bunden.
+"""Laver Hyggespils egen lyd (sirene) fra bunden.
 
-Alle lyde er syntetiseret her i scriptet – der hentes intet fra internettet, og der er
-ingen tredjeparts-lydfiler. De er derfor vores egne (MIT) og må bruges frit i spillet.
-
-Lydene er bygget som filmiske lag: braam (dybe, letforvrængede strygere), pauke,
-stryger-tremolo, bækken-svulm, riser og rumklang – ikke simple sinusbip.
+De øvrige lyde i spillet hentes fra OpenGameArt med klare licenser – se tools/hent_lyde.py
+og docs/lyd.md. Dette script dækker kun de lyde, projektet selv ejer (MIT).
 
 Kør:
     python tools/lav_lyde.py            # skriver MP3-filer i custom_components/hyggespil/www/lyd

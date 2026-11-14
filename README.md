@@ -41,12 +41,12 @@ Når du vælger et spil, åbner en boks **inden spillet starter** (og igen med *
   Den bruges ikke i bræt-, terning- og 3D-spillene, hvor en tid pr. spørgsmål ikke giver mening.
 - **Ekstra point for hurtigt svar** – 0-3 point, hvis svaret kommer inden for det valgte antal sekunder
   (standard 10). Pointene gives én gang pr. spiller pr. spørgsmål.
-- **Spændingsmusik** – vælg mellem **16 indbyggede drama- og quizlyde** (dyb spænding, mørk puls, ur,
-  hjerteslag, hviskende luft, rister, trommehvirvel, dramatisk stød, drama-sting, bækken-svulm,
-  mystisk tema, quiz-intro, sejr, forkert svar, nedtælling og sirene), din egen lydfil (maks. 8 MB)
-  eller **Ingen musik**. Lyden spiller de sidste sekunder af nedtællingen, og **🎵/🔇** i spillets
-  bjælke slår den til og fra midt i spillet. Mens der læses op, dæmpes musikken – den fortsætter
-  altså, men man kan høre spørgsmålet. Se [docs/lyd.md](docs/lyd.md).
+- **Spændingsmusik** – vælg mellem **12 indbyggede drama- og quizlyde** (dyb spænding, fare på vej,
+  ur der tikker, langsomt ur, hjerteslag, krigstrommer, drama-sting, filmisk whoosh, forkert svar,
+  sejr, fanfare og «tid er gået»), din egen lydfil (maks. 8 MB) eller **Ingen musik**. Lyden spiller
+  de sidste sekunder af nedtællingen, og **🎵/🔇** i spillets bjælke slår den til og fra midt i
+  spillet. Mens der læses op, dæmpes musikken – den fortsætter altså, men man kan høre spørgsmålet.
+  Se [docs/lyd.md](docs/lyd.md) (inkl. kreditering og licenser).
 - **Oplæsning** – læs spørgsmålet højt med enhedens egen stemme, eller få det læst op gennem en
   Home Assistant-højttaler. **🔊** i spillets bjælke læser igen. Se [docs/oplaesning.md](docs/oplaesning.md).
 
@@ -168,6 +168,13 @@ Faktaspørgsmål (tal, rekorder, geografi, sprog, love og færdselsregler) er ko
 - Sensoren og blueprintet er testet som kode og YAML, men ikke i en kørende Home Assistant endnu.
   Musikafspilning kræver, at browseren har fået et klik (det gør «Start spil»).
 - Oplæsning bruger de stemmer, enheden har. Mangler der en dansk stemme, bliver udtalen derefter.
+
+## ☕ Støt projektet
+
+Hyggespil er gratis og uden reklamer. Er det blevet en fast del af jeres spilleaftener, kan du give
+en kop kaffe:
+
+<p><a href="https://buymeacoffee.com/i8B3Mn5"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" width="217"></a></p>
 
 ## Nyheder
 

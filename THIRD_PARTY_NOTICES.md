@@ -1,10 +1,26 @@
 # Tredjepartsindhold
 
-## Lyde
+## Lyde fra OpenGameArt
 
-Alle lyde i `custom_components/hyggespil/www/lyd/` er **syntetiseret af `tools/lav_lyde.py`** i dette
-repository. Der indgår ingen samples eller optagelser fra tredjepart, og lydene er derfor projektets
-egne værker under MIT-licensen. Ingen kreditering nødvendig.
+Følgende lyde i `custom_components/hyggespil/www/lyd/` er hentet fra OpenGameArt.org og bruges
+under deres licenser. CC0 kræver ingen betingelser; CC-BY kræver kreditering, som gives her, i
+`docs/lyd.md` og i `custom_components/hyggespil/www/lyd/CREDITS.txt`.
+
+| Fil | Titel | Ophav | Licens | Kilde |
+|---|---|---|---|---|
+| spaending.mp3, fare.mp3 | Space Impending Danger SFX | aquinn | CC0 | https://opengameart.org/content/space-impending-danger-sfx |
+| tikken.mp3 | Ticking clock | bart | CC0 | https://opengameart.org/content/ticking-clock |
+| langsomt-ur.mp3 | Slow Office Clock Tick, Seamless Looping | medicinestorm | CC-BY 4.0 | https://opengameart.org/content/slow-clock-ticking-seamless-looping-sfx-sound-effect |
+| hjerte.mp3 | Heartbeat sounds (slow, reverb) | bart | CC0 | https://opengameart.org/content/heartbeat-sounds |
+| trommer.mp3 | Horde War Drums loop | william-hector | CC0 | https://opengameart.org/content/horde-war-drums-loop |
+| sting.mp3 | Mystery Sting | railkill | CC0 | https://opengameart.org/content/mystery-sting |
+| whoosh.mp3 | "Day 1" Cinematic transition sound | copyc4t | CC-BY 3.0 | https://opengameart.org/content/day-1-cinematic-transition-sound |
+| forkert.mp3 | Wrong choice, Caught | davidw | CC-BY 3.0 | https://opengameart.org/content/wrong-choice-caught |
+| vinder.mp3 | Win sound effect | listener | CC0 | https://opengameart.org/content/win-sound-effect |
+| fanfare.mp3 | Hyper-Ultra-Fanfare | zane-little-music | CC0 | https://opengameart.org/content/hyper-ultra-fanfare |
+
+Filerne er trimmet og lydnormaliseret af `tools/hent_lyde.py`. `sirene.mp3` er projektets egen
+syntese (MIT, se `tools/lav_lyde.py`).
 
 ## three.js
 
