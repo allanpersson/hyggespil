@@ -2,9 +2,16 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
-## 0.2.5 - 2026-11-14
+## 0.2.5 – 2026-11-14
 
-- Tilfoejer oplæsning af spoergsmaal (TTS) og opdaterede udgivelsesnoter
+### Tilføjet
+- 🔊 **Oplæsning af spørgsmål** – læs spørgsmålet højt, når det vises. Vælg stemme og hastighed i indstillingerne; **🔊** i spillets bjælke læser igen, og et tryk mere stopper. Virker med enhedens egne stemmer (intet sendes ud) eller gennem en Home Assistant-højttaler via `tts.speak`. Se [docs/oplaesning.md](docs/oplaesning.md).
+- Spil hvor oplæsning ville afsløre svaret (Forbudte ord, Gæt og vis, Lykkehjulet) og bræt-/3D-spillene læses ikke op.
+
+### Ændret
+- **Udgivelsesnoterne viser nu ændringerne** direkte i Marketplace i stedet for «Se CHANGELOG.md», og udgivelserne hedder bare «Hyggespil» ved siden af versionsnummeret.
+- README henter version og ændringslog automatisk og fejler i CI, hvis den kommer bagud.
+
 ## 0.2.4 – 2026-11-14
 
 ### Rettet
