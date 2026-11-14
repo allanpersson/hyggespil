@@ -1,71 +1,82 @@
-"""Aflæs integrationsmanifestet, som Home Assistant selv gør det, og afvis de kombinationer HA nægter.
-Kører den rigige kode vej fra homeassistant.components.integration.manifest, hvis den findes;
-ellers bruger den indbyggede regler (samme som hassfest).
-Kør: python tools/tjek_manifest.py"""
+"""Tjek manifestet med de samme regler, som hassfest/Home Assistant bruger.
+
+Kilde: home-assistant/core, script/hassfest/manifest.py (INTEGRATION_MANIFEST_SCHEMA
+og validate_manifest). Reglerne her er skrevet, så de fejler præcis der, hvor
+hassfest-fejlen "Domain is missing an IoT Class" og lignende opstår – så en udgivelse
+ikke kan gå igennem med et manifest, CI eller Home Assistant afviser.
+
+Kør: python tools/tjek_manifest.py
+"""
 import json
 import os
 import re
 import sys
 
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
+
 ROD = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STI = os.path.join(ROD, "custom_components", "hyggespil", "manifest.json")
-FEJL = []
+ANBEFALING = "https://developers.home-assistant.io/docs/creating_integration_manifest"
 
-# Regler Home Assistant selv håndhæver (homeassistant/components/manifes
-# t.py: INTEGRATION_SCHEMA / integration_type-kombinationer).
-# En "service"-type integration må ikke have connectivity (iot_class), og omvendt.
-ANBEFALING = "https://www.home-assistant.io/integrations/manifest"
-
-# Noget af det HA afviser ved indlæsning af custom integrationer:
-FORBYDTE_KOMBINATIONER = [
-    (("integration_type", "service"), ("iot_class",), "En 'service'-integration må ikke have 'iot_class' (den har ingen enheder)"),
-    (("integration_type", "device"), ("iot_class",), "'device'-integrationer bør bruge 'integration_type' uden 'iot_class' for custom"),
-    (("config_flow", True), (), "config_flow kræver config_flow.py med en ConfigFlow-domæne der matcher 'domain'"),
-]
+# homeassistant.const.IntegrationType (custom-integrationer må ikke bruge "virtual")
+TYPER = {"device", "entity", "hardware", "helper", "hub", "service", "system"}
+# script/hassfest/manifest.py: SUPPORTED_IOT_CLASSES
+IOT_KLASSER = {"assumed_state", "calculated", "cloud_polling", "cloud_push", "local_polling", "local_push"}
 PÅKRÆVET = ["domain", "name", "codeowners", "documentation", "version"]
-SEMVER = re.compile(r"^\d+\.\d+\.\d+([.\-+].*)?$")
+SEMVER = re.compile(r"^\d+\.\d+\.\d+$")
+KERNE_AFHÆNGIGHEDER = {"http", "frontend", "websocket_api", "panel_custom", "lovelace", "auth", "api", "system_health"}
+
 
 def main():
     m = json.load(open(STI, encoding="utf-8"))
     print("manifest:", json.dumps(m, ensure_ascii=False))
+    fejl = []
     for felt in PÅKRÆVET:
         if felt not in m or m[felt] in ("", None, []):
-            FEJL.append(f"mangler obligatorisk felt '{felt}'")
+            fejl.append(f"mangler obligatorisk felt '{felt}'")
     if not SEMVER.match(str(m.get("version", ""))):
-        FEJL.append(f"version '{m.get('version')}' er ikke en forståelig version (se {ANBEFALING})")
+        fejl.append(f"version '{m.get('version')}' er ikke x.x.x (kræves af Marketplace-udgivelser)")
     if m.get("domain") != os.path.basename(os.path.dirname(STI)):
-        FEJL.append("domain matcher ikke mappens navn")
+        fejl.append("domain matcher ikke mappens navn")
     if not str(m.get("documentation", "")).startswith("https://"):
-        FEJL.append("documentation skal være en https-ledet adresse")
+        fejl.append("documentation skal begynde med https://")
     for c in m.get("codeowners", []):
-        if not c.startswith("@"):
-            FEJL.append(f"codeowners '{c}' skal begynde med @")
-    it, iot = m.get("integration_type"), m.get("iot_class")
-    if it in ("service", "helper", "entity") and iot:
-        FEJL.append(f"integration_type 'service' + iot_class '{iot}': det afviser Home Assistant "
-                    f"(brug either 'integration_type': 'device/service' uden iot_class, eller udelad begge) – se {ANBEFALING}")
-    if it in ("service", "helper", "entity") and iot and False:
-        FEJL.append(f"iot_class sammen med integration_type '{it}' er modstridende")
-    cf = m.get("config_flow")
-    if cf:
+        if not str(c).startswith("@"):
+            fejl.append(f"codeowners '{c}' skal begynde med @")
+
+    it = m.get("integration_type", "hub")
+    iot = m.get("iot_class")
+    if it not in TYPER:
+        fejl.append(f"integration_type '{it}' er ikke en af: {', '.join(sorted(TYPER))}")
+    # hassfest: "Domain is missing an IoT Class" – gælder alle typer undtagen virtual
+    if not iot:
+        fejl.append("'iot_class' mangler – hassfest fejler med \"Domain is missing an IoT Class\" "
+                    "(brug fx 'calculated')")
+    elif iot not in IOT_KLASSER:
+        fejl.append(f"iot_class '{iot}' er ikke en af: {', '.join(sorted(IOT_KLASSER))}")
+
+    if m.get("config_flow"):
         flow = os.path.join(os.path.dirname(STI), "config_flow.py")
         if not os.path.isfile(flow):
-            FEJL.append("config_flow: true men config_flow.py mangler")
-        else:
-            tek = open(flow, encoding="utf-8").read()
-            if "domain=" not in tek:
-                FEJL.append("config_flow.py angiver ikke domænet i ConfigFlow(..., domain=...)")
-    # dependencies: alle skal være eksisterende integrationer; "frontend" er indbygget men ikke en dependency-HA kender i alle versioner
-    kerne = {"http", "frontend", "websocket_api", "panel_custom", "lovelace", "auth", "api", "system_health"}
-    ukendte = [d for d in m.get("dependencies", []) if d not in kerne]
+            fejl.append("config_flow: true men config_flow.py mangler")
+        elif "ConfigFlow" not in open(flow, encoding="utf-8").read():
+            fejl.append("config_flow.py har ingen ConfigFlow-klasse")
+
+    ukendte = [d for d in m.get("dependencies", []) if d not in KERNE_AFHÆNGIGHEDER]
     if ukendte:
-        FEJL.append("dependencies med ukendte navne: " + ", ".join(ukendte))
-    if FEJL:
-        print("\nFEJL som Home Assistant/HACS vil nægte:")
-        for f in FEJL:
+        fejl.append("dependencies med ukendte navne: " + ", ".join(ukendte))
+
+    if fejl:
+        print("\nFEJL som hassfest/Home Assistant vil afvise:")
+        for f in fejl:
             print("  - " + f)
+        print("  læs mere: " + ANBEFALING)
         sys.exit(1)
-    print("\nOK: manifestet er anvendeligt for Home Assistant")
+    print("\nOK: manifestet opfylder hassfests regler")
+
 
 if __name__ == "__main__":
     main()
