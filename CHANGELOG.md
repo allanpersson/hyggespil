@@ -2,9 +2,18 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
-## 0.2.7 - 2026-11-14
+## 0.2.7 – 2026-11-14
 
-- Lykkehjulet som referencehjulet og nye dramatiske lyde
+### Rettet
+- 🎡 **Lykkehjulet er bygget om efter det danske tv-hjul**: 24 felter, samme farver og værdier (inkl. FALLIT, TABT TUR og JOKER), gråt nav og kant, og tekst der står radialt og følger hjulet. Skriftstørrelsen tilpasses feltet, så intet stikker ud eller forsvinder. `KR` er fjernet, da det rodede billedet.
+
+### Ændret
+- 🎵 **Lydene er lavet helt om og er nu meget mere dramatiske**: braam (dybe, let forvrængede strygerstakke), pauke, stryger-tremolo, bækken-svulm, riser og rumklang i stedet for tynde sinustoner. 16 lyde, ca. 0,95 MB.
+- Oplæsningens to felter er nu **valglister med installationens egne enheder** (`tts.*` og `media_player.*`) i stedet for fritekst.
+
+### Tilføjet
+- **← Alle spil** i indstillingsboksen, så man kan forlade den uden at starte et spil.
+
 ## 0.2.6 – 2026-11-14
 
 ### Tilføjet
