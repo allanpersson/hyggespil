@@ -1,7 +1,13 @@
-# Laver udgivelses-zippet hyggespil.zip med den struktur, HACS/Marketplace forventer.
+# Bygger udgivelses-zippet hyggespil.zip.
+#
+# VIGTIGT om strukturen: baade Home Assistant Marketplace og HACS pakker zippet ud
+# DIREKTE i <config>/custom_components/<domæne> (zip_file.extractall(content.path.local)).
+# Zippet skal derfor have integrationens filer i roden – manifest.json, __init__.py,
+# www/ osv. – og maa IKKE vaere pakket ind i custom_components/hyggespil/, for saa
+# ender manifestet i .../hyggespil/custom_components/hyggespil/manifest.json, og
+# Home Assistant melder "The installed content has no usable manifest.json".
+#
 # Kør:  python tools/make_zip.py [mappe]
-# Normalt behøves det ikke lokalt: .github/workflows/release.yml laver zippet selv ved hver udgivelse.
-# Scriptet bruges af tools/publish.js, når en udgivelse laves fra denne pc.
 import os
 import shutil
 import sys
@@ -18,22 +24,23 @@ def build(dest: str = ROOT) -> str:
         raise SystemExit("finder ikke custom_components/hyggespil")
     os.makedirs(dest, exist_ok=True)
     out = os.path.join(dest, "hyggespil.zip")
-    staging = os.path.join(dest, "_zip_staging")
-    target = os.path.join(staging, "custom_components", "hyggespil")
-    shutil.rmtree(staging, ignore_errors=True)
-    shutil.copytree(COMP, target, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
-    for s in UNDGÅ:
-        p = os.path.join(target, "www", s)
-        if os.path.exists(p):
-            os.remove(p)
+    poster = []
+    for base, mapper, filer in os.walk(COMP):
+        mapper[:] = sorted(m for m in mapper if m != "__pycache__")
+        for f in sorted(filer):
+            if f.endswith(".pyc") or f in UNDGÅ:
+                continue
+            fuld = os.path.join(base, f)
+            poster.append((fuld, os.path.relpath(fuld, COMP).replace(os.sep, "/")))
+    # manifest.json først, så et afbrudt download aldrig efterlader en "tom" integration
+    poster.sort(key=lambda p: (p[1] != "manifest.json", p[1]))
     with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
-        for base, _, files in os.walk(staging):
-            for f in sorted(files):
-                p = os.path.join(base, f)
-                z.write(p, os.path.relpath(p, staging).replace(os.sep, "/"))
-    shutil.rmtree(staging, ignore_errors=True)
-    n = len(zipfile.ZipFile(out).namelist())
-    print(f"skrev {out}: {n} filer, {os.path.getsize(out):,} bytes")
+        for fuld, navn in poster:
+            z.write(fuld, navn)
+    navne = zipfile.ZipFile(out).namelist()
+    if "manifest.json" not in navne:
+        raise SystemExit("FEJL: manifest.json ligger ikke i zippets rod")
+    print(f"skrev {out}: {len(navne)} filer, {os.path.getsize(out):,} bytes (rod = integrationens filer)")
     return out
 
 
