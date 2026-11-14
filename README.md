@@ -179,6 +179,16 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.8 – 2026-11-14
+
+**Ændret**
+- 🎵 **Lydene er nu rigtige optagelser** fra OpenGameArt i stedet for egen syntese: dyb spændingsflade, fare på vej, ur der tikker, langsomt ur, hjerteslag, krigstrommer, drama-sting, filmisk whoosh, forkert svar, sejr og fanfare – 11 optagelser plus «tid er gået». De er trimmet og lydnormaliseret (MP3, 96 kbps, ca. −16 LUFS).
+- Licenserne er CC0 og CC-BY. CC-BY-filerne er krediteret i [docs/lyd.md](docs/lyd.md), `THIRD_PARTY_NOTICES.md` og `custom_components/hyggespil/www/lyd/CREDITS.txt`, som følger med udgivelsen.
+
+**Tilføjet**
+- ☕ **Støt projektet** – Buy Me a Coffee-badge i README og i spillets feedback-fod.
+- `tools/hent_lyde.py` henter, trimmer og koder lydene igen og genskaber krediteringsfilen.
+
 ### 0.2.7 – 2026-11-14
 
 **Rettet**
@@ -244,13 +254,6 @@ en kop kaffe:
 
 **Rettet**
 - Versionsnummeret nederst på spillets forside følger nu udgivelsen.
-
-### 0.2.0 – 2026-11-14
-
-**Rettet**
-- **Marketplace/HACS kunne ikke installere**: udgivelseszippet var pakket ind i `custom_components/hyggespil/`, men udpakkes direkte i `custom_components/hyggespil`. Nu ligger `manifest.json` i zippets rod.
-- Versioner er rene `x.x.x` (ikke prereleases), så Marketplace viser en version i stedet for en commit-SHA.
-- Nye CI-tjek: `tools/tjek_installation.py` (udpakker som Marketplace/HACS) og `tools/tjek_manifest.py` (hassfests regler).
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->

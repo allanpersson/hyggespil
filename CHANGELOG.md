@@ -2,9 +2,16 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
-## 0.2.8 - 2026-11-14
+## 0.2.8 – 2026-11-14
 
-- Dramatiske lyde fra OpenGameArt med kreditering og kaffe-badge
+### Ændret
+- 🎵 **Lydene er nu rigtige optagelser** fra OpenGameArt i stedet for egen syntese: dyb spændingsflade, fare på vej, ur der tikker, langsomt ur, hjerteslag, krigstrommer, drama-sting, filmisk whoosh, forkert svar, sejr og fanfare – 11 optagelser plus «tid er gået». De er trimmet og lydnormaliseret (MP3, 96 kbps, ca. −16 LUFS).
+- Licenserne er CC0 og CC-BY. CC-BY-filerne er krediteret i [docs/lyd.md](docs/lyd.md), `THIRD_PARTY_NOTICES.md` og `custom_components/hyggespil/www/lyd/CREDITS.txt`, som følger med udgivelsen.
+
+### Tilføjet
+- ☕ **Støt projektet** – Buy Me a Coffee-badge i README og i spillets feedback-fod.
+- `tools/hent_lyde.py` henter, trimmer og koder lydene igen og genskaber krediteringsfilen.
+
 ## 0.2.7 – 2026-11-14
 
 ### Rettet
