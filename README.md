@@ -171,6 +171,16 @@ Faktaspørgsmål (tal, rekorder, geografi, sprog, love og færdselsregler) er ko
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.6 – 2026-11-14
+
+**Tilføjet**
+- 🎵 **15 indbyggede drama- og quizlyde**: dyb spænding, tikken, hjerteslag, hviskende luft, rolig marimba, xylofon-motiv, stigende spænding, trommehvirvel, Pauke, mystisk klokke, quiz-intro, sejr, forkert svar, nedtælling og «tid er gået». Vælges i indstillingerne med **Prøv lyd**; seks af dem kan loope.
+- **🎵/🔇-knap** i spillets bjælke slår musikken til og fra med ét tryk – musikken kan altid fravælges, også midt i en runde.
+- Lydene er **syntetiseret fra bunden** (`tools/lav_lyde.py`), så de er projektets egne (MIT) og kan bruges frit. Se [docs/lyd.md](docs/lyd.md).
+
+**Ændret**
+- Mens oplæsningen taler, **dæmpes musikken** til ca. 14 % i stedet for at stoppe, så spørgsmålet altid kan høres – og musikken går op igen bagefter.
+
 ### 0.2.5 – 2026-11-14
 
 **Tilføjet**
