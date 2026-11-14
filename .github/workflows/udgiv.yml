@@ -156,15 +156,23 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           v="${{ steps.version.outputs.version }}"
-          besked=$(printf 'Se [CHANGELOG.md](https://github.com/%s/blob/main/CHANGELOG.md) for hvad der er nyt.\n\nHent: **Indstillinger → Marketplace → Hyggespil → Opdatér** (prerelease; slå „Pre-release“ til for repositoriet, hvis versionen ikke vises), efterfulgt af genstart af Home Assistant.\n' "$GITHUB_REPOSITORY")
+          {
+            echo "## Hyggespil $v"
+            echo ""
+            echo "Se [CHANGELOG.md](https://github.com/$GITHUB_REPOSITORY/blob/main/CHANGELOG.md) for hvad der er nyt."
+            echo ""
+            echo "Hent: Indstillinger -> Marketplace -> Hyggespil -> Opdater, og genstart Home Assistant."
+            echo "Vises versionen ikke: slaa Pre-release til for repositoriet i Marketplace."
+          } > /tmp/noter.md
           if gh release view "$v" >/dev/null 2>&1; then
-            gh release edit "$v" --prerelease --notes "$besked"
+            echo "Udgivelsen findes - opdaterer tekst og asset"
+            gh release edit "$v" --prerelease --notes-file /tmp/noter.md
             gh release upload "$v" hyggespil.zip --clobber
           else
-            gh release create "$v" hyggespil.zip --title "Hyggespil $v" --notes "$besked" --prerelease --target main
+            gh release create "$v" --title "Hyggespil $v" --notes-file /tmp/noter.md --prerelease
+            gh release upload "$v" hyggespil.zip
           fi
           gh release view "$v" --json tagName,prerelease,assets
-
       - name: Status
         if: always()
         run: |
