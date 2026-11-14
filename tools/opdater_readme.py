@@ -16,7 +16,7 @@ ROD = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 README = os.path.join(ROD, "README.md")
 MANIFEST = os.path.join(ROD, "custom_components", "hyggespil", "manifest.json")
 CHANGELOG = os.path.join(ROD, "CHANGELOG.md")
-ANTAL_VERSIONER = 4
+ANTAL_VERSIONER = 8
 
 VERSION_START = "<!-- version:start -->"
 VERSION_SLUT = "<!-- version:end -->"
@@ -36,7 +36,7 @@ def afsnit() -> list[tuple[str, str, list[str]]]:
     for del_ in dele:
         linjer = del_.split("\n")
         hoved = linjer[0].strip()
-        m = re.match(r"([0-9][^\s–-]*)\s*[–-]\s*(.+)$", hoved)
+        m = re.match(r"([0-9][^\s]*)\s+[–-]\s+(.+)$", hoved)
         if not m:
             continue
         ud.append((m.group(1), m.group(2).strip(), [l.rstrip() for l in linjer[1:]]))
@@ -56,14 +56,15 @@ def ønsket_indhold() -> tuple[str, str]:
     v = version()
     version_linje = f"**Version:** {v}"
     dele = []
-    for navn, dato, linjer in afsnit()[:ANTAL_VERSIONER]:
+    stabile = [a for a in afsnit() if "-beta" not in a[0]]
+    for navn, dato, linjer in stabile[:ANTAL_VERSIONER]:
         krop = ryd(linjer)
         krop = "\n".join(
             f"**{linje[4:].strip()}**" if linje.startswith("### ") else linje for linje in krop.split("\n")
         )
         dele.append(f"### {navn} – {dato}\n\n{krop}".strip())
     nyheder = "\n\n".join(dele)
-    nyheder += ("\n\n[Hele ændringsloggen](CHANGELOG.md) · "
+    nyheder += ("\n\nÆldre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · "
                 "[alle udgivelser](https://github.com/allanpersson/hyggespil/releases)")
     return version_linje, nyheder
 

@@ -170,6 +170,15 @@ Faktaspørgsmål (tal, rekorder, geografi, sprog, love og færdselsregler) er ko
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.4 – 2026-11-14
+
+**Rettet**
+- 🎡 **Lykkehjulet**: bogstaver og tal står nu altid op på skærmen – også efter hjulet har drejet – og ordet læses i den rigtige rækkefølge (venstre→højre eller oppefra→ned), uanset hvor på hjulet feltet står.
+- README viser nu den installerede version og ændringslogen for de nyeste udgivelser, og CI fejler, hvis den kommer bagud.
+
+**Ændret**
+- Udgivelsesworkflowen skriver ikke interne commit-beskeder (CI, README, oprydning) i ændringslogen.
+
 ### 0.2.3 – 2026-11-14
 
 **Tilføjet**
@@ -202,7 +211,7 @@ Faktaspørgsmål (tal, rekorder, geografi, sprog, love og færdselsregler) er ko
 - Versioner er rene `x.x.x` (ikke prereleases), så Marketplace viser en version i stedet for en commit-SHA.
 - Nye CI-tjek: `tools/tjek_installation.py` (udpakker som Marketplace/HACS) og `tools/tjek_manifest.py` (hassfests regler).
 
-[Hele ændringsloggen](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
+Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
 
 ## Udvikling

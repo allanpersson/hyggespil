@@ -2,9 +2,15 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
-## 0.2.4 - 2026-11-14
+## 0.2.4 – 2026-11-14
 
-- Vedligeholdelse og fejlretning.
+### Rettet
+- 🎡 **Lykkehjulet**: bogstaver og tal står nu altid op på skærmen – også efter hjulet har drejet – og ordet læses i den rigtige rækkefølge (venstre→højre eller oppefra→ned), uanset hvor på hjulet feltet står.
+- README viser nu den installerede version og ændringslogen for de nyeste udgivelser, og CI fejler, hvis den kommer bagud.
+
+### Ændret
+- Udgivelsesworkflowen skriver ikke interne commit-beskeder (CI, README, oprydning) i ændringslogen.
+
 ## 0.2.3 – 2026-11-14
 
 ### Tilføjet
