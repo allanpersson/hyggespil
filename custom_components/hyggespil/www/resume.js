@@ -3,7 +3,7 @@
    - Spiltilstanden gemmes løbende, så et afsluttet/afbrudt spil kan genoptages (resultatsiden og forsiden). */
 (function(){
 if(window.__resumeLoaded)return;window.__resumeLoaded=true;
-const KEY='resume2',MAXN=4,ACT=12*3600e3,ENDED=15*60e3,HOLD=1200;
+const KEY='resume2',MAXN=1,ACT=12*3600e3,ENDED=15*60e3,HOLD=1200;  // MAXN=1: kun det sidste spil kan fortsættes
 let RID=null;
 const st=document.createElement('style');
 st.textContent='.hold{position:relative;overflow:hidden;width:100%;max-width:380px;padding:16px 18px;user-select:none;-webkit-user-select:none;touch-action:none;-webkit-touch-callout:none}.hold .hf{position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(255,255,255,.38)}.hold .ht{position:relative}'
