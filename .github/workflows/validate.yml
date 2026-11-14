@@ -6,6 +6,7 @@ on:
     paths-ignore:
       - 'CHANGELOG.md'
       - 'custom_components/hyggespil/www/hs-cfg.js'
+      - 'tools/prov_ci.md'   # midlertidig: udløser ét løb for at prøve daglig-udgivelse
   pull_request:
   workflow_dispatch:
 
