@@ -1,5 +1,5 @@
-// Tjekker hvad der faktisk ligger på GitHub: version, nøglefil, CI-status.
-// Kør: node tools/_verifi.js
+// Tjekker hvad der faktisk ligger på GitHub: version, nøglefiler, CI og releases.
+// Kør: node tools/verificer.js
 const fs = require('fs'), path = require('path');
 const cfg = JSON.parse(fs.readFileSync(path.join(__dirname, 'secrets', 'github.json'), 'utf8'));
 const H = { Authorization: 'Bearer ' + cfg.token.trim(), 'User-Agent': 'hyggespil', Accept: 'application/vnd.github+json' };
