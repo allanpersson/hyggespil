@@ -9,6 +9,8 @@ import zipfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 COMP = os.path.join(ROOT, "custom_components", "hyggespil")
+# Udgivelsen må ikke indeholde udviklerens egne filer: kildeoversigten og kildetjekkets mellemresultater.
+UNDGÅ = {"ledger.json", "verify_state.json", "extra_pending.json", "hs-user-pools.js"}
 
 
 def build(dest: str = ROOT) -> str:
@@ -20,6 +22,10 @@ def build(dest: str = ROOT) -> str:
     target = os.path.join(staging, "custom_components", "hyggespil")
     shutil.rmtree(staging, ignore_errors=True)
     shutil.copytree(COMP, target, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+    for s in UNDGÅ:
+        p = os.path.join(target, "www", s)
+        if os.path.exists(p):
+            os.remove(p)
     with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
         for base, _, files in os.walk(staging):
             for f in sorted(files):
