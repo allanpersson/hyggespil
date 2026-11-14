@@ -26,7 +26,10 @@ const sti = p => p.split('/').map(encodeURIComponent).join('/');
 (async () => {
   const [owner, name] = REPO.split('/');
   const valgte = process.argv.slice(2);
-  const filer = valgte.length ? valgte : cp.execSync(`"${GIT}" -C "${ROOT}" ls-tree -r HEAD --name-only`, { encoding: 'utf8' }).split(/\r?\n/).filter(Boolean);
+  const alle = valgte.length ? valgte : cp.execSync(`"${GIT}" -C "${ROOT}" ls-tree -r HEAD --name-only`, { encoding: 'utf8' }).split(/\r?\n/).filter(Boolean);
+  const filer = alle.filter(f => !/(^|\/)secrets\//.test(f) && !/(^|\/)[\w.-]*\.token$/.test(f) && path.basename(f) !== 'github.json');
+  const skjult = alle.length - filer.length;
+  if (skjult) console.log('holder ' + skjult + ' fil(er) tilbage (se .gitignore): ' + alle.filter(f => !filer.includes(f)).join(', '));
   let opdateret = 0, uændret = 0;
   for (const p of filer) {
     let fjernIndhold = null, sha = null;
