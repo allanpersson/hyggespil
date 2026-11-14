@@ -2,6 +2,9 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
+## 0.2.9 - 2026-11-14
+
+- Alle spil lander ved det spil man kom fra
 ## 0.2.8 – 2026-11-14
 
 ### Ændret
