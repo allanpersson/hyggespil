@@ -3,7 +3,7 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.19<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.20<!-- version:end -->
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
@@ -181,6 +181,21 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.20 – 2026-11-14
+
+<!--
+  Udgivelsesnoter til NÆSTE udgivelse.
+  Skriv punkterne her, inden du pusher en ændring af spillets indhold. Så bruger CI dem
+  direkte i CHANGELOG.md, i README og i udgivelsesnoterne på GitHub – med det samme, uden
+  at nogen skal skrive dem bagefter. Filen tømmes automatisk af workflowen ved udgivelsen.
+  Skriv i Markdown, fx:
+  ### Tilføjet
+  - 🍾 Ny leg: Flaskehalsen
+  ### Rettet
+  - Teksten i X blev rettet
+  Er filen tom (kun denne kommentar), falder CI tilbage på commit-beskederne.
+-->
+
 ### 0.2.19 – 2026-11-14
 
 **Rettet**
@@ -225,11 +240,6 @@ en kop kaffe:
 **Ændret**
 - 🏛️ **Græker eller sygdom er gjort sværere**: de mest åbenlyse navne (Sokrates, Platon, Zeus, Athene …) er ude, bi-navne som «fra Elea» er fjernet, og der er kommet mange mere ukendte filosoffer, læger, astronomer og digtere ind. Sygdomsnavnene står på latin uden «Morbus»-præfiks (fx «Addison», «Scorobutus» → «Scorbutus», «Osteoporosis»). Puljen er på 111 ord.
 - 🔊 **«Opsæt stemme»-knap** i indstillingsboksen: viser de præcise trin for Android/iOS/Windows/macOS, og på Android kan knappen åbne telefonens taleindstillinger direkte. Bruges når enheden mangler en dansk stemme.
-
-### 0.2.12 – 2026-11-14
-
-**Ændret**
-- 🏛️ **Græker eller sygdom** bruger nu **latinske sygdomsnavne** i stedet for de danske (fx «Osteoporosis» og «Scorbutus» frem for «Knogleskørhed» og «Skørbug»), så ordene lyder lige så fremmede som grækernavnene. Puljen er på 108 ord (58 grækere/guder + 50 sygdomme). Hvert sygdomsnavn er slået op på engelsk og ført videre til den danske artikel via sproglink, hvor begge beskriver en sygdom; kilderne er opdateret i [docs/kilder-graeker-sygdom.md](docs/kilder-graeker-sygdom.md).
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
