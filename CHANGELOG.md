@@ -2,6 +2,9 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
+## 0.2.13 - 2026-11-14
+
+- Svaerere graeske navne, rene latinske sygdomme og knap til at slaa oplæsning til
 ## 0.2.12 – 2026-11-14
 
 ### Ændret
