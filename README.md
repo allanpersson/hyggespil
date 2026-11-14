@@ -9,7 +9,7 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 ## Indhold
 
-55 spil og over 6.000 spørgsmål, opgaver og kort på dansk:
+83 spil og over 6.000 spørgsmål, opgaver og kort på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -20,8 +20,11 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 | Geografi & ord | I hvilket land ligger byen? · Sæt knappenålen (3D-globus) · Postnummer-quiz · Mærkelige ord · Hvilket sprog? · Destination: hvor er vi? |
 | 🚦 Færdselsloven | Bil · Cykel · Fodgænger · Alle trafikanter |
 | 🌍 Spil fra hele verden | Shiritori · Yut Nori · Suit Jawa · Shagai · Inuit-vinterlege · Lotería |
-| 🦑 Dødsspils-leg | Rødt lys, grønt lys · Glasbroen · Kugler: lige eller ulige · Dalgona-udfordringer · Dystre valg · Hvem i familien? |
+| 🦑 Squid Games | Rødt lys, grønt lys · Glasbroen · Kugler: lige eller ulige · Dalgona-udfordringer · Dystre valg · Hvem i familien? |
 | 🧒 Børn & unge | Hvilket dyr er jeg? · Gør som dyret · Børnegåder · Børnequiz · Gæt og vis · Ord og rim · Hvad ville du helst? · Sandt eller falsk · Hvad hører ikke til? · Tæl og gæt · Mest sandsynlig |
+| 🔐 Kodespil | Zodiac-glyfer · Gridskrift · Punktskrift · Farver · Morse · Cæsars brev · Spejlbrev · Bogstavkæde |
+| 🔤 Ordspil | Ord af bogstaver · Ordkæde · Ordtrappe · Ordsplit · Baglæns · Rim · Længste ord · Stavboks · Staveling |
+| 🧮 Tal & matematik | Tænk et tal · Hovedregning · Talrækker · Overslag · Procent · Sanseprøve · Ur & tid · Bogstavværdi |
 | 🎲 Random | Alt i ét · Random børnespil |
 | 🔞 Kun for voksne | Romantik · Sexy udfordringer · Grænseløs · Intime spørgsmål · Jeg har aldrig 🔞 · Random 🔞 |
 
@@ -61,6 +64,12 @@ Ny version? Jeg udgiver en prerelease med den rigtige zip-fil, hver gang jeg hæ
 **Uden Marketplace/HACS:** kopiér mappen `custom_components/hyggespil` til `config/custom_components/` i din Home Assistant, genstart, og tilføj integrationen som i trin 4.
 
 Vil du have spillet på et dashboard, kan du bruge et websidekort med adressen `/hyggespil_files/hs.html`.
+
+## Første gang du åbner spillet
+
+Et velkomstvindue beder dig om at vælge din egen 🔞-kode (4–8 cifre) og viser to forudoprettede spillere
+(Spiller 1 og Spiller 2) i gruppen Standard. Du kan ændre navne, aldre og antal med det samme. Intet fra
+udviklerens eget spil – ingen navne, point, svarede spørgsmål eller gemte spil – følger med installationen.
 
 ## Privatliv
 
