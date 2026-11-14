@@ -2,6 +2,9 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
+## 0.2.8 - 2026-11-14
+
+- Dramatiske lyde fra OpenGameArt med kreditering og kaffe-badge
 ## 0.2.7 – 2026-11-14
 
 ### Rettet

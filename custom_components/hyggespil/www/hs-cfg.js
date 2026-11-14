@@ -4,7 +4,7 @@
 (function(){
 if(window.HSCFG)return;
 window.HSCFG={
-  version:'0.2.7',
+  version:'0.2.8',
   repo:'allanpersson/hyggespil'      // GitHub-repo, som feedback-knappen åbner sager i
 };
 /* SHA-256 i ren JavaScript: browserens crypto.subtle findes kun på https/localhost, og Home Assistant køres ofte på http i hjemmet. */
