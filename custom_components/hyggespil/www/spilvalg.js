@@ -85,13 +85,14 @@
   /* Indbyggede lyde – filerne ligger i www/lyd og er lavet af tools/lav_lyde.py (egne, MIT).
      De sidste fire er loops; resten spiller én gang. */
   const LYDE = [
-    ['spaending', 'Dyb spænding (loop)'], ['tikken', 'Ur der tikker (loop)'], ['hjerte', 'Hjerteslag (loop)'],
-    ['hvisken', 'Hviskende luft (loop)'], ['marimba', 'Rolig marimba (loop)'], ['xylofon', 'Xylofon-motiv (loop)'],
-    ['rister', 'Stigende spænding'], ['trommehvirvel', 'Trommehvirvel'], ['boom', 'Dyb Pauke'],
-    ['mystik', 'Mystisk klokke'], ['quizintro', 'Quiz-intro'], ['vinder', 'Sejr'],
-    ['forkert', 'Forkert svar'], ['uret', 'Nedtælling'], ['sirene', 'Tid er gået'],
+    ['spaending', 'Dyb spænding (loop)'], ['mork', 'Mørk puls (loop)'], ['tikken', 'Ur der tikker (loop)'],
+    ['hjerte', 'Hjerteslag (loop)'], ['hvisken', 'Hviskende luft (loop)'],
+    ['rister', 'Stigende spænding'], ['trommehvirvel', 'Trommehvirvel'], ['boom', 'Dramatisk stød'],
+    ['sting', 'Drama-sting'], ['cymbal', 'Bækken-svulm'], ['mystik', 'Mystisk tema'],
+    ['quizintro', 'Quiz-intro'], ['vinder', 'Sejr'], ['forkert', 'Forkert svar'],
+    ['uret', 'Nedtælling'], ['sirene', 'Tid er gået'],
   ];
-  const LOOP = new Set(['spaending', 'tikken', 'hjerte', 'hvisken', 'marimba', 'xylofon']);
+  const LOOP = new Set(['spaending', 'mork', 'tikken', 'hjerte', 'hvisken']);
   const MUSIK_VOL = 0.85, DUK_VOL = 0.12;
 
   async function spilMusik() {
@@ -284,6 +285,35 @@
   }
 
   /* ---------------- indstillingsdialog ---------------- */
+  /* Vælger til Home Assistants egne enheder (tts.* og media_player.*), så man ikke skal skrive id'er */
+  function enhedsListe(domæne) {
+    const h = hassObjekt();
+    if (!h || !h.states) return null;
+    return Object.keys(h.states)
+      .filter(e => e.startsWith(domæne + '.'))
+      .sort()
+      .map(e => ({
+        id: e,
+        navn: (h.states[e] && h.states[e].attributes && h.states[e].attributes.friendly_name) || e,
+      }));
+  }
+  function enhedsFelt(id, domæne, nu, tomTekst) {
+    const liste = enhedsListe(domæne);
+    if (!liste) {
+      return '<input class="in" id="' + id + '" placeholder="' + esc(tomTekst) + '" value="' + esc(nu || '') + '" style="max-width:240px">';
+    }
+    const valgt = nu || '';
+    const kendt = liste.some(x => x.id === valgt);
+    return '<select class="in" id="' + id + '" style="max-width:260px;text-align:left">' +
+      '<option value="">' + esc(tomTekst) + '</option>' +
+      (valgt && !kendt ? '<option value="' + esc(valgt) + '" selected>' + esc(valgt) + ' (gemt)</option>' : '') +
+      liste.map(x => '<option value="' + esc(x.id) + '"' + (x.id === valgt ? ' selected' : '') + '>' +
+        esc(x.navn) + ' – ' + esc(x.id) + '</option>').join('') +
+      '</select>';
+  }
+  const ttsFelt = () => enhedsFelt('hsv-hatts', 'tts', valg.haTts, 'Ingen – brug browserens stemme');
+  const højttalerFelt = () => enhedsFelt('hsv-haplayer', 'media_player', valg.haPlayer, 'Ingen højttaler');
+
   function dialog() {
     return new Promise(res => {
       const o = document.createElement('div');
@@ -326,11 +356,11 @@
         '<p class="hint" style="text-align:left;margin:6px 0 0">Bruger enhedens egne stemmer – ingen forbindelse til internettet.</p>' +
         '<details style="margin-top:8px"><summary class="hint" style="cursor:pointer">Læs op via en Home Assistant-højttaler i stedet</summary>' +
         '<div class="row" style="justify-content:flex-start;margin-top:8px">' +
-        '<input class="in" id="hsv-hatts" placeholder="tts-entity, fx tts.piper" value="' + esc(valg.haTts || '') + '" style="max-width:240px">' +
-        '<input class="in" id="hsv-haplayer" placeholder="media_player.stue" value="' + esc(valg.haPlayer || '') + '" style="max-width:240px">' +
-        '</div><p class="hint" style="text-align:left;margin:6px 0 0">Udfyld begge felter for at bruge højttaleren. Ellers læses der op i browseren.</p></details>' +
+        ttsFelt() + højttalerFelt() +
+        '</div><p class="hint" style="text-align:left;margin:6px 0 0">Vælg begge for at bruge højttaleren. Ellers læses der op i browseren.</p></details>' +
         '<div class="row" style="margin-top:18px"><button class="btn big green" id="hsv-startspil">Start spil</button>' +
-        '<button class="btn ghost" id="hsv-uden">Uden tid</button></div></div>';
+        '<button class="btn ghost" id="hsv-uden">Uden tid</button>' +
+        '<button class="btn ghost" id="hsv-tilmenu">← Alle spil</button></div></div>';
       document.body.appendChild(o);
       const $ = id => o.querySelector('#' + id);
       const opdaterKnapper = () => {
@@ -364,8 +394,8 @@
       selv.onchange = e => { valg.stemme = e.target.value; gemValg(); };
       $('hsv-rate').oninput = e => { const v = +e.target.value; if (v >= 0.5 && v <= 2) { valg.taleRate = v; gemValg(); } };
       $('hsv-prov').onclick = () => { if (window.HSTTS) window.HSTTS.tal('Om lidt bliver det din tur. Hvad er Danmarks hovedstad?', true); };
-      $('hsv-hatts').oninput = e => { valg.haTts = e.target.value.trim(); gemValg(); };
-      $('hsv-haplayer').oninput = e => { valg.haPlayer = e.target.value.trim(); gemValg(); };
+      $('hsv-hatts').onchange = $('hsv-hatts').oninput = e => { valg.haTts = e.target.value.trim(); gemValg(); };
+      $('hsv-haplayer').onchange = $('hsv-haplayer').oninput = e => { valg.haPlayer = e.target.value.trim(); gemValg(); };
       $('hsv-fil').onchange = async e => {
         const f = e.target.files && e.target.files[0];
         if (!f) return;
@@ -381,8 +411,15 @@
         if (medTid) bipper(660, 120, 0.12);
         res(true);
       };
+      /* Fortryd: luk boksen og gå til spiloversigten uden at starte noget */
+      const tilMenu = () => {
+        gemValg(); o.remove(); stopUr(false);
+        res(false);
+        try { window.go('home'); } catch (e) {}
+      };
       $('hsv-startspil').onclick = () => luk(true);
       $('hsv-uden').onclick = () => luk(false);
+      $('hsv-tilmenu').onclick = tilMenu;
       o.addEventListener('click', e => { if (e.target === o) luk(true); });
     });
   }
@@ -395,7 +432,8 @@
       spil = id || spil; spilNavn = '';
       try { const x = window.hsSpil && window.hsSpil.gm ? window.hsSpil.gm(spil) : null; spilNavn = x ? x.t : spil; } catch (e) {}
       if (fraMenu) {
-        dialog().then(() => {
+        dialog().then(startNu => {
+          if (!startNu) return;              // «← Alle spil»: intet spil startes
           if (valg.tid) visToast(valg.tid + ' sek. pr. spørgsmål' + (valg.bonus ? ' · +' + valg.bonus + ' for hurtigt svar' : ''));
           start0.apply(window, arguments);
         });
@@ -436,7 +474,7 @@
         const b = document.createElement('button');
         b.id = 'hsv-stil'; b.className = 'btn ghost'; b.textContent = '⚙';
         b.title = 'Tid, hurtigt-svar-point og musik';
-        b.onclick = () => dialog().then(() => startUr());
+        b.onclick = () => dialog().then(ok => { if (ok) startUr(); });
         bar.appendChild(b);
       }
       /* musik til/fra med ét tryk – musikken kan altid fravælges midt i spillet */

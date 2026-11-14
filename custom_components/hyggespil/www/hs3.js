@@ -36,8 +36,14 @@ wst.textContent='.wcard{transition:box-shadow .4s}.wturn{display:flex;align-item
 +'.wkb{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0}.wkb button{width:42px;height:46px;border-radius:10px;font-weight:800;font-size:18px;background:rgba(255,255,255,.16);color:#fff;border:0}.wkb button:disabled{opacity:.22}.wsol{padding:14px;border-radius:16px;background:rgba(255,255,255,.1);font-weight:900;font-size:clamp(20px,5vw,30px);letter-spacing:.06em;text-align:center;margin:10px 0}';
 document.head.appendChild(wst);
 const ABC='ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ',VOW='AEIOUYÆØÅ',VCOST=250;
-const WH=[500,'FALLIT',300,800,'MIST TUR',200,1000,400,'FALLIT',600,'GRATIS',700,100,1500,300,2000];
-const WCOL=['#e63946','#ffb703','#2ec4b6','#8f6bff','#ff7b00','#4cc9f0','#80ed99','#f15bb5'];
+/* Lykkehjulet som det danske tv-hjul: 24 felter, tekst der følger hjulet (radialt),
+   "KR" ved kanten og et gråt nav. Værdierne er spillets egne (FALLIT/TABT TUR/JOKER). */
+const WH=['FALLIT',1500,800,1000,500,600,500,'GRATIS',300,500,800,1000,
+          1000,'FALLIT',300,800,500,300,'MIST TUR',600,500,300,500,1000];
+const WCOL=['#000000','#7a7d00','#ff6a00','#0093dd','#0a8f3c','#ff6a00','#fff200','#8b1a8b',
+            '#0093dd','#fff200','#e3000f','#fff200','#ff6a00','#000000','#e3000f','#0093dd',
+            '#fff200','#e3000f','#8b1a8b','#ff6a00','#0a8f3c','#e3000f','#fff200','#0a8f3c'];
+const WVIST={'MIST TUR':'TABT TUR','GRATIS':'JOKER'};
 const used=new Set();
 function ful(e){const m=/«(.+?)»/.exec(e||'');return m?m[1]:null}
 function puzzle(){
@@ -55,25 +61,39 @@ const isLetter=ch=>ABC.includes(ch);
 const cnt=(t,l)=>[...t].filter(c=>c===l).length;
 const nzs=s=>String(s).toUpperCase().replace(/[^A-ZÆØÅ0-9]/g,'');
 function wheelSVG(rot){
- const n=WH.length,R=100,w=360/n;let s='<svg viewBox="-106 -106 212 212"><circle r="105" fill="#ffd166"/><g id="wgrp" transform="rotate('+rot+')">';
+ const n=WH.length,R=100,w=360/n;
+ /* Som det danske tv-hjul: grå yderkant, farvede felter, gråt nav og radial tekst,
+    der følger hjulet (ingen opretning). "KR" står ved kanten på hvert felt. */
+ let s='<svg viewBox="-110 -110 220 220">'
+  +'<circle r="106" fill="#bfbfbf"/><circle r="102" fill="#7b7b7b"/>'
+  +'<g id="wgrp" transform="rotate('+rot+')">';
  const P=(a,r)=>[(r*Math.sin(a*Math.PI/180)).toFixed(2),(-r*Math.cos(a*Math.PI/180)).toFixed(2)];
  for(let i=0;i<n;i++){
   const c=i*w,a0=c-w/2,a1=c+w/2,p0=P(a0,R),p1=P(a1,R),v=WH[i];
-  const fill=v==='FALLIT'?'#111':v==='MIST TUR'?'#6c757d':v==='GRATIS'?'#ffd166':WCOL[i%WCOL.length];
-  s+='<path d="M0 0L'+p0[0]+' '+p0[1]+'A'+R+' '+R+' 0 0 1 '+p1[0]+' '+p1[1]+'Z" fill="'+fill+'" stroke="#fff" stroke-width="1.2"/>';
-  const mørk=(fill==='#111'||fill==='#6c757d'),col=mørk?'#fff':'#111',txt=String(v),k=txt.replace(/[^A-Z0-9]/g,'').split("").length||1;
-  const fs2=k<=4?15:k<=6?12:9,linje=fs2*1.02,top=72+(k-1)*linje/2,indre=top-(k-1)*linje;
-  /* Bogstaverne skal altid stå op på skærmen – også efter hjulet har drejet.
-     Rækkefølgen vælges, så ordet læses venstre→højre (vandret) eller oppefra→ned (lodret). */
-  const synlig=c+rot,rad=synlig*Math.PI/180,cos=Math.cos(rad),sin=Math.sin(rad);
-  const indreFørst=Math.abs(cos)>=Math.abs(sin)?cos>0:sin>0;
+  const fill=WCOL[i%WCOL.length];
+  s+='<path d="M0 0L'+p0[0]+' '+p0[1]+'A'+R+' '+R+' 0 0 1 '+p1[0]+' '+p1[1]+'Z" fill="'+fill+'" stroke="#6d6d6d" stroke-width="0.6"/>';
+  const mørk=(fill==='#000000'||fill==='#8b1a8b'),col=mørk?'#fff':'#111',kant=mørk?'#000':'#fff';
+  const label=String(WVIST[v]||v),tegn=Array.from(label),k=tegn.length||1;
+  /* Teksten ligger radialt fra kanten og indad (som på referencehjulet) og drejer
+     med hjulet. Skriftstørrelsen tilpasses, så både højden og bredden passer i feltet. */
+  const rYder=86, rInde=48;
+  let fs=Math.min(19,(rYder-rInde)/(k*1.05));
+  const rSidst=rYder-(k-1)*fs*1.05;
+  const bue=2*Math.PI*Math.max(28,rSidst)/n;      // feltets bredde ved det inderste tegn
+  if(0.62*fs>bue*0.78)fs*=bue*0.78/(0.62*fs);
   for(let j=0;j<k;j++){
-   const bogstav=txt.replace(/[^A-Z0-9]/g,'')[j];if(!bogstav)continue;
-   const y=indreFørst?indre+j*linje:top-j*linje;
-   s+='<text transform="rotate('+c+') translate(0,'+y.toFixed(2)+') rotate('+(-c-rot)+')" text-anchor="middle" font-size="'+fs2+'" font-weight="900" fill="'+col+'" dominant-baseline="central">'+bogstav+'</text>';
+   const t=tegn[j];if(!/[A-ZÆØÅ0-9]/.test(t))continue;
+   const r=rYder-j*fs*1.05;
+   s+='<text data-c="'+i+'" data-j="'+j+'" transform="rotate('+c+') translate(0,'+(-r).toFixed(2)+')" text-anchor="middle" font-size="'+fs.toFixed(2)+'" font-weight="900" font-family="Georgia,Times New Roman,serif" fill="'+col+'" stroke="'+kant+'" stroke-width="'+(fs*0.07).toFixed(2)+'" paint-order="stroke" dominant-baseline="central">'+t+'</text>';
   }
+  /* ingen "KR"-tekst – den gav visuel støj tæt på tallene */
  }
- return s+'</g><circle r="9" fill="#fff" stroke="#999"/></svg>';
+ s+='</g>';
+ /* nav */
+ s+='<circle r="44" fill="#bdbdbd" stroke="#6d6d6d" stroke-width="0.8"/>'
+  +'<circle r="22" fill="#9a9a9a" stroke="#6d6d6d" stroke-width="0.8"/>'
+  +'<circle r="8" fill="#dcdcdc" stroke="#6d6d6d" stroke-width="0.8"/>';
+ return s+'</svg>';
 }
 function tilesHTML(){
  const t=g.pz.t,rv=g.rv,all=g.ph==='done',words=t.split(' '),ml=Math.max.apply(null,words.map(w=>w.length));

@@ -1,29 +1,30 @@
 # Lyde og musik
 
-Spillet har **15 indbyggede drama- og quizlyde**, man kan vælge før spillet starter (eller med **⚙**
+Spillet har **16 indbyggede drama- og quizlyde**, man kan vælge før spillet starter (eller med **⚙**
 undervejs). Derudover kan man stadig vælge sin **egen lydfil** fra enheden.
 
-## De 15 lyde
+## De 16 lyde
 
 | Lyd | Fil | Længde | Bruges til |
 |---|---|---|---|
-| Dyb spænding | `spaending.mp3` | 8 s (loop) | Langsom, mørk drone under en svær runde |
-| Ur der tikker | `tikken.mp3` | 4 s (loop) | Nedtælling med ur |
+| Dyb spænding | `spaending.mp3` | 10 s (loop) | Lang, mørk braam-drone under en svær runde |
+| Mørk puls | `mork.mp3` | 8 s (loop) | Pulserende, truende baggrund |
+| Ur der tikker | `tikken.mp3` | 4 s (loop) | Nedtælling med ur og rumklang |
 | Hjerteslag | `hjerte.mp3` | 4 s (loop) | Hjertet, der banker hurtigere |
-| Hviskende luft | `hvisken.mp3` | 6 s (loop) | Uhyggelig, luftig baggrund |
-| Rolig marimba | `marimba.mp3` | 8 s (loop) | Afslappet baggrund mellem spørgsmål |
-| Xylofon-motiv | `xylofon.mp3` | 5 s (loop) | Legende mystik |
-| Stigende spænding | `rister.mp3` | 4 s | Riser op til afsløringen |
-| Trommehvirvel | `trommehvirvel.mp3` | 4 s | Inden svaret afsløres |
-| Dyb Pauke | `boom.mp3` | 2 s | Dramatisk stød |
-| Mystisk klokke | `mystik.mp3` | 6 s | Klog, uhyggelig stemning |
-| Quiz-intro | `quizintro.mp3` | 3,4 s | Nyt spil / ny runde |
-| Sejr | `vinder.mp3` | 3 s | Rigitgt svar eller vundet spil |
-| Forkert svar | `forkert.mp3` | 1,2 s | Forkert svar |
+| Hviskende luft | `hvisken.mp3` | 8 s (loop) | Uhyggelig, luftig baggrund |
+| Stigende spænding | `rister.mp3` | 6 s | Riser op til afsløringen |
+| Trommehvirvel | `trommehvirvel.mp3` | 5 s | Inden svaret afsløres |
+| Dramatisk stød | `boom.mp3` | 2,6 s | Braam og pauke som stød |
+| Drama-sting | `sting.mp3` | 3 s | Mol-treklang, pauke og bækken |
+| Bækken-svulm | `cymbal.mp3` | 5 s | Svulmende bækken før point |
+| Mystisk tema | `mystik.mp3` | 7 s | Klog, uhyggelig stemning |
+| Quiz-intro | `quizintro.mp3` | 4 s | Nyt spil / ny runde |
+| Sejr | `vinder.mp3` | 4 s | Rigitgt svar eller vundet spil |
+| Forkert svar | `forkert.mp3` | 1,6 s | Forkert svar |
 | Nedtælling | `uret.mp3` | 5 s | Biip for hvert sekund |
-| Tid er gået | `sirene.mp3` | 2,4 s | Tiden løb ud |
+| Tid er gået | `sirene.mp3` | 2,8 s | Tiden løb ud |
 
-Lydene ligger i `custom_components/hyggespil/www/lyd/` og fylder tilsammen ca. 520 KB.
+Lydene ligger i `custom_components/hyggespil/www/lyd/` og fylder tilsammen ca. 0,95 MB.
 
 ## Sådan vælger du
 
@@ -49,10 +50,10 @@ Se [docs/oplaesning.md](oplaesning.md).
 
 ## Lovlighed og ophavsret
 
-Alle 15 lyde er **syntetiseret fra bunden** af `tools/lav_lyde.py` i dette repository (sinusbølger,
-støj, filtre og klokketoner – ingen samples, ingen downloads). De er derfor vores egne værker og
-udgives under samme licens som resten af projektet (**MIT**). Der er intet at kreditere, og de må
-bruges frit i spillet og i private optagelser af det.
+Alle 16 lyde er **syntetiseret fra bunden** af `tools/lav_lyde.py` i dette repository (stemte
+strygerstakke, pauke, bækken, støjfiltre og rumklang – ingen samples, ingen downloads). De er derfor
+vores egne værker og udgives under samme licens som resten af projektet (**MIT**). Der er intet at
+kreditere, og de må bruges frit i spillet og i private optagelser af det.
 
 Lydene kan genskabes eller justeres:
 
