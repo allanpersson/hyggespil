@@ -2,12 +2,6 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
-## 0.1.0-beta.11 – 2026-11-14
-
-- Opdater hs-cfg.js
-- Opdater CHANGELOG.md
-- Opdater .gitignore
-- Fjerner udviklerhjælp klar_udgivelse.js
 ## 0.1.0-beta.8 – 2026-11-14
 
 ### Tilføjet
