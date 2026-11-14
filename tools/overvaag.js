@@ -22,17 +22,26 @@ async function hentJson(p, init) {
 }
 
 (async () => {
-  // 1) FILER: hver fil i lokal HEAD skal ligge på main med samme indhold
+  // Fast reference: i CI den commit der er checket ud, lokalt main.
+  // Uden dette ville et push midt i en kørsel give falske afvigelser.
+  let ref = process.env.GITHUB_SHA || '';
+  if (!ref) {
+    const r = await hentJson('/git/ref/heads/main');
+    ref = (r.json && r.json.object && r.json.object.sha) || 'main';
+  }
+  console.log('reference: ' + ref.slice(0, 12));
+
+  // 1) FILER: hver fil i lokal HEAD skal ligge på GitHub med samme indhold
   const filer = g('ls-tree -r HEAD --name-only').toString('utf8').split(/\r?\n/).filter(Boolean).filter(f => !UDVIKLER(f));
-  const træ = (await hentJson('/git/trees/main?recursive=1')).json;
-  if (!træ) { fejl.push('kunne ikke læse filoversigten på main'); }
+  const træ = (await hentJson('/git/trees/' + ref + '?recursive=1')).json;
+  if (!træ) { fejl.push('kunne ikke læse filoversigten på GitHub'); }
   else {
     const påMain = new Set(træ.tree.filter(x => x.type === 'blob').map(x => x.path));
     let mangler = [], afviger = [];
     for (const f of filer) {
       if (!påMain.has(f)) { mangler.push(f); continue; }
       const lokal = g(`show HEAD:"${f.replace(/"/g, '\\"')}"`);
-      const r = await fetch(G + '/contents/' + f.split('/').map(encodeURIComponent).join('/') + '?ref=main', { headers: { ...H, Accept: 'application/vnd.github.raw+json' } });
+      const r = await fetch(G + '/contents/' + f.split('/').map(encodeURIComponent).join('/') + '?ref=' + ref, { headers: { ...H, Accept: 'application/vnd.github.raw+json' } });
       if (!r.ok) { mangler.push(f); continue; }
       const web = Buffer.from(await r.arrayBuffer());
       if (Buffer.compare(web, lokal) !== 0) {
@@ -80,13 +89,15 @@ async function hentJson(p, init) {
     }
   }
 
-  // 3) CI: kun den seneste kørsel pr. workflow tæller. Overvågning springes over,
-  //    ellers kan en gammel overvågningsfejl holde sig selv rød for evigt.
-  const kørsler = await hentJson('/actions/runs?branch=main&per_page=30');
+  // 3) CI: kun kørsler på DENNE commit tæller, og Overvågning springes over
+  //    (en gammel fejl på en ældre commit er ikke et problem nu, og en overvågning
+  //    må ikke holde sig selv rød for evigt).
+  const kørsler = await hentJson('/actions/runs?head_sha=' + ref + '&per_page=30');
   if (kørsler.json) {
     const senestePr = new Map();
     for (const r of kørsler.json.workflow_runs) {
       if (r.name === 'Overvågning') continue;
+      if (r.head_sha && r.head_sha !== ref) continue;   // sikkerhed, hvis filteret ikke virker
       if (!senestePr.has(r.name)) senestePr.set(r.name, r);
     }
     const fejlede = [...senestePr.values()].filter(r => r.conclusion === 'failure');

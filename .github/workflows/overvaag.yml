@@ -1,16 +1,15 @@
 name: Overvågning
 
-# Tjekker efter hver push og hver morgen, at
-#   * alle filer på main er identiske med den version, der blev pushet,
-#   * den nyeste udgivelse er en almindelig x.x.x med et zip, Marketplace kan installere,
-#   * ingen workflow står med en fejl.
-# Fejler noget, bliver det synligt her – i stedet for først at dukke op hos brugerne.
+# Kontrollerer at alt hænger sammen – men kun på et fast tidspunkt og manuelt.
+# Den kører IKKE ved hvert push: en kontrol, der dømmer en commit midt i en udgivelse,
+# giver røde krydser på GitHub, som ikke betyder, at noget er i stykker.
+#
+# Tjekker: alle filer på GitHub = den lokale HEAD, nyeste udgivelse er en almindelig
+# x.x.x med et zip Marketplace kan installere, og ingen workflow på samme commit fejler.
 
 on:
   schedule:
     - cron: "40 7 * * *"        # lige efter den daglige udgivelse
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -20,9 +19,6 @@ permissions:
 jobs:
   overvaag:
     name: Filer, udgivelse og CI
-    # Spring CI's egne udgivelses-commits over: de rammer main, før udgivelsen er oprettet,
-    # og ville give en falsk fejl. Den daglige kørsel tjekker resultatet bagefter.
-    if: github.event_name != 'push' || github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
