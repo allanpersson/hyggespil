@@ -313,5 +313,5 @@ window.render=function(){const r=_render2.apply(this,arguments);try{if(frisk())e
 })();
 
 /* ---- indlæs kortdata og datapakker (synkront, før start) ---- */
-['hs-cfg','world','p1','p2','p3','p4','p5','p6','p7','p8','p9','map3d','resume','vf2','hs2','hs3','hs4','hs5','k1','pv','dx','sm','c1','w1','t1','ex_daily','feedback','sporgsmal','backup','spilvalg','oplaesning'].forEach(n=>document.write('<script src="'+n+'.js?v='+VER+'"></scr'+'ipt>'));
+['hs-cfg','world','p1','p2','p3','p4','p5','p6','p7','p8','p9','map3d','resume','vf2','hs2','hs3','hs4','hs5','k1','pv','dx','sm','c1','w1','t1','gs','fb','quiz','ex_daily','feedback','sporgsmal','backup','spilvalg','oplaesning'].forEach(n=>document.write('<script src="'+n+'.js?v='+VER+'"></scr'+'ipt>'));
 })();

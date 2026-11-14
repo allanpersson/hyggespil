@@ -4,6 +4,10 @@
 <style>
 :root{--bg:#0f0a24;--glass:rgba(255,255,255,.08);--line:rgba(255,255,255,.16);--tx:#fff;--mut:#b9b4d6}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{max-width:100%;overflow-x:hidden}
+#app,#main,.card,.mbox{max-width:100%}
+svg,img{max-width:100%;height:auto}
+.q,.ans,.opt,.tag,.hint,.rk,.c1ins,.wsol{overflow-wrap:anywhere;word-break:break-word}
 body{margin:0;min-height:100vh;font-family:Poppins,system-ui,Segoe UI,Roboto,sans-serif;color:var(--tx);background:var(--bg);overflow-x:hidden}
 body:before,body:after{content:"";position:fixed;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.45;z-index:0;animation:drift 22s ease-in-out infinite alternate}
 body:before{background:#ff3d81;top:-25vmax;left:-15vmax}
