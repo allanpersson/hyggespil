@@ -21,6 +21,18 @@ fortsætter og går op igen bagefter.
 Spørgsmåls-, kort- og udfordringsspillene. Spil hvor oplæsning ville afsløre svaret – Forbudte ord,
 Gæt og vis, Lykkehjulet – læses ** ikke** op. Det samme gælder bræt- og 3D-spillene.
 
+## Når appen ikke kan læse op
+
+Home Assistant-appen viser panelet i en **WebView**. På Android giver den ikke spillet adgang til
+telefonens tale, og så hjælper det ikke, at dansk tekst-til-tale er installeret og valgt i systemet.
+Spillet opdager det og tilbyder:
+
+- **Åbn i Chrome** – åbner samme side i telefonens browser, hvor oplæsningen virker.
+- **Home Assistant-højttaler** – vælg `tts`- og `media_player`-enhederne under ⚙ → Oplæsning, så
+  læses spørgsmålene op i stuen i stedet.
+
+På iPhone/iPad gælder det samme: Safari læser op, mens appens indbyggede browser ikke gør.
+
 ## To måder at tale på
 
 ### 1. Enhedens egen stemme (standard)

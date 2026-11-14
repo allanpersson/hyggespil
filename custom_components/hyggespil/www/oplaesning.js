@@ -64,8 +64,16 @@
       guide();
       return;
     }
-    /* Chrome på Android kan svare "ingen stemmer", indtil listen er hentet – tjek og vejled */
-    if (!stemmer().length && !v.haTts) { setTimeout(() => { if (!stemmer().length) guide(); }, 1200); }
+    /* Chrome på Android kan svare "ingen stemmer", indtil listen er hentet – vent og prøv igen */
+    if (!stemmer().length && !v.haTts) {
+      let forsøg = 0;
+      const tjek = () => {
+        if (stemmer().length) return;
+        if (++forsøg < 4) setTimeout(tjek, 1200);
+        else if (!stemmer().length) guide();
+      };
+      setTimeout(tjek, 600);
+    }
     try {
       speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(tekst.slice(0, 600));
@@ -93,29 +101,51 @@
   }
 
   /* Opsætning af stemme: viser hvad man skal gøre – og en knap der åbner telefonens taleindstillinger */
+  function erWebView() {
+    const ua = navigator.userAgent || '';
+    return /; wv\)/i.test(ua) || /ReactNativeWebView/.test(ua) || (window.ReactNativeWebView !== undefined) ||
+      (/Android/i.test(ua) && /Version\/\d/i.test(ua) && !/Chrome\//.test(ua));
+  }
+
   function guide() {
     if (document.getElementById('hsv-tts-guide')) return;
     const ua = navigator.userAgent;
     const android = /Android/i.test(ua), ios = /iPhone|iPad|iPod/i.test(ua);
+    const webview = erWebView() || typeof speechSynthesis === 'undefined';
+    const antal = stemmer().length;
     const trin = android
       ? 'Indstillinger → System → Sprog og input → Tekst-til-tale → vælg en dansk stemme (installér den, hvis den mangler).'
       : ios
         ? 'Indstillinger → Tilgængelighed → Oplæst indhold → Stemmer → Dansk.'
         : 'Windows: Indstillinger → Tid og sprog → Tale. macOS: Systemindstillinger → Tilgængelighed → Oplæst indhold.';
+    const overskrift = webview ? '🔊 Appen kan ikke læse op' : '🔊 Slå oplæsning til';
+    const forklaring = webview
+      ? 'Home Assistant-appens indbyggede browser (WebView) stiller ikke tale til rådighed for spillet – '
+        + 'også selv om telefonen har dansk tale installeret. Åbn spillet i Chrome i stedet, så virker oplæsningen.'
+      : (antal ? 'Der er stemmer på enheden. Vælg en dansk i listen under ⚙ → Oplæsning – eller brug en Home Assistant-højttaler.'
+        : 'Ventede på telefonens stemmer, men fik ingen. Sådan får du lyd på:');
     const o = document.createElement('div');
     o.id = 'hsv-tts-guide'; o.className = 'modal'; o.style.zIndex = '85';
     o.innerHTML = '<div class="mbox" style="max-width:520px">'
-      + '<h2 style="margin-top:0">🔊 Slå oplæsning til</h2>'
-      + '<p class="hint" style="text-align:left">Denne enhed har ingen dansk stemme til rådighed for spillet endnu. '
-      + 'Sådan får du lyd på:</p>'
-      + '<p class="hint" style="text-align:left;font-size:16px">' + esc(trin) + '</p>'
+      + '<h2 style="margin-top:0">' + overskrift + '</h2>'
+      + '<p class="hint" style="text-align:left">' + esc(forklaring) + '</p>'
+      + (webview ? '' : '<p class="hint" style="text-align:left;font-size:16px">' + esc(trin) + '</p>')
       + '<p class="hint" style="text-align:left">Har du en Home Assistant-højttaler, kan du i stedet vælge den under ⚙ → Oplæsning.</p>'
       + '<div class="row" style="margin-top:16px">'
-      + (android ? '<button class="btn big green" id="hsv-tts-aabn">Åbn taleindstillinger</button>' : '')
+      + (webview ? '<button class="btn big green" id="hsv-tts-chrome">Åbn i Chrome</button>' : '')
+      + (android && !webview ? '<button class="btn big green" id="hsv-tts-aabn">Åbn taleindstillinger</button>' : '')
       + '<button class="btn" id="hsv-tts-igen">Prøv igen</button>'
       + '<button class="btn ghost" id="hsv-tts-luk">Luk</button></div></div>';
     document.body.appendChild(o);
     const $ = id => o.querySelector('#' + id);
+    if ($('hsv-tts-chrome')) $('hsv-tts-chrome').onclick = () => {
+      try {
+        const url = location.href.replace(/^https?:/, 'https:');
+        const sti = url.replace(/^https:\/\//, '');
+        location.href = 'intent://' + sti + '#Intent;scheme=https;package=com.android.chrome;' +
+          'S.browser_fallback_url=' + encodeURIComponent(url) + ';end';
+      } catch (e) { visBesked('Åbn adressen i Chrome: ' + location.href); }
+    };
     if ($('hsv-tts-aabn')) $('hsv-tts-aabn').onclick = () => {
       try { location.href = 'intent:#Intent;action=com.android.settings.TTS_SETTINGS;end'; }
       catch (e) { visBesked('Åbn: ' + trin); }
