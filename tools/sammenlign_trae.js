@@ -1,4 +1,5 @@
-// Sammenligner hver fil i git-HEAD med det, der ligger på GitHub. Kør: node tools/_træ.js [mønster]
+// Sammenligner hver fil i git-HEAD med det, der ligger på GitHub (uden brug af filnavne med specialtegn).
+// Kør: node tools/sammenlign_trae.js [mønster]
 const fs = require('fs'), path = require('path'), cp = require('child_process');
 const ROOT = path.join(__dirname, '..');
 const cfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'secrets', 'github.json'), 'utf8'));
