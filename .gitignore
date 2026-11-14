@@ -1,4 +1,8 @@
-# Python
+# Filer og mapper der IKKE skal lægges offentligt på GitHub.
+# Notér: alt hvad der står her, holdes ude af git; skal en af disse alligevel legges på en
+# release, sker det som et release-asset (ikke som fil i grenen).
+
+# Python og editor
 __pycache__/
 *.py[cod]
 node_modules/
@@ -9,21 +13,27 @@ Thumbs.db
 *.bak
 *.tmp
 
-# Udgivelseszippet bygges af tools/make_zip.py
+# Byggede udgivelsespakker – hører hjemme i release-asset, aldrig i grenen
 out/
+ud/
+hyggespil.zip
 
-# Nøgler og lokale mellemresultater — må ALDRIG lande i repoet
+# Nøgler, lokale mellemresultater og personlige data – ALDRIG offentligt
 tools/secrets/
+tools/feedback_inbox.md
+tools/auto_release.log
 *.token
 github.json
 
-# Filer som natjobberne skriver i spillets mappe, men som ikke hører til udgivelsen:
-# kildeoversigten (ledger.json) og mellemresultater fra kildetjekket.
+# Udviklerens private register over kilder og mellemresultater fra kildetjek
 custom_components/hyggespil/www/ledger.json
 custom_components/hyggespil/www/verify_state.json
 custom_components/hyggespil/www/extra_pending.json
+
+# Brugeres egne tiltføjelser (indholder personlige spørgsmål) – bevares på enheden, deles ikke
 custom_components/hyggespil/www/hs-user-pools.js
 
-# Lokalt byggede udgivelsespakker
-ud/
-/hyggespil.zip
+# Brugerens/udviklerens egne/spørgsmålstilføjelser – aldrig pubiceret indhold
+custom_components/hyggespil/www/extra.json
+tools/*.log
+custom_components/hyggespil/www/backup.js.local
