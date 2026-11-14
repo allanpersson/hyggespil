@@ -1,33 +1,28 @@
 # Ændringer
 
-Versionerne følger [Semantic Versioning](https://semver.org/lang/da/). Alle udgivelser er indtil videre
-markeret som prerelease (beta), fordi indholdet løbende udvides og afprøves af spillere.
+Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
-## 0.1.0-beta.5 – 2026-11-14
+## 0.1.0-beta.8 – 2026-11-14
 
-- Renhed i repoet: den byggede udgivelsespakke (`out/hyggespil.zip`) er taget ud af git igen. Indholdet af spillet er uændret.
+### Tilføjet
+- 🔐 **Kodespil** (8 spil): Zodiac-agtige glyfer, gridskrift, punktskrift, farvekoder, morse, Cæsars brev, spejlbrev og bogstavkæde. Facit genereres af koden, så det viste altid matcher svaret.
+- 🔤 **Ordspil** (9 spil): ord af bogstaver, ordkæde, ordtrappe, ordsplit, baglænsord, rim, længste ord, stavboks og staveling. Alle kæder/trapper/rim er verificeret af `tools/gransk_ordspil.js`.
+- 🧮 **Tal & matematik** (8 spil): hvilket tal er tænkt, hovedregning, talrækker, overslag, procent, sanseprøve, ur & tid, bogstavværdi – facit udregnet, aldrig slået op.
+- Første gangs start: ny bruger vælger sin egen 🔞-kode (4–8 cifre) og får to spillere (Spiller 1 / Spiller 2) i gruppen Standard. Ingen data fra udvikleren følger med.
+- ➕ «Foreslå spørgsmål»: sendes til udvikleren som GitHub-sag (med svar, kilde og målgruppe) og bliver **ikke** lagt i puljerne lokalt – først efter relevansvurdering og kildekontrol.
+- 💾 Sikkerhedskopi: «👥 Spillere → Sikkerhedskopi / Genskab fra kopi» eksporterer og genopretter alt det, spillet gemmer på enheden.
 
-## 0.1.0-beta.4 – 2026-11-14
+### Ændret
+- 🦑 Dødsspils-leg hedder nu **Squid Games**.
+- 🌉 Glasbroen vises fra den side, man står på (man starter oppe i den fjerne ende og går ned mod os) med glasfliser i perspektiv, glød på den rigtige flise og fald-animation.
+- 🎡 Lykkehjulets felter har nu stablede, oprejste bogstaver i stedet for skrå tekst (designreferencen er det oprindelige hjul fra 1988 – se THIRD_PARTY_NOTICES).
+- Kun det sidste afbrudte spil kan fortsættes (oversigten viser én række).
+- «← Alle spil» lander nu ved det spil, man kom fra, i stedet for øverst på forsiden.
+- Tekster om «automatisk udvidelse hver dag» er fjernet, så de ikke gælder for private installationer.
 
-- CHANGELOG for de to foregående udgivelser, så versionshistorikken kan læses ét sted.
-- Hjælpe-scripts i `tools/` har ASCII-navne og kan køres på tværs af systemer.
+### Sikkerhed og data
+- Natjobbene skriver ikke længere i `config/www/hyggespil`; spillets filer ligger i integrationens egen mappe og køres fra GitHub.
+- `ledger.json` (kildeoversigt), `verify_state.json`, `extra_pending.json`, `hs-user-pools.js` og `extra.json` er taget ud af den offentlige udgivelse.
+- `tools/secrets/` (nøgler) er optaget i `.gitignore`, og udgivelseszippet ligger ikke længere i grenen – kun som release-asset.
 
 ## 0.1.0-beta.3 – 2026-11-14
-
-- Udgivelsespakken indeholder ikke længere udviklerens kildeoversigt (`ledger.json`) – renere pakke og mindre download.
-
-## 0.1.0-beta.2 – 2026-11-14
-
-- De seneste kildekontrollerede spørgsmål og færdselsregler er med (puljerne er vokset siden beta.1).
-- Spillet betjenes fra integrationens egne filer (`/hyggespil_files/…`); den tidligere mappe i `config/www/hyggespil` er ikke længere i brug.
-
-## 0.1.0-beta.1 – 2026-11-14
-
-Første udgave.
-
-- Home Assistant-integration med panel i sidebjælken, opsætning via Marketplace/HACS.
-- 55 spil og over 6.000 spørgsmål, opgaver og kort på dansk.
-- Alderstilpasning: hvert barn spiller på sit eget niveau, der bliver sværere ved mange rigtige svar og lettere ved få.
-- 🔞-afsnit bag en kode, man selv vælger på enheden – ingen fælles kode i kildekoden.
-- 💬 Feedback-knap i alle spil, der åbner en færdigudfyldt GitHub-sag. Intet sendes automatisk.
-- Kører helt lokalt: ingen eksterne tjenester, ingen statistik, spillernes data forlader ikke enheden.
