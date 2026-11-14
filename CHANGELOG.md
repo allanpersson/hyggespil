@@ -2,6 +2,9 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
+## 0.2.16 - 2026-11-14
+
+- Oplaesning: opdag WebView og tilbyd aabn i Chrome
 ## 0.2.15 – 2026-11-14
 
 ### Tilføjet
