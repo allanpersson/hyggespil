@@ -179,6 +179,10 @@ jobs:
             gh release upload "$v" hyggespil.zip 2>&1
           fi
           gh release view "$v" --json tagName,assets,isPrerelease 2>&1
+          # Verificér det udgivne asset, som Marketplace ser det (udpakning i custom_components/<domæne>)
+          mkdir -p /tmp/hentet
+          gh release download "$v" --pattern hyggespil.zip --dir /tmp/hentet --clobber
+          python tools/tjek_installation.py /tmp/hentet/hyggespil.zip
 
       - name: Status
         if: always()
