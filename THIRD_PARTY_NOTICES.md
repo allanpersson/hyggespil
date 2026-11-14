@@ -38,3 +38,13 @@ Natural Earth er public domain: https://www.naturalearthdata.com/about/terms-of-
 ## Skrifttyper og billeder
 
 Spillet bruger enhedens egne skrifttyper og emoji. Der følger ingen skrifttyper eller billeder med.
+
+## Lykkehjulets design (reference – ikke en fil i spillet)
+
+Spillet indeholder ingen billedefil fra fjernsynet. Til at efterligne de farvede felter er brugt
+fotografiet af det oprindelige hjul, da 「Lykkehjulet» havde premiere i 1988:
+
+- Fil: Lykkehjulet1988Round1Wheel.jpg — https://commons.wikimedia.org/wiki/File:Lykkehjulet1988Round1Wheel.jpg
+- Ophavsret: Germanname1990 (Wikimedia Commons), 2008.
+- Licens: CC BY-SA 3.0 — billedet er IKKE lagt ind i repoet, kun brugt som visuel reference.
+- Hvis hjulets udseende ændres efter fotografien, sættes credit: «Foto: Germanname1990 / Wikimedia Commons, CC BY-SA 3.0».
