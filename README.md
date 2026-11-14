@@ -179,6 +179,20 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.15 – 2026-11-14
+
+**Tilføjet**
+- 🍾 **Flaskehalsen peger på** – hold knappen inde for at lade op, slip, og flasken snurrer og lander på en spiller. Resten foregår i virkeligheden.
+- 🎯 **S · P · K** – tre store bogstaver, hvor ét vælges tilfældigt med lige stor chance: S = Sandhed, P = Procent, K = Konsekvens.
+- 📺 **Dansk reality** – 29 spørgsmål om offentligt kendte vindere af Paradise Hotel, X Factor og Vild med dans. Kilder: [docs/kilder-reality.md](docs/kilder-reality.md).
+
+### 0.2.14 – 2026-11-14
+
+**Ændret**
+- 🔒 **Alle spørgsmålspuljer er krypterede**: de ligger ikke længere som læsbar tekst i repositoryet, men som base64-blobs, der først dekrypteres, når spillet starter (`www/hs-krypto.js`). Det gør det ikke trivielt at læse svarene fra GitHub eller «vis kilde», og besværligt at kopiere puljen til en anden app.
+- Værktøj: `node tools/krypt.js laas|laas-op|--tjek`. Nattens job og kildetjekket krypterer automatisk `ex_daily.js` og `vf2.js` efter skrivning, og CI afviser en udgivelse, hvis en pulje ikke kan dekrypteres.
+- **Forbehold:** nøglen skal ligge i browseren, så en besluttet person kan stadig trække den ud. Det er anti-snyd i praksis, ikke kryptografisk hemmeligholdelse.
+
 ### 0.2.13 – 2026-11-14
 
 **Ændret**
@@ -219,28 +233,6 @@ en kop kaffe:
 **Tilføjet**
 - ☕ **Støt projektet** – Buy Me a Coffee-badge i README og i spillets feedback-fod.
 - `tools/hent_lyde.py` henter, trimmer og koder lydene igen og genskaber krediteringsfilen.
-
-### 0.2.7 – 2026-11-14
-
-**Rettet**
-- 🎡 **Lykkehjulet er bygget om efter det danske tv-hjul**: 24 felter, samme farver og værdier (inkl. FALLIT, TABT TUR og JOKER), gråt nav og kant, og tekst der står radialt og følger hjulet. Skriftstørrelsen tilpasses feltet, så intet stikker ud eller forsvinder. `KR` er fjernet, da det rodede billedet.
-
-**Ændret**
-- 🎵 **Lydene er lavet helt om og er nu meget mere dramatiske**: braam (dybe, let forvrængede strygerstakke), pauke, stryger-tremolo, bækken-svulm, riser og rumklang i stedet for tynde sinustoner. 16 lyde, ca. 0,95 MB.
-- Oplæsningens to felter er nu **valglister med installationens egne enheder** (`tts.*` og `media_player.*`) i stedet for fritekst.
-
-**Tilføjet**
-- **← Alle spil** i indstillingsboksen, så man kan forlade den uden at starte et spil.
-
-### 0.2.6 – 2026-11-14
-
-**Tilføjet**
-- 🎵 **15 indbyggede drama- og quizlyde**: dyb spænding, tikken, hjerteslag, hviskende luft, rolig marimba, xylofon-motiv, stigende spænding, trommehvirvel, Pauke, mystisk klokke, quiz-intro, sejr, forkert svar, nedtælling og «tid er gået». Vælges i indstillingerne med **Prøv lyd**; seks af dem kan loope.
-- **🎵/🔇-knap** i spillets bjælke slår musikken til og fra med ét tryk – musikken kan altid fravælges, også midt i en runde.
-- Lydene er **syntetiseret fra bunden** (`tools/lav_lyde.py`), så de er projektets egne (MIT) og kan bruges frit. Se [docs/lyd.md](docs/lyd.md).
-
-**Ændret**
-- Mens oplæsningen taler, **dæmpes musikken** til ca. 14 % i stedet for at stoppe, så spørgsmålet altid kan høres – og musikken går op igen bagefter.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
