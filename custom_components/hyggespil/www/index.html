@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="da"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Hyggespil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><!-- ingen eksterne kald: spillet kører 100 % lokalt i Home Assistant -->
+<style>
+:root{--bg:#0f0a24;--glass:rgba(255,255,255,.08);--line:rgba(255,255,255,.16);--tx:#fff;--mut:#b9b4d6}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;min-height:100vh;font-family:Poppins,system-ui,Segoe UI,Roboto,sans-serif;color:var(--tx);background:var(--bg);overflow-x:hidden}
+body:before,body:after{content:"";position:fixed;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.45;z-index:0;animation:drift 22s ease-in-out infinite alternate}
+body:before{background:#ff3d81;top:-25vmax;left:-15vmax}
+body:after{background:#3a86ff;bottom:-25vmax;right:-15vmax;animation-delay:-8s}
+@keyframes drift{to{transform:translate(8vmax,6vmax) scale(1.15)}}
+#app{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:16px}
+header{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+h1{margin:0;font-size:26px;font-weight:800;background:linear-gradient(90deg,#ffb703,#ff5d8f,#8f6bff,#4cc9f0);-webkit-background-clip:text;background-clip:text;color:transparent;flex:1;cursor:pointer}
+button{font:inherit;cursor:pointer;border:0;color:#fff}
+.btn{padding:10px 18px;border-radius:14px;font-weight:700;background:linear-gradient(135deg,#8f6bff,#ff5d8f);box-shadow:0 6px 20px rgba(143,107,255,.35);transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}.btn:active{transform:scale(.97)}
+.btn.ghost{background:var(--glass);border:1px solid var(--line);box-shadow:none}
+.btn.red{background:linear-gradient(135deg,#ff3d6e,#c9184a)}
+.btn.big{padding:15px 30px;font-size:18px;border-radius:18px}
+.btn.green{background:linear-gradient(135deg,#2ec4b6,#80ed99);color:#06221f}
+.btn[disabled]{opacity:.4;pointer-events:none}
+.glass{background:var(--glass);border:1px solid var(--line);border-radius:22px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+#score{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.sc{display:flex;align-items:center;gap:10px;padding:8px 14px 8px 8px;border-radius:50px;background:var(--glass);border:1px solid var(--line)}
+.sc .av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:var(--c);color:#111}
+.sc .pt{font-size:22px;font-weight:800;min-width:24px;text-align:center}
+.sc.lead{box-shadow:0 0 0 2px #ffb703,0 0 24px rgba(255,183,3,.45)}
+.grp{margin:22px 0 10px;font-size:15px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.gc{padding:22px;border-radius:26px;text-align:left;position:relative;overflow:hidden;min-height:150px;background:var(--g);box-shadow:0 12px 30px rgba(0,0,0,.35);transition:transform .2s}
+.gc:hover{transform:translateY(-5px) rotate(-.6deg)}
+.gc .em{font-size:44px;filter:drop-shadow(0 4px 6px rgba(0,0,0,.3))}
+.gc .t{font-size:20px;font-weight:800;margin-top:6px;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.3)}
+.gc .d{font-size:13px;opacity:.92;margin-top:4px;color:#fff}
+.gc .mn{position:absolute;top:14px;right:16px;font-size:12px;background:rgba(0,0,0,.25);padding:3px 9px;border-radius:20px}
+.gc .ps{position:absolute;bottom:12px;right:16px;font-size:11px;opacity:.85}
+.card{padding:26px;margin-bottom:16px;animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{opacity:0;transform:scale(.92) translateY(14px)}}
+.q{font-size:clamp(22px,3.4vw,34px);font-weight:700;line-height:1.3;text-align:center;margin:10px 0 18px}
+.tag{display:inline-block;padding:5px 14px;border-radius:30px;font-size:13px;font-weight:700;background:rgba(255,255,255,.12)}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}.bar .sp{flex:1}
+.row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;align-items:center}
+.zones{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:14px 0}
+.zone{border-radius:20px;border:2px dashed var(--line);padding:10px;min-height:96px;transition:.2s;background:rgba(255,255,255,.04)}
+.zones .zone{border-color:var(--zc);background:linear-gradient(180deg,color-mix(in srgb,var(--zc) 22%,transparent),transparent)}
+.zone.right{box-shadow:0 0 0 3px var(--zc),0 0 34px var(--zc);transform:scale(1.03)}
+.zone.dim{opacity:.4}
+.zl{font-weight:800;font-size:17px;margin-bottom:8px;display:flex;gap:8px;align-items:center}
+.zl span{font-size:24px}
+.zc{display:flex;gap:8px;flex-wrap:wrap;min-height:40px}
+.pool{min-height:64px;margin-top:6px}
+.chip{padding:9px 16px;border-radius:30px;font-weight:700;background:var(--c);color:#111;cursor:grab;touch-action:none;user-select:none;box-shadow:0 4px 12px rgba(0,0,0,.3);transition:transform .15s}
+.chip.sel{outline:3px solid #fff;transform:scale(1.1)}.chip.lift{opacity:.3}
+.chip.ghost{position:fixed;transform:translate(-50%,-50%) scale(1.15) rotate(-4deg);pointer-events:none;z-index:99;cursor:grabbing}
+.chip.aw{cursor:pointer}.chip.aw:hover{transform:scale(1.08)}
+.hint{color:var(--mut);font-size:13px;text-align:center}
+input.in{width:100%;font:inherit;font-size:22px;font-weight:700;padding:12px 16px;border-radius:14px;border:2px solid var(--line);background:rgba(0,0,0,.25);color:#fff;text-align:center;outline:0}
+input.in:focus{border-color:#ffb703}
+.bids{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.bid{padding:14px 28px;border-radius:20px;text-align:center;background:var(--c);color:#111;min-width:140px}
+.bid b{display:block;font-size:34px;line-height:1.1}.bid small{font-weight:700}
+.ans{font-size:clamp(30px,6vw,56px);font-weight:800;text-align:center;background:linear-gradient(90deg,#ffb703,#ff5d8f,#4cc9f0);-webkit-background-clip:text;background-clip:text;color:transparent;animation:pop .5s;margin:8px 0}
+.res{display:flex;flex-direction:column;gap:6px;align-items:center;margin:10px 0;font-weight:600}
+.res span{background:rgba(255,255,255,.1);padding:6px 14px;border-radius:20px}
+.mid{display:grid;gap:10px;margin:10px 0}
+.opt{padding:12px 16px;border-radius:16px;font-weight:600;animation:pop .4s}
+.est{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:12px 0}
+.est .p{padding:12px;border-radius:18px;background:rgba(255,255,255,.06);border:2px solid var(--c)}
+.est .p b{display:block;margin-bottom:8px;color:var(--c)}
+.big-card{min-height:220px;display:grid;place-items:center}
+.forb{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:8px 0}
+.forb span{background:#c9184a;padding:6px 14px;border-radius:20px;font-weight:700;text-decoration:line-through}
+.tm{font-size:34px;font-weight:800;text-align:center;margin:8px 0}
+.modal{position:fixed;inset:0;background:rgba(5,2,20,.7);display:grid;place-items:center;z-index:50;padding:16px;backdrop-filter:blur(6px)}
+.mbox{width:min(520px,100%);padding:24px;background:#1c1442;border:1px solid var(--line);border-radius:24px;max-height:90vh;overflow:auto}
+.pl{display:flex;gap:8px;align-items:center;margin:6px 0}
+.pl .chip{flex:1;cursor:default}.pl button{background:rgba(255,255,255,.12);border-radius:50%;width:34px;height:34px}
+.pl input[type=color]{width:38px;height:34px;border:0;background:none;padding:0}
+.conf{position:fixed;top:-30px;font-size:26px;z-index:90;pointer-events:none;animation:fall 2.2s ease-in forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.8}}
+.shake{animation:sh .35s}@keyframes sh{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.rk{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:18px;background:rgba(255,255,255,.08);margin:8px 0;font-size:20px;font-weight:800}
+.rk .n{flex:1}.rk.w{box-shadow:0 0 0 2px #ffb703,0 0 26px rgba(255,183,3,.45)}
+</style></head><body><div id="app"></div>
+<script src="data.js?v=5"></script><script src="data2.js?v=5"></script><script src="data3.js?v=5"></script>
+<script>
+const LS={get(k,d){try{const v=localStorage.getItem('hs_'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('hs_'+k,JSON.stringify(v))}catch(e){}}};
+const COLORS=['#ff5d8f','#ffb703','#2ec4b6','#8f6bff','#4cc9f0','#80ed99','#ff7b00','#f15bb5'];
+let players=LS.get('players',[]),own=LS.get('own',[]),view='home',g={},modal=null,tid=null;
+/* Udvidelses-hooks: ext.js kan tilføje spil (GAMES.push), nye spiltyper (KINDS) og byggere til valgspil (CHOICE_BUILD) */
+window.KINDS={};window.CHOICE_BUILD={};
+/* oprydning af to ugyldige indgange */
+DATA.tl=DATA.tl.filter(x=>!x.a[1].includes('2.500 år gammel'));
+DATA.riddle=DATA.riddle.filter(x=>!x.q.startsWith('Hvad kan man have, uden'));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const save=()=>LS.set('players',players);
+const fmt=n=>Number(n).toLocaleString('da-DK',{maximumFractionDigits:2});
+const parseNum=s=>{s=String(s).trim().replace(/\s/g,'').replace(/\.(?=\d{3}(\D|$))/g,'').replace(',','.');const v=parseFloat(s);return isNaN(v)?null:v};
+const GAMES=[
+{id:'ffm',grp:'Gæt & kvis',key:'num',kind:'ffm',t:'Fugl, fisk eller midtimellem',d:'To gætter et tal – resten vurderer: højere, lavere eller midt imellem? (2 spillere = klassisk Tættest på)',e:'🐦',g:'linear-gradient(135deg,#ff5d8f,#ff9e4a)',min:2},
+{id:'est',grp:'Gæt & kvis',key:'num',kind:'est',t:'Tættest på',d:'Alle gætter et tal i hemmelighed – nærmest vinder',e:'🎯',g:'linear-gradient(135deg,#8f6bff,#4cc9f0)',min:2},
+{id:'tf',grp:'Gæt & kvis',key:'tf',kind:'choice',t:'Sandt eller falsk',d:'Skøre påstande – træk navnet til dit svar',e:'🤔',g:'linear-gradient(135deg,#2ec4b6,#80ed99)',min:2},
+{id:'odd',grp:'Gæt & kvis',key:'odd',kind:'choice',t:'Find løgnen',d:'Fire påstande – én er falsk',e:'🕵️',g:'linear-gradient(135deg,#f15bb5,#8f6bff)',min:2},
+{id:'tl',grp:'Gæt & kvis',key:'tl',kind:'choice',t:'Hvad skete først?',d:'Tidslinjens skøreste rækkefølger',e:'⏳',g:'linear-gradient(135deg,#4361ee,#4cc9f0)',min:2},
+{id:'mys',grp:'Mysterie & hjernevrid',key:'mys',kind:'choice',t:'Hvem gjorde det?',d:'Få spor ad gangen – stem på den skyldige',e:'🔍',g:'linear-gradient(135deg,#3a0ca3,#7209b7)',min:2},
+{id:'riddle',grp:'Mysterie & hjernevrid',key:'riddle',kind:'qa',t:'Gåder',d:'Hjernevrid og kluntede tricks – først med svaret får point',e:'🧩',g:'linear-gradient(135deg,#0ead69,#2ec4b6)',min:2},
+{id:'who',grp:'Mysterie & hjernevrid',key:'who',kind:'who',t:'Hvem/hvad er jeg?',d:'Spor ét ad gangen – jo færre spor, jo flere point',e:'🎭',g:'linear-gradient(135deg,#f72585,#7209b7)',min:2},
+{id:'taboo',grp:'Party & leg',key:'taboo',kind:'secret',t:'Forbudte ord',d:'Forklar ordet uden de forbudte – 60 sekunder',e:'🚫',g:'linear-gradient(135deg,#d00000,#ff7b00)',min:2},
+{id:'char',grp:'Party & leg',key:'char',kind:'secret',t:'Gæt og vis',d:'Spil det uden lyd – de andre gætter (let, mellem, svær)',e:'🎬',g:'linear-gradient(135deg,#ffb703,#fb8500)',min:2},
+{id:'rat',grp:'Party & leg',key:'rather',kind:'choice',t:'Hellere end',d:'Skøre valg – hvor lander holdet?',e:'⚖️',g:'linear-gradient(135deg,#ffb703,#ff5d8f)',min:2},
+{id:'lik',grp:'Party & leg',key:'likely',kind:'cards',t:'Mest sandsynlig til…',d:'Tæl til tre og peg!',e:'👆',g:'linear-gradient(135deg,#4cc9f0,#3a0ca3)',min:2},
+{id:'nev',grp:'Party & leg',key:'never',kind:'cards',t:'Jeg har aldrig…',d:'Tag en tår, hvis det passer på dig',e:'🍷',g:'linear-gradient(135deg,#c9184a,#590d22)',min:1},
+{id:'dare',grp:'Party & leg',key:'dare',kind:'award',t:'Vinudfordringer',d:'Små opgaver – udfør og tjen point',e:'🥂',g:'linear-gradient(135deg,#ff7b00,#d00000)',min:2},
+{id:'deep',grp:'Hygge & dybde',key:'deep',kind:'cards',t:'Dybe samtaler',d:'Date night og familieaften – spørgsmål til lange snakke',e:'💬',g:'linear-gradient(135deg,#6a4c93,#1982c4)',min:1}
+];
+const gm=id=>GAMES.find(a=>a.id===id);
+const pool=k=>k==='num'?DATA.num.concat(own):(DATA[k]||[]);
+const idOf=it=>typeof it==='string'?it:(it.q&&it.a!==undefined&&typeof it.a!=='object'?it.q:(it.q||it.s||it.t||it.w||(it.o&&it.o[0])||it.b||it.a||it.c||JSON.stringify(it)))+(it.a&&typeof it.a==='object'?'|'+it.a[0]:'');
+function draw(gk,list){let seen=LS.get('seen2_'+gk,[]);let av=list.filter(x=>!seen.includes(idOf(x)));if(!av.length){seen=[];av=list}const it=av[Math.random()*av.length|0];seen.push(idOf(it));LS.set('seen2_'+gk,seen);return it}
+function boom(){const em=['🎉','🍷','✨','🥂','🎊','⭐'];for(let i=0;i<34;i++){const s=document.createElement('div');s.className='conf';s.textContent=em[i%em.length];s.style.left=Math.random()*100+'vw';s.style.animationDelay=Math.random()*.6+'s';s.style.fontSize=(18+Math.random()*20)+'px';document.body.appendChild(s);setTimeout(()=>s.remove(),3200)}}
+function add(i,n){players[i].s+=n;save();g.gp=g.gp||{};g.gp[i]=(g.gp[i]||0)+n;renderScore()}
+function ask(text,yes){const d=document.createElement('div');d.className='modal';d.innerHTML=`<div class="mbox"><h3 style="margin-top:0">${esc(text)}</h3><div class="row"><button class="btn red" id="cy">Ja</button><button class="btn ghost" id="cn">Annuller</button></div></div>`;document.body.appendChild(d);d.querySelector('#cn').onclick=()=>d.remove();d.querySelector('#cy').onclick=()=>{d.remove();yes()}}
+
+function render(){
+ const app=document.getElementById('app');
+ if(players.length<2&&!modal)modal='pl';
+ app.innerHTML=`<header><h1 onclick="go('home')">🍷 Hyggespil</h1>
+ <button class="btn ghost" onclick="modal='pl';render()">👥 Spillere</button>
+ <button class="btn ghost" onclick="modal='q';render()">➕ Spørgsmål</button>
+ <button class="btn ghost" onclick="newEvening()">↺ Ny aften</button></header>
+ <div id="score"></div><div id="main"></div>${modal?modalHTML():''}`;
+ renderScore();
+ if(view==='home')home();else game();
+ bindModal();
+}
+function renderScore(){const el=document.getElementById('score');if(!el)return;const mx=Math.max(0,...players.map(p=>p.s));el.innerHTML=players.map(p=>`<div class="sc ${p.s>0&&p.s===mx?'lead':''}"><div class="av" style="--c:${p.c}">${esc(p.n[0]||'?').toUpperCase()}</div><div>${esc(p.n)}</div><div class="pt">${p.s}</div></div>`).join('')}
+function go(v){clearInterval(tid);view=v;g={};render();scrollTo(0,0)}
+function newEvening(){ask('Nulstil alle point og start en ny aften?',()=>{players.forEach(p=>p.s=0);save();go('home')})}
+
+function modalHTML(){
+ if(modal==='pl')return `<div class="modal"><div class="mbox"><h2 style="margin-top:0">Hvem spiller med?</h2>
+ ${players.map((p,i)=>`<div class="pl"><input type="color" value="${p.c}" data-col="${i}"><div class="chip" style="--c:${p.c}">${esc(p.n)}</div><button data-del="${i}">✕</button></div>`).join('')}
+ <div class="pl"><input class="in" id="np" placeholder="Skriv navn og tryk Enter" style="font-size:17px" maxlength="16"><button class="btn" id="addp" style="border-radius:14px;width:auto;height:auto">Tilføj</button></div>
+ <p class="hint">Mindst 2 spillere. Med 2 spillere bliver «Fugl, fisk eller midtimellem» til klassisk «Tættest på».</p>
+ <div class="row"><button class="btn green" id="closem" ${players.length<2?'disabled':''}>Klar!</button></div></div></div>`;
+ if(modal==='q')return `<div class="modal"><div class="mbox"><h2 style="margin-top:0">Tilføj eget tal-spørgsmål</h2>
+ <p class="hint" style="text-align:left">Bruges i «Fugl, fisk eller midtimellem» og «Tættest på». Gemmes kun på denne enhed.</p>
+ <input class="in" id="qq" placeholder="Spørgsmål" style="font-size:16px;text-align:left"><div style="height:8px"></div>
+ <div class="row"><input class="in" id="qa" placeholder="Svar (tal)" style="font-size:16px;flex:1"><input class="in" id="qu" placeholder="Enhed" style="font-size:16px;flex:1"></div>
+ <p class="hint">Egne spørgsmål i puljen: ${own.length}</p>
+ <div class="row"><button class="btn" id="saveq">Gem</button><button class="btn ghost" id="closem">Luk</button></div></div></div>`;
+ return '';
+}
+function bindModal(){
+ if(!modal)return;const $=id=>document.getElementById(id);
+ const close=()=>{modal=null;render()};
+ if($('closem'))$('closem').onclick=close;
+ if(modal==='pl'){
+  const addp=()=>{const v=$('np').value.trim();if(!v)return;players.push({n:v,c:COLORS[players.length%COLORS.length],s:0});save();render()};
+  $('addp').onclick=addp;$('np').onkeydown=e=>{if(e.key==='Enter')addp()};$('np').focus();
+  document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{players.splice(+b.dataset.del,1);save();g={};if(view!=='home'&&players.length<2)view='home';render()});
+  document.querySelectorAll('[data-col]').forEach(b=>b.onchange=()=>{players[+b.dataset.col].c=b.value;save();renderScore()});
+ }
+ if(modal==='q')$('saveq').onclick=()=>{const q=$('qq').value.trim(),a=parseNum($('qa').value),u=$('qu').value.trim();if(!q||a===null){$('qq').classList.add('shake');return}own.push({q,a,u});LS.set('own',own);render()};
+}
+
+function home(){
+ let tot=0,h='';
+ for(const grp of [...new Set(GAMES.map(x=>x.grp))]){
+  h+=`<div class="grp">${grp}</div><div class="grid">${GAMES.filter(x=>x.grp===grp).map(x=>{const n=pool(x.key).length;return `<button class="gc" style="--g:${x.g}" onclick="start('${x.id}')"><div class="em">${x.e}</div><div class="t">${x.t}</div><div class="d">${x.d}</div><div class="mn">${x.min}+ spillere</div><div class="ps">${n} i puljen</div></button>`}).join('')}</div>`}
+ const keys=[...new Set(GAMES.map(x=>x.key))];tot=keys.reduce((s,k)=>s+pool(k).length,0);
+ document.getElementById('main').innerHTML=h+`<p class="hint" style="margin-top:22px">${tot} spørgsmål, opgaver og kort i alt. Du får ikke samme kort igen, før hele puljen er brugt. Point gemmes, til du starter en ny aften.</p>`;
+}
+function start(id){const x=gm(id);if(players.length<x.min){alert('Der skal mindst være '+x.min+' spillere – tilføj flere under «Spillere».');return}
+ g={turn:-1,gp:{}};let v=id;if(id==='ffm'&&players.length<3){v='est';g.fb=true}view=v;next()}
+function next(){
+ clearInterval(tid);const x=gm(view);
+ g.sel=null;g.reveal=false;g.assign={};g.b=null;g.ph=0;g.cl=1;g.shown=false;g.ans=false;g.tend=null;g.done=false;
+ g.item=draw(view,pool(x.key));
+ if(x.kind==='ffm')g.r=(g.r==null?0:(g.r+1)%players.length);
+ if(['cards','award','secret'].includes(x.kind))g.turn=(g.turn+1)%players.length;
+ if(KINDS[x.kind]&&KINDS[x.kind].init)KINDS[x.kind].init();
+ render();
+}
+
+function chipH(i){return `<div class="chip ${g.sel===i?'sel':''}" data-p="${i}" style="--c:${players[i].c}">${esc(players[i].n)}</div>`}
+function boardHTML(b){
+ const ch=z=>b.judges.filter(i=>(g.assign[i]||'pool')===z).map(chipH).join('');
+ return `<div class="zones">${b.zones.map(z=>`<div class="zone ${b.reveal&&b.correct===z.id?'right':''} ${b.reveal&&b.correct&&b.correct!==z.id?'dim':''}" data-z="${z.id}" style="--zc:${z.c}"><div class="zl"><span>${z.e}</span>${z.l}</div><div class="zc">${ch(z.id)}</div></div>`).join('')}</div>
+ <div class="zone pool" data-z="pool"><div class="zc">${ch('pool')}</div></div>
+ ${b.reveal?'':'<p class="hint">Træk dit navn hen på dit svar (eller tryk på navnet og så på svaret)</p>'}`;
+}
+function setZ(i,z){if(z==='pool')delete g.assign[i];else g.assign[i]=z}
+function bindDnd(root,b,rerender){
+ if(b.reveal)return;
+ root.querySelectorAll('.chip[data-p]').forEach(ch=>{ch.onpointerdown=e=>{
+  const i=+ch.dataset.p,sx=e.clientX,sy=e.clientY;let gh=null;
+  const mv=ev=>{if(!gh&&Math.hypot(ev.clientX-sx,ev.clientY-sy)>8){gh=ch.cloneNode(true);gh.classList.add('ghost');document.body.appendChild(gh);ch.classList.add('lift')}if(gh){gh.style.left=ev.clientX+'px';gh.style.top=ev.clientY+'px'}};
+  const up=ev=>{document.removeEventListener('pointermove',mv);document.removeEventListener('pointerup',up);
+   if(gh){gh.remove();const t=document.elementFromPoint(ev.clientX,ev.clientY);const z=t&&t.closest('[data-z]');if(z)setZ(i,z.dataset.z);g.sel=null}
+   else g.sel=g.sel===i?null:i;
+   rerender()};
+  document.addEventListener('pointermove',mv);document.addEventListener('pointerup',up);e.preventDefault()}});
+ root.querySelectorAll('[data-z]').forEach(zn=>zn.onclick=e=>{if(e.target.closest('.chip'))return;if(g.sel!=null){setZ(g.sel,zn.dataset.z);g.sel=null;rerender()}});
+}
+
+function game(){
+ const x=gm(view),m=document.getElementById('main');
+ const bar=`<div class="bar"><button class="btn ghost" onclick="go('home')">← Alle spil</button><span class="tag">${x.e} ${x.t}${g.fb?' – klassisk (2 spillere)':''}</span><span class="sp"></span>${g.done?'':'<button class="btn red" id="endg">🏁 Afslut spil</button>'}</div>`;
+ let body='';
+ if(g.done)body=results();
+ else if(KINDS[x.kind])body=KINDS[x.kind].render();
+ else if(x.kind==='ffm')body=ffm();else if(x.kind==='est')body=est();else if(x.kind==='choice')body=choice();
+ else if(x.kind==='qa')body=qa();else if(x.kind==='who')body=who();else if(x.kind==='secret')body=secret();else body=cards(x.kind==='award');
+ m.innerHTML=bar+body;
+ bindGame();
+}
+function results(){
+ const rk=players.map((p,i)=>({i,p:(g.gp&&g.gp[i])||0})).sort((a,b)=>b.p-a.p),top=rk[0].p;
+ return `<div class="card glass"><div class="q">🏁 Spillet er slut!</div><div class="hint">Point i dette spil</div>${rk.map((r,k)=>`<div class="rk ${top>0&&r.p===top?'w':''}"><span>${top>0&&r.p===top?'👑':(k+1)+'.'}</span><span class="n" style="color:${players[r.i].c}">${esc(players[r.i].n)}</span><span>${r.p}</span></div>`).join('')}<p class="hint">Samlet stilling for aftenen vises øverst.</p><div class="row"><button class="btn big green" id="again">Spil igen</button><button class="btn big ghost" id="menu">Til menuen</button></div></div>`;
+}
+function bindGame(){
+ const m=document.getElementById('main'),$=id=>document.getElementById(id),x=gm(view);
+ if(g.b&&!g.done)bindDnd(m,g.b,refreshBoard);
+ const on=(id,f)=>{if($(id))$(id).onclick=f};
+ on('go',onGo);on('nx',next);on('skip',next);on('menu',()=>go('home'));
+ on('again',()=>start(g.fb?'ffm':view));
+ on('endg',()=>ask('Afslut spillet? Pointene bevares, og du ser stillingen for dette spil.',()=>{clearInterval(tid);g.done=true;boom();render()}));
+ on('clue',()=>{g.cl++;render()});on('vote',()=>{g.ph=1;render()});
+ on('shans',()=>{g.ans=true;render()});on('show',()=>{g.shown=true;render()});
+ on('tmb',()=>{g.tend=Date.now()+60000;clearInterval(tid);tid=setInterval(tick,250);tick()});
+ m.querySelectorAll('[data-award]').forEach(b=>b.onclick=()=>{const i=+b.dataset.award;add(i,+b.dataset.pts||1);if(b.dataset.also)add(+b.dataset.also,1);boom();next()});
+ const f=m.querySelector('input.in');if(f&&!f.value)f.focus();
+ if(g.tend)tick();
+ if(!g.done&&KINDS[x.kind]&&KINDS[x.kind].bind)KINDS[x.kind].bind();
+}
+function tick(){const el=document.getElementById('tm');if(!el||!g.tend)return;const s=Math.max(0,Math.ceil((g.tend-Date.now())/1000));el.textContent=s>0?'⏱ '+s+' sek':'⏰ Tiden er gået!';if(s<=0){clearInterval(tid)}}
+function refreshBoard(){const el=document.getElementById('board');if(!el)return game();el.innerHTML=boardHTML(g.b);bindDnd(document.getElementById('main'),g.b,refreshBoard)}
+function awardChips(pts,exclude,also){return `<div class="row">${players.map((p,i)=>i===exclude?'':`<div class="chip aw" data-award="${i}" data-pts="${pts}" ${also!=null?`data-also="${also}"`:''} style="--c:${p.c}">${esc(p.n)} +${pts}</div>`).join('')}</div>`}
+
+function ffm(){
+ const n=players.length,a=(g.r+1)%n,b2=(g.r+2)%n,it=g.item;g.guess=[a,b2];
+ const head=`<div class="card glass"><div class="row"><span class="tag">📖 Oplæser: ${esc(players[g.r].n)}</span><span class="tag">✍️ Gætter: ${esc(players[a].n)} &amp; ${esc(players[b2].n)}</span></div><div class="q">${esc(it.q)}</div>`;
+ if(g.ph===0)return head+`<div class="est">${[a,b2].map((i,k)=>`<div class="p" style="--c:${players[i].c}"><b>${esc(players[i].n)}</b><input class="in" type="password" autocomplete="off" inputmode="decimal" id="bid${k}" placeholder="Dit bud"></div>`).join('')}</div><p class="hint">Skriv jeres bud (skjules med prikker). ${it.u?'Enhed: '+esc(it.u):''}</p><div class="row"><button class="btn big" id="go">Lås bud 🔒</button></div></div>`;
+ const [x1,x2]=g.bids,lo=Math.min(x1,x2),hi=Math.max(x1,x2),ans=it.a;
+ const cor=(ans===lo||ans===hi)?'m':ans>hi?'h':ans<lo?'l':'m';
+ g.b={judges:players.map((_,i)=>i).filter(i=>i!==a&&i!==b2),zones:[{id:'l',l:'FISK – lavere',e:'🐟',c:'#4cc9f0'},{id:'m',l:'MIDT IMELLEM',e:'🤝',c:'#ffb703'},{id:'h',l:'FUGL – højere',e:'🐦',c:'#ff5d8f'}],reveal:g.ph===2,correct:g.ph===2?cor:null,correct0:cor};
+ let out=head+`<div class="bids">${[a,b2].map((i,k)=>`<div class="bid" style="--c:${players[i].c}"><small>${esc(players[i].n)}</small><b>${fmt(g.bids[k])}</b></div>`).join('')}</div>`;
+ out+=`<div id="board">${boardHTML(g.b)}</div>`;
+ if(g.ph===1)out+=`<div class="row"><button class="btn big" id="go">Afslør svaret! 🥁</button></div>`;
+ else out+=`<div class="ans">${fmt(ans)} ${esc(it.u||'')}</div>${it.n?`<p class="hint">${esc(it.n)}</p>`:''}<div class="res">${g.res.map(r=>`<span>${esc(r)}</span>`).join('')}</div><div class="row"><button class="btn big green" id="nx">Næste runde →</button></div>`;
+ return out+'</div>';
+}
+function onGo(){
+ const x=gm(view);
+ if(x.kind==='ffm'){
+  if(g.ph===0){const v=[0,1].map(k=>parseNum(document.getElementById('bid'+k).value));if(v.includes(null)){[0,1].forEach(k=>document.getElementById('bid'+k).classList.add('shake'));return}g.bids=v;g.ph=1;return render()}
+  if(g.ph===1){const [a,b2]=g.guess,ans=g.item.a,[x1,x2]=g.bids,d1=Math.abs(x1-ans),d2=Math.abs(x2-ans),md=Math.min(d1,d2),res=[];
+   if(d1===md){add(a,1);res.push('🏆 '+players[a].n+' var tættest (+1)')}if(d2===md){add(b2,1);res.push('🏆 '+players[b2].n+' var tættest (+1)')}
+   const wr=g.b.judges.filter(i=>g.assign[i]===g.b.correct0);wr.forEach(i=>add(i,1));
+   res.push(wr.length?'✅ Rigtigt gæt: '+wr.map(i=>players[i].n).join(', ')+' (+1)':'😅 Ingen gættede rigtigt');
+   g.res=res;g.ph=2;boom();return render()}
+ }
+ if(x.kind==='est'){
+  const v=players.map((_,i)=>parseNum(document.getElementById('e'+i).value));if(v.includes(null)){players.forEach((_,i)=>{if(v[i]===null)document.getElementById('e'+i).classList.add('shake')});return}
+  g.vals=v;const ans=g.item.a,ds=v.map(z=>Math.abs(z-ans)),md=Math.min(...ds);g.win=ds.map((d,i)=>d===md?i:-1).filter(i=>i>=0);g.win.forEach(i=>add(i,1));g.reveal=true;boom();return render()}
+ if(x.kind==='choice'){
+  const cor=g.b.correct0;g.reveal=true;g.sol=[];
+  if(cor!=null){g.b.judges.forEach(i=>{if(g.assign[i]===cor){add(i,1);g.sol.push(i)}});boom()}
+  return render()}
+}
+function est(){
+ const it=g.item;let h=`<div class="card glass"><div class="q">${esc(it.q)}</div>`;
+ if(!g.reveal)return h+`<div class="est">${players.map((p,i)=>`<div class="p" style="--c:${p.c}"><b>${esc(p.n)}</b><input class="in" type="password" autocomplete="off" inputmode="decimal" id="e${i}" placeholder="Gæt"></div>`).join('')}</div><p class="hint">Alle skriver deres gæt (skjult). ${it.u?'Enhed: '+esc(it.u):''}</p><div class="row"><button class="btn big" id="go">Afslør svaret! 🥁</button></div></div>`;
+ return h+`<div class="ans">${fmt(it.a)} ${esc(it.u||'')}</div>${it.n?`<p class="hint">${esc(it.n)}</p>`:''}<div class="est">${players.map((p,i)=>`<div class="p" style="--c:${p.c};${g.win.includes(i)?'box-shadow:0 0 24px '+p.c:''}"><b>${g.win.includes(i)?'🏆 ':''}${esc(p.n)}</b><div style="font-size:22px;font-weight:800">${fmt(g.vals[i])}</div></div>`).join('')}</div><div class="row"><button class="btn big green" id="nx">Næste →</button></div></div>`;
+}
+function mysHead(it){return `<div class="tag">🔍 ${esc(it.t)}</div><div class="q" style="font-size:clamp(18px,2.6vw,26px)">${esc(it.s)}</div><div class="mid">${it.c.slice(0,g.cl).map((c,i)=>`<div class="opt glass">🔎 Spor ${i+1}: ${esc(c)}</div>`).join('')}</div>`}
+function choice(){
+ const it=g.item;let q,zones,cor=null,pre='';
+ const cb=CHOICE_BUILD[view];
+ if(cb){const r=cb(it);q=r.q;zones=r.zones;cor=r.cor}
+ else if(view==='tf'){q=it.s;zones=[{id:'t',l:'Sandt',e:'✅',c:'#2ec4b6'},{id:'f',l:'Falsk',e:'❌',c:'#ff5d8f'}];cor=it.t?'t':'f'}
+ else if(view==='odd'){q='Hvilken påstand er LØGN?';const cs=['#ff5d8f','#ffb703','#2ec4b6','#8f6bff'];zones=it.o.map((t,i)=>({id:'o'+i,l:esc(t),e:'ABCD'[i],c:cs[i]}));cor='o'+it.a}
+ else if(view==='tl'){q=it.q;zones=[{id:'a',l:esc(it.a[0]),e:'🅰️',c:'#4cc9f0'},{id:'b',l:esc(it.a[1]),e:'🅱️',c:'#ff5d8f'}];cor=it.c===0?'a':'b'}
+ else if(view==='mys'){const cs=['#ff5d8f','#ffb703','#2ec4b6','#8f6bff','#4cc9f0'];q=null;zones=it.p.map((t,i)=>({id:'o'+i,l:esc(t),e:'👤',c:cs[i%5]}));cor='o'+it.a;pre=mysHead(it);
+  if(g.ph===0)return `<div class="card glass">${pre}<div class="row">${g.cl<it.c.length?'<button class="btn" id="clue">🔎 Næste spor</button>':''}<button class="btn green" id="vote">Stem på den skyldige →</button></div><p class="hint">Diskutér sporene, før I stemmer. Rigtigt svar giver 1 point.</p></div>`}
+ else{q='Hvad ville du helst?';zones=[{id:'a',l:esc(it.a),e:'🅰️',c:'#ff5d8f'},{id:'b',l:esc(it.b),e:'🅱️',c:'#4cc9f0'}]}
+ g.b={judges:players.map((_,i)=>i),zones,reveal:g.reveal,correct:g.reveal?cor:null,correct0:cor};
+ let o=`<div class="card glass">${pre}${q?`<div class="q">${esc(q)}</div>`:''}<div id="board">${boardHTML(g.b)}</div>`;
+ if(!g.reveal)o+=`<div class="row"><button class="btn big" id="go">${cor?'Afslør!':'Vis fordeling'}</button></div>`;
+ else{if(cor)o+=`<div class="res"><span>${g.sol.length?'✅ Point til: '+g.sol.map(i=>esc(players[i].n)).join(', '):'😅 Ingen havde ret'}</span></div>${it.e?`<p class="hint">${esc(it.e)}</p>`:''}`;
+  else{const c={};players.forEach((p,i)=>{const z=g.assign[i];if(z)c[z]=(c[z]||0)+1});o+=`<div class="res">${zones.map(z=>`<span>${z.e} ${c[z.id]||0} stemmer</span>`).join('')}</div>`}
+  o+=`<div class="row"><button class="btn big green" id="nx">Næste →</button></div>`}
+ return o+'</div>';
+}
+function qa(){
+ const it=g.item;
+ return `<div class="card glass"><div class="q">${esc(it.q)}</div>`+(g.ans?`<div class="ans" style="font-size:clamp(24px,4vw,40px)">${esc(it.a)}</div><p class="hint">Hvem gættede rigtigt?</p>${awardChips(1,-1)}<div class="row" style="margin-top:12px"><button class="btn ghost" id="skip">Ingen – næste gåde →</button></div>`:`<div class="row"><button class="btn big" id="shans">Vis svaret</button><button class="btn ghost" id="skip">Spring over</button></div>`)+'</div>';
+}
+function who(){
+ const it=g.item,pts=Math.max(1,6-g.cl);
+ let o=`<div class="card glass"><div class="tag">🎭 Hvem/hvad er jeg? – ${g.cl} af ${it.c.length} spor</div><div class="mid">${it.c.slice(0,g.cl).map((c,i)=>`<div class="opt glass">${i+1}. ${esc(c)}</div>`).join('')}</div>`;
+ if(g.ans)return o+`<div class="ans" style="font-size:clamp(26px,4.5vw,44px)">${esc(it.a)}</div><p class="hint">Hvem gættede det? (${pts} point – ${g.cl} spor brugt)</p>${awardChips(pts,-1)}<div class="row" style="margin-top:12px"><button class="btn ghost" id="skip">Ingen – næste →</button></div></div>`;
+ return o+`<p class="hint">Jo færre spor, jo flere point (5 spor = 1 point, 1 spor = 5 point). Sig gættet højt!</p><div class="row">${g.cl<it.c.length?'<button class="btn" id="clue">Næste spor</button>':''}<button class="btn green" id="shans">Vis svaret</button></div></div>`;
+}
+function secret(){
+ const it=g.item,p=players[g.turn],isT=view==='taboo';
+ let o=`<div class="card glass"><div class="row"><span class="tag" style="background:${p.c};color:#111">${isT?'Forklarer':'Skuespiller'}: ${esc(p.n)}</span></div>`;
+ if(!g.shown)return o+`<div class="q">Kun ${esc(p.n)} må se skærmen!</div><div class="row"><button class="btn big" id="show">Vis kort</button><button class="btn ghost" id="skip">Nyt kort</button></div></div>`;
+ o+=isT?`<div class="ans" style="font-size:clamp(34px,6vw,60px)">${esc(it.w)}</div><div class="hint">Forbudte ord:</div><div class="forb">${it.f.map(x=>`<span>${esc(x)}</span>`).join('')}</div>`:`<div class="q" style="font-size:clamp(26px,4vw,42px)">${esc(it)}</div><p class="hint">Ingen lyde eller ord – kun krop og ansigt!</p>`;
+ o+=`<div class="tm" id="tm">${g.tend?'':'60 sek'}</div><div class="row"><button class="btn" id="tmb">⏱ Start 60 sek</button></div><p class="hint" style="margin-top:14px">Hvem gættede det? (gæt og forklarer/skuespiller får hver +1)</p>${awardChips(1,g.turn,g.turn)}<div class="row" style="margin-top:12px"><button class="btn ghost" id="skip">Ingen gættede – næste →</button></div></div>`;
+ return o;
+}
+function cards(aw){
+ const p=players[g.turn];
+ let o=`<div class="card glass big-card"><div><div class="row"><span class="tag" style="background:${p.c};color:#111">Tur: ${esc(p.n)}</span></div><div class="q" style="font-size:clamp(24px,4vw,40px)">${esc(g.item)}</div>`;
+ if(aw)o+=`<p class="hint">Hvem klarede udfordringen? Giv et point:</p>${awardChips(1,-1)}<div class="row" style="margin-top:14px"><button class="btn ghost" id="skip">Næste uden point →</button></div>`;
+ else o+=`<div class="row"><button class="btn big green" id="nx">Næste →</button></div>`;
+ return o+'</div></div>';
+}
+</script>
+<script src="ext.js?v=5"></script>
+<script>
+/* indlæs daglige tilføjelser (extra.json), derefter start */
+window.HS_FINISH&&window.HS_FINISH();
+fetch('extra.json?'+Date.now()).then(r=>r.json()).then(x=>{window.HS_EXTRA?window.HS_EXTRA(x):0}).catch(()=>{}).finally(()=>render());
+</script></body></html>
