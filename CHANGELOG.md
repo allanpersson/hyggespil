@@ -2,6 +2,10 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
+## 0.2.3 - 2026-11-14
+
+- Timer, hurtigt-svar-point, spaendingsmusik og sensor til lys/automationer
+- Dokumentation opdateret til 0.2.2 og version i loggen
 ## 0.2.2 - 2026-11-14
 
 - Logger version ved start, et-commit-synk og robust CI-push
