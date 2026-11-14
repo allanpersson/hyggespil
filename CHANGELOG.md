@@ -2,6 +2,9 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
+## 0.2.6 - 2026-11-14
+
+- Tilfoejer 15 indbyggede drama- og quizlyde
 ## 0.2.5 – 2026-11-14
 
 ### Tilføjet
