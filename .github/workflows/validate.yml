@@ -3,6 +3,9 @@ name: Validering
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'CHANGELOG.md'
+      - 'custom_components/hyggespil/www/hs-cfg.js'
   pull_request:
   workflow_dispatch:
 
