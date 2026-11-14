@@ -1,0 +1,13 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Hyggespil",
+        "description": "Tilføjer Hyggespil i sidebjælken. Spillernavne, aldre og point gemmes kun i browseren på den enhed, I spiller på."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Hyggespil er allerede tilføjet."
+    }
+  }
+}
