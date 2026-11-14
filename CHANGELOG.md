@@ -2,6 +2,9 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
+## 0.2.18 - 2026-11-14
+
+- Flaskehjulet drejer nu rigtigt og har faaet SVG-grafik
 ## 0.2.15 – 2026-11-14
 
 ### Tilføjet
