@@ -2,6 +2,9 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
+## 0.2.10 - 2026-11-14
+
+- Tydelig fald-animation på glasbroen
 ## 0.2.9 – 2026-11-14
 
 ### Rettet
