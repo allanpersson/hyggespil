@@ -1,0 +1,54 @@
+name: Udgiv ny version
+
+# Kører ved hvert push til main: sammenligner versionen i custom_components/hyggespil/manifest.json
+# med den seneste udgivelse, og opretter en prerelease, når versionen er hævet.
+# Selve zippet vedhæftes af release.yml, når en release publiceres.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  udgiv:
+    name: Sæt tag og udgiv prerelease
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Nuværende version
+        id: v
+        run: echo "version=$(python -c "import json;print(json.load(open('custom_components/hyggespil/manifest.json'))['version'])")" >> "$GITHUB_OUTPUT"
+      - name: Seneste udgivelse
+        id: senest
+        continue-on-error: true
+        run: |
+          curl -fsSL -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/releases/latest" \
+            | python -c "import sys,json;print(json.load(sys.stdin)['tag_name'])" > senest.txt || true
+      - name: Sammenlign
+        id: sammenlign
+        run: |
+          senest=""
+          if [ -f senest.txt ]; then senest=$(tr -d '\r\n' < senest.txt); fi
+          nu="${{ steps.v.outputs.version }}"
+          echo "seneste udgivelse: '$senest' – nuværende version: '$nu'"
+          if [ "$senest" = "$nu" ]; then echo "nyt=nej" >> "$GITHUB_OUTPUT"; else echo "nyt=ja" >> "$GITHUB_OUTPUT"; fi
+      - name: Opret tag
+        if: steps.sammenlign.outputs.nyt == 'ja'
+        run: |
+          git tag "${{ steps.v.outputs.version }}"
+          git push origin "${{ steps.v.outputs.version }}"
+      - name: Opret prerelease
+        if: steps.sammenlign.outputs.nyt == 'ja'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.v.outputs.version }}
+          name: Hyggespil ${{ steps.v.outputs.version }}
+          prerelease: true
+          generate_release_notes: true
+          body: |
+            Installation: Marketplace → tilføj dette repository som brugerdefineret repository (type Integration) → Hyggespil →
+            versionen ligger under «pre-release». Genstart Home Assistant og tilføj integrationen under Enheder og tjenester.
