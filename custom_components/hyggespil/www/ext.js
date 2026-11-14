@@ -221,6 +221,7 @@ function setLock(on){
  render()}
 function gate(){
  const isNew=!xStore();
+ while(players.length<2)players.push({n:'Spiller '+(players.length+1),c:(window.COLORS||['#4cc9f0','#ff5d8f'])[players.length%2],s:0,t:0});
  const d=document.createElement('div');d.className='modal';
  d.innerHTML=`<div class='mbox'><h2 style='margin-top:0'>🔞 Kun for voksne</h2>
  <p class='hint' style='text-align:left'>Kun for samtykkende voksne (18+). Alt er frivilligt – man må altid sige «pas», og stop betyder stop.</p>
@@ -250,7 +251,67 @@ window.render=function(){
  const h=document.querySelector('header');if(!h)return;
  const b=document.createElement('button');b.className='btn ghost xbtn';b.id='xbtn';b.textContent=unlocked?'🔞🔓':'🔞';b.title=unlocked?'Lås 🔞':'🔞 (egen kode)';
  b.onclick=()=>unlocked?setLock(false):gate();h.appendChild(b)};
+/* husk at mind om at vælge kode, hvis enheden allerede har data men ingen kode */
+window.hsKodeMangler=()=>!xStore();
+
+/* ---- første gangs start: egen 🔞-kode + to spillere – ingen data fra udvikleren følger med ---- */
+const FMT='hs_forst';
+const frisk=()=>{try{return !xStore()}catch(e){return false}};  // ny installation = der er endnu ikke valgt en 🔞-kode på denne enhed
+function ensureSetup(){
+ if(!frisk()||typeof players==='undefined'||typeof save!=='function')return;
+ if(document.querySelector('.modal'))return;
+ /* sæt to spillere op – uden nogen data fra udvikleren */
+ const C=window.COLORS||['#4cc9f0','#ff5d8f','#ffb703'];
+ while(players.length<2)players.push({n:'Spiller '+(players.length+1),c:C[players.length%C.length],s:0,t:0});
+ save();
+ const d=document.createElement('div');d.className='modal';
+ d.innerHTML=`<div class="mbox" style="max-height:92vh;overflow:auto">
+ <h2 style="margin-top:0">🍷 Velkommen til Hyggespil</h2>
+ <p class="hint" style="text-align:left">Spillet kører helt hos dig selv: spillernavne, aldre, point og egne spørgsmål gemmes kun i browseren på denne enhed og forlader den aldrig. Ingen data fra udviklerens eget spil følger med.</p>
+ <h3 style="margin:14px 0 6px" id="fh1">① Vælg din egen 🔞-kode</h3>
+ <p class="hint" style="text-align:left" id="ftxt">Afsnittet for voksne (18+) låses med en kode, <b>du finder på</b> – 4–8 cifre. Der findes ingen fælles kode, og koden gemmes kun som en kontrolsum på denne enhed.</p>
+ <input class="in" id="fc1" type="password" inputmode="numeric" autocomplete="off" maxlength="8" placeholder="Kode (4–8 cifre)">
+ <div style="height:6px"></div>
+ <input class="in" id="fc2" type="password" inputmode="numeric" autocomplete="off" maxlength="8" placeholder="Gentag koden">
+ <p class="hint" id="fmsg" style="min-height:1.2em;color:#ffb703"></p>
+ <h3 style="margin:14px 0 6px">② Hvem spiller med?</h3>
+ <p class="hint" style="text-align:left">To spillere er sat op i forvejen – du kan skrive navnene her, eller ændre dem senere under 👥 Spillere.</p>
+ <input class="in" id="fn1" maxlength="16" placeholder="Spiller 1">
+ <div style="height:6px"></div>
+ <input class="in" id="fn2" maxlength="16" placeholder="Spiller 2">
+ <div class="row" style="margin-top:16px"><button class="btn big green" id="fok">Start spillet</button></div>
+ <p class="hint" style="text-align:left">Du kan fortryde koden senere: tryk 🔞, lås, «Glemt koden eller vil skifte? Nulstil».</p></div>`;
+ document.body.appendChild(d);
+ const vis=!xStore();
+ if(!vis){['#fh1','#ftxt','#fc1','#fc2'].forEach(q=>{const e=d.querySelector(q);if(e)e.parentNode.removeChild(e)});
+  const t=document.createElement('p');t.className='hint';t.style.textAlign='left';t.textContent='🔞-koden er allerede valgt på denne enhed. Skift den ved at trykke 🔞 → lås → «Glemt koden eller vil skifte? Nulstil».';
+  d.querySelector('.mbox').insertBefore(t,d.querySelector('#fn1'));}
+ d.querySelector('#fn1').value=(players[0]&&players[0].n)||'Spiller 1';
+ d.querySelector('#fn2').value=(players[1]&&players[1].n)||'Spiller 2';
+ d.querySelector('#fok').onclick=()=>{
+  const msg=t=>{d.querySelector('#fmsg').textContent=t||''};
+  const n1=String(d.querySelector('#fn1').value||'').trim(),n2=String(d.querySelector('#fn2').value||'').trim();
+  if(!n1||!n2){msg('Skriv navne på begge spillere.');return}
+  if(vis){
+   const f1=d.querySelector('#fc1'),f2=d.querySelector('#fc2'),v=String(f1&&f1.value||'').trim(),v2=String(f2&&f2.value||'').trim();
+   if(!/^\d{4,8}$/.test(v)){msg('Koden skal være 4–8 cifre.');return}
+   if(v!==v2){msg('De to koder er ikke ens.');return}
+   xSave(v);
+  }
+  if(players[0])players[0].n=n1;if(players[1])players[1].n=n2;save();
+  localStorage.setItem(FMT,'ja');
+  d.remove();render();};
+ d.querySelector('#fn1').focus()}
+const _render2=window.render;
+window.render=function(){const r=_render2.apply(this,arguments);try{if(frisk())ensureSetup()}catch(e){}return r};
+/* åbn start-boksen selvom render-kæden vrisser: når dokumentet er læst, eller 400 ms efter at filen er kørt */
+(function(){
+ const prov=()=>{try{if(frisk())ensureSetup()}catch(e){console.warn('HS startboks',e)}};
+ if(document.readyState==='complete')setTimeout(prov,50);
+ else document.addEventListener('DOMContentLoaded',function(){setTimeout(prov,60)});
+ setTimeout(prov,400);
+})();
 
 /* ---- indlæs kortdata og datapakker (synkront, før start) ---- */
-['hs-cfg','world','p1','p2','p3','p4','p5','p6','p7','p8','p9','map3d','resume','vf2','hs2','hs3','hs4','hs5','k1','pv','dx','sm','ex_daily','feedback'].forEach(n=>document.write('<script src="'+n+'.js?v='+VER+'"></scr'+'ipt>'));
+['hs-cfg','world','p1','p2','p3','p4','p5','p6','p7','p8','p9','map3d','resume','vf2','hs2','hs3','hs4','hs5','k1','pv','dx','sm','c1','w1','t1','ex_daily','feedback','sporgsmal','backup'].forEach(n=>document.write('<script src="'+n+'.js?v='+VER+'"></scr'+'ipt>'));
 })();
