@@ -2,6 +2,9 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
+## 0.2.12 - 2026-11-14
+
+- Graeker eller sygdom bruger latinske sygdomsnavne
 ## 0.2.11 – 2026-11-14
 
 ### Tilføjet
