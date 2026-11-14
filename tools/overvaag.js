@@ -80,11 +80,15 @@ async function hentJson(p, init) {
     }
   }
 
-  // 3) CI: kun den seneste kørsel pr. workflow tæller
+  // 3) CI: kun den seneste kørsel pr. workflow tæller. Overvågning springes over,
+  //    ellers kan en gammel overvågningsfejl holde sig selv rød for evigt.
   const kørsler = await hentJson('/actions/runs?branch=main&per_page=30');
   if (kørsler.json) {
     const senestePr = new Map();
-    for (const r of kørsler.json.workflow_runs) if (!senestePr.has(r.name)) senestePr.set(r.name, r);
+    for (const r of kørsler.json.workflow_runs) {
+      if (r.name === 'Overvågning') continue;
+      if (!senestePr.has(r.name)) senestePr.set(r.name, r);
+    }
     const fejlede = [...senestePr.values()].filter(r => r.conclusion === 'failure');
     console.log(`CI: ${senestePr.size} workflows — ${fejlede.length} fejler`);
     for (const r of fejlede) {
