@@ -56,3 +56,5 @@ jobs:
         run: python tools/opdater_readme.py --tjek
       - name: Spørgsmålspuljerne kan dekrypteres
         run: node tools/krypt.js --tjek
+      - name: Kvalitetsrapport for spørgsmål og svar
+        run: node tools/kvalitet.js

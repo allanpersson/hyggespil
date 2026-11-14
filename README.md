@@ -3,7 +3,7 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.16<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.15<!-- version:end -->
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
@@ -157,6 +157,8 @@ Spillet sender aldrig noget af sig selv. Sagen indeholder din tekst, spillets na
 ## Kilder og fakta
 
 Faktaspørgsmål (tal, rekorder, geografi, sprog, love og færdselsregler) er kontrolleret mod skriftlige kilder: mindst to uafhængige kilder pr. punkt, og for love selve lovteksten. Fejl kan stadig forekomme, og love ændres. Mener du, et svar er forkert, så brug 💬 i spillet og skriv gerne kilden.
+
+Kvaliteten holdes også under lup automatisk: `tools/kvalitet.js` gennemgår puljerne for tomme tekster, dubletter, svar der står i spørgsmålet, skæve citationstegn, HTML-rester og tal uden for rimelige grænser. Rapporten ligger i [docs/kvalitetsrapport.md](docs/kvalitetsrapport.md), og CI laver en ny ved hver ændring.
 
 ## Kendte begrænsninger
 
