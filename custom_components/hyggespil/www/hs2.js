@@ -91,7 +91,7 @@ const kidAge=()=>{const a=players.map(p=>p.age).filter(x=>x>0);return a.length?M
 
 /* ================= 2) Random-mix ================= */
 let MIX=null;
-const inMode=(mode,x)=>x.kind!=='mix'&&(mode==='mixall'?(x.grp!==GRP_X&&x.grp!==GRP_K&&x.grp!==GRP_R&&x.grp!=='🦑 Dødsspils-leg'):mode==='mixkids'?x.grp===GRP_K:mode==='mixxxx'?x.grp===GRP_X:x.sub===mode);
+const inMode=(mode,x)=>x.kind!=='mix'&&(mode==='mixall'?(x.grp!==GRP_X&&x.grp!==GRP_K&&x.grp!==GRP_R&&x.grp!=='🦑 Squid Games'):mode==='mixkids'?x.grp===GRP_K:mode==='mixxxx'?x.grp===GRP_X:x.sub===mode);
 const eligible=mode=>GAMES.filter(x=>inMode(mode,x)&&players.length>=x.min&&(x.id!=='ffm'||players.length>=3)&&pool(x.key).length>0&&(mode!=='mixall'||!window.hsFit||window.hsFit(x)!=='no'));
 const n0=window.next;
 window.next=function(){
