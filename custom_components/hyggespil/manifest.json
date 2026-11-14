@@ -12,6 +12,7 @@
   ],
   "documentation": "https://github.com/allanpersson/hyggespil",
   "integration_type": "helper",
+  "iot_class": "calculated",
   "issue_tracker": "https://github.com/allanpersson/hyggespil/issues",
   "requirements": [],
   "version": "0.2.0"
