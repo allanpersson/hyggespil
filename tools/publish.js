@@ -77,9 +77,15 @@ const LABELS = [
     repo = created; console.log('Oprettede ' + created.html_url);
   }
   await api(`/repos/${owner}/${name}`, 'PATCH', {
-    description: 'Danske selskabsspil til Home Assistant – kører helt lokalt, ingen eksterne tjenester. 55 spil, 6.400+ spørgsmål.',
-    homepage: '', topics: ['home-assistant', 'hacs', 'party-game', 'danish', 'board-games', 'home-assistant-integration'],
-  }).catch(e => console.log('  (emner/beskrivelse: ' + e.message.slice(0, 100) + ')'));
+    description: 'Danske selskabsspil til Home Assistant – 55 spil og 6.400+ spørgsmål, kører helt lokalt uden eksterne tjenester.',
+    has_issues: true, has_wiki: false, has_discussions: true,
+  }).catch(e => console.log('  (beskrivelse: ' + e.message.slice(0, 100) + ')'));
+  // Emner kræver egen ende-type hos GitHub.
+  await fetch('https://api.github.com/repos/' + REPO + '/topics', {
+    method: 'PUT',
+    headers: { Authorization: 'Bearer ' + cfg.token, 'User-Agent': 'hyggespil-publish', Accept: 'application/vnd.github.mercy-preview+json', 'Content-Type': 'application/json' },
+    body: JSON.stringify({ names: ['home-assistant', 'hacs', 'hacs-integration', 'party-game', 'danish', 'board-game', 'selskabsspil', 'games'] }),
+  }).then(r => r.ok ? null : r.text()).then(t => t && console.log('  (emner: ' + String(t).slice(0, 120) + ')'));
   const files = trackedFiles();
   console.log('Uploader ' + files.length + ' filer fra HEAD ...');
   await uploadFiles(files);
@@ -107,7 +113,14 @@ const LABELS = [
       headers: { Authorization: 'Bearer ' + cfg.token, 'Content-Type': 'application/zip', Accept: 'application/vnd.github+json', 'Content-Length': fs.statSync(zpath).size },
       body: fs.createReadStream(zpath),
     });
-    const body = await up.json().catch(() => ({}));
-    console.log('zip upload: HTTP ' + up.status + (up.ok ? ' – færdig: ' + (body.browser_download_url || '') : ' – ' + JSON.stringify(body).slice(0, 200)));
+    if (up.ok) return console.log('zip upload: færdig – ' + ((await up.json()).browser_download_url || ''));
+    // upload_url-nøglen rækker nogle gange ikke: prøv den almindelige asset-vej
+    const alt = await fetch(`https://uploads.github.com/repos/${owner}/${name}/releases/${rel.id}/assets?name=${zip}`, {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + cfg.token, 'Content-Type': 'application/zip', Accept: 'application/vnd.github+json', 'Content-Length': fs.statSync(zpath).size },
+      body: fs.readFileSync(zpath),
+    });
+    const b = await alt.json().catch(() => ({}));
+    console.log('zip upload (reserve): HTTP ' + alt.status + ' – ' + (b.browser_download_url || JSON.stringify(b).slice(0, 160)));
   }
 })().catch(e => { console.error('FEJL: ' + e.message); process.exit(1) });
