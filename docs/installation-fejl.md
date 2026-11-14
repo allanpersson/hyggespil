@@ -10,12 +10,12 @@ endnu en `custom_components/hyggespil/`-mappe. Både Home Assistant Marketplace 
 zippet ud **direkte** i `config/custom_components/hyggespil`, så filerne endte i
 `config/custom_components/hyggespil/custom_components/hyggespil/…`.
 
-**Det er rettet fra version 0.2.0:** zippet har nu integrationens filer i roden (`manifest.json`,
-`__init__.py`, `www/`, …), og CI afviser en udgivelse, hvis ikke det er tilfældet.
+**Det er rettet fra version 0.2.0** (seneste er 0.2.2): zippet har nu integrationens filer i roden
+(`manifest.json`, `__init__.py`, `www/`, …), og CI afviser en udgivelse, hvis ikke det er tilfældet.
 
 ## Sådan kommer du videre
 
-1. **Opdater til 0.2.0 eller nyere** i Indstillinger → Marketplace → Hyggespil.
+1. **Opdater til nyeste version** (0.2.2 eller senere) i Indstillinger → Marketplace → Hyggespil.
 2. **Genstart Home Assistant** (Indstillinger → System → Genstart). En ny integration bliver først
    indlæst ved genstart.
 3. **Ser du stadig den gamle fejl:** fjern Hyggespil i Marketplace, genstart, og tilføj repoet igen:
@@ -32,7 +32,8 @@ zippet ud **direkte** i `config/custom_components/hyggespil`, så filerne endte 
 
 ## Sådan tjekker du, hvilken version du har
 
-Versionen står nederst på spillets forside, fx **Hyggespil 0.2.0**.
+Versionen står nederst på spillets forside, fx **Hyggespil 0.2.2**, og i Home Assistants log:
+`Hyggespil 0.2.2 er klar – panelet ligger i sidebjælken`.
 
 ## Sådan undgår vi, at det sker igen
 
