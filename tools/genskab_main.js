@@ -27,8 +27,8 @@ const api = async (p, metode = 'GET', krop) => {
 
 (async () => {
   const ref = await api('/git/ref/heads/main');
-  const forælder = ref.object.sha;
-  const base = await api('/git/commits/' + forælder);
+  let forælder = ref.object.sha;
+  let base = await api('/git/commits/' + forælder);
   const træGrund = await api('/git/trees/' + base.tree.sha + '?recursive=1');
 
   const lokale = git('ls-tree -r HEAD --name-only').toString('utf8').split(/\r?\n/).filter(Boolean).filter(f => !udvikler(f));
@@ -54,12 +54,38 @@ const api = async (p, metode = 'GET', krop) => {
     return;
   }
 
-  // 3) ét træ, ét commit, én ref-opdatering
-  const træ = await api('/git/trees', 'POST', { base_tree: base.tree.sha, tree: poster });
-  const commit = await api('/git/commits', 'POST', { message: BESKED, tree: træ.sha, parents: [forælder] });
-  await api('/git/refs/heads/main', 'PATCH', { sha: commit.sha, force: false });
-
-  console.log(`ét commit ${commit.sha.slice(0, 7)}: ${ændrede.length} opdateret, ${slettede.length} slettet`);
-  for (const f of ændrede) console.log('  opdateret: ' + f);
-  for (const f of slettede) console.log('  slettet:   ' + f);
+  // 3) ét træ, ét commit, én ref-opdatering – med genforsøg hvis main er flyttet
+  for (let forsøg = 1; forsøg <= 3; forsøg++) {
+    try {
+      const træ = await api('/git/trees', 'POST', { base_tree: base.tree.sha, tree: poster });
+      const commit = await api('/git/commits', 'POST', { message: BESKED, tree: træ.sha, parents: [forælder] });
+      await api('/git/refs/heads/main', 'PATCH', { sha: commit.sha, force: false });
+      console.log(`ét commit ${commit.sha.slice(0, 7)}: ${ændrede.length} opdateret, ${slettede.length} slettet`);
+      for (const f of ændrede) console.log('  opdateret: ' + f);
+      for (const f of slettede) console.log('  slettet:   ' + f);
+      return;
+    } catch (e) {
+      if (!/fast forward|422/.test(e.message) || forsøg === 3) throw e;
+      console.log('main blev flyttet – henter ny position og prøver igen (' + forsøg + '/3)');
+      await new Promise(r => setTimeout(r, 2500));
+      const nyRef = await api('/git/ref/heads/main');
+      forælder = nyRef.object.sha;
+      base = await api('/git/commits/' + forælder);
+      base = { ...base, tree: { sha: (await api('/git/trees/' + base.tree.sha)).sha } };
+      // genberegn hvilke filer der stadig afviger
+      const nytTræ = await api('/git/trees/' + base.tree.sha + '?recursive=1');
+      const nyMain = new Map(nytTræ.tree.filter(x => x.type === 'blob').map(x => [x.path, x]));
+      poster.length = 0;
+      for (const f of lokale) {
+        const ind = git(`show HEAD:"${f.replace(/"/g, '\\"')}"`);
+        const blob = await api('/git/blobs', 'POST', { content: ind.toString('base64'), encoding: 'base64' });
+        poster.push({ path: f, mode: '100644', type: 'blob', sha: blob.sha });
+      }
+      const nyeSlettede = [...nyMain.keys()].filter(f => !lokalSæt.has(f) && nyMain.get(f).type === 'blob');
+      for (const f of nyeSlettede) poster.push({ path: f, mode: '100644', type: 'blob', sha: null });
+      påMain.clear();
+      for (const [k, v] of nyMain) påMain.set(k, v);
+      for (const f of poster) if (f.sha === null && !påMain.has(f.path)) påMain.set(f.path, { sha: 'slettet', type: 'blob' });
+    }
+  }
 })().catch(e => { console.error('FEJL: ' + e.message); process.exit(1); });
