@@ -16,7 +16,7 @@
   const aes = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const esc = aes;
   const spillere = () => { try { const h = window.hsSpil; return (h && h.players) || []; } catch (e) { return []; } };
-  const STANDARD = { tid: 0, bonus: 0, bonusInden: 10, musikStart: 10, musikNavn: '', lyd: true,
+  const STANDARD = { tid: 0, bonus: 0, bonusInden: 10, musikStart: 10, musik: '', musikNavn: '', lyd: true,
     oplaes: false, taleRate: 1, stemme: '', haTts: '', haPlayer: '' };
   let valg = Object.assign({}, STANDARD, (LS && LS.get('valg', {})) || {});
   const gemValg = () => { try { LS.set('valg', valg); } catch (e) {} };
@@ -82,24 +82,63 @@
     } catch (e) {}
     return musikBlob;
   }
+  /* Indbyggede lyde – filerne ligger i www/lyd og er lavet af tools/lav_lyde.py (egne, MIT).
+     De sidste fire er loops; resten spiller én gang. */
+  const LYDE = [
+    ['spaending', 'Dyb spænding (loop)'], ['tikken', 'Ur der tikker (loop)'], ['hjerte', 'Hjerteslag (loop)'],
+    ['hvisken', 'Hviskende luft (loop)'], ['marimba', 'Rolig marimba (loop)'], ['xylofon', 'Xylofon-motiv (loop)'],
+    ['rister', 'Stigende spænding'], ['trommehvirvel', 'Trommehvirvel'], ['boom', 'Dyb Pauke'],
+    ['mystik', 'Mystisk klokke'], ['quizintro', 'Quiz-intro'], ['vinder', 'Sejr'],
+    ['forkert', 'Forkert svar'], ['uret', 'Nedtælling'], ['sirene', 'Tid er gået'],
+  ];
+  const LOOP = new Set(['spaending', 'tikken', 'hjerte', 'hvisken', 'marimba', 'xylofon']);
+  const MUSIK_VOL = 0.85, DUK_VOL = 0.12;
+
   async function spilMusik() {
     if (musikSpiller || musikAnmodet) return;
     musikAnmodet = true;
-    const blob = await hentMusik();
-    if (!blob) return;
+    let kilde = null, loop = true;
+    if (valg.musik === 'egen') {
+      const blob = await hentMusik();
+      if (!blob) { musikAnmodet = false; return; }
+      kilde = URL.createObjectURL(blob);
+    } else if (valg.musik) {
+      kilde = 'lyd/' + valg.musik + '.mp3';
+      loop = LOOP.has(valg.musik);
+    } else { musikAnmodet = false; return; }
     try {
-      musikSpiller = new Audio(URL.createObjectURL(blob));
-      musikSpiller.loop = true; musikSpiller.volume = 0;
+      musikSpiller = new Audio(kilde);
+      musikSpiller.loop = loop; musikSpiller.volume = 0;
       await musikSpiller.play();
-      let v = 0; const op = setInterval(() => { v = Math.min(1, v + 0.06); try { musikSpiller.volume = Math.min(1, v) * 0.85; } catch (e) {} if (v >= 1) clearInterval(op); }, 90);
-    } catch (e) { musikSpiller = null; }
+      rampTil(volum());
+    } catch (e) { musikSpiller = null; musikAnmodet = false; }
+  }
+  let musikRamp = null, dukket = false, musikFra = false, musikInterval = null;
+  function volum() { return dukket ? DUK_VOL : MUSIK_VOL; }
+  function rampTil(mål) {
+    if (!musikSpiller) return;
+    clearInterval(musikRamp);
+    musikRamp = setInterval(() => {
+      if (!musikSpiller) { clearInterval(musikRamp); return; }
+      const nu = musikSpiller.volume;
+      const næste = nu + (mål - nu) * 0.25;
+      try { musikSpiller.volume = Math.max(0, Math.min(1, næste)); } catch (e) {}
+      if (Math.abs(næste - mål) < 0.01) { try { musikSpiller.volume = mål; } catch (e) {} clearInterval(musikRamp); }
+    }, 60);
+  }
+  /* Dæmp musikken mens der læses op – den fortsætter, bare lavere */
+  function duk(ned) {
+    dukket = !!ned;
+    if (musikSpiller) rampTil(volum());
   }
   function stopMusik() {
     musikAnmodet = false;
+    clearInterval(musikRamp);
     if (!musikSpiller) return;
     try { musikSpiller.pause(); musikSpiller.currentTime = 0; } catch (e) {}
     musikSpiller = null;
   }
+  function musikAktiv() { return !!musikSpiller; }
 
   /* ---------------- Home Assistant ---------------- */
   function hassObjekt() {
@@ -146,7 +185,7 @@
       tid: valg.tid,
       urgency: valg.tid ? Math.min(1, Math.max(0, 1 - rest / valg.tid)) : 0,
       puls: sidstePuls >= 0 ? sidstePuls : 0,
-      musik: !!valg.musikNavn,
+      musik: !!valg.musik,
     };
     const h = hassObjekt();
     if (h && h.callService) { h.callService('hyggespil', 'status', data).catch(() => {}); return; }
@@ -205,7 +244,7 @@
       /* pulsslag: langsomt i starten, hurtigere og kraftigere mod udløb */
       const u = Math.min(1, Math.max(0, 1 - rest / valg.tid));
       sidstePuls = 0.5 + 0.5 * Math.sin((Date.now() / 1000) * (2 + 10 * u) * Math.PI);
-      if (rest <= valg.musikStart && rest > 0 && musikSpiller === null && valg.musikNavn) spilMusik();
+      if (rest <= valg.musikStart && rest > 0 && musikSpiller === null && valg.musik && !musikFra) spilMusik();
       if (rest <= 0) {
         stopMusik();
         bipper(180, 420, 0.22); setTimeout(() => bipper(140, 520, 0.2), 260);
@@ -263,12 +302,19 @@
         '<input class="in" id="hsv-inden" type="number" min="3" max="300" value="' + valg.bonusInden + '" style="width:70px;text-align:center;padding:4px 8px"> sekunder.</p>' +
         '<h3 style="margin:16px 0 6px">🎵 Spændingsmusik</h3>' +
         '<div class="row" style="justify-content:flex-start">' +
-        '<label class="btn ghost" style="padding:8px 14px;border-radius:12px;cursor:pointer">Vælg lydfil<input type="file" id="hsv-fil" accept="audio/*" style="display:none"></label>' +
-        '<span class="hint" id="hsv-filnavn" style="margin:0">' + (valg.musikNavn ? esc(valg.musikNavn) : 'ingen fil valgt') + '</span>' +
-        (valg.musikNavn ? '<button class="btn ghost" id="hsv-fjern" style="padding:8px 14px;border-radius:12px">Fjern</button>' : '') +
+        '<select class="in" id="hsv-musik" style="max-width:280px;text-align:left">' +
+        '<option value="">Ingen musik</option>' +
+        '<optgroup label="Indbyggede lyde">' +
+        LYDE.map(l => '<option value="' + l[0] + '"' + (valg.musik === l[0] ? ' selected' : '') + '>' + esc(l[1]) + '</option>').join('') +
+        '</optgroup>' +
+        '<option value="egen"' + (valg.musik === 'egen' ? ' selected' : '') + '>Egen fil fra enheden…</option>' +
+        '</select>' +
+        '<button class="btn ghost" id="hsv-lytmusik" style="padding:8px 14px;border-radius:12px">Prøv lyd</button>' +
+        '<label class="btn ghost" id="hsv-vaelefil" style="padding:8px 14px;border-radius:12px;cursor:pointer;display:none">Vælg fil<input type="file" id="hsv-fil" accept="audio/*" style="display:none"></label>' +
         '</div>' +
+        '<p class="hint" id="hsv-filnavn" style="text-align:left;margin:6px 0 0">' + (valg.musikNavn ? esc(valg.musikNavn) : '') + '</p>' +
         '<p class="hint" style="text-align:left;margin:6px 0 0">Spiller de sidste ' +
-        '<input class="in" id="hsv-start" type="number" min="3" max="120" value="' + valg.musikStart + '" style="width:70px;text-align:center;padding:4px 8px"> sekunder af nedtællingen (kræver en tid). Filen gemmes kun på denne enhed.</p>' +
+        '<input class="in" id="hsv-start" type="number" min="3" max="120" value="' + valg.musikStart + '" style="width:70px;text-align:center;padding:4px 8px"> sekunder af nedtællingen (kræver en tid). Vælg «Ingen musik» for at slå det helt fra – også midt i spillet med 🎵-knappen.</p>' +
         '<h3 style="margin:16px 0 6px">🔊 Oplæsning af spørgsmål</h3>' +
         '<label style="display:flex;gap:8px;align-items:center;font-weight:700;cursor:pointer">' +
         '<input type="checkbox" id="hsv-oplaes"' + (valg.oplaes ? ' checked' : '') + '> Læs spørgsmålet op, når det vises</label>' +
@@ -296,6 +342,18 @@
       $('hsv-egen').oninput = () => { const v = +$('hsv-egen').value; if (v >= 5) { valg.tid = v; opdaterKnapper(); } };
       $('hsv-inden').oninput = () => { const v = +$('hsv-inden').value; if (v >= 3) valg.bonusInden = v; };
       $('hsv-start').oninput = () => { const v = +$('hsv-start').value; if (v >= 3) valg.musikStart = v; };
+      /* musik: indbygget lyd, egen fil eller ingen */
+      const visFil = () => { $('hsv-vaelefil').style.display = valg.musik === 'egen' ? '' : 'none'; };
+      visFil();
+      $('hsv-musik').onchange = e => { valg.musik = e.target.value; gemValg(); visFil(); };
+      $('hsv-lytmusik').onclick = () => {
+        stopMusik();
+        const id = valg.musik === 'egen' ? '' : valg.musik;
+        if (!id) { visToast('Vælg en lyd først'); return; }
+        const a = new Audio('lyd/' + id + '.mp3');
+        a.volume = 0.9; a.loop = LOOP.has(id); a.play().catch(() => {});
+        setTimeout(() => { try { a.pause(); } catch (e) {} }, 4000);
+      };
       /* oplæsning */
       const stemmer = (window.HSTTS && window.HSTTS.stemmer) ? window.HSTTS.stemmer() : [];
       const selv = $('hsv-stemme');
@@ -313,12 +371,9 @@
         if (!f) return;
         if (f.size > 8 * 1024 * 1024) { visToast('Filen er over 8 MB - vælg en mindre'); return; }
         await gemMusik(f, f.name);
+        valg.musik = 'egen'; gemValg();
         $('hsv-filnavn').textContent = f.name;
         visToast('Musik gemt på denne enhed');
-      };
-      if ($('hsv-fjern')) $('hsv-fjern').onclick = async () => {
-        try { const d = await db(); const t = d.transaction('filer', 'readwrite'); t.objectStore('filer').delete('spaending'); } catch (e) {}
-        musikBlob = null; valg.musikNavn = ''; gemValg(); $('hsv-filnavn').textContent = 'ingen fil valgt';
       };
       const luk = (medTid) => {
         if (!medTid) { valg.tid = 0; }
@@ -384,6 +439,27 @@
         b.onclick = () => dialog().then(() => startUr());
         bar.appendChild(b);
       }
+      /* musik til/fra med ét tryk – musikken kan altid fravælges midt i spillet */
+      if (bar && !document.getElementById('hsv-musikknap')) {
+        const m = document.createElement('button');
+        m.id = 'hsv-musikknap'; m.className = 'btn ghost';
+        const tegn = () => {
+          m.textContent = musikAktiv() ? '🎵' : '🔇';
+          m.title = musikAktiv() ? 'Sluk musikken' : 'Tænd musikken';
+        };
+        m.onclick = () => {
+          if (musikAktiv()) { musikFra = true; stopMusik(); }
+          else if (valg.musik) { musikFra = false; spilMusik(); }
+          else visToast('Ingen musik valgt – vælg en under ⚙');
+          tegn();
+        };
+        tegn();
+        bar.appendChild(m);
+        if (!musikInterval) musikInterval = setInterval(() => {
+          const k = document.getElementById('hsv-musikknap');
+          if (k) k.textContent = musikAktiv() ? '🎵' : '🔇';
+        }, 1200);
+      }
     } catch (e) {}
     return r;
   };
@@ -392,9 +468,9 @@
   window.HSV = {
     get valg() { return valg; },
     dialog, startUr, stopUr,
-    musik: { gem: gemMusik, hent: hentMusik, spil: spilMusik, stop: stopMusik },
+    musik: { gem: gemMusik, hent: hentMusik, spil: spilMusik, stop: stopMusik, duk, aktiv: musikAktiv, lyde: LYDE },
     send: sendHa,
-    status: () => ({ spil, spilNavn, rest, aktiv, puls: sidstePuls }),
+    status: () => ({ spil, spilNavn, rest, aktiv, puls: sidstePuls, musikAktiv: musikAktiv() }),
   };
 
   /* ved opstart: fortæl Home Assistant, at bordet er klar */

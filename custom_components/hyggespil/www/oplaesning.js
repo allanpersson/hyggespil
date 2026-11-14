@@ -41,12 +41,29 @@
     return true;
   }
 
+  function duk(ned) {
+    try { if (window.HSV && window.HSV.musik && window.HSV.musik.duk) window.HSV.musik.duk(ned); } catch (e) {}
+  }
+
   function tal(tekst, tvang) {
     const v = valg();
     tekst = String(tekst || '').replace(/\s+/g, ' ').trim();
     if (!tekst) return;
     if (!tvang && !v.oplaes) return;
-    if (!tvang && v.haTts && v.haPlayer && haTal(tekst)) return;
+    if (!tvang && v.haTts && v.haPlayer && haTal(tekst)) {
+      /* Højttaleren kender vi ikke længden på – dæmp musikken i et anslået tidsrum */
+      duk(true);
+      const ms = Math.max(3000, Math.min(30000, tekst.length / 11 * 1000));
+      clearTimeout(tal.timer);
+      tal.timer = setTimeout(() => duk(false), ms + 600);
+      return;
+    }
+    if (typeof speechSynthesis === 'undefined') {
+      /* Ingen stemme på enheden: prøv højttaleren, ellers sig det højt */
+      if (v.haTts && v.haPlayer && haTal(tekst)) return;
+      if (window.HSV) visBesked('Enheden har ingen oplæsning – slå den til i telefonens indstillinger, eller vælg en Home Assistant-højttaler.');
+      return;
+    }
     try {
       speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(tekst.slice(0, 600));
@@ -54,10 +71,25 @@
       if (s) u.voice = s;
       u.lang = s ? s.lang : 'da-DK';
       u.rate = Math.min(2, Math.max(0.5, +v.taleRate || 1));
+      /* Musikken dæmpes, mens der tales – den fortsætter, så man stadig hører den */
+      duk(true);
+      u.onend = () => duk(false);
+      u.onerror = () => duk(false);
       speechSynthesis.speak(u);
+    } catch (e) { duk(false); }
+  }
+
+  function visBesked(tekst) {
+    try {
+      const d = document.createElement('div');
+      d.textContent = tekst;
+      d.style.cssText = 'position:fixed;left:50%;bottom:70px;transform:translateX(-50%);z-index:70;max-width:440px;' +
+        'padding:12px 18px;border-radius:18px;background:#ffb703;color:#1c1442;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,.4)';
+      document.body.appendChild(d);
+      setTimeout(() => d.remove(), 6000);
     } catch (e) {}
   }
-  function stop() { try { speechSynthesis.cancel(); } catch (e) {} }
+  function stop() { try { speechSynthesis.cancel(); } catch (e) {} duk(false); }
 
   /* Den tekst, der står som spørgsmål på skærmen lige nu */
   function spoergsmaal() {

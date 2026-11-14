@@ -41,9 +41,11 @@ Når du vælger et spil, åbner en boks **inden spillet starter** (og igen med *
   Den bruges ikke i bræt-, terning- og 3D-spillene, hvor en tid pr. spørgsmål ikke giver mening.
 - **Ekstra point for hurtigt svar** – 0-3 point, hvis svaret kommer inden for det valgte antal sekunder
   (standard 10). Pointene gives én gang pr. spiller pr. spørgsmål.
-- **Spændingsmusik** – vælg en lydfil fra din enhed (maks. 8 MB). Den spiller de sidste sekunder af
-  nedtællingen og stopper, når tiden er gået. Filen gemmes kun på den enhed, I spiller på, og kræver
-  en valgt tid. Browseren kræver et klik før lyd – det klik, du giver ved «Start spil», tæller.
+- **Spændingsmusik** – vælg mellem **15 indbyggede drama- og quizlyde** (ur, hjerteslag, trommehvirvel,
+  rister, Pauke, mystisk klokke, quiz-intro, sejr, forkert svar, sirene og flere), din egen lydfil
+  (maks. 8 MB) eller **Ingen musik**. Lyden spiller de sidste sekunder af nedtællingen, og **🎵/🔇** i
+  spillets bjælke slår den til og fra midt i spillet. Mens der læses op, dæmpes musikken – den
+  fortsætter altså, men man kan høre spørgsmålet. Se [docs/lyd.md](docs/lyd.md).
 - **Oplæsning** – læs spørgsmålet højt med enhedens egen stemme, eller få det læst op gennem en
   Home Assistant-højttaler. **🔊** i spillets bjælke læser igen. Se [docs/oplaesning.md](docs/oplaesning.md).
 

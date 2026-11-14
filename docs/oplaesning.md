@@ -13,6 +13,9 @@ stort, når nogen ser dårligt, eller når spillet kører på tv'et.
 **🔊** i spillets bjælke læser det aktuelle spørgsmål igen; tryk én gang mere for at stoppe.
 Valgene huskes på enheden, men oplæsning er **slået fra som standard**.
 
+Mens der læses op, dæmpes spændingsmusikken til ca. 14 %, så stemmen altid kan høres – musikken
+fortsætter og går op igen bagefter.
+
 ## Hvilke spil læses op?
 
 Spørgsmåls-, kort- og udfordringsspillene. Spil hvor oplæsning ville afsløre svaret – Forbudte ord,

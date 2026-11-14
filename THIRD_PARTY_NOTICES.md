@@ -1,5 +1,11 @@
 # Tredjepartsindhold
 
+## Lyde
+
+Alle lyde i `custom_components/hyggespil/www/lyd/` er **syntetiseret af `tools/lav_lyde.py`** i dette
+repository. Der indgår ingen samples eller optagelser fra tredjepart, og lydene er derfor projektets
+egne værker under MIT-licensen. Ingen kreditering nødvendig.
+
 ## three.js
 
 `custom_components/hyggespil/www/three.min.js` er three.js r149 (https://threejs.org), brugt til 3D-globussen i «Sæt knappenålen».
