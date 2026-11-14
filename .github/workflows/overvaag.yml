@@ -20,6 +20,9 @@ permissions:
 jobs:
   overvaag:
     name: Filer, udgivelse og CI
+    # Spring CI's egne udgivelses-commits over: de rammer main, før udgivelsen er oprettet,
+    # og ville give en falsk fejl. Den daglige kørsel tjekker resultatet bagefter.
+    if: github.event_name != 'push' || github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
