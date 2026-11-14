@@ -2,6 +2,10 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
+## 0.2.19 - 2026-11-14
+
+- Flaske: realistisk SVG, laengere opladning og helt lige stor chance
+- Kvalitetskontrol tjekker nu ogsaa sprog og grammatik
 ## 0.2.18 – 2026-11-14
 
 ### Rettet
