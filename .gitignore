@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+node_modules/
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+*.bak
+*.tmp
+
+# Udviklerens egne nøgler og filer (aldrig i git)
+tools/secrets/
