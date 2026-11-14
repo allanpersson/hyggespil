@@ -2,6 +2,15 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
+## 0.1.0-beta.12 – 2026-11-14
+
+- Opdater hs-cfg.js
+- Genskaber ci_koersel.js
+- Genskaber ci_fejl.js
+- Opdater hs-cfg.js
+- Opdater CHANGELOG.md
+- Opdater udgiv.yml
+- Genskaber genskab_main.js
 ## 0.1.0-beta.8 – 2026-11-14
 
 ### Tilføjet
