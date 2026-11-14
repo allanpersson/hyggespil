@@ -2,9 +2,6 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
-## 0.2.14 - 2026-11-14
-
-- Krypterer alle spoergsmaalspuljer (anti-snyd)
 ## 0.2.13 – 2026-11-14
 
 ### Ændret

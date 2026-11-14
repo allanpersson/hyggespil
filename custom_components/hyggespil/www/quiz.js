@@ -66,6 +66,8 @@
       d: 'Superliga, pokal og danske klubbers historie', e: '⚽', g: 'linear-gradient(135deg,#c8102e,#ffd166)', min: 2 },
     { id: 'fbint', grp: 'Gæt & quiz', key: 'fb_int', kind: 'mc4', t: 'International fodbold',
       d: 'VM, EM og Champions League – hvem vandt hvornår?', e: '🌍', g: 'linear-gradient(135deg,#1d4ed8,#22c55e)', min: 2 },
+    { id: 'reality', grp: 'Gæt & quiz', key: 'reality', kind: 'mc4', t: 'Dansk reality',
+      d: 'Hvem vandt Paradise Hotel, X Factor og Vild med dans?', e: '📺', g: 'linear-gradient(135deg,#db2777,#f59e0b)', min: 2 },
   ];
   tilføj.forEach(x => { if (!GAMES.some(y => y.id === x.id)) GAMES.push(x); });
 })();
