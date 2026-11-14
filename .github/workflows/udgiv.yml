@@ -39,8 +39,12 @@ jobs:
       - name: Opret tag
         if: steps.sammenlign.outputs.nyt == 'ja'
         run: |
-          git tag "${{ steps.v.outputs.version }}"
-          git push origin "${{ steps.v.outputs.version }}"
+          if git ls-remote --tags origin "refs/tags/${{ steps.v.outputs.version }}" | grep -q .; then
+            echo "tagget ${steps.v.outputs.version} findes allerede – springer over"
+          else
+            git tag "${{ steps.v.outputs.version }}"
+            git push origin "${{ steps.v.outputs.version }}"
+          fi
       - name: Opret prerelease
         if: steps.sammenlign.outputs.nyt == 'ja'
         uses: softprops/action-gh-release@v2
