@@ -3,7 +3,7 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.28<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.29<!-- version:end -->
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
@@ -198,6 +198,13 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.29 – 2026-11-15
+
+**Tilføjet**
+- **19 nye spil**: ni musikquizzer (60'erne, 70'erne, 80'erne, 90'erne, 00'erne, 10'erne, kun dansk musik, MGP og Børne-MGP), syv filmquizzer (80'erne, 90'erne, 00'erne, 10'erne, dansk film, Harry Potter og K-pop Demon Hunters), plus Disneyquiz, «Hvem spillede rollen?» og en seriequiz.
+- **«Nyt spil, puljen udvides løbende»** vises nu på spillets kort, når puljen (eller en aldersgruppe) har under 100 kort.
+- Spil med kun ét kort i puljen – fx Glasbroen – viser ikke længere «1 i puljen» og tælles ikke med i puljereglerne.
+
 ### 0.2.28 – 2026-11-15
 
 **Ændret**
@@ -246,15 +253,6 @@ en kop kaffe:
 
 **Tilføjet**
 - **818 nye spørgsmål og kort** fordelt på: Ord og rim (74), Mest sandsynlig (børn) (66), Hvad ville du helst? (børn) (66), Hvad hører ikke til? (66), Sandt eller falsk (børn) (64), Hvilket dyr er jeg? (64), Gør som dyret (64), Børnegåder (64), Gæt og vis (børn) (60), Tæl og gæt (60), Børnequiz (49), Færdselsloven (20), Dalgona (11), Hvem i familien? (11), Postnummer-quiz (10), Byer (5), Sandt eller falsk (5), Tal & gæt (4), Find løgnen (4), Hvad skete først? (4), Hvem/hvad er jeg? (4), Mærkelige ord (4), Hvilket sprog? (4), Skøre rekorder (4), Love & regler (4) samt mindre tilføjelser i Hellere end, Jeg har aldrig, Mest sandsynlig, Udfordringer, Dybe samtaler, Forbudte ord, Gæt og vis, Destination, Stormester og Dystre valg.
-
-### 0.2.21 – 2026-11-14
-
-**Rettet**
-- 🍾 **Flasken** er en rigtig SVG-flaske (kork, skuldre, krop, etiket), kan lades længere op og rammer alle spillere med præcis lige stor chance (krypto-valg).
-- 🔍 **Kvalitetskontrollen** tjekker nu også sprog og grammatik via LanguageTool.
-
-**Ændret**
-- **Børnepuljerne** udvides automatisk med 20 kort pr. aldersgruppe (3–5, 6–8, 9–11, 12–14) — første runde gav 241 nye kort.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
