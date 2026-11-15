@@ -3,7 +3,7 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.39<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.40<!-- version:end -->
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
@@ -235,6 +235,13 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.40 – 2026-11-15
+
+**Rettet**
+- **Kortenes layout:** tekst, antal i puljen og badgen «Nyt spil, puljen udvides løbende» står nu under hinanden i bunden af kortet i stedet for at ligge oven på hinanden. Beskrivelsen har fået luft og kan ikke længere flyde sammen med badges.
+- **Kontrast:** kortene har fået en mørk bundgradient og stærkere tekstskygge, så hvid tekst er læsbar på de lyse orange/gule flader, og «2+ spillere» har fået en mørk baggrund.
+- **Ekspertjobbet** har i første runde lagt 41 nye ekspertspørgsmål ind (num, tf, odd, tl, who, rec) og fortsætter ved næste kørsel, indtil alle puljer har 5.
+
 ### 0.2.39 – 2026-11-15
 
 **Rettet**
@@ -285,12 +292,6 @@ en kop kaffe:
 - **19 nye spil**: ni musikquizzer (60'erne, 70'erne, 80'erne, 90'erne, 00'erne, 10'erne, kun dansk musik, MGP og Børne-MGP), syv filmquizzer (80'erne, 90'erne, 00'erne, 10'erne, dansk film, Harry Potter og K-pop Demon Hunters), plus Disneyquiz, «Hvem spillede rollen?» og en seriequiz.
 - **«Nyt spil, puljen udvides løbende»** vises nu på spillets kort, når puljen (eller en aldersgruppe) har under 100 kort.
 - Spil med kun ét kort i puljen – fx Glasbroen – viser ikke længere «1 i puljen» og tælles ikke med i puljereglerne.
-
-### 0.2.28 – 2026-11-15
-
-**Ændret**
-- **Nyt app-ikon:** et spillekort med et rødt hjerte og en terning erstatter rødvinsglasset – både i Home Assistants sidepanel og i integrationens brand-ikon.
-- Forsiden og velkomstboksen bruger nu 🃏.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
