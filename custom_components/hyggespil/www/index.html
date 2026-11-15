@@ -95,8 +95,8 @@ const LS={get(k,d){try{const v=localStorage.getItem('hs_'+k);return v?JSON.parse
 const COLORS=['#ff5d8f','#ffb703','#2ec4b6','#8f6bff','#4cc9f0','#80ed99','#ff7b00','#f15bb5'];
 let players=LS.get('players',[]),own=LS.get('own',[]),view='home',g={},modal=null,tid=null;
 const vis16=()=>{try{return localStorage.getItem('hs_16')==='ja'}catch(e){return false}};
-const hsNeverIkon=()=>(players.some(p=>p&&p.age>0&&p.age<16)?'🥤':'🍷');
-const hsBarnMed=()=>players.some(p=>p&&p.age>0&&p.age<16);
+const hsNeverIkon=()=>(players.some(p=>p&&p.age>0&&p.age<18)?'🥤':'🍷');
+const hsBarnMed=()=>players.some(p=>p&&p.age>0&&p.age<18);
 const hsDareTitel=()=>(hsBarnMed()?'Saftevands udfordringer':'Vinudfordringer');
 const hsDareIkon=()=>(hsBarnMed()?'🧃':'🍷');
 function hs16(){const nu=vis16();const skift=()=>{try{localStorage.setItem('hs_16',nu?'nej':'ja')}catch(e){};render()};if(nu)return skift();if(window.ask)window.ask('Vis spil for 16+? De indeholder dystre dilemmaer og spørgsmål.',skift);else skift()}
