@@ -72,6 +72,27 @@ jobs:
         if: steps.loop.outputs.loop == 'nej'
         id: indhold
         run: |
+          # Kadence: under 200 i mindste pulje = dagligt, 200+ = hver 3. dag, 300+ = ugentligt
+          if [ "${{ github.event_name }}" = "schedule" ] && [ -f docs/puljestatus.json ]; then
+            python - <<'PY'
+          import json, subprocess, datetime, sys
+          s = json.load(open("docs/puljestatus.json", encoding="utf-8"))
+          min = s.get("min", 0)
+          dage = 7 if min >= 300 else (3 if min >= 200 else 0)
+          if dage:
+              ud = subprocess.run(["gh", "release", "list", "--limit", "1", "--json", "publishedAt"],
+                                  capture_output=True, text=True).stdout
+              try:
+                  sidst = datetime.datetime.fromisoformat(json.loads(ud)[0]["publishedAt"].replace("Z", "+00:00"))
+                  alder = (datetime.datetime.now(datetime.timezone.utc) - sidst).days
+              except Exception:
+                  alder = 999
+              print(f"mindste pulje: {min} → udgivelse hver {dage}. dag (sidste for {alder} dage siden)")
+              if alder < dage:
+                  open("/tmp/spring", "w").write("ja")
+          PY
+            if [ -f /tmp/spring ]; then echo "Springer over: kadence ikke nået"; echo "ja=nej" >> "$GITHUB_OUTPUT"; exit 0; fi
+          fi
           seneste=$(git tag --sort=-creatordate | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | head -n1 || true)
           if [ -z "$seneste" ]; then
             echo "Ingen tidligere udgivelse - udgiver."

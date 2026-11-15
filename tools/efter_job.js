@@ -35,6 +35,24 @@ const dele = Object.entries(tæller).sort((a, b) => b[1] - a[1])
   .map(([p, n]) => (NAVNE[p] || p) + ' (' + n + ')').join(', ');
 const noter = '### Tilføjet\n- **' + iAlt + ' nye spørgsmål og kort** fordelt på: ' + dele + '.\n';
 fs.writeFileSync(path.join(ROD, 'docs', 'udgivelsesnoter.md'), noter, 'utf8');
+
+/* Status til CI: hvor stor er den mindste (pulje, aldersgruppe) lige nu?
+   <200 = daglig udgivelse, >=200 = hver 3. dag, >=300 = ugentligt. */
+try {
+  const st = JSON.parse(fs.readFileSync(path.join(TOOLS, 'state', 'daily_store.json'), 'utf8'));
+  const grupper = [[3, 5], [6, 8], [9, 11], [12, 14]];
+  let min = Infinity; const detaljer = {};
+  for (const [p, liste] of Object.entries(st)) {
+    for (const [a, b] of grupper) {
+      const n = (liste || []).filter(x => { const al = x.item && x.item.age; return typeof al === 'number' && al >= a && al <= b; }).length;
+      detaljer[p + ':' + a + '-' + b] = n;
+      if (n < min) min = n;
+    }
+  }
+  fs.writeFileSync(path.join(ROD, 'docs', 'puljestatus.json'),
+    JSON.stringify({ min, detaljer, over200: min >= 200, over300: min >= 300, opdateret: new Date().toISOString() }, null, 1));
+  console.log('puljestatus: mindste pulje har ' + min + ' (over200=' + (min >= 200) + ', over300=' + (min >= 300) + ')');
+} catch (e) { console.log('kunne ikke skrive puljestatus: ' + e.message); }
 console.log('noter:\n' + noter);
 
 try {
