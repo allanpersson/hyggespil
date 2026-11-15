@@ -24,7 +24,40 @@ NYHEDER_START = "<!-- nyheder:start -->"
 NYHEDER_SLUT = "<!-- nyheder:end -->"
 TAL_START = "<!-- tal:start -->"
 TAL_SLUT = "<!-- tal:end -->"
+DOWNLOAD_START = "<!-- downloads:start -->"
+DOWNLOAD_SLUT = "<!-- downloads:end -->"
 ANTAL_JSON = os.path.join(ROD, "docs", "antal.json")
+REPO = "allanpersson/hyggespil"
+
+
+def downloads() -> int | None:
+    """Summen af downloadede hyggespil.zip-filer på alle udgivelser."""
+    import urllib.request
+
+    token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
+    hoved = {"Accept": "application/vnd.github+json", "User-Agent": "hyggespil"}
+    if token:
+        hoved["Authorization"] = "Bearer " + token
+    total = 0
+    try:
+        for side in range(1, 11):
+            req = urllib.request.Request(
+                f"https://api.github.com/repos/{REPO}/releases?per_page=100&page={side}", headers=hoved)
+            with urllib.request.urlopen(req, timeout=20) as svar:
+                udgivelser = json.load(svar)
+            if not udgivelser:
+                break
+            for u in udgivelser:
+                for a in u.get("assets", []):
+                    if a.get("name") == "hyggespil.zip":
+                        total += int(a.get("download_count") or 0)
+            if len(udgivelser) < 100:
+                break
+        return total
+    except Exception as fejl:  # netværk/ratelimit: behold det tal, der står
+        print(f"kunne ikke hente downloadtal: {fejl}")
+        return None
+
 
 
 def antal() -> dict:
@@ -105,6 +138,9 @@ def main() -> None:
     ny = udskift(tekst, VERSION_START, VERSION_SLUT, version_linje, inline=True)
     ny = udskift(ny, NYHEDER_START, NYHEDER_SLUT, nyheder)
     ny = udskift(ny, TAL_START, TAL_SLUT, tal, inline=True)
+    antal_dl = downloads()
+    if antal_dl is not None:
+        ny = udskift(ny, DOWNLOAD_START, DOWNLOAD_SLUT, f"{antal_dl:,}".replace(",", "."), inline=True)
 
     if ny == tekst:
         print(f"README er i sync (version {version()}, {tal})")

@@ -113,6 +113,8 @@ jobs:
 
       - name: Sæt version i manifest, spillet og CHANGELOG
         if: steps.loop.outputs.loop == 'nej' && steps.indhold.outputs.ja == 'ja'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           v="${{ steps.version.outputs.version }}"
           seneste=$(git tag --sort=-creatordate | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | head -n1 || echo "")
