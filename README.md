@@ -3,7 +3,7 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.25<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.26<!-- version:end -->
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
@@ -194,6 +194,13 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.26 – 2026-11-15
+
+﻿### Rettet
+- **Oplæsning på telefonen virker nu i Home Assistant-appen.** Vælg telefonens Companion-app under **⚙ → 📱 Læs op på telefonen**, så læses spørgsmålet op i telefonens egen højtaler via en TTS-notifikation. Lys-automationen kører uændret videre, fordi den kun lytter til `sensor.hyggespil_spil`.
+- Har du præcis én Companion-app, vælges den automatisk, når browseren ikke kan tale.
+- **README og dokumentationen** beskriver nu, hvordan lyd og lys kan bruges samtidig.
+
 ### 0.2.25 – 2026-11-15
 
 **Rettet**
@@ -244,11 +251,6 @@ en kop kaffe:
 
 **Rettet**
 - 🍾 **Flaskehalsen drejer nu rigtigt**: flasken animeres på det eksisterende element (CSS-transition) i stedet for at blive genoptegnet, så man ser den snurre i 2–4 sekunder og lande på en spiller. Grafikken er samtidig løftet: SVG-flaske med gradient og lys, cirkelring og større spillerkort, der ikke længere skjules bag flasken.
-
-### 0.2.17 – 2026-11-14
-
-**Tilføjet**
-- 🔍 **Kvalitetskontrol** (`tools/kvalitet.js`): gennemgår puljerne for tomme tekster, dubletter, svar der står i spørgsmålet, HTML-rester, skæve citationstegn/parenteser og tal uden for rimelige grænser. Rapporten ligger i [docs/kvalitetsrapport.md](docs/kvalitetsrapport.md) og laves på ny i CI ved hver ændring. Se [docs/kvalitet.md](docs/kvalitet.md).
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
