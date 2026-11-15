@@ -50,8 +50,14 @@ def main() -> None:
                                           "Accept": "application/vnd.github+json",
                                           "Content-Type": "application/json",
                                           "User-Agent": "hyggespil"})
-    with urllib.request.urlopen(req) as r:
-        print(f"beskrivelse opdateret (HTTP {r.status}): {beskrivelse}")
+    try:
+        with urllib.request.urlopen(req) as r:
+            print(f"beskrivelse opdateret (HTTP {r.status}): {beskrivelse}")
+    except urllib.error.HTTPError as e:
+        # CI's egen GITHUB_TOKEN må ikke ændre beskrivelsen (kræver admin); det må ikke vælte en udgivelse
+        print(f"kunne ikke opdatere beskrivelsen (HTTP {e.code}) – kør scriptet lokalt i stedet")
+        if e.code != 403:
+            raise SystemExit(1)
 
 
 if __name__ == "__main__":

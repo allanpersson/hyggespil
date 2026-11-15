@@ -83,6 +83,11 @@ try {
   cp.execFileSync(GIT, ['-C', ROD, 'add', 'docs/udgivelsesnoter.md']);
   cp.execFileSync(GIT, ['-C', ROD, 'commit', '-m', 'Tømmer udgivelsesnoter efter afsendelse'], { stdio: 'ignore' });
 } catch (e) { /* intet at rydde */ }
+
+/* GitHub-beskrivelsen (den HACS/Marketplace viser) følger indholdet. CI's egen token
+   må ikke ændre den, så den opdateres herfra med udviklerens token. */
+try { cp.execFileSync('python', [path.join(ROD, 'tools', 'opdater_beskrivelse.py')], { stdio: 'inherit' }); }
+catch (e) { console.log('kunne ikke opdatere beskrivelsen: ' + e.message); }
 console.log('sendt til GitHub – CI udgiver med noterne');
 
 
