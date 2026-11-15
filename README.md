@@ -3,7 +3,7 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.38<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.39<!-- version:end -->
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
@@ -235,6 +235,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.39 – 2026-11-15
+
+**Rettet**
+- **Dubletter i højttaler-listerne er væk:** samme enhed blev vist flere gange, fordi flere integrationer (fx Chromecast og Google TV) eksponerer den. Listen viser nu én pr. navn, alfabetisk, og markerer utilgængelige enheder.
+- **Telefonens egen højtaler** kan vælges, når den findes som `media_player` i Home Assistant (fx via Music Assistant-appen). Music Assistant kan ikke selv afspille i en browserfane, så enheden skal være oprettet som afspiller – det står nu også i hjælpeteksten.
+
 ### 0.2.38 – 2026-11-15
 
 **Ændret**
@@ -285,15 +291,6 @@ en kop kaffe:
 **Ændret**
 - **Nyt app-ikon:** et spillekort med et rødt hjerte og en terning erstatter rødvinsglasset – både i Home Assistants sidepanel og i integrationens brand-ikon.
 - Forsiden og velkomstboksen bruger nu 🃏.
-
-### 0.2.27 – 2026-11-15
-
-**Rettet**
-- **Lyd i Home Assistant-appen:** TTS-teksten sendes nu inde i `data`, som Companion-appen kræver – fejlen «not a valid option at 'tts_text'» er væk.
-- **Hangman:** galgen og figuren tegnes streg for streg ved hvert forkert bogstav, og figuren falder om ved sidste fejl. De seks prikker er fjernet.
-- **Animationer i alle spil:** grøn «Rigtigt!» ved korrekt svar, rød rysten ved forkert, 💀 ved død og ⏰ når tiden løber ud.
-- **Fodboldquiz:** svarene er nu store kort i én eller to kolonner, og afsløringen viser tydelige grønne/røde kort med ✓/✗.
-- **Standardlyd:** «Ur der tikker» spiller nu de sidste 20 sekunder af nedtællingen, medmindre du vælger en anden lyd.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
