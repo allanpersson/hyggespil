@@ -1,7 +1,7 @@
 {
  "min": 0,
  "detaljer": {
-  "num": 194,
+  "num": 198,
   "tf": 173,
   "odd": 149,
   "rather": 280,
@@ -146,6 +146,7 @@
   "musdk": 6,
   "mgp": 6,
   "bmgp": 6,
+  "musma": 16,
   "film80": 6,
   "film90": 6,
   "film00": 6,
@@ -172,5 +173,5 @@
  "over200": false,
  "over300": false,
  "spil": 93,
- "spoergsmaal": 8289
+ "spoergsmaal": 8309
 }

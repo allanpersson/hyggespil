@@ -39,12 +39,17 @@
   });
 
   const musikSpil = musik.map(([key, t, d, e, g]) => lav(key, t, d, e, g, '🎵 Musikquiz'));
+  musikSpil.push({
+    id: 'musma', key: 'musma', grp: '🎵 Musikquiz', kind: 'musma',
+    t: 'Hør og gæt (Music Assistant)',
+    d: 'Afspiller et uddrag – kræver Music Assistant installeret',
+    e: '🎧', min: 1, skjult: true, g: 'linear-gradient(135deg,#0ea5e9,#22c55e)',
+  });
   const filmSpil = film.map(([key, t, d, e, g]) => lav(key, t, d, e, g, '🎬 Filmquiz'));
   const mereSpil = mere.map(([key, t, d, e, g, grp]) => lav(key, t, d, e, g, grp || '🎬 Filmquiz'));
 
   const alle = musikSpil.concat(filmSpil, mereSpil);
   alle.forEach(spil => { if (!GAMES.some(y => y.id === spil.id)) GAMES.push(spil); });
-
   const menuer = [
     {
       id: 'musikquiz', grp: '🎵 Musikquiz', kind: 'menu', t: 'Musikquiz',

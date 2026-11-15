@@ -3,7 +3,7 @@
  "huller": [
   {
    "pool": "num",
-   "antal": 0
+   "antal": 4
   },
   {
    "pool": "tf",
@@ -318,6 +318,10 @@
    "antal": 0
   },
   {
+   "pool": "musma",
+   "antal": 0
+  },
+  {
    "pool": "film80",
    "antal": 0
   },
@@ -435,7 +439,7 @@
   }
  ],
  "ekspert": {
-  "num": 0,
+  "num": 4,
   "tf": 0,
   "odd": 0,
   "rather": 0,
@@ -514,6 +518,7 @@
   "musdk": 0,
   "mgp": 0,
   "bmgp": 0,
+  "musma": 0,
   "film80": 0,
   "film90": 0,
   "film00": 0,

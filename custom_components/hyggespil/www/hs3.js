@@ -288,8 +288,8 @@ GAMES.push(
 {id:'sqglass',grp:GRP_S,key:'sqglass',kind:'glass',t:'Glasbroen',d:'Vælg rigtig glasflise – den, der falder, hjælper de næste',e:'🌉',g:'linear-gradient(135deg,#00b4d8,#023e8a)',min:2},
 {id:'sqmarb',grp:GRP_S,key:'sqmarb',kind:'marb',t:'Kugler: lige eller ulige',d:'Gæt, om modstanderen holder et lige eller ulige antal kugler',e:'🔮',g:'linear-gradient(135deg,#6a4c93,#1982c4)',min:2},
 {id:'sqdal',grp:GRP_S,key:'sqdal',kind:'award',t:'Dalgona-udfordringer',d:'Præcisions- og nerveopgaver – uden at knække!',e:'🍪',g:'linear-gradient(135deg,#ffb703,#fb8500)',min:2},
-{id:'sqdil',grp:GRP_S,key:'sqdil',kind:'choice',t:'Dystre valg',d:'Hårde dilemmaer fra dødsspillet – hvor lander I?',e:'💀',g:'linear-gradient(135deg,#240b36,#c31432)',min:2},
-{id:'sqwho',grp:GRP_S,key:'sqwho',kind:'cards',t:'Hvem i familien?',d:'Dystre spørgsmål om, hvem i jeres kreds der gør hvad i dødsspillet – peg!',e:'👆',g:'linear-gradient(135deg,#0b132b,#6a040f)',min:2});
+{id:'sqdil',grp:GRP_S,key:'sqdil',alder:16,kind:'choice',t:'Dystre valg',d:'Hårde dilemmaer fra dødsspillet – hvor lander I?',e:'💀',g:'linear-gradient(135deg,#240b36,#c31432)',min:2},
+{id:'sqwho',grp:GRP_S,key:'sqwho',alder:16,kind:'cards',t:'Hvem i familien?',d:'Dystre spørgsmål om, hvem i jeres kreds der gør hvad i dødsspillet – peg!',e:'👆',g:'linear-gradient(135deg,#0b132b,#6a040f)',min:2});
 
 DATA.sqdal=[
 'Skær en lille stjerne ud af en skive ost (eller en kiks) med en nål eller tandstikker uden at knække den. 90 sekunder. Stormesteren dømmer.',
