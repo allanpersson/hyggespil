@@ -3,7 +3,7 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.33<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.37<!-- version:end -->
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
@@ -235,6 +235,11 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.37 – 2026-11-15
+
+**Ændret**
+- **Forsidens bund** viser nu versionen (fx «Hyggespil v0.2.36») og et **☕ Køb en kaffe**-link. Adressen kan ændres ét sted i `hs-cfg.js` (`kaffe`).
+
 ### 0.2.33 – 2026-11-15
 
 **Ændret**
@@ -288,13 +293,6 @@ en kop kaffe:
 - **Animationer i alle spil:** grøn «Rigtigt!» ved korrekt svar, rød rysten ved forkert, 💀 ved død og ⏰ når tiden løber ud.
 - **Fodboldquiz:** svarene er nu store kort i én eller to kolonner, og afsløringen viser tydelige grønne/røde kort med ✓/✗.
 - **Standardlyd:** «Ur der tikker» spiller nu de sidste 20 sekunder af nedtællingen, medmindre du vælger en anden lyd.
-
-### 0.2.26 – 2026-11-15
-
-﻿### Rettet
-- **Oplæsning på telefonen virker nu i Home Assistant-appen.** Vælg telefonens Companion-app under **⚙ → 📱 Læs op på telefonen**, så læses spørgsmålet op i telefonens egen højtaler via en TTS-notifikation. Lys-automationen kører uændret videre, fordi den kun lytter til `sensor.hyggespil_spil`.
-- Har du præcis én Companion-app, vælges den automatisk, når browseren ikke kan tale.
-- **README og dokumentationen** beskriver nu, hvordan lyd og lys kan bruges samtidig.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
