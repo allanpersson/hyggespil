@@ -10,6 +10,7 @@
  */
 (function () {
   if (window.HSTTS) return;
+  const ANDROID = /^appassets\.androidplatform\.net$/.test(location.hostname) || /[?&]android=1/.test(location.search);
   const valg = () => (window.HSV ? window.HSV.valg : {});
   let sidst = { tekst: '', tid: 0 };
 
@@ -71,6 +72,18 @@
       tal.timer = setTimeout(() => duk(false), ms + 600);
       return;
     }
+    if (ANDROID) {
+      /* Android-appen har sin egen TTS-bro. Den har ingen stemmeliste, så vi taler med det samme
+         og springer vejledningen om WebView/Chrome over. */
+      try {
+        speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(tekst.slice(0, 600));
+        u.lang = 'da-DK';
+        u.rate = Math.min(2, Math.max(0.5, +v.taleRate || 1));
+        speechSynthesis.speak(u);
+      } catch (e) {}
+      return;
+    }
     if (typeof speechSynthesis === 'undefined') {
       /* Ingen browserstemme (fx Home Assistant-appen): brug telefonens Companion-app, ellers vejled */
       if ((v.haNotify || (v.haTts && v.haPlayer)) && haTal(tekst)) return;
@@ -121,6 +134,7 @@
   }
 
   function guide() {
+    if (ANDROID) return;   // Android-appen taler via telefonens TTS
     if (document.getElementById('hsv-tts-guide')) return;
     const ua = navigator.userAgent;
     const android = /Android/i.test(ua), ios = /iPhone|iPad|iPod/i.test(ua);
