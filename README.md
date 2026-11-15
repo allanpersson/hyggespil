@@ -5,7 +5,7 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 **Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.42<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->201<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->202<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 

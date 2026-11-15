@@ -138,7 +138,7 @@ def main() -> None:
     ny = udskift(tekst, VERSION_START, VERSION_SLUT, version_linje, inline=True)
     ny = udskift(ny, NYHEDER_START, NYHEDER_SLUT, nyheder)
     ny = udskift(ny, TAL_START, TAL_SLUT, tal, inline=True)
-    antal_dl = downloads()
+    antal_dl = None if tjek else downloads()
     if antal_dl is not None:
         ny = udskift(ny, DOWNLOAD_START, DOWNLOAD_SLUT, f"{antal_dl:,}".replace(",", "."), inline=True)
 
