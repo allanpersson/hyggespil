@@ -3,7 +3,7 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.32<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.33<!-- version:end -->
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
@@ -222,6 +222,14 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.33 – 2026-11-15
+
+**Ændret**
+- **Forsiden er blevet kortere:** de store quizzer er samlet i ét kort med en undermenu. Tryk på **Musikquiz** og vælg mellem 60’erne, 70’erne, 80’erne, 90’erne, 00’erne, 10’erne, kun dansk musik, MGP og Børne-MGP. **Filmquiz** samler årtierne, dansk film, Harry Potter og K-pop Demon Hunters på samme måde.
+- Underspillene tælles ikke længere som selvstændige spil på forsiden – der er nu 93 kort i stedet for 110.
+**Rettet**
+- Undermenuens kort viser det samlede antal i puljen og badgen «Nyt spil, puljen udvides løbende», når en af underkategorierne har under 100.
+
 ### 0.2.32 – 2026-11-15
 
 **Tilføjet**
@@ -274,15 +282,6 @@ en kop kaffe:
 - **Oplæsning på telefonen virker nu i Home Assistant-appen.** Vælg telefonens Companion-app under **⚙ → 📱 Læs op på telefonen**, så læses spørgsmålet op i telefonens egen højtaler via en TTS-notifikation. Lys-automationen kører uændret videre, fordi den kun lytter til `sensor.hyggespil_spil`.
 - Har du præcis én Companion-app, vælges den automatisk, når browseren ikke kan tale.
 - **README og dokumentationen** beskriver nu, hvordan lyd og lys kan bruges samtidig.
-
-### 0.2.25 – 2026-11-15
-
-**Rettet**
-- **Indstillingerne huskes nu** og gemmes på enheden. Boksen vises kun, første gang du starter et spil – derefter åbner du den med **⚙** i spillets bjælke. Du vælger selv, om ændringerne skal gælde **kun dette spil** eller **alle spil**.
-- **Oplæsning er slået til som standard** og bruger den enhed, du spiller på. Musik, bip og oplæsning kan sagtens køre samtidig med lys-automationen.
-- **Al tekst er gennemgået:** ødelagte tegn og skjulte kontroltegn i puljerne er fjernet, og afkortede forklaringer er ryddet op. «Græker eller sygdom» har nu 73 rene poster.
-- **Krypteringen er nu UTF-8**, så æ, ø, å og – bevares ordret i alle puljer.
-- **Beskrivelsen af appen** viser de rigtige tal (91 spil og 8.174 spørgsmål) og opdateres ved hver udgivelse.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
