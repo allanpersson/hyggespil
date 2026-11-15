@@ -3,7 +3,7 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.25<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.24<!-- version:end -->
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
@@ -34,7 +34,12 @@ Desuden: point og stilling, grupper med løbende stilling fra aften til aften, o
 
 ### ⏱️ Timer, hurtige svar og spænding i lyset
 
-Når du vælger et spil, åbner en boks **inden spillet starter** (og igen med **⚙** i spillets bjælke):
+Boksen med indstillinger åbner **første gang, du starter et spil** – derefter huskes valgene, og du
+åbner dem igen med **⚙** i spillets bjælke:
+
+- **Hvad skal indstillingerne gælde for?** – vælg **Kun «spillets navn»** eller **Alle spil**. Et
+  spil kan altså have sin egen tid og musik, mens resten følger de fælles valg. Vælger du «Alle spil»,
+  fjernes spillets egen opsætning.
 
 - **Tid pr. spørgsmål** – ingen, 30, 45, 60, 90, 120 sekunder eller din egen tid. Nedtællingen vises
   nederst til højre med en ring, der skifter fra blå til gul til rød; ved udløb bipper den og blinker.
@@ -47,10 +52,16 @@ Når du vælger et spil, åbner en boks **inden spillet starter** (og igen med *
   de sidste sekunder af nedtællingen, og **🎵/🔇** i spillets bjælke slår den til og fra midt i
   spillet. Mens der læses op, dæmpes musikken – den fortsætter altså, men man kan høre spørgsmålet.
   Se [docs/lyd.md](docs/lyd.md) (inkl. kreditering og licenser).
-- **Oplæsning** – læs spørgsmålet højt med enhedens egen stemme, eller få det læst op gennem en
-  Home Assistant-højttaler. **🔊** i spillets bjælke læser igen. Se [docs/oplaesning.md](docs/oplaesning.md).
+- **Oplæsning** – som standard læses spørgsmålet op med **den enhed, du spiller på** (telefon, tablet
+  eller tv). Vil du hellere bruge en Home Assistant-højttaler, vælger du en TTS-stemme og en
+  højttaler under «Læs op via en Home Assistant-højttaler i stedet». **🔊** i spillets bjælke læser
+  igen. Se [docs/oplaesning.md](docs/oplaesning.md).
 
 Valgene huskes til næste gang.
+
+**Lyd og lys på samme tid:** musik, bip og oplæsning afspilles på den enhed, spillet kører på, og
+lyset styres helt separat af `sensor.hyggespil_spil` i Home Assistant. De to kan derfor bruges
+samtidig – automatiseringen hører hverken musikken eller oplæsningen.
 
 #### Sensor og automationer
 
@@ -181,15 +192,6 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
-### 0.2.25 – 2026-11-15
-
-**Rettet**
-- **Indstillingerne huskes nu** og gemmes på enheden. Boksen vises kun, første gang du starter et spil – derefter åbner du den med **⚙** i spillets bjælke. Du vælger selv, om ændringerne skal gælde **kun dette spil** eller **alle spil**.
-- **Oplæsning er slået til som standard** og bruger den enhed, du spiller på. Musik, bip og oplæsning kan sagtens køre samtidig med lys-automationen.
-- **Al tekst er gennemgået:** ødelagte tegn og skjulte kontroltegn i puljerne er fjernet, og afkortede forklaringer er ryddet op. «Græker eller sygdom» har nu 73 rene poster.
-- **Krypteringen er nu UTF-8**, så æ, ø, å og – bevares ordret i alle puljer.
-- **Beskrivelsen af appen** viser de rigtige tal (91 spil og 8.174 spørgsmål) og opdateres ved hver udgivelse.
-
 ### 0.2.24 – 2026-11-15
 
 **Tilføjet**
@@ -236,6 +238,11 @@ en kop kaffe:
 
 **Tilføjet**
 - 🔍 **Kvalitetskontrol** (`tools/kvalitet.js`): gennemgår puljerne for tomme tekster, dubletter, svar der står i spørgsmålet, HTML-rester, skæve citationstegn/parenteser og tal uden for rimelige grænser. Rapporten ligger i [docs/kvalitetsrapport.md](docs/kvalitetsrapport.md) og laves på ny i CI ved hver ændring. Se [docs/kvalitet.md](docs/kvalitet.md).
+
+### 0.2.16 – 2026-11-14
+
+**Rettet**
+- 🔊 **Oplæsning i Home Assistant-appen**: appens WebView giver ikke spillet adgang til telefonens tale, også selv om dansk tekst-til-tale er installeret. Spillet opdager det nu og tilbyder **«Åbn i Chrome»** (hvor oplæsningen virker) samt Home Assistant-højttaleren. Der ventes også længere på Androids stemmeliste.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
