@@ -2,14 +2,6 @@
  "maal": 5,
  "huller": [
   {
-   "pool": "tf",
-   "antal": 0
-  },
-  {
-   "pool": "odd",
-   "antal": 0
-  },
-  {
    "pool": "rather",
    "antal": 0
   },
@@ -436,8 +428,8 @@
  ],
  "ekspert": {
   "num": 7,
-  "tf": 0,
-  "odd": 0,
+  "tf": 7,
+  "odd": 7,
   "rather": 0,
   "never": 0,
   "likely": 0,

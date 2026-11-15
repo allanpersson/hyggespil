@@ -1,2 +1,2 @@
-### Rettet
-- **Aldersgrænsen for vin-spillene er nu 18 år:** «Jeg har aldrig» viser 🍷 og «Vinudfordringer» hedder stadig Vinudfordringer, når alle er 18+. Er blot én under 18, vises 🥤 og «Saftevands udfordringer».
+### Ændret
+- **Forsidens bund** viser nu versionen (fx «Hyggespil v0.2.36») og et **☕ Køb en kaffe**-link. Adressen kan ændres ét sted i `hs-cfg.js` (`kaffe`).
