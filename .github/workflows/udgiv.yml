@@ -230,6 +230,23 @@ jobs:
           gh release download "$v" --pattern hyggespil.zip --dir /tmp/hentet --clobber
           python tools/tjek_installation.py /tmp/hentet/hyggespil.zip
 
+      - name: Bed Android-appen om at bygge
+        if: steps.loop.outputs.loop == 'nej' && steps.indhold.outputs.ja == 'ja'
+        continue-on-error: true
+        env:
+          TOKEN: ${{ secrets.ANDROID_DISPATCH_TOKEN }}
+        run: |
+          if [ -n "$TOKEN" ]; then
+            curl -s -X POST \
+              -H "Authorization: Bearer $TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              https://api.github.com/repos/allanpersson/hyggespil-android/dispatches \
+              -d '{"event_type":"nyt-spil"}'
+            echo "Android-byg er bedt om at køre"
+          else
+            echo "Ingen ANDROID_DISPATCH_TOKEN – Android bygger ved den daglige kørsel"
+          fi
+
       - name: Status
         if: always()
         run: |

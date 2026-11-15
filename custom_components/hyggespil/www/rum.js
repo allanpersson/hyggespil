@@ -11,6 +11,7 @@
  */
 (function () {
   if (window.__rum) return; window.__rum = true;
+  const ANDROID = /^appassets\.androidplatform\.net$/.test(location.hostname) || /[?&]android=1/.test(location.search);
 
   const NOEGLE = 'hs_rum', ENHED = 'hs_enhed';
   let enhed = '';
@@ -351,7 +352,7 @@
     const r = render0.apply(this, arguments);
     try {
       const h = document.querySelector('header');
-      if (h && !document.getElementById('rumbtn')) {
+      if (h && !ANDROID && !document.getElementById('rumbtn')) {
         const b = document.createElement('button');
         b.id = 'rumbtn'; b.className = 'btn ghost'; b.textContent = '📱';
         b.title = 'Spil sammen fra hver telefon';

@@ -1,3 +1,4 @@
 ### Ændret
-- **CI dækker nu hele vejen:** syntaks for alle JS/Python/JSON/YAML-filer, hemmelighedstjek, dekryptering af puljer, røgtest af alle spil (puljer, renderere, dobbelte svar), kvalitetsrapport, zip-byg med udpaknings- og installationstest samt kontrol af version, README, changelog og download-markør.
-- **Ny workflow «Visuel og gameplay»:** kører spillet i rigtig Chromium, tjekker at forsiden tegnes uden konsolfejl, at tekst og badges ikke overlapper, at Musikquiz’ undermenu har alle kategorier, at et spil kan startes og afsløres – og gemmer skærmbilleder fra desktop og telefon som artifact.
+- **Android-appen bruger telefonens egen højtaler som standard** og viser kun de indstillinger, der giver mening på en telefon: Music Assistant, Home Assistant-højttaler og Companion-TTS er skjult, fordi de ikke kan bruges i den lokale app.
+- **«Hør og gæt (Music Assistant)»** og **📱 «Spil sammen»** vises ikke i Android-appen, da begge kræver Home Assistant.
+- CI bygger og linter Android-appen, kontrollerer at spillets filer ligger i APK'en, og udgiver APK + AAB.

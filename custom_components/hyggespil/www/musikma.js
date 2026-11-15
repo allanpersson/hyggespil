@@ -6,6 +6,8 @@
  */
 (function () {
   if (window.__musma) return; window.__musma = true;
+  const ANDROID = /^appassets\.androidplatform\.net$/.test(location.hostname) || /[?&]android=1/.test(location.search);
+  if (ANDROID) return;   // Music Assistant findes ikke i den lokale Android-app
   const esc = window.esc || (s => String(s));
   const VALG = () => (window.HSV ? window.HSV.valg : {}) || {};
   let st = {};

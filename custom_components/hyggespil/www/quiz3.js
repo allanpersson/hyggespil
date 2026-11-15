@@ -6,6 +6,7 @@
  */
 (function () {
   if (window.__quiz3) return; window.__quiz3 = true;
+  const ANDROID = /^appassets\.androidplatform\.net$/.test(location.hostname) || /[?&]android=1/.test(location.search);
 
   const musik = [
     ['mus60', 'Musikquiz – 60’erne', 'Gæt kunstneren bag tresserhittene', '🎙️', '#7c3aed,#4c1d95'],
@@ -39,7 +40,7 @@
   });
 
   const musikSpil = musik.map(([key, t, d, e, g]) => lav(key, t, d, e, g, '🎵 Musikquiz'));
-  musikSpil.push({
+  if (!ANDROID) musikSpil.push({
     id: 'musma', key: 'musma', grp: '🎵 Musikquiz', kind: 'musma',
     t: 'Hør og gæt (Music Assistant)',
     d: 'Afspiller et uddrag – kræver Music Assistant installeret',

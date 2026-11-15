@@ -421,10 +421,10 @@
         '<select class="in" id="hsv-stemme" style="max-width:230px;text-align:left"></select>' +
         '<input class="in" id="hsv-rate" type="number" min="0.5" max="2" step="0.1" value="' + valg.taleRate + '" title="Talehastighed" style="width:80px;text-align:center">' +
         '<button class="btn ghost" id="hsv-prov" style="padding:8px 12px;border-radius:12px">Prøv</button>' +
-        '<button class="btn ghost" id="hsv-opsaet" style="padding:8px 12px;border-radius:12px">Opsæt stemme</button>' +
+        (ANDROID ? '' : '<button class="btn ghost" id="hsv-opsaet" style="padding:8px 12px;border-radius:12px">Opsæt stemme</button>') +
         '</div>' +
-        '<p class="hint" style="text-align:left;margin:6px 0 0">Bruger enhedens egne stemmer – ingen forbindelse til internettet.</p>' +
-        '<h3 style="margin:16px 0 6px">🎧 Music Assistant</h3>' +
+        '<p class="hint" style="text-align:left;margin:6px 0 0">' + (ANDROID ? 'Bruger telefonens egen højtaler og stemme – også uden Home Assistant.' : 'Bruger enhedens egne stemmer – ingen forbindelse til internettet.') + '</p>' +
+        (ANDROID ? '' : '<h3 style="margin:16px 0 6px">🎧 Music Assistant</h3>' +
         '<p class="hint" style="text-align:left;margin:0 0 6px">Vælg den højttaler, «Hør og gæt» skal afspille på. Quizzen kræver, at Music Assistant er installeret. Telefonens egen højtaler kan kun vælges, hvis den findes som en media_player i Home Assistant (fx via Music Assistant-appen).</p>' +
         '<div class="row" style="justify-content:flex-start">' +
         '<select class="in" id="hsv-ma" style="max-width:260px;text-align:left"><option value="">Ingen</option>' +
@@ -436,7 +436,7 @@
         '<details style="margin-top:8px"><summary class="hint" style="cursor:pointer">Læs op via en Home Assistant-højttaler i stedet</summary>' +
         '<div class="row" style="justify-content:flex-start;margin-top:8px">' +
         ttsFelt() + højttalerFelt() +
-        '</div><p class="hint" style="text-align:left;margin:6px 0 0">Vælg begge for at bruge højttaleren. Ellers læses der op i browseren.</p></details>' +
+        '</div><p class="hint" style="text-align:left;margin:6px 0 0">Vælg begge for at bruge højttaleren. Ellers læses der op i browseren.</p></details>') +
         '<div class="row" style="margin-top:18px"><button class="btn big green" id="hsv-startspil">Start spil</button>' +
         '<button class="btn ghost" id="hsv-uden">Uden tid</button>' +
         '<button class="btn ghost" id="hsv-tilmenu">← Alle spil</button></div></div>';
@@ -478,10 +478,11 @@
       $('hsv-rate').oninput = e => { const v = +e.target.value; if (v >= 0.5 && v <= 2) { valg.taleRate = v; gemValg(); } };
       $('hsv-prov').onclick = () => { if (window.HSTTS) window.HSTTS.tal('Om lidt bliver det din tur. Hvad er Danmarks hovedstad?', true); };
       $('hsv-opsaet').onclick = () => { if (window.HSTTS && window.HSTTS.guide) window.HSTTS.guide(); };
-      $('hsv-hatts').onchange = $('hsv-hatts').oninput = e => { valg.haTts = e.target.value.trim(); gemValg(); };
-      $('hsv-haplayer').onchange = $('hsv-haplayer').oninput = e => { valg.haPlayer = e.target.value.trim(); gemValg(); };
-      $('hsv-hanotify').onchange = $('hsv-hanotify').oninput = e => { valg.haNotify = e.target.value.trim(); gemValg(); };
-      $('hsv-ma').onchange = e => { valg.maPlayer = e.target.value.trim(); gemValg(); };
+      const bind = (id, ev, fn) => { const el = $(id); if (el) el[ev] = fn; };
+      bind('hsv-hatts', 'oninput', e => { valg.haTts = e.target.value.trim(); gemValg(); });
+      bind('hsv-haplayer', 'oninput', e => { valg.haPlayer = e.target.value.trim(); gemValg(); });
+      bind('hsv-hanotify', 'oninput', e => { valg.haNotify = e.target.value.trim(); gemValg(); });
+      bind('hsv-ma', 'onchange', e => { valg.maPlayer = e.target.value.trim(); gemValg(); });
       $('hsv-fil').onchange = async e => {
         const f = e.target.files && e.target.files[0];
         if (!f) return;
