@@ -31,7 +31,7 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 | 📺 Serier | Seriequiz |
 | 🔞 Kun for voksne | Romantik · Sexy udfordringer · Grænseløs · Intime spørgsmål · Jeg har aldrig 🔞 · Random 🔞 |
 
-**16+:** «Dystre valg» og «Hvem i familien?» er skjult som standard. Tryk **16+** øverst for at vise dem.
+**Aldersgrænser:** «Dystre valg» og «Hvem i familien?» er **18+**. De vises automatisk, når alle spillere i Spillere er 18 eller ældre — og skjules, hvis blot én er under. Er der ingen alder angivet, regnes spilleren som voksen.
 
 **Music Assistant:** «Hør og gæt» (under Musikquiz) afspiller et uddrag af en sang og lader jer gætte
 kunstneren. Det kræver, at **Music Assistant** er installeret i Home Assistant, og at der er valgt en
