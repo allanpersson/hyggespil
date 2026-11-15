@@ -6,7 +6,7 @@ if(window.HSCFG)return;
 window.HSCFG={
   version:'0.2.33',
   repo:'allanpersson/hyggespil',
-  kaffe:'https://www.buymeacoffee.com/allanpersson'      // GitHub-repo, som feedback-knappen åbner sager i
+  kaffe:'https://buymeacoffee.com/i8B3Mn5'      // GitHub-repo, som feedback-knappen åbner sager i
 };
 /* SHA-256 i ren JavaScript: browserens crypto.subtle findes kun på https/localhost, og Home Assistant køres ofte på http i hjemmet. */
 function sha256(ascii){

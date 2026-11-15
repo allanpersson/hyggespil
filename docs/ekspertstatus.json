@@ -26,10 +26,6 @@
    "antal": 0
   },
   {
-   "pool": "who",
-   "antal": 0
-  },
-  {
    "pool": "taboo",
    "antal": 0
   },
@@ -39,10 +35,6 @@
   },
   {
    "pool": "deep",
-   "antal": 0
-  },
-  {
-   "pool": "tl",
    "antal": 0
   },
   {
@@ -436,11 +428,11 @@
   "dare": 0,
   "mys": 0,
   "riddle": 0,
-  "who": 0,
+  "who": 7,
   "taboo": 0,
   "char": 0,
   "deep": 0,
-  "tl": 0,
+  "tl": 6,
   "city": 0,
   "geo": 0,
   "zip": 0,
