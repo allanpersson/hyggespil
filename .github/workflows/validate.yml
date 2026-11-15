@@ -29,8 +29,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: home-assistant/actions/hassfest@master
 
-  spil:
-    name: Spillets filer og integrationens logik
+  kode:
+    name: Kode og syntaks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -40,21 +40,141 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Alle JavaScript-filer kan parses
+        run: |
+          fejl=0
+          while IFS= read -r f; do
+            node --check "$f" || { echo "SYNTAKSFEJL: $f"; fejl=1; }
+          done < <(find . -name '*.js' -not -path './.git/*' -not -path './node_modules/*')
+          exit $fejl
+      - name: Alle Python-filer kan kompileres
+        run: python -m compileall -q custom_components tools
+      - name: Alle JSON-filer er gyldige
+        run: |
+          python - <<'PY'
+          import json, pathlib, sys
+          fejl = 0
+          for p in pathlib.Path('.').rglob('*.json'):
+              if '.git' in p.parts or 'node_modules' in p.parts:
+                  continue
+              try:
+                  json.loads(p.read_text(encoding='utf-8'))
+              except Exception as e:
+                  print('UGYLDIG JSON:', p, e)
+                  fejl += 1
+          sys.exit(1 if fejl else 0)
+          PY
+      - name: Workflows er gyldig YAML
+        run: |
+          python -m pip install --quiet pyyaml
+          python - <<'PY'
+          import pathlib, sys, yaml
+          fejl = 0
+          for p in pathlib.Path('.github/workflows').glob('*.yml'):
+              try:
+                  yaml.safe_load(p.read_text(encoding='utf-8'))
+              except Exception as e:
+                  print('UGYLDIG WORKFLOW:', p, e)
+                  fejl += 1
+          sys.exit(1 if fejl else 0)
+          PY
+
+  indhold:
+    name: Spillets indhold og puljer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Puljerne kan dekrypteres
+        run: node tools/krypt.js --tjek
+      - name: Røgtest af alle spil og puljer
+        run: node tools/smoke.js
+      - name: Kvalitetsrapport for spørgsmål og svar
+        run: node tools/kvalitet.js
+      - name: Antal spil og spørgsmål kan tælles
+        run: node tools/antal.js
+
+  build:
+    name: Byg og installer zippet
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Byg udgivelseszippet
+        run: python tools/make_zip.py "$RUNNER_TEMP/ud"
+      - name: Zippet har manifest.json i roden og ingen private filer
+        run: |
+          unzip -Z1 "$RUNNER_TEMP/ud/hyggespil.zip" | head -n 30
+          unzip -Z1 "$RUNNER_TEMP/ud/hyggespil.zip" | grep -qx "manifest.json" || { echo "manifest.json mangler i roden"; exit 1; }
+          if unzip -Z1 "$RUNNER_TEMP/ud/hyggespil.zip" | grep -qE '^(custom_components/|.*secrets|.*extra\.json$)'; then
+            echo "zippet indeholder filer, der ikke må udgives"; exit 1
+          fi
+      - name: Udpak og installér som Marketplace/HACS gør
+        run: python tools/tjek_installation.py "$RUNNER_TEMP/ud/hyggespil.zip"
+
+  release:
+    name: Udgivelsesfiler og version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Manifest og spil melder samme version
+        run: |
+          python - <<'PY'
+          import json, re, sys
+          m = json.load(open('custom_components/hyggespil/manifest.json', encoding='utf-8'))['version']
+          s = open('custom_components/hyggespil/www/hs-cfg.js', encoding='utf-8').read()
+          v = re.search(r"version:'([\w.\-]+)'", s).group(1)
+          print('manifest:', m, '| hs-cfg:', v)
+          sys.exit(0 if m == v else 1)
+          PY
+      - name: README er i sync med version og ændringslog
+        run: python tools/opdater_readme.py --tjek
+      - name: CHANGELOG har afsnit for den installerede version
+        run: |
+          python - <<'PY'
+          import json, re, sys
+          v = json.load(open('custom_components/hyggespil/manifest.json', encoding='utf-8'))['version']
+          s = open('CHANGELOG.md', encoding='utf-8').read()
+          sys.exit(0 if re.search(r'^## ' + re.escape(v) + r'\b', s, re.M) else 1)
+          PY
+      - name: README har download-markør og kaffe-link
+        run: |
+          grep -q 'downloads:start' README.md
+          grep -q 'buymeacoffee.com/i8B3Mn5' README.md
+      - name: Blueprint til spændingslyset
+        run: |
+          python -m pip install --quiet pyyaml
+          python tools/tjek_blueprint.py
+
+  integration:
+    name: Integrationens logik
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - name: Tjek manifest som Home Assistant
         run: python tools/tjek_manifest.py
       - name: Syntaks og privatlivskontrol
         run: node tools/build.js check
       - name: Integrationens logik (uden Home Assistant)
         run: python tools/verify_integration.py
-      - name: Kan zippet installeres? (samme udpakning som Marketplace/HACS)
-        run: python tools/tjek_installation.py
-      - name: Blueprint til spændingslyset
-        run: |
-          python -m pip install --quiet pyyaml
-          python tools/tjek_blueprint.py
-      - name: README er i sync med version og ændringslog
-        run: python tools/opdater_readme.py --tjek
-      - name: Spørgsmålspuljerne kan dekrypteres
-        run: node tools/krypt.js --tjek
-      - name: Kvalitetsrapport for spørgsmål og svar
-        run: node tools/kvalitet.js
+      - name: Ingen hemmeligheder i filerne
+        run: node tools/tjek_hemmeligheder.js --head

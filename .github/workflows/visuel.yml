@@ -1,0 +1,62 @@
+name: Visuel og gameplay
+
+# Kører spillet i en rigtig Chromium-browser og tjekker, at forsiden tegnes,
+# at intet overlapper, at undermenuer og spil virker – og gemmer screenshots.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'custom_components/hyggespil/www/**'
+      - 'tests/**'
+      - 'tools/serve.js'
+      - '.github/workflows/visuel.yml'
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser:
+    name: Chromium, gameplay og skærmbilleder
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Installér Playwright og Chromium
+        run: |
+          npm init -y >/dev/null 2>&1
+          npm install --no-audit --no-fund playwright@1.48.2
+          npx playwright install --with-deps chromium
+
+      - name: Start spillets lokale server
+        run: |
+          node tools/serve.js 8899 > /tmp/server.log 2>&1 &
+          for i in $(seq 1 30); do
+            curl -sf http://127.0.0.1:8899/hs.html >/dev/null && break
+            sleep 1
+          done
+          curl -sf http://127.0.0.1:8899/hs.html >/dev/null || { cat /tmp/server.log; exit 1; }
+
+      - name: Visuel og gameplay-test
+        env:
+          HS_URL: http://127.0.0.1:8899/hs.html
+        run: node tests/visuel.mjs
+
+      - name: Gem skærmbilleder
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: skaermbilleder
+          path: artefakter/*.png
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Serverlog ved fejl
+        if: failure()
+        run: cat /tmp/server.log || true
