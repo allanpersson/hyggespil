@@ -3,7 +3,7 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.31<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.32<!-- version:end -->
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
@@ -222,6 +222,16 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.32 – 2026-11-15
+
+**Tilføjet**
+- **Private kort i fælles spil (beta):** «Forklar ordet» (Taboo). Kun den spiller, hvis tur det er, kan åbne sit kort, og indholdet er krypteret med spillerens egen nøgle – de andre telefoner ser kun volapyk. Værten giver point og sender turen videre.
+**Rettet**
+- **Dobbelt svar** i «Filmquiz – dansk film»: «Flickering Lights» er den engelske titel på «Blinkende Lygter», så den er erstattet med en anden dansk komedie.
+- **MGP-spørgsmålet** om antal finalesange er udskiftet med et sikkert faktum (Danmarks Eurovision-sejr i 2013).
+- **Spillekortenes beskrivelser røber ikke længere svar:** titler, kunstnere og navne er fjernet fra musik-, film-, serie-, Disney- og «Græker eller sygdom»-beskrivelserne.
+- **Kvalitetskontrollen** fanger nu dobbelte svarmuligheder og forkert svarindeks.
+
 ### 0.2.31 – 2026-11-15
 
 **Tilføjet**
@@ -273,14 +283,6 @@ en kop kaffe:
 - **Al tekst er gennemgået:** ødelagte tegn og skjulte kontroltegn i puljerne er fjernet, og afkortede forklaringer er ryddet op. «Græker eller sygdom» har nu 73 rene poster.
 - **Krypteringen er nu UTF-8**, så æ, ø, å og – bevares ordret i alle puljer.
 - **Beskrivelsen af appen** viser de rigtige tal (91 spil og 8.174 spørgsmål) og opdateres ved hver udgivelse.
-
-### 0.2.24 – 2026-11-15
-
-**Tilføjet**
-- 🪢 **Hangman** og 🎭 **Gæt og grimasser** – to nye spil under Party & leg.
-
-**Ændret**
-- **README** viser nu selv antallet af spil og spørgsmål (91 spil, 8.212 kort) og opdateres ved hver udgivelse.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
