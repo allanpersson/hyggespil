@@ -3,7 +3,7 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.42<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.43<!-- version:end -->
 
 **Hentet fra GitHub:** <!-- downloads:start -->219<!-- downloads:end --> gange
 
@@ -242,6 +242,18 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.43 – 2026-11-15
+
+**Ændret**
+- **Android-appen bruger telefonens egen højtaler som standard** og viser kun de indstillinger, der giver mening på en telefon: Music Assistant, Home Assistant-højttaler og Companion-TTS er skjult, fordi de ikke kan bruges i den lokale app.
+- **«Hør og gæt (Music Assistant)»** og **📱 «Spil sammen»** vises ikke i Android-appen, da begge kræver Home Assistant.
+- CI bygger og linter Android-appen, kontrollerer at spillets filer ligger i APK'en, og udgiver APK + AAB.
+- Android-tilpassede indstillinger
+- Henvisning til Android-app
+- CI-fixes til browser-test og overvaagning
+- CI med kode, indhold, build, release og gameplay
+- Fuldstaendig changelog
+
 ### 0.2.42 – 2026-11-15
 
 **Tilføjet**
@@ -296,12 +308,6 @@ en kop kaffe:
 - Rummet husker nu også spillere, tur, point og fase, og tjenesten `hyggespil.rum` har fået `deltag`, `forlad`, `start`, `svar`, `naeste` og `afslut`.
 **Rettet**
 - **Puljekortene viser både antallet** («8 i puljen») **og** badgen «Nyt spil, puljen udvides løbende» – de står nu under hinanden i kortets nederste hjørne.
-
-### 0.2.30 – 2026-11-15
-
-**Tilføjet**
-- **Spil sammen fra hver telefon:** tryk 📱 i spillets hoved → «Nyt rum». Værten får en firdelt kode, og de andre telefoner deltager med koden og deres navn. Deres telefon viser en stor «JEG VED DET!»-knap, og tavlen viser rækkefølgen og bipper, så I kan give point til den, der var først. «Ryd listen» mellem spørgsmålene.
-- Rummet ligger i `sensor.hyggespil_spil` (`rum`, `rum_aktiv`, `rum_buzzere`) og kan styres med den nye tjeneste `hyggespil.rum`. Alt går gennem Home Assistant – ingen ekstern server.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
