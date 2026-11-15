@@ -242,6 +242,9 @@ en kop kaffe:
 **Tilføjet**
 - **Downloadtal i README:** der står nu, hvor mange gange spillet er hentet fra GitHub (summen af alle `hyggespil.zip`-downloads). Tallet opdateres automatisk ved hver udgivelse.
 
+**Rettet**
+- **Oplæsning af svarmuligheder:** spørgsmålet læses fortsat højt, og nu læses også A, B, C og D op, så man ikke skal gætte på mulighederne.
+
 ### 0.2.41 – 2026-11-15
 
 **Ændret**

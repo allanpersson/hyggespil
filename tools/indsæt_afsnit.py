@@ -37,6 +37,21 @@ def rens(noter: str) -> str:
     return "\n".join(ud).strip()
 
 
+def fjern_dubletter(noter: str) -> str:
+    """Drop commit-linjer, som de kuraterede noter allerede dækker."""
+    linjer = noter.splitlines()
+    dækket = " ".join(normaliser(l) for l in linjer if l.strip().startswith("- **"))
+    ud = []
+    for l in linjer:
+        s = l.strip()
+        if s.startswith("- ") and not s.startswith("- **"):
+            n = normaliser(s)[2:].strip()
+            if n and n in dækket:
+                continue
+        ud.append(l)
+    return "\n".join(ud)
+
+
 def dublet(noter: str, gammel: str) -> bool:
     linjer = [normaliser(l) for l in noter.splitlines() if l.strip()]
     if not linjer:
@@ -70,7 +85,7 @@ def main() -> None:
     if len(sys.argv) < 3:
         raise SystemExit("brug: python tools/indsæt_afsnit.py <version> <fil-med-noter>")
     version, sti = sys.argv[1], sys.argv[2]
-    noter = rens(open(sti, encoding="utf-8").read())
+    noter = fjern_dubletter(rens(open(sti, encoding="utf-8").read()))
     tekst = open(CHANGELOG, encoding="utf-8").read().replace("\r\n", "\n")
 
     if re.search(r"^## " + re.escape(version) + r"\b", tekst, flags=re.M):

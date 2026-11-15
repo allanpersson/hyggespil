@@ -133,15 +133,18 @@ jobs:
           PY
           # Kuraterede noter til denne udgivelse? Så bruges de med det samme.
           NOTES="docs/udgivelsesnoter.md"
+          : > /tmp/nyheder.txt
           if [ -f "$NOTES" ] && [ -n "$(sed -E 's/<!--.*-->//g' "$NOTES" | tr -d '[:space:]')" ]; then
             echo "bruger kuraterede noter fra $NOTES"
             sed -E 's/<!--.*-->//g' "$NOTES" | sed '/^[[:space:]]*$/d' | sed 's/[[:space:]]*$//' > /tmp/nyheder.txt
             : > "$NOTES"
-          else
-            if [ -z "$seneste" ]; then range="HEAD"; else range="$seneste..HEAD"; fi
-            git log "$range" --no-merges --pretty=format:'- %s' | grep -vE '^- (Overvaagning|Opdater overvaag|Dokumentation|README|Foelger CI|Fjerner |Rettet installationsfejlen|Rettet traeopslag|Logger version|Beskriver)' > /tmp/nyheder.txt || true
-            test -s /tmp/nyheder.txt || echo '- Vedligeholdelse og fejlretning.' > /tmp/nyheder.txt
           fi
+          # Alle ændringer skal med – også dem der ikke stod i de kuraterede noter.
+          if [ -z "$seneste" ]; then range="HEAD"; else range="$seneste..HEAD"; fi
+          git log "$range" --no-merges --pretty=format:'- %s' \
+            | grep -vE '^- (Overvaagning|Opdater overvaag|Dokumentation|README|Foelger CI|Fjerner |Rettet installationsfejlen|Rettet traeopslag|Logger version|Beskriver|Udgivelse |Henter CI|Tømmer udgivelsesnoter|Version [0-9])' \
+            >> /tmp/nyheder.txt || true
+          test -s /tmp/nyheder.txt || echo '- Vedligeholdelse og fejlretning.' > /tmp/nyheder.txt
           python tools/indsæt_afsnit.py "$v" /tmp/nyheder.txt
           # README opdateres EFTER changelog-afsnittet, så "Nyheder" får den nye version med.
           python tools/opdater_readme.py
