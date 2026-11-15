@@ -3,9 +3,9 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.41<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.42<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->195<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->201<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
@@ -237,6 +237,11 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.42 – 2026-11-15
+
+**Tilføjet**
+- **Downloadtal i README:** der står nu, hvor mange gange spillet er hentet fra GitHub (summen af alle `hyggespil.zip`-downloads). Tallet opdateres automatisk ved hver udgivelse.
+
 ### 0.2.41 – 2026-11-15
 
 **Ændret**
@@ -289,13 +294,6 @@ en kop kaffe:
 **Tilføjet**
 - **Spil sammen fra hver telefon:** tryk 📱 i spillets hoved → «Nyt rum». Værten får en firdelt kode, og de andre telefoner deltager med koden og deres navn. Deres telefon viser en stor «JEG VED DET!»-knap, og tavlen viser rækkefølgen og bipper, så I kan give point til den, der var først. «Ryd listen» mellem spørgsmålene.
 - Rummet ligger i `sensor.hyggespil_spil` (`rum`, `rum_aktiv`, `rum_buzzere`) og kan styres med den nye tjeneste `hyggespil.rum`. Alt går gennem Home Assistant – ingen ekstern server.
-
-### 0.2.29 – 2026-11-15
-
-**Tilføjet**
-- **19 nye spil**: ni musikquizzer (60'erne, 70'erne, 80'erne, 90'erne, 00'erne, 10'erne, kun dansk musik, MGP og Børne-MGP), syv filmquizzer (80'erne, 90'erne, 00'erne, 10'erne, dansk film, Harry Potter og K-pop Demon Hunters), plus Disneyquiz, «Hvem spillede rollen?» og en seriequiz.
-- **«Nyt spil, puljen udvides løbende»** vises nu på spillets kort, når puljen (eller en aldersgruppe) har under 100 kort.
-- Spil med kun ét kort i puljen – fx Glasbroen – viser ikke længere «1 i puljen» og tælles ikke med i puljereglerne.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->

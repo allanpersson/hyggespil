@@ -3,6 +3,11 @@
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
 
+## 0.2.42 – 2026-11-15
+
+### Tilføjet
+- **Downloadtal i README:** der står nu, hvor mange gange spillet er hentet fra GitHub (summen af alle `hyggespil.zip`-downloads). Tallet opdateres automatisk ved hver udgivelse.
+
 ## 0.2.41 – 2026-11-15
 
 ### Ændret
