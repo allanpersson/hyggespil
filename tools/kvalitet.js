@@ -39,14 +39,14 @@ const sandkasse = { DATA, PACK: () => {}, Object, console: { log() {}, warn() {}
 sandkasse.window = sandkasse;          // som i browseren: window.DATA og DATA er samme objekt
 sandkasse.globalThis = sandkasse;
 vm.createContext(sandkasse);
-for (const f of ['data.js', 'data2.js', 'data3.js', 'ex_daily.js', 'gs.js', 'fb.js', 'reality.js']) {
+for (const f of ['data.js', 'data2.js', 'data3.js', 'ex_daily.js', 'gs.js', 'fb.js', 'reality.js', 'musik.js', 'film.js']) {
   try { new vm.Script(klart(f), { filename: f }).runInContext(sandkasse); }
   catch (e) { console.error('kunne ikke læse ' + f + ': ' + e.message); }
 }
 const pools = sandkasse.DATA;
 
 
-const ALVORLIG = new Set(['tom', 'dublet', 'lækage', 'html']);
+const ALVORLIG = new Set(['tom', 'dublet', 'lækage', 'html', 'dublet-svar', 'svar-indeks', 'kontroltegn', 'mojibake']);
 const fund = [];
 
 function tekstAf(it) {
@@ -63,7 +63,18 @@ for (const [pool, liste] of Object.entries(pools)) {
   if (!Array.isArray(liste)) continue;
   const set = new Set();
   liste.forEach((it, idx) => {
-    if (Array.isArray(it)) return;                 // pakkede rækker (PACK) tjekkes ikke her
+    if (Array.isArray(it)) {
+      /* fler-svars-opgaver: [spørgsmål, [svar], indeks] */
+      const q = it[0], o = it[1], a = it[2];
+      if (typeof q === 'string' && Array.isArray(o) && o.length > 1) {
+        const norm = o.map(x => String(x).toLowerCase().trim());
+        const fejl2 = [];
+        if (new Set(norm).size !== norm.length) fejl2.push('dublet-svar');
+        if (!(Number.isInteger(a) && a >= 0 && a < o.length)) fejl2.push('svar-indeks');
+        if (fejl2.length) fund.push({ pool, idx, tekst: q.slice(0, 90), fejl: fejl2 });
+      }
+      return;
+    }
     const t = tekstAf(it);
     const fejl = [];
     if (!t || t.trim().length < 8) fejl.push('tom');

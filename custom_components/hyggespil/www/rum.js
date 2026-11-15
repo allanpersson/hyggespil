@@ -24,6 +24,38 @@
   if (med) med.enhed = enhed;
   const gemMed = v => { med = v; try { localStorage.setItem(NOEGLE, JSON.stringify(v)); } catch (e) {} };
 
+  /* privat nøgle: bruges til at låse og åbne spillerens eget kort. Den forlader
+     aldrig telefonen – serveren gemmer den og bruger den til at kryptere netop
+     dette korts indhold, så de andre telefoner kun ser volapyk. */
+  const PRIV = 'hs_privn';
+  let noegle = '';
+  try { noegle = localStorage.getItem(PRIV) || ''; } catch (e) {}
+  if (!noegle) {
+    noegle = 'k' + Math.random().toString(36).slice(2, 14);
+    try { localStorage.setItem(PRIV, noegle); } catch (e) {}
+  }
+  function rc4(key, bytes) {
+    const s = new Uint8Array(256);
+    for (let i = 0; i < 256; i++) s[i] = i;
+    let j = 0;
+    for (let i = 0; i < 256; i++) { j = (j + s[i] + key.charCodeAt(i % key.length)) & 255; const t = s[i]; s[i] = s[j]; s[j] = t; }
+    let i = 0; j = 0;
+    const ud = new Uint8Array(bytes.length);
+    for (let n = 0; n < bytes.length; n++) {
+      i = (i + 1) & 255; j = (j + s[i]) & 255;
+      const t = s[i]; s[i] = s[j]; s[j] = t;
+      ud[n] = bytes[n] ^ s[(s[i] + s[j]) & 255];
+    }
+    return ud;
+  }
+  function åbn(b64) {
+    try {
+      const bin = atob(b64);
+      const arr = Uint8Array.from(bin, c => c.charCodeAt(0));
+      return JSON.parse(new TextDecoder('utf-8').decode(rc4(noegle, arr)));
+    } catch (e) { return null; }
+  }
+
   /* puljer der kan bruges i den fælles quiz (samme format: [q, [svar], korrekt, note]) */
   const QUIZ = [
     ['mus60', 'Musikquiz – 60’erne'], ['mus70', 'Musikquiz – 70’erne'], ['mus80', 'Musikquiz – 80’erne'],
@@ -33,7 +65,7 @@
     ['film10', 'Filmquiz – 10’erne'], ['filmdk', 'Filmquiz – dansk film'], ['harry', 'Filmquiz – Harry Potter'],
     ['kpop', 'Filmquiz – K-pop Demon Hunters'], ['serier', 'Seriequiz'], ['disney', 'Disneyquiz'],
     ['roller', 'Hvem spillede rollen?'], ['fb_dk', 'Dansk fodbold'], ['fb_int', 'International fodbold'],
-    ['reality', 'Dansk reality'],
+    ['reality', 'Dansk reality'], ['forklar', 'Forklar ordet (Taboo)'],
   ];
 
   const CSS = '.rumkode{font-size:clamp(40px,12vw,72px);font-weight:900;letter-spacing:.18em;text-align:center;'
@@ -70,7 +102,7 @@
   function kald(data) {
     const h = hass();
     if (!h || !h.callService) return Promise.reject(new Error('kræver Home Assistant'));
-    return h.callService('hyggespil', 'rum', Object.assign({ enhed }, data));
+    return h.callService('hyggespil', 'rum', Object.assign({ enhed, noegle }, data));
   }
   function data() {
     const h = hass();
@@ -83,6 +115,7 @@
       spillere: a.rum_spillere || [], tur: a.rum_tur, turNavn: a.rum_tur_navn || '',
       vaert: a.rum_vaert || '', fase: a.rum_fase || 'lobby', spil: a.rum_spil || '',
       spoergsmaal: a.rum_spoergsmaal || null, korrekt: a.rum_korrekt, svar: a.rum_svar,
+      privat: a.rum_privat || {},
     };
   }
   function erVaert() { const d = data(); return !!d && !!enhed && d.vaert === enhed; }
@@ -112,9 +145,10 @@
   }
   function tegnSpil(d) {
     const el = spilEl();
-    const vis = d && d.fase && d.fase !== 'lobby' && d.spoergsmaal;
+    const vis = d && d.fase && d.fase !== 'lobby' && (d.spoergsmaal || d.spil === 'forklar');
     el.style.display = vis ? 'block' : 'none';
     if (!vis) return;
+    if (d.spil === 'forklar') { tegnForklar(el, d); return; }
     const q = d.spoergsmaal, opts = q.o || [];
     const minTur = erMinTur(), afsloeret = d.fase === 'afsloret';
     const navn = QUIZ.find(x => x[0] === d.spil);
@@ -155,6 +189,25 @@
   function naesteRunde() {
     const sel = document.getElementById('rum-pulje');
     const key = (sel && sel.value) || 'harry';
+    const d = data();
+
+    if (key === 'forklar') {
+      const liste = (window.DATA && window.DATA.taboo) || [];
+      if (!liste.length) { toast('Taboo-puljen er tom'); return; }
+      const it = liste[Math.floor(Math.random() * liste.length)];
+      const w = Array.isArray(it) ? it[0] : it.w;
+      const f = Array.isArray(it) ? it.slice(1, 4) : (it.f || []);
+      const antal = d && d.spillere.length ? d.spillere.length : 1;
+      const maal = (d && d.fase !== 'lobby') ? (d.tur + 1) % antal : 0;
+      kald({
+        handling: (d && d.fase === 'lobby') ? 'start' : 'naeste',
+        spil: 'forklar',
+        spoergsmaal: { q: 'Forklar ordet – uden at sige de forbudte ord' },
+        privat: { [maal]: { w, f } },
+      }).then(() => biplyd(760)).catch(e => toast(e.message));
+      return;
+    }
+
     const liste = (window.DATA && window.DATA[key]) || [];
     if (!liste.length) { toast('Puljen er tom'); return; }
     let bag = [];
@@ -165,9 +218,42 @@
     const it = liste[idx];
     const q = Array.isArray(it) ? { q: it[0], o: it[1] } : { q: it.q, o: it.o };
     const korrekt = Array.isArray(it) ? it[2] : it.a;
-    const d = data();
-    const handling = d && d.fase === 'lobby' ? 'start' : 'naeste';
-    kald({ handling, spil: key, spoergsmaal: q, korrekt }).then(() => biplyd(760)).catch(e => toast(e.message));
+    kald({
+      handling: (d && d.fase === 'lobby') ? 'start' : 'naeste',
+      spil: key, spoergsmaal: q, korrekt,
+    }).then(() => biplyd(760)).catch(e => toast(e.message));
+  }
+
+  /* Taboo: kun den spiller, hvis tur det er, kan åbne sit private kort */
+  function tegnForklar(el, d) {
+    const i = d.spillere.findIndex(p => p.enhed === enhed);
+    const mit = (i >= 0) ? åbn(d.privat[String(i)] || '') : null;
+    const minTur = i >= 0 && i === d.tur;
+    const navn = d.turNavn;
+    el.innerHTML = '<div class="rp"><div class="top">'
+      + '<div class="sp">🗣️ Forklar ordet</div>'
+      + '<span style="opacity:.7">Rum ' + d.kode + '</span>'
+      + (erVaert() ? '<button class="btn ghost" id="rum-luk-spil">Afslut</button>' : '')
+      + (med ? '<button class="btn ghost" id="rum-forlad2">Forlad</button>' : '')
+      + '</div>'
+      + '<div class="hvem' + (minTur ? ' mig' : '') + '">' + (minTur
+        ? '🎯 Du forklarer – vis ikke telefonen til de andre'
+        : '⏳ ' + navn + ' forklarer') + '</div>'
+      + (minTur && mit
+        ? '<div class="q" style="font-size:clamp(30px,10vw,64px);letter-spacing:.02em">' + mit.w + '</div>'
+          + '<p class="hint" style="text-align:center">Du må ikke sige:</p>'
+          + '<div class="point">' + (mit.f || []).map(f => '<span style="background:rgba(230,57,70,.25);border:1px solid #e63946">' + f + '</span>').join('') + '</div>'
+        : '<div class="q" style="opacity:.8">Lyt og gæt – ordet er hemmeligt for dig' + (minTur ? ' (venter på kortet)' : '') + '</div>')
+      + '<div class="point">' + d.spillere.map((p, k) => '<span' + (k === d.tur ? ' style="outline:2px solid #ffb703"' : '') + '>' + p.navn + ': ' + p.point + '</span>').join('') + '</div>'
+      + (erVaert() ? '<div class="row" style="margin-top:14px"><button class="btn green" id="rum-giv">Giv point</button>'
+        + '<button class="btn big green" id="rum-naeste">Næste →</button></div>' : '')
+      + '</div>';
+    const nx = document.getElementById('rum-naeste');
+    if (nx) nx.onclick = naesteRunde;
+    const giv = document.getElementById('rum-giv');
+    if (giv) giv.onclick = () => kald({ handling: 'giv' }).then(() => biplyd(640)).catch(e => toast(e.message));
+    const luk = document.getElementById('rum-luk-spil');
+    if (luk) luk.onclick = () => kald({ handling: 'afslut' }).catch(e => toast(e.message));
   }
 
   /* ---------------- dialog ---------------- */

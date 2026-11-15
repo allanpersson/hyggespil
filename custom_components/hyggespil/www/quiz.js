@@ -86,7 +86,7 @@
 
   const tilføj = [
     { id: 'grsyg', grp: 'Gæt & quiz', key: 'grsyg', kind: 'grsyg', t: 'Græker eller sygdom',
-      d: 'Et ord – er det en græsk person/gud eller en latinsk sygdom? (fx «Psoriasis» og «Platon»)',
+      d: 'Et ord – er det en græsk person/gud eller en latinsk sygdom?',
       e: '🏛️', g: 'linear-gradient(135deg,#0d9488,#7c3aed)', min: 2 },
     { id: 'fbdk', grp: 'Gæt & quiz', key: 'fb_dk', kind: 'mc4', t: 'Dansk fodbold',
       d: 'Superliga, pokal og danske klubbers historie', e: '⚽', g: 'linear-gradient(135deg,#c8102e,#ffd166)', min: 2 },

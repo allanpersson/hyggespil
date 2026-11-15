@@ -11,6 +11,8 @@ andre automatiseringer kan bygges på det – se docs/spaending.md.
 """
 from __future__ import annotations
 
+import base64
+import hashlib
 import json
 import logging
 import random
@@ -47,6 +49,44 @@ def _version() -> str:
 VERSION = _version()
 
 
+def _rc4(key: str, data: bytes) -> bytes:
+    """Simpel RC4 til at beskytte et privat kort med spillerens egen nøgle."""
+    s = list(range(256))
+    k = key.encode("utf-8")
+    j = 0
+    for i in range(256):
+        j = (j + s[i] + k[i % len(k)]) & 255
+        s[i], s[j] = s[j], s[i]
+    i = j = 0
+    ud = bytearray()
+    for b in data:
+        i = (i + 1) & 255
+        j = (j + s[i]) & 255
+        s[i], s[j] = s[j], s[i]
+        ud.append(b ^ s[(s[i] + s[j]) & 255])
+    return bytes(ud)
+
+
+def _krypt_privat(noegle: str, indhold: dict) -> str:
+    """Krypterer et privat kort, så kun den spillers telefon kan læse det."""
+    if not noegle:
+        return ""
+    data = json.dumps(indhold, ensure_ascii=False).encode("utf-8")
+    return base64.b64encode(_rc4(noegle, data)).decode("ascii")
+
+
+def _privat_kort(rum: dict) -> dict:
+    """Krypterer hver spillers private kort med netop hans/hendes nøgle."""
+    ud: dict = {}
+    raw = rum.get("privat_raw") or {}
+    for i, spiller in enumerate(rum.get("spillere", [])):
+        indhold = raw.get(str(i)) or raw.get(i)
+        noegle = spiller.get("noegle") or ""
+        if indhold and noegle:
+            ud[str(i)] = _krypt_privat(noegle, indhold)
+    return ud
+
+
 async def _async_status(hass: HomeAssistant, call: ServiceCall) -> None:
     """Modtag spillets tilstand: gem på sensoren og send en hændelse."""
     data: dict = {"state": str(call.data.get("state") or "klar")}
@@ -74,6 +114,7 @@ async def _async_rum(hass: HomeAssistant, call: ServiceCall) -> None:
     kode = str(call.data.get("kode") or "").strip()[:8]
     navn = str(call.data.get("navn") or "").strip()[:24]
     enhed = str(call.data.get("enhed") or "").strip()[:24]
+    noegle = str(call.data.get("noegle") or "").strip()[:64]
     rum: dict = hass.data.setdefault(DOMAIN, {}).setdefault("rum", {})
 
     def nulstil() -> None:
@@ -90,6 +131,8 @@ async def _async_rum(hass: HomeAssistant, call: ServiceCall) -> None:
             "spoergsmaal": None,
             "korrekt": None,
             "svar": None,
+            "privat": {},
+            "privat_raw": {},
         })
 
     def find(enhed_id: str) -> dict | None:
@@ -105,7 +148,9 @@ async def _async_rum(hass: HomeAssistant, call: ServiceCall) -> None:
             unikt, n = navn, 2
             while unikt in brugte:
                 unikt, n = f"{navn} {n}", n + 1
-            rum.setdefault("spillere", []).append({"enhed": enhed, "navn": unikt, "point": 0})
+            rum.setdefault("spillere", []).append(
+                {"enhed": enhed, "navn": unikt, "point": 0, "noegle": noegle}
+            )
     elif handling == "forlad":
         rum["spillere"] = [p for p in rum.get("spillere", []) if p.get("enhed") != enhed]
         if rum.get("tur", 0) >= len(rum["spillere"]):
@@ -131,7 +176,9 @@ async def _async_rum(hass: HomeAssistant, call: ServiceCall) -> None:
             "spoergsmaal": call.data.get("spoergsmaal") or None,
             "korrekt": call.data.get("korrekt"),
             "svar": None,
+            "privat_raw": call.data.get("privat") or {},
         })
+        rum["privat"] = _privat_kort(rum)
         for p in rum["spillere"]:
             p["point"] = 0
     elif handling == "svar":
@@ -154,9 +201,19 @@ async def _async_rum(hass: HomeAssistant, call: ServiceCall) -> None:
             "spoergsmaal": call.data.get("spoergsmaal") or rum.get("spoergsmaal"),
             "korrekt": call.data.get("korrekt"),
             "svar": None,
+            "privat_raw": call.data.get("privat") or {},
         })
+        rum["privat"] = _privat_kort(rum)
+    elif handling == "giv":
+        if not rum.get("spillere") or (rum.get("vaert") and enhed != rum.get("vaert")):
+            return
+        idx = call.data.get("spiller")
+        idx = int(rum.get("tur", 0)) if idx is None else int(idx)
+        if 0 <= idx < len(rum["spillere"]):
+            rum["spillere"][idx]["point"] = int(rum["spillere"][idx].get("point", 0)) + 1
     elif handling == "afslut":
-        rum.update({"fase": "lobby", "spoergsmaal": None, "korrekt": None, "svar": None, "spil": ""})
+        rum.update({"fase": "lobby", "spoergsmaal": None, "korrekt": None, "svar": None,
+                    "spil": "", "privat": {}, "privat_raw": {}})
 
     spillere = rum.get("spillere", [])
     tur = int(rum.get("tur", 0)) if spillere else None
@@ -174,6 +231,7 @@ async def _async_rum(hass: HomeAssistant, call: ServiceCall) -> None:
         "rum_spoergsmaal": rum.get("spoergsmaal") if rum.get("fase") in ("spoergsmaal", "afsloret") else None,
         "rum_korrekt": rum.get("korrekt") if afsloeret else None,
         "rum_svar": rum.get("svar") if afsloeret else None,
+        "rum_privat": rum.get("privat") or {},
         "rum_opdateret": datetime.now(UTC).isoformat(),
     }
     sensor = hass.data.get(DOMAIN, {}).get("sensor")
