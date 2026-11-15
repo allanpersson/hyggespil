@@ -5,7 +5,7 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 **Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.42<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->202<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->218<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
@@ -76,6 +76,11 @@ Valgene huskes til næste gang.
 **Lyd og lys på samme tid:** musik, bip og oplæsning afspilles på den enhed, spillet kører på, og
 lyset styres helt separat af `sensor.hyggespil_spil` i Home Assistant. De to kan derfor bruges
 samtidig – automatiseringen hører hverken musikken eller oplæsningen.
+
+### 📱 Android-app
+
+Der findes også en **Android-app** til selvinstallation: [allanpersson/hyggespil-android](https://github.com/allanpersson/hyggespil-android/releases/latest).
+Den indeholder spillets filer og virker uden Home Assistant; Home Assistant-funktioner (lys, fælles rum, sensor) kræver panelet.
 
 #### 🧠 Ekspertspørgsmål
 
