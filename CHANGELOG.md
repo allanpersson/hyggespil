@@ -3,6 +3,14 @@
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
 
+## 0.2.44 – 2026-11-15
+
+### Rettet
+- **Android-appen viser ikke længere Home Assistant-vejledningen ved oplæsning.** Den lokale app har sin egen TTS-bro, så den taler med det samme og springer «Åbn i Chrome»/Companion-vejledningen over. Home Assistant-appen beholder den vejledning, der gælder der.
+- Android-TTS uden forkert vejledning
+- Actionlint-fix
+- CI: flere tests og overvaagning
+
 ## 0.2.43 – 2026-11-15
 
 ### Ændret

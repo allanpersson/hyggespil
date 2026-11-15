@@ -3,7 +3,7 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.43<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.44<!-- version:end -->
 
 **Hentet fra GitHub:** <!-- downloads:start -->224<!-- downloads:end --> gange
 
@@ -242,6 +242,14 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.44 – 2026-11-15
+
+**Rettet**
+- **Android-appen viser ikke længere Home Assistant-vejledningen ved oplæsning.** Den lokale app har sin egen TTS-bro, så den taler med det samme og springer «Åbn i Chrome»/Companion-vejledningen over. Home Assistant-appen beholder den vejledning, der gælder der.
+- Android-TTS uden forkert vejledning
+- Actionlint-fix
+- CI: flere tests og overvaagning
+
 ### 0.2.43 – 2026-11-15
 
 **Ændret**
@@ -300,14 +308,6 @@ en kop kaffe:
 - **MGP-spørgsmålet** om antal finalesange er udskiftet med et sikkert faktum (Danmarks Eurovision-sejr i 2013).
 - **Spillekortenes beskrivelser røber ikke længere svar:** titler, kunstnere og navne er fjernet fra musik-, film-, serie-, Disney- og «Græker eller sygdom»-beskrivelserne.
 - **Kvalitetskontrollen** fanger nu dobbelte svarmuligheder og forkert svarindeks.
-
-### 0.2.31 – 2026-11-15
-
-**Tilføjet**
-- **Fælles quiz med egen skærm til hver spiller (beta):** værten vælger en pulje og starter runden. Alle får spørgsmålet på deres egen telefon, turen går på omgang, og kun den aktive spiller kan svare – de andre ser «Det er X's tur». Det rigtige svar ligger kun på serveren, indtil runden afsløres, så ingen kan snyde. Pointene vises på alle skærme.
-- Rummet husker nu også spillere, tur, point og fase, og tjenesten `hyggespil.rum` har fået `deltag`, `forlad`, `start`, `svar`, `naeste` og `afslut`.
-**Rettet**
-- **Puljekortene viser både antallet** («8 i puljen») **og** badgen «Nyt spil, puljen udvides løbende» – de står nu under hinanden i kortets nederste hjørne.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
