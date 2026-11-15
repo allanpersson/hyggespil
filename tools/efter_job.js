@@ -21,38 +21,52 @@ const NAVNE = {
   grsyg: 'Græker eller sygdom', reality: 'Dansk reality', fb_dk: 'Dansk fodbold', fb_int: 'International fodbold',
 };
 
-if (!fs.existsSync(LOG)) { console.log('ingen ingest.log'); process.exit(0); }
+if (!fs.existsSync(LOG)) console.log('ingen ingest.log – bruger tælling fra docs/antal.json');
 const tæller = {};
-for (const linje of fs.readFileSync(LOG, 'utf8').split(/\r?\n/)) {
-  if (!linje.startsWith(dag)) continue;
-  const m = /^\S+ (\w+): godkendt (\d+)/.exec(linje);
-  if (m && +m[2] > 0) tæller[m[1]] = (tæller[m[1]] || 0) + +m[2];
+if (fs.existsSync(LOG)) {
+  for (const linje of fs.readFileSync(LOG, 'utf8').split(/\r?\n/)) {
+    if (!linje.startsWith(dag)) continue;
+    const m = /^\S+ (\w+): godkendt (\d+)/.exec(linje);
+    if (m && +m[2] > 0) tæller[m[1]] = (tæller[m[1]] || 0) + +m[2];
+  }
 }
-const iAlt = Object.values(tæller).reduce((a, b) => a + b, 0);
+
+/* Sandheden er forskellen mellem den udgivne tælling (docs/antal.json, som følger med
+   hver udgivelse) og puljerne nu. Dubletter, der frasorteres ved indlæsning, tælles
+   derfor ikke med – i modsætning til ingest.log, som tæller rå godkendelser. */
+const FØR = path.join(ROD, 'docs', 'antal.json');
+let gammel = null;
+try { gammel = JSON.parse(fs.readFileSync(FØR, 'utf8')); } catch (e) {}
+cp.execFileSync('node', [path.join(ROD, 'tools', 'antal.js')], { stdio: 'inherit' });
+const ny = JSON.parse(fs.readFileSync(FØR, 'utf8'));
+
+let iAlt = 0;
+if (gammel && gammel.puljer) {
+  for (const k of Object.keys(tæller)) delete tæller[k];
+  for (const k of new Set([...Object.keys(gammel.puljer), ...Object.keys(ny.puljer)])) {
+    const d = (ny.puljer[k] || 0) - (gammel.puljer[k] || 0);
+    if (d > 0) { tæller[k] = d; iAlt += d; }
+  }
+}
+if (!iAlt) iAlt = Object.values(tæller).reduce((a, b) => a + b, 0);
 if (!iAlt) { console.log('ingen nye spørgsmål i dag – ingen udgivelse'); process.exit(0); }
 
 const dele = Object.entries(tæller).sort((a, b) => b[1] - a[1])
   .map(([p, n]) => (NAVNE[p] || p) + ' (' + n + ')').join(', ');
-const noter = '### Tilføjet\n- **' + iAlt + ' nye spørgsmål og kort** fordelt på: ' + dele + '.\n';
+let noter = '### Tilføjet\n- **' + iAlt + ' nye spørgsmål og kort** fordelt på: ' + dele + '.\n';
+
+/* Nye spil siden sidste udgivelse nævnes ved navn. */
+if (gammel && gammel.spilNavne) {
+  const nye = Object.entries(ny.spilNavne || {}).filter(([id]) => !(id in gammel.spilNavne));
+  if (nye.length) noter += '- **Nye spil:** ' + nye.map(([, t]) => t).join(' · ') + '.\n';
+}
 fs.writeFileSync(path.join(ROD, 'docs', 'udgivelsesnoter.md'), noter, 'utf8');
 
-/* Status til CI: hvor stor er den mindste (pulje, aldersgruppe) lige nu?
-   <200 = daglig udgivelse, >=200 = hver 3. dag, >=300 = ugentligt. */
+/* Kadence-status (mindste pulje/aldersgruppe) skrives af antal.js – vis den her. */
 try {
-  const st = JSON.parse(fs.readFileSync(path.join(TOOLS, 'state', 'daily_store.json'), 'utf8'));
-  const grupper = [[3, 5], [6, 8], [9, 11], [12, 14]];
-  let min = Infinity; const detaljer = {};
-  for (const [p, liste] of Object.entries(st)) {
-    for (const [a, b] of grupper) {
-      const n = (liste || []).filter(x => { const al = x.item && x.item.age; return typeof al === 'number' && al >= a && al <= b; }).length;
-      detaljer[p + ':' + a + '-' + b] = n;
-      if (n < min) min = n;
-    }
-  }
-  fs.writeFileSync(path.join(ROD, 'docs', 'puljestatus.json'),
-    JSON.stringify({ min, detaljer, over200: min >= 200, over300: min >= 300, opdateret: new Date().toISOString() }, null, 1));
-  console.log('puljestatus: mindste pulje har ' + min + ' (over200=' + (min >= 200) + ', over300=' + (min >= 300) + ')');
-} catch (e) { console.log('kunne ikke skrive puljestatus: ' + e.message); }
+  const s = JSON.parse(fs.readFileSync(path.join(ROD, 'docs', 'puljestatus.json'), 'utf8'));
+  console.log('puljestatus: mindste pulje har ' + s.min + ' (over200=' + s.over200 + ', over300=' + s.over300 + ')');
+} catch (e) { console.log('kunne ikke læse puljestatus: ' + e.message); }
 console.log('noter:\n' + noter);
 
 try {
@@ -61,3 +75,4 @@ try {
 } catch (e) { console.log('intet at committe'); }
 cp.execFileSync('node', [path.join(ROD, 'tools', 'genskab_main.js'), 'Nye spørgsmål: ' + iAlt], { stdio: 'inherit' });
 console.log('sendt til GitHub – CI udgiver med noterne');
+

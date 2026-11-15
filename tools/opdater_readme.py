@@ -22,6 +22,26 @@ VERSION_START = "<!-- version:start -->"
 VERSION_SLUT = "<!-- version:end -->"
 NYHEDER_START = "<!-- nyheder:start -->"
 NYHEDER_SLUT = "<!-- nyheder:end -->"
+TAL_START = "<!-- tal:start -->"
+TAL_SLUT = "<!-- tal:end -->"
+ANTAL_JSON = os.path.join(ROD, "docs", "antal.json")
+
+
+def antal() -> dict:
+    """Antal spil og spørgsmål, talt op af tools/antal.js (samme som i spillet)."""
+    import subprocess
+    p = subprocess.run(["node", os.path.join(ROD, "tools", "antal.js")],
+                       capture_output=True, text=True)
+    if p.returncode != 0:
+        raise SystemExit("FEJL: tools/antal.js kunne ikke tælle spillet:\n" + (p.stderr or p.stdout))
+    return json.load(open(ANTAL_JSON, encoding="utf-8"))
+
+
+def tal_linje() -> str:
+    t = antal()
+    spil = t["spil"]
+    antal_kort = f"{t['spoergsmaal']:,}".replace(",", ".")
+    return f"{spil} spil og {antal_kort} spørgsmål, opgaver og kort"
 
 
 def version() -> str:
@@ -81,17 +101,20 @@ def main() -> None:
     tjek = "--tjek" in sys.argv
     tekst = open(README, encoding="utf-8").read()
     version_linje, nyheder = ønsket_indhold()
+    tal = tal_linje()
     ny = udskift(tekst, VERSION_START, VERSION_SLUT, version_linje, inline=True)
     ny = udskift(ny, NYHEDER_START, NYHEDER_SLUT, nyheder)
+    ny = udskift(ny, TAL_START, TAL_SLUT, tal, inline=True)
 
     if ny == tekst:
-        print(f"README er i sync (version {version()})")
+        print(f"README er i sync (version {version()}, {tal})")
         return
     if tjek:
-        print("FEJL: README.md er ikke opdateret – kør: python tools/opdater_readme.py")
+        print(f"FEJL: README.md er ikke opdateret (version {version()}, {tal}) – "
+              "kør: python tools/opdater_readme.py")
         sys.exit(1)
     open(README, "w", encoding="utf-8", newline="\n").write(ny)
-    print(f"README opdateret: version {version()}, {len(nyheder.splitlines())} linjer nyheder")
+    print(f"README opdateret: version {version()}, {tal}, {len(nyheder.splitlines())} linjer nyheder")
 
 
 if __name__ == "__main__":
