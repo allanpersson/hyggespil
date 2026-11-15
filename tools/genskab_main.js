@@ -14,6 +14,15 @@ const GIT = process.env.GIT || (fs.existsSync('C:\\Program Files\\Git\\cmd\\git.
 const BESKED = process.argv[2] || 'Spejler lokal HEAD til main';
 // udviklerhjælp: _enkelunderscore i begyndelsen af filnavnet (IKKE __init__.py / __pycache__)
 const udvikler = f => /(^|\/)_[^_][^/]*\.(js|py|md)$/.test(f) || f.startsWith('tools/klar_') || f === 'tools/prov_ci.md';
+// Filer som CI selv ejer: version, changelog, README og tællinger. De må ikke rulles
+// tilbage af en lokal, ældre kopi. Send dem kun med, når de bevidst skal rettes: --med-ci-filer
+const CI_FILER = new Set([
+  'CHANGELOG.md', 'README.md',
+  'custom_components/hyggespil/manifest.json',
+  'custom_components/hyggespil/www/hs-cfg.js',
+  'docs/antal.json', 'docs/puljestatus.json',
+]);
+const MED_CI = process.argv.includes('--med-ci-filer');
 
 const git = a => cp.execSync(`"${GIT}" -C "${ROD}" ${a}`, { maxBuffer: 1 << 28 });
 const api = async (p, metode = 'GET', krop) => {
@@ -31,7 +40,8 @@ const api = async (p, metode = 'GET', krop) => {
   let base = await api('/git/commits/' + forælder);
   const træGrund = await api('/git/trees/' + base.tree.sha + '?recursive=1');
 
-  const lokale = git('ls-tree -r HEAD --name-only').toString('utf8').split(/\r?\n/).filter(Boolean).filter(f => !udvikler(f));
+  const lokale = git('ls-tree -r -z HEAD --name-only').toString('utf8').split('\0')
+    .filter(Boolean).filter(f => !udvikler(f)).filter(f => MED_CI || !CI_FILER.has(f));
   const påMain = new Map(træGrund.tree.filter(e => e.type === 'blob').map(e => [e.path, e]));
   const lokalSæt = new Set(lokale);
 
@@ -46,7 +56,8 @@ const api = async (p, metode = 'GET', krop) => {
   }
 
   // 2) filer der kun findes på main fjernes (så main altid ligner den lokale HEAD)
-  const slettede = [...påMain.keys()].filter(f => !lokalSæt.has(f) && påMain.get(f).type === 'blob');
+  const slettede = [...påMain.keys()].filter(f => !lokalSæt.has(f) && påMain.get(f).type === 'blob'
+    && (MED_CI || !CI_FILER.has(f)));
   for (const f of slettede) poster.push({ path: f, mode: '100644', type: 'blob', sha: null });
 
   if (!ændrede.length && !slettede.length) {
@@ -81,7 +92,8 @@ const api = async (p, metode = 'GET', krop) => {
         const blob = await api('/git/blobs', 'POST', { content: ind.toString('base64'), encoding: 'base64' });
         poster.push({ path: f, mode: '100644', type: 'blob', sha: blob.sha });
       }
-      const nyeSlettede = [...nyMain.keys()].filter(f => !lokalSæt.has(f) && nyMain.get(f).type === 'blob');
+      const nyeSlettede = [...nyMain.keys()].filter(f => !lokalSæt.has(f) && nyMain.get(f).type === 'blob'
+        && (MED_CI || !CI_FILER.has(f)));
       for (const f of nyeSlettede) poster.push({ path: f, mode: '100644', type: 'blob', sha: null });
       påMain.clear();
       for (const [k, v] of nyMain) påMain.set(k, v);

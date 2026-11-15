@@ -12,14 +12,35 @@
  */
 (function () {
   if (window.HSV) return;
-  const LS = window.LS;
+  /* index.html har LS som en global const (ikke window.LS). Brug den, ellers en lille lokal lagerhjælper. */
+  const lager = (typeof window !== 'undefined' && window.LS && typeof window.LS.get === 'function') ? window.LS : {
+    get(k, d) { try { const v = localStorage.getItem('hs_' + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem('hs_' + k, JSON.stringify(v)); } catch (e) {} },
+  };
   const aes = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const esc = aes;
   const spillere = () => { try { const h = window.hsSpil; return (h && h.players) || []; } catch (e) { return []; } };
   const STANDARD = { tid: 0, bonus: 0, bonusInden: 10, musikStart: 10, musik: '', musikNavn: '', lyd: true,
-    oplaes: false, taleRate: 1, stemme: '', haTts: '', haPlayer: '' };
-  let valg = Object.assign({}, STANDARD, (LS && LS.get('valg', {})) || {});
-  const gemValg = () => { try { LS.set('valg', valg); } catch (e) {} };
+    oplaes: true, taleRate: 1, stemme: '', haTts: '', haPlayer: '' };
+  /* Indstillinger findes på to niveauer:
+     - globalt (valg): gælder alle spil
+     - pr. spil (valg_spil): overstyrer de globale for det ene spil
+     Enhedens egen højtaler er standard (oplaes: true, ingen HA-højtaler valgt). */
+  const NG = 'valg', NPS = 'valg_spil', NSAT = 'indst';
+  let globalt = Object.assign({}, STANDARD, (LS && lager.get(NG, {})) || {});
+  let prSpil = (LS && lager.get(NPS, {})) || {};
+  let valg = Object.assign({}, globalt);
+  let aktivtSpil = '', iDialog = false;
+  const gemValg = () => {
+    try {
+      if (iDialog && aktivtSpil) { prSpil[aktivtSpil] = Object.assign({}, valg); lager.set(NPS, prSpil); }
+      else { globalt = Object.assign({}, valg); lager.set(NG, globalt); }
+    } catch (e) {}
+  };
+  const anvend = id => {
+    if (id) aktivtSpil = id;
+    valg = Object.assign({}, globalt, (prSpil[aktivtSpil] || {}));
+  };
 
   /* Spil hvor en nedtælling pr. spørgsmål ikke giver mening (bræt-, terning- og 3D-spil) */
   const UDEN_TID = new Set(['rl', 'glass', 'marb', 'shiri', 'yut', 'suit', 'lot', 'shagai', 'inuit', 'wheel', 'pin', 'provw', 'dx', 'sm', 'hard', 'mix']);
@@ -319,10 +340,17 @@
       o.className = 'modal';
       o.style.zIndex = '70';
       const knap = (v, tekst) => '<button class="btn' + (valg.tid === v ? '' : ' ghost') + '" data-tid="' + v + '" style="padding:8px 14px;border-radius:12px">' + tekst + '</button>';
+      const førsteGang = !lager.get(NSAT, false);
+      let omfang = førsteGang ? 'alle' : 'spil';
+      iDialog = true;
       o.innerHTML = '<div class="mbox" style="width:min(560px,100%)">' +
-        '<h2 style="margin:0 0 4px">Indstillinger til ' + esc(spilNavn) + '</h2>' +
-        '<p class="hint" style="text-align:left;margin-top:0">Vælges inden spillet starter. Du kan ændre det undervejs med ⚙ i spillets bjælke.</p>' +
-        '<h3 style="margin:14px 0 6px">⏱️ Tid pr. spørgsmål</h3>' +
+        '<h2 style="margin:0 0 4px">Indstillinger til ' + esc(spilNavn || 'spillet') + '</h2>' +
+        '<p class="hint" style="text-align:left;margin-top:0">Du kan altid ændre det igen med <b>⚙</b> i spillets bjælke.</p>' +
+        '<h3 style="margin:14px 0 6px">🎯 Hvad skal indstillingerne gælde for?</h3>' +
+        '<div class="row" style="justify-content:flex-start" id="hsv-omfang">' +
+        '<button class="btn" data-omfang="spil">Kun «' + esc(spilNavn || 'dette spil') + '»</button>' +
+        '<button class="btn ghost" data-omfang="alle">Alle spil</button></div>' +
+        '<h3 style="margin:16px 0 6px">⏱️ Tid pr. spørgsmål</h3>' +
         '<div class="row" style="justify-content:flex-start" id="hsv-tid">' + knap(0, 'Ingen') + [30, 45, 60, 90, 120].map(s => knap(s, s + ' sek')).join('') +
         '<input class="in" id="hsv-egen" type="number" min="5" max="600" placeholder="egen" style="width:90px;text-align:center" value="' + (valg.tid && [0, 30, 45, 60, 90, 120].indexOf(valg.tid) < 0 ? valg.tid : '') + '"></div>' +
         '<h3 style="margin:16px 0 6px">⚡ Ekstra point for hurtigt svar</h3>' +
@@ -364,6 +392,10 @@
         '<button class="btn ghost" id="hsv-tilmenu">← Alle spil</button></div></div>';
       document.body.appendChild(o);
       const $ = id => o.querySelector('#' + id);
+      const tegnOmfang = () => o.querySelectorAll('[data-omfang]').forEach(b =>
+        b.className = 'btn' + (b.dataset.omfang === omfang ? '' : ' ghost'));
+      o.querySelectorAll('[data-omfang]').forEach(b => b.onclick = () => { omfang = b.dataset.omfang; tegnOmfang(); });
+      tegnOmfang();
       const opdaterKnapper = () => {
         o.querySelectorAll('[data-tid]').forEach(b => b.className = 'btn' + (+b.dataset.tid === valg.tid ? '' : ' ghost'));
         o.querySelectorAll('[data-bonus]').forEach(b => b.className = 'btn' + (+b.dataset.bonus === valg.bonus ? '' : ' ghost'));
@@ -407,16 +439,30 @@
         $('hsv-filnavn').textContent = f.name;
         visToast('Musik gemt på denne enhed');
       };
+      const gemOmfang = () => {
+        try {
+          if (omfang === 'alle') {
+            globalt = Object.assign({}, valg);
+            delete prSpil[aktivtSpil];
+            lager.set(NG, globalt); lager.set(NPS, prSpil);
+          } else if (aktivtSpil) {
+            prSpil[aktivtSpil] = Object.assign({}, valg);
+            lager.set(NPS, prSpil);
+          }
+          lager.set(NSAT, true);
+        } catch (e) {}
+        iDialog = false;
+      };
       const luk = (medTid) => {
         if (!medTid) { valg.tid = 0; }
-        gemValg(); o.remove();
+        gemOmfang(); o.remove();
         if (medTid) bipper(660, 120, 0.12);
         res(true);
       };
       /* Fortryd: luk boksen og gå til spiloversigten uden at starte noget.
          Ankeret sættes, så man lander ved det spil, man trykkede på. */
       const tilMenu = () => {
-        gemValg(); o.remove(); stopUr(false);
+        gemOmfang(); o.remove(); stopUr(false);
         try { if (spil && window.hsAnker) window.hsAnker(spil); } catch (e) {}
         res(false);
         try { window.go('home'); } catch (e) {}
@@ -435,7 +481,14 @@
       const fraMenu = !spil;               // kun før et spil - ikke ved "Spil igen"
       spil = id || spil; spilNavn = '';
       try { const x = window.hsSpil && window.hsSpil.gm ? window.hsSpil.gm(spil) : null; spilNavn = x ? x.t : spil; } catch (e) {}
+      anvend(spil);                        // spillets egne indstillinger (eller de fælles)
       if (fraMenu) {
+        /* Indstillingerne vises kun én gang – ved det første spil.
+           Bagefter huskes de, og de ændres med ⚙ i spillets bjælke. */
+        if (lager.get(NSAT, false)) {
+          if (valg.tid) visToast(valg.tid + ' sek. pr. spørgsmål' + (valg.bonus ? ' · +' + valg.bonus + ' for hurtigt svar' : ''));
+          return start0.apply(window, arguments);
+        }
         dialog().then(startNu => {
           if (!startNu) return;              // «← Alle spil»: intet spil startes
           if (valg.tid) visToast(valg.tid + ' sek. pr. spørgsmål' + (valg.bonus ? ' · +' + valg.bonus + ' for hurtigt svar' : ''));

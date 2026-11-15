@@ -28,20 +28,23 @@ function rc4(key, str) {
 }
 function klart(fil) {
   const tekst = fs.readFileSync(path.join(WWW, fil), 'utf8');
-  const m = tekst.match(/hsKrypt\("([^"]+)","([^"]+)"\)/);
+  const m = tekst.match(/hsKrypt\("([^"]+)","([^"]+)"(?:,"(u8)")?\)/);
   if (!m) return tekst;
-  return rc4(nøgle + '|' + m[1], Buffer.from(m[2], 'base64').toString('binary'));
+  const bin = rc4(nøgle + '|' + m[1], Buffer.from(m[2], 'base64').toString('binary'));
+  return m[3] === 'u8' ? Buffer.from(bin, 'binary').toString('utf8') : bin;
 }
 
 const DATA = {};
-const sandkasse = { window: { DATA }, DATA, PACK: () => {}, Object, console: { log() {}, warn() {} }, Math, JSON };
+const sandkasse = { DATA, PACK: () => {}, Object, console: { log() {}, warn() {} }, Math, JSON };
+sandkasse.window = sandkasse;          // som i browseren: window.DATA og DATA er samme objekt
 sandkasse.globalThis = sandkasse;
 vm.createContext(sandkasse);
-for (const f of ['data.js', 'data2.js', 'data3.js']) {
+for (const f of ['data.js', 'data2.js', 'data3.js', 'ex_daily.js', 'gs.js', 'fb.js', 'reality.js']) {
   try { new vm.Script(klart(f), { filename: f }).runInContext(sandkasse); }
   catch (e) { console.error('kunne ikke læse ' + f + ': ' + e.message); }
 }
-const pools = sandkasse.window.DATA || DATA;
+const pools = sandkasse.DATA;
+
 
 const ALVORLIG = new Set(['tom', 'dublet', 'lækage', 'html']);
 const fund = [];
@@ -60,6 +63,7 @@ for (const [pool, liste] of Object.entries(pools)) {
   if (!Array.isArray(liste)) continue;
   const set = new Set();
   liste.forEach((it, idx) => {
+    if (Array.isArray(it)) return;                 // pakkede rækker (PACK) tjekkes ikke her
     const t = tekstAf(it);
     const fejl = [];
     if (!t || t.trim().length < 8) fejl.push('tom');
@@ -68,6 +72,9 @@ for (const [pool, liste] of Object.entries(pools)) {
     if (/^\s|\s$/.test(t)) fejl.push('løse-mellemrum');
     if (/^[a-zæøå]/.test(t) && !/^[a-z]{1,3}\./.test(t)) fejl.push('lille-begyndelse');
     if (/\?\?\?|�/.test(t)) fejl.push('pladsholder');
+    if (/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(t)) fejl.push('kontroltegn');
+    if (/Ã¦|Ã¸|Ã¥|Ã†|Ã˜|Ã…|â€|Â/.test(t)) fejl.push('mojibake');
+    if (/&$/.test(t.trim())) fejl.push('afkortet');
     const åbne = (t.match(/"/g) || []).length, cite = (t.match(/«|»/g) || []).length;
     if (åbne % 2 === 1 || cite % 2 === 1) fejl.push('skæve-citater');
     if ((t.match(/\(/g) || []).length !== (t.match(/\)/g) || []).length) fejl.push('skæve-parenteser');

@@ -9,7 +9,7 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 ## Indhold
 
-<!-- tal:start -->91 spil og 8.212 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->91 spil og 8.174 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -185,6 +185,18 @@ en kop kaffe:
 
 **Tilføjet**
 - 🪢 **Hangman** og 🎭 **Gæt og grimasser** – to nye spil under Party & leg.
+
+**Ændret**
+- **README** viser nu selv antallet af spil og spørgsmål (91 spil, 8.212 kort) og opdateres ved hver udgivelse.
+
+### 0.2.23 – 2026-11-15
+
+**Ændret**
+- Forberedelse af de to nye spil – indholdet i puljerne var uændret i forhold til 0.2.22.
+
+### 0.2.22 – 2026-11-15
+
+**Tilføjet**
 - **818 nye spørgsmål og kort** fordelt på: Ord og rim (74), Mest sandsynlig (børn) (66), Hvad ville du helst? (børn) (66), Hvad hører ikke til? (66), Sandt eller falsk (børn) (64), Hvilket dyr er jeg? (64), Gør som dyret (64), Børnegåder (64), Gæt og vis (børn) (60), Tæl og gæt (60), Børnequiz (49), Færdselsloven (20), Dalgona (11), Hvem i familien? (11), Postnummer-quiz (10), Byer (5), Sandt eller falsk (5), Tal & gæt (4), Find løgnen (4), Hvad skete først? (4), Hvem/hvad er jeg? (4), Mærkelige ord (4), Hvilket sprog? (4), Skøre rekorder (4), Love & regler (4) samt mindre tilføjelser i Hellere end, Jeg har aldrig, Mest sandsynlig, Udfordringer, Dybe samtaler, Forbudte ord, Gæt og vis, Destination, Stormester og Dystre valg.
 
 ### 0.2.21 – 2026-11-14
@@ -220,20 +232,6 @@ en kop kaffe:
 
 **Rettet**
 - 🔊 **Oplæsning i Home Assistant-appen**: appens WebView giver ikke spillet adgang til telefonens tale, også selv om dansk tekst-til-tale er installeret. Spillet opdager det nu og tilbyder **«Åbn i Chrome»** (hvor oplæsningen virker) samt Home Assistant-højttaleren. Der ventes også længere på Androids stemmeliste.
-
-### 0.2.15 – 2026-11-14
-
-**Tilføjet**
-- 🍾 **Flaskehalsen peger på** – hold knappen inde for at lade op, slip, og flasken snurrer og lander på en spiller. Resten foregår i virkeligheden.
-- 🎯 **S · P · K** – tre store bogstaver, hvor ét vælges tilfældigt med lige stor chance: S = Sandhed, P = Procent, K = Konsekvens.
-- 📺 **Dansk reality** – 29 spørgsmål om offentligt kendte vindere af Paradise Hotel, X Factor og Vild med dans. Kilder: [docs/kilder-reality.md](docs/kilder-reality.md).
-
-### 0.2.14 – 2026-11-14
-
-**Ændret**
-- 🔒 **Alle spørgsmålspuljer er krypterede**: de ligger ikke længere som læsbar tekst i repositoryet, men som base64-blobs, der først dekrypteres, når spillet starter (`www/hs-krypto.js`). Det gør det ikke trivielt at læse svarene fra GitHub eller «vis kilde», og besværligt at kopiere puljen til en anden app.
-- Værktøj: `node tools/krypt.js laas|laas-op|--tjek`. Nattens job og kildetjekket krypterer automatisk `ex_daily.js` og `vf2.js` efter skrivning, og CI afviser en udgivelse, hvis en pulje ikke kan dekrypteres.
-- **Forbehold:** nøglen skal ligge i browseren, så en besluttet person kan stadig trække den ud. Det er anti-snyd i praksis, ikke kryptografisk hemmeligholdelse.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->

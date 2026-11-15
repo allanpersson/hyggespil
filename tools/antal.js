@@ -77,8 +77,11 @@ vm.createContext(ctx);
 function kør(fil) {
   const p = path.join(WWW, fil);
   let s = fs.readFileSync(p, 'utf8');
-  const blob = s.match(/hsKrypt\("([^"]+)","([^"]+)"\)/);
-  if (blob) s = rc4(nøgle + '|' + blob[1], Buffer.from(blob[2], 'base64').toString('binary'));
+  const blob = s.match(/hsKrypt\("([^"]+)","([^"]+)"(?:,"(u8)")?\)/);
+  if (blob) {
+    const bin = rc4(nøgle + '|' + blob[1], Buffer.from(blob[2], 'base64').toString('binary'));
+    s = blob[3] === 'u8' ? Buffer.from(bin, 'binary').toString('utf8') : bin;
+  }
   vm.runInContext(s, ctx, { filename: fil });
 }
 

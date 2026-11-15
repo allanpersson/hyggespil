@@ -2,11 +2,24 @@
 
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
-## 0.2.24 - 2026-11-15
+## 0.2.24 – 2026-11-15
 
 ### Tilføjet
 - 🪢 **Hangman** og 🎭 **Gæt og grimasser** – to nye spil under Party & leg.
+
+### Ændret
+- **README** viser nu selv antallet af spil og spørgsmål (91 spil, 8.212 kort) og opdateres ved hver udgivelse.
+
+## 0.2.23 – 2026-11-15
+
+### Ændret
+- Forberedelse af de to nye spil – indholdet i puljerne var uændret i forhold til 0.2.22.
+
+## 0.2.22 – 2026-11-15
+
+### Tilføjet
 - **818 nye spørgsmål og kort** fordelt på: Ord og rim (74), Mest sandsynlig (børn) (66), Hvad ville du helst? (børn) (66), Hvad hører ikke til? (66), Sandt eller falsk (børn) (64), Hvilket dyr er jeg? (64), Gør som dyret (64), Børnegåder (64), Gæt og vis (børn) (60), Tæl og gæt (60), Børnequiz (49), Færdselsloven (20), Dalgona (11), Hvem i familien? (11), Postnummer-quiz (10), Byer (5), Sandt eller falsk (5), Tal & gæt (4), Find løgnen (4), Hvad skete først? (4), Hvem/hvad er jeg? (4), Mærkelige ord (4), Hvilket sprog? (4), Skøre rekorder (4), Love & regler (4) samt mindre tilføjelser i Hellere end, Jeg har aldrig, Mest sandsynlig, Udfordringer, Dybe samtaler, Forbudte ord, Gæt og vis, Destination, Stormester og Dystre valg.
+
 ## 0.2.21 – 2026-11-14
 
 ### Rettet

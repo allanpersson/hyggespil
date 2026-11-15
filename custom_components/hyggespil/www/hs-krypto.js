@@ -34,10 +34,16 @@
   }
 
   window.HS_KEY = K;
-  window.hsKrypt = function (id, b64) {
+  window.hsKrypt = function (id, b64, kodning) {
     try {
-      const rå = atob(b64);
-      const klart = rc4(K + '|' + id, rå);
+      const bin = rc4(K + '|' + id, atob(b64));
+      let klart = bin;
+      /* nye puljer er UTF-8-krypterede, så æ, ø, å og – overlever */
+      if (kodning === 'u8') {
+        const b = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) b[i] = bin.charCodeAt(i) & 255;
+        klart = new TextDecoder('utf-8').decode(b);
+      }
       (0, eval)(klart);
     } catch (e) {
       try { console.error('HS pulje kunne ikke læses:', id, e); } catch (x) {}

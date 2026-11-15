@@ -46,6 +46,19 @@ function erStub(tekst) {
 }
 function navn(p) { return path.basename(p); }
 
+/* Kryptering arbejder på UTF-8-bytes, så æ, ø, å, – og andre tegn over 0xFF
+   overlever uændret. Blobben mærkes med «u8», så gamle blobs stadig kan læses. */
+const tilBinær = tekst => Buffer.from(tekst, 'utf8').toString('binary');
+const fraBinær = bin => Buffer.from(bin, 'binary').toString('utf8');
+const pakStub = (fil, b64) => '/* Krypteret pulje – se tools/krypt.js */\nhsKrypt(' +
+  JSON.stringify(fil) + ',' + JSON.stringify(b64) + ',"u8");\n';
+const læsStub = tekst => {
+  const m = tekst.match(/hsKrypt\("([^"]+)","([^"]+)"(?:,"(u8)")?\)/);
+  if (!m) return null;
+  const bin = rc4(nøgle + '|' + m[1], Buffer.from(m[2], 'base64').toString('binary'));
+  return { id: m[1], klart: m[3] === 'u8' ? fraBinær(bin) : bin };
+};
+
 function laasFil(fil, kilde) {
   const p = path.join(WWW, fil);
   if (!fs.existsSync(p)) return 'findes ikke';
@@ -53,9 +66,8 @@ function laasFil(fil, kilde) {
   if (erStub(tekst)) return 'allerede krypteret';
   fs.mkdirSync(KLART, { recursive: true });
   fs.writeFileSync(path.join(KLART, fil), tekst, 'utf8');           // klartekst uden for repoet
-  const b64 = Buffer.from(rc4(nøgle + '|' + fil, tekst), 'binary').toString('base64');
-  fs.writeFileSync(p, '/* Krypteret pulje – se tools/krypt.js */\nhsKrypt(' + JSON.stringify(fil) + ',' +
-    JSON.stringify(b64) + ');\n', 'utf8');
+  const b64 = Buffer.from(rc4(nøgle + '|' + fil, tilBinær(tekst)), 'binary').toString('base64');
+  fs.writeFileSync(p, pakStub(fil, b64), 'utf8');
   return 'krypteret (' + Math.round(tekst.length / 1024) + ' KB)';
 }
 
@@ -64,12 +76,11 @@ function laasOp(fil) {
   if (!fs.existsSync(p)) return 'findes ikke';
   const tekst = fs.readFileSync(p, 'utf8');
   if (!erStub(tekst)) return 'er ikke krypteret';
-  const m = tekst.match(/hsKrypt\("([^"]+)","([^"]+)"\)/);
-  if (!m) return 'kunne ikke læse stub';
-  const klart = rc4(nøgle + '|' + m[1], Buffer.from(m[2], 'base64').toString('binary'));
+  const st = læsStub(tekst);
+  if (!st) return 'kunne ikke læse stub';
   fs.mkdirSync(KLART, { recursive: true });
-  fs.writeFileSync(path.join(KLART, fil), klart, 'utf8');
-  return 'dekrypteret (' + Math.round(klart.length / 1024) + ' KB)';
+  fs.writeFileSync(path.join(KLART, fil), st.klart, 'utf8');
+  return 'dekrypteret (' + Math.round(st.klart.length / 1024) + ' KB)';
 }
 
 function tjekFil(fil) {
@@ -77,13 +88,23 @@ function tjekFil(fil) {
   if (!fs.existsSync(p)) return null;
   const tekst = fs.readFileSync(p, 'utf8');
   if (!erStub(tekst)) return 'IKKE KRYPTeret';
-  const m = tekst.match(/hsKrypt\("([^"]+)","([^"]+)"\)/);
-  if (!m) return 'stub uden blob';
+  const st = læsStub(tekst);
+  if (!st) return 'stub uden blob';
   try {
-    const klart = rc4(nøgle + '|' + m[1], Buffer.from(m[2], 'base64').toString('binary'));
-    new vm.Script(klart, { filename: fil });
+    new vm.Script(st.klart, { filename: fil });
     return null;
   } catch (e) { return 'kan ikke dekrypteres/syntaks: ' + e.message; }
+}
+
+function laasFraKlart(fil) {
+  const p = path.join(WWW, fil);
+  const k = path.join(KLART, fil);
+  if (!fs.existsSync(k)) return 'findes ikke i klart';
+  const tekst = fs.readFileSync(k, 'utf8');
+  fs.mkdirSync(KLART, { recursive: true });
+  const b64 = Buffer.from(rc4(nøgle + '|' + fil, tilBinær(tekst)), 'binary').toString('base64');
+  fs.writeFileSync(p, pakStub(fil, b64), 'utf8');
+  return 'krypteret fra klart (' + Math.round(tekst.length / 1024) + ' KB)';
 }
 
 const mode = process.argv[2] || 'laas';
@@ -95,6 +116,12 @@ if (mode === 'laas') {
   const f = process.argv[3];
   if (!f) { console.error('angiv en fil'); process.exit(2); }
   console.log(f + ': ' + laasFil(f));
+} else if (mode === 'fra-klart') {
+  const f = process.argv[3];
+  if (!f) { console.error('angiv en fil'); process.exit(2); }
+  console.log(f + ': ' + laasFraKlart(f));
+} else if (mode === 'fra-klart-alle') {
+  for (const f of FILER) console.log(f.padEnd(14) + ' ' + laasFraKlart(f));
 } else if (mode === '--tjek') {
   let fejl = 0;
   for (const f of FILER) {

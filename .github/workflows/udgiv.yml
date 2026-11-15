@@ -140,15 +140,7 @@ jobs:
             git log "$range" --no-merges --pretty=format:'- %s' | grep -vE '^- (Overvaagning|Opdater overvaag|Dokumentation|README|Foelger CI|Fjerner |Rettet installationsfejlen|Rettet traeopslag|Logger version|Beskriver)' > /tmp/nyheder.txt || true
             test -s /tmp/nyheder.txt || echo '- Vedligeholdelse og fejlretning.' > /tmp/nyheder.txt
           fi
-          { echo ""; echo "## $v - $(date +%F)"; echo ""; cat /tmp/nyheder.txt; } > /tmp/afsnit.md
-          python - <<'PY'
-          p = "CHANGELOG.md"
-          s = open(p, encoding="utf-8").read()
-          nyt = open("/tmp/afsnit.md", encoding="utf-8").read()
-          i = s.find("\n## ")
-          s = (s[:i] + "\n" + nyt.strip() + s[i:]) if i >= 0 else (s + nyt)
-          open(p, "w", encoding="utf-8").write(s)
-          PY
+          python tools/indsæt_afsnit.py "$v" /tmp/nyheder.txt
           # README opdateres EFTER changelog-afsnittet, så "Nyheder" får den nye version med.
           python tools/opdater_readme.py
           grep -q "^## $v" CHANGELOG.md || { echo "FEJL: CHANGELOG mangler afsnittet for $v"; exit 1; }
@@ -231,6 +223,12 @@ jobs:
           mkdir -p /tmp/hentet
           gh release download "$v" --pattern hyggespil.zip --dir /tmp/hentet --clobber
           python tools/tjek_installation.py /tmp/hentet/hyggespil.zip
+
+      - name: Opdater beskrivelsen med de rigtige tal
+        if: steps.loop.outputs.loop == 'nej' && steps.indhold.outputs.ja == 'ja'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python tools/opdater_beskrivelse.py
 
       - name: Status
         if: always()

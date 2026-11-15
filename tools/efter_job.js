@@ -35,6 +35,8 @@ if (fs.existsSync(LOG)) {
    hver udgivelse) og puljerne nu. Dubletter, der frasorteres ved indlæsning, tælles
    derfor ikke med – i modsætning til ingest.log, som tæller rå godkendelser. */
 const FØR = path.join(ROD, 'docs', 'antal.json');
+try { cp.execFileSync('node', [path.join(ROD, 'tools', 'hent_ci_filer.js'), '--med-tal'], { stdio: 'inherit' }); }
+catch (e) { console.log('kunne ikke hente CI-filer fra main: ' + e.message); }
 let gammel = null;
 try { gammel = JSON.parse(fs.readFileSync(FØR, 'utf8')); } catch (e) {}
 cp.execFileSync('node', [path.join(ROD, 'tools', 'antal.js')], { stdio: 'inherit' });
@@ -74,5 +76,13 @@ try {
   cp.execFileSync(GIT, ['-C', ROD, 'commit', '-m', 'Nye spørgsmål: ' + iAlt + ' (' + dag + ')'], { stdio: 'inherit' });
 } catch (e) { console.log('intet at committe'); }
 cp.execFileSync('node', [path.join(ROD, 'tools', 'genskab_main.js'), 'Nye spørgsmål: ' + iAlt], { stdio: 'inherit' });
+
+/* Tøm noterne, så de ikke bliver genbrugt (og dermed dubleret) ved næste udgivelse. */
+try {
+  fs.writeFileSync(path.join(ROD, 'docs', 'udgivelsesnoter.md'), '', 'utf8');
+  cp.execFileSync(GIT, ['-C', ROD, 'add', 'docs/udgivelsesnoter.md']);
+  cp.execFileSync(GIT, ['-C', ROD, 'commit', '-m', 'Tømmer udgivelsesnoter efter afsendelse'], { stdio: 'ignore' });
+} catch (e) { /* intet at rydde */ }
 console.log('sendt til GitHub – CI udgiver med noterne');
+
 

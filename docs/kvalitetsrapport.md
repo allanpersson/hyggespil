@@ -1,12 +1,12 @@
 # Kvalitetsrapport
 
-Genereret 2026-11-14 af `tools/kvalitet.js`.
+Genereret 2026-11-15 af `tools/kvalitet.js`.
 
 | Regel | Antal |
 |---|---|
-| lækage | 45 |
-| tom | 34 |
-| dublet | 13 |
+| tom | 275 |
+| lækage | 240 |
+| dublet | 79 |
 
 ## Poster med alvorlige fejl
 
@@ -35,6 +35,18 @@ Genereret 2026-11-14 af `tools/kvalitet.js`.
 - **rather** #22: Skulle gætte alles tanker forkert — lækage
 - **rather** #23: Hver dag starte med en isbadning — lækage
 - **rather** #24: Have en robot som bedste ven — lækage
+- **rather** #25: Kunne tale med dyr — lækage
+- **rather** #26: Altid vide hvornår nogen lyver — lækage
+- **rather** #27: Have en pauseknap til livet — lækage
+- **rather** #28: Kunne læse andres tanker — lækage
+- **rather** #29: Aldrig skulle sove igen — lækage
+- **rather** #30: Bo i et træhus for altid — lækage
+- **rather** #31: Altid have en sang på hjernen, du ikke kan lide — lækage
+- **rather** #32: Altid vide præcis, hvad andre tænker om din madlavning — lækage
+- **rather** #33: Kunne snorke i takt til musik — lækage
+- **rather** #34: Altid kunne lugte regn, før det regner — lækage
+- **rather** #35: Kunne tale med dyr, men de forstår kun dialekter — lækage
+- **rather** #36: Altid have en ekstra time i døgnet, du skal bruge på at vente — lækage
 - **riddle** #25: 5 maskiner laver 5 produkter på 5 minutter. Hvor lang tid tager det 100 maskiner at lave 1 — lækage
 - **who** #0: Eiffeltårnet — lækage
 - **who** #1: Honningbi — lækage
@@ -56,6 +68,14 @@ Genereret 2026-11-14 af `tools/kvalitet.js`.
 - **who** #17: Legoklods — lækage
 - **who** #18: Elefant — tom, lækage
 - **who** #19: Haj — tom
+- **who** #20: Mantisreje — lækage
+- **who** #21: Narhval — tom, lækage
+- **who** #22: Kakapo — tom, lækage
+- **who** #23: Tardigrad — lækage
+- **who** #24: Næbdyr — tom, lækage
+- **who** #25: Pangolin — lækage
+- **who** #26: Dovendyr — lækage
+- **who** #27: Aye-aye — tom, lækage
 - **taboo** #0: Vin — tom
 - **taboo** #1: Kaffe — tom
 - **taboo** #2: Elefant — tom
@@ -70,23 +90,3 @@ Genereret 2026-11-14 af `tools/kvalitet.js`.
 - **taboo** #15: Fodbold — tom
 - **taboo** #18: Telefon — tom
 - **taboo** #19: Hund — tom
-- **taboo** #20: Kat — tom
-- **taboo** #21: Cirkus — tom
-- **taboo** #22: Regnbue — tom
-- **taboo** #24: Strand — tom
-- **taboo** #26: Bageri — tom
-- **taboo** #28: Vulkan — tom
-- **taboo** #30: Bryllup — tom
-- **taboo** #31: Krone — tom
-- **tl** #1: Hvad skete først? — dublet
-- **tl** #2: Hvad skete først? — dublet
-- **tl** #3: Hvad skete først? — dublet
-- **tl** #4: Hvad skete først? — dublet
-- **tl** #5: Hvad skete først? — dublet
-- **tl** #6: Hvad skete først? — dublet
-- **tl** #7: Hvad skete først? — dublet
-- **tl** #8: Hvad skete først? — dublet
-- **tl** #9: Hvad skete først? — dublet
-- **tl** #10: Hvad skete først? — dublet
-- **tl** #11: Hvad skete først? — dublet
-- **tl** #12: Hvad skete først? — dublet

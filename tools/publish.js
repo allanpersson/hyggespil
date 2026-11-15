@@ -77,7 +77,7 @@ const LABELS = [
     repo = created; console.log('Oprettede ' + created.html_url);
   }
   await api(`/repos/${owner}/${name}`, 'PATCH', {
-    description: 'Danske selskabsspil til Home Assistant – 55 spil og 6.400+ spørgsmål, kører helt lokalt uden eksterne tjenester.',
+    description: 'Danske selskabsspil til Home Assistant: 91 spil og 8.212 spørgsmål, opgaver og kort. Kører helt lokalt – ingen konto, ingen eksterne tjenester.',
     has_issues: true, has_wiki: false, has_discussions: true,
   }).catch(e => console.log('  (beskrivelse: ' + e.message.slice(0, 100) + ')'));
   // Emner kræver egen ende-type hos GitHub.
