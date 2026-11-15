@@ -1,17 +1,2 @@
-<!--
-  Udgivelsesnoter til NÆSTE udgivelse.
-
-  Skriv punkterne her, inden du pusher en ændring af spillets indhold. Så bruger CI dem
-  direkte i CHANGELOG.md, i README og i udgivelsesnoterne på GitHub – med det samme, uden
-  at nogen skal skrive dem bagefter. Filen tømmes automatisk af workflowen ved udgivelsen.
-
-  Skriv i Markdown, fx:
-
-  ### Tilføjet
-  - 🍾 Ny leg: Flaskehalsen
-
-  ### Rettet
-  - Teksten i X blev rettet
-
-  Er filen tom (kun denne kommentar), falder CI tilbage på commit-beskederne.
--->
+### Tilføjet
+- **394 nye spørgsmål og kort** fordelt på: Ord og rim (81), Mest sandsynlig (børn) (66), Hvad ville du helst? (børn) (66), Gæt og vis (børn) (60), Dalgona (11), Hvem i familien? (11), zip (10), ftl_fod (10), Sandt eller falsk (5), Byer (5), Love & regler (4), ftl_cykel (4), ftl_andre (4), Tal & gæt (4), Find løgnen (4), Hvad skete først? (4), Skøre rekorder (4), Hvem/hvad er jeg? (4), Mærkelige ord (4), Hvilket sprog? (4), Hellere end (3), Jeg har aldrig (3), Mest sandsynlig (3), Udfordringer (3), Dybe samtaler (3), Forbudte ord (3), Gæt og vis (3), Destination (3), Stormester (2), ftl_bil (2), Dystre valg (1).
