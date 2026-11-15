@@ -21,7 +21,7 @@
   const esc = aes;
   const spillere = () => { try { const h = window.hsSpil; return (h && h.players) || []; } catch (e) { return []; } };
   const STANDARD = { tid: 0, bonus: 0, bonusInden: 10, musikStart: 10, musik: '', musikNavn: '', lyd: true,
-    oplaes: true, taleRate: 1, stemme: '', haTts: '', haPlayer: '' };
+    oplaes: true, taleRate: 1, stemme: '', haTts: '', haPlayer: '', haNotify: '' };
   /* Indstillinger findes på to niveauer:
      - globalt (valg): gælder alle spil
      - pr. spil (valg_spil): overstyrer de globale for det ene spil
@@ -317,6 +317,25 @@
         navn: (h.states[e] && h.states[e].attributes && h.states[e].attributes.friendly_name) || e,
       }));
   }
+  /* Companion-appen kan tale i telefonens egen højtaler via notify.mobile_app_* */
+  function notifyListe() {
+    const h = hassObjekt();
+    if (!h || !h.services || !h.services.notify) return null;
+    return Object.keys(h.services.notify).filter(n => /^mobile_app_/.test(n)).sort();
+  }
+  function notifyFelt() {
+    const liste = notifyListe();
+    const nu = valg.haNotify || '';
+    if (!liste) {
+      return '<input class="in" id="hsv-hanotify" placeholder="mobile_app_din_telefon" value="' + esc(nu) + '" style="max-width:260px">';
+    }
+    const kendt = liste.some(x => x === nu);
+    return '<select class="in" id="hsv-hanotify" style="max-width:260px;text-align:left">' +
+      '<option value="">Ingen</option>' +
+      liste.map(n => '<option value="' + esc(n) + '"' + (n === nu ? ' selected' : '') + '>' + esc(n.replace(/_/g, ' ').replace('mobile app ', '')) + '</option>').join('') +
+      (nu && !kendt ? '<option value="' + esc(nu) + '" selected>' + esc(nu) + '</option>' : '') +
+      '</select>';
+  }
   function enhedsFelt(id, domæne, nu, tomTekst) {
     const liste = enhedsListe(domæne);
     if (!liste) {
@@ -341,6 +360,14 @@
       o.style.zIndex = '70';
       const knap = (v, tekst) => '<button class="btn' + (valg.tid === v ? '' : ' ghost') + '" data-tid="' + v + '" style="padding:8px 14px;border-radius:12px">' + tekst + '</button>';
       const førsteGang = !lager.get(NSAT, false);
+      /* I Home Assistant-appen findes der ingen browserstemme. Er der præcis én Companion-app,
+         vælges den automatisk, så oplæsningen virker med det samme – uden at lyset påvirkes. */
+      try {
+        if (!valg.haNotify && !window.speechSynthesis) {
+          const l = notifyListe();
+          if (l && l.length === 1) valg.haNotify = l[0];
+        }
+      } catch (e) {}
       let omfang = førsteGang ? 'alle' : 'spil';
       iDialog = true;
       o.innerHTML = '<div class="mbox" style="width:min(560px,100%)">' +
@@ -383,6 +410,9 @@
         '<button class="btn ghost" id="hsv-opsaet" style="padding:8px 12px;border-radius:12px">Opsæt stemme</button>' +
         '</div>' +
         '<p class="hint" style="text-align:left;margin:6px 0 0">Bruger enhedens egne stemmer – ingen forbindelse til internettet.</p>' +
+        '<h3 style="margin:16px 0 6px">📱 Læs op på telefonen (Home Assistant-appen)</h3>' +
+        '<p class="hint" style="text-align:left;margin:0 0 6px">Appens indbyggede browser kan ikke tale selv. Vælg telefonens Companion-app her, og oplæsningen foregår i telefonens egen højtaler – mens lys-automationen stadig virker.</p>' +
+        '<div class="row" style="justify-content:flex-start">' + notifyFelt() + '</div>' +
         '<details style="margin-top:8px"><summary class="hint" style="cursor:pointer">Læs op via en Home Assistant-højttaler i stedet</summary>' +
         '<div class="row" style="justify-content:flex-start;margin-top:8px">' +
         ttsFelt() + højttalerFelt() +
@@ -430,6 +460,7 @@
       $('hsv-opsaet').onclick = () => { if (window.HSTTS && window.HSTTS.guide) window.HSTTS.guide(); };
       $('hsv-hatts').onchange = $('hsv-hatts').oninput = e => { valg.haTts = e.target.value.trim(); gemValg(); };
       $('hsv-haplayer').onchange = $('hsv-haplayer').oninput = e => { valg.haPlayer = e.target.value.trim(); gemValg(); };
+      $('hsv-hanotify').onchange = $('hsv-hanotify').oninput = e => { valg.haNotify = e.target.value.trim(); gemValg(); };
       $('hsv-fil').onchange = async e => {
         const f = e.target.files && e.target.files[0];
         if (!f) return;

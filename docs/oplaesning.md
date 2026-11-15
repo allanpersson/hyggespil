@@ -5,13 +5,19 @@ stort, når nogen ser dårligt, eller når spillet kører på tv'et.
 
 ## Slå det til
 
-1. Vælg et spil på forsiden.
-2. I boksen **inden spillet starter** (eller med **⚙** undervejs) finder du **🔊 Oplæsning af spørgsmål**.
-3. Sæt flueben i «Læs spørgsmålet op, når det vises», vælg stemme og hastighed, og tryk **Prøv**.
-4. Start spillet. Hvert nyt spørgsmål læses op.
+1. Vælg et spil på forsiden – boksen med indstillinger åbner første gang (senere med **⚙**).
+2. Under **🔊 Oplæsning af spørgsmål** sætter du flueben i «Læs spørgsmålet op, når det vises»,
+   vælger stemme og hastighed, og trykker **Prøv**.
+3. Start spillet. Hvert nyt spørgsmål læses op.
+
+**I Home Assistant-appen** findes telefonens browserstemme ikke. Vælg i stedet telefonens
+Companion-app under **📱 Læs op på telefonen** (fx `mobile_app_din_telefon`). Så læses spørgsmålet op
+i telefonens egen højtaler via en TTS-notifikation, og **lys-automationen kører uændret videre**,
+fordi den kun bruger `sensor.hyggespil_spil`. Har du præcis én Companion-app, vælges den automatisk.
+Du kan også åbne spillet i Chrome, hvor browserens stemmer virker.
 
 **🔊** i spillets bjælke læser det aktuelle spørgsmål igen; tryk én gang mere for at stoppe.
-Valgene huskes på enheden, men oplæsning er **slået fra som standard**.
+Valgene huskes på enheden, og oplæsning er **slået til som standard** (enhedens egen højtaler).
 
 Mens der læses op, dæmpes spændingsmusikken til ca. 14 %, så stemmen altid kan høres – musikken
 fortsætter og går op igen bagefter.

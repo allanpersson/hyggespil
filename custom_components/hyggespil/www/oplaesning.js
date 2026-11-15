@@ -33,6 +33,18 @@
   function haTal(tekst) {
     const v = valg(), h = hassObjekt();
     if (!h || !h.callService) return false;
+    /* Telefonens Companion-app: taler i telefonens egen højtaler via en TTS-notifikation.
+       Det virker i Home Assistant-appen, hvor browserens egen stemme ikke findes. */
+    if (v.haNotify) {
+      const navn = String(v.haNotify).replace(/^notify\./, '');
+      h.callService('notify', navn, {
+        message: 'TTS',
+        tts_text: tekst,
+        media_stream: 'music_stream',
+      }).catch(() => {});
+      return true;
+    }
+    if (!v.haTts || !v.haPlayer) return false;
     h.callService('tts', 'speak', {
       entity_id: v.haTts,
       media_player_entity_id: v.haPlayer,
@@ -50,7 +62,7 @@
     tekst = String(tekst || '').replace(/\s+/g, ' ').trim();
     if (!tekst) return;
     if (!tvang && !v.oplaes) return;
-    if (!tvang && v.haTts && v.haPlayer && haTal(tekst)) {
+    if (!tvang && (v.haNotify || (v.haTts && v.haPlayer)) && haTal(tekst)) {
       /* Højttaleren kender vi ikke længden på – dæmp musikken i et anslået tidsrum */
       duk(true);
       const ms = Math.max(3000, Math.min(30000, tekst.length / 11 * 1000));
@@ -59,13 +71,13 @@
       return;
     }
     if (typeof speechSynthesis === 'undefined') {
-      /* Ingen stemme på enheden: prøv højttaleren, ellers vis opsætningsvejledningen */
-      if (v.haTts && v.haPlayer && haTal(tekst)) return;
+      /* Ingen browserstemme (fx Home Assistant-appen): brug telefonens Companion-app, ellers vejled */
+      if ((v.haNotify || (v.haTts && v.haPlayer)) && haTal(tekst)) return;
       guide();
       return;
     }
     /* Chrome på Android kan svare "ingen stemmer", indtil listen er hentet – vent og prøv igen */
-    if (!stemmer().length && !v.haTts) {
+    if (!stemmer().length && !v.haTts && !v.haNotify) {
       let forsøg = 0;
       const tjek = () => {
         if (stemmer().length) return;
@@ -120,8 +132,9 @@
         : 'Windows: Indstillinger → Tid og sprog → Tale. macOS: Systemindstillinger → Tilgængelighed → Oplæst indhold.';
     const overskrift = webview ? '🔊 Appen kan ikke læse op' : '🔊 Slå oplæsning til';
     const forklaring = webview
-      ? 'Home Assistant-appens indbyggede browser (WebView) stiller ikke tale til rådighed for spillet – '
-        + 'også selv om telefonen har dansk tale installeret. Åbn spillet i Chrome i stedet, så virker oplæsningen.'
+      ? 'Home Assistant-appens indbyggede browser (WebView) stiller ikke tale til rådighed for spillet. '
+        + 'Vælg i stedet telefonens Companion-app under ⚙ → «📱 Læs op på telefonen». Så taler telefonen selv, '
+        + 'og lys-automationen bliver ved med at virke. Du kan også åbne spillet i Chrome.'
       : (antal ? 'Der er stemmer på enheden. Vælg en dansk i listen under ⚙ → Oplæsning – eller brug en Home Assistant-højttaler.'
         : 'Ventede på telefonens stemmer, men fik ingen. Sådan får du lyd på:');
     const o = document.createElement('div');

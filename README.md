@@ -53,7 +53,9 @@ Boksen med indstillinger åbner **første gang, du starter et spil** – derefte
   spillet. Mens der læses op, dæmpes musikken – den fortsætter altså, men man kan høre spørgsmålet.
   Se [docs/lyd.md](docs/lyd.md) (inkl. kreditering og licenser).
 - **Oplæsning** – som standard læses spørgsmålet op med **den enhed, du spiller på** (telefon, tablet
-  eller tv). Vil du hellere bruge en Home Assistant-højttaler, vælger du en TTS-stemme og en
+  eller tv). I **Home Assistant-appen** findes browserens stemme ikke; vælg derfor telefonens
+  Companion-app under **📱 Læs op på telefonen** – så taler telefonen selv, mens lys-automationen
+  kører videre. Vil du hellere bruge en Home Assistant-højttaler, vælger du en TTS-stemme og en
   højttaler under «Læs op via en Home Assistant-højttaler i stedet». **🔊** i spillets bjælke læser
   igen. Se [docs/oplaesning.md](docs/oplaesning.md).
 
