@@ -37,10 +37,11 @@
        Det virker i Home Assistant-appen, hvor browserens egen stemme ikke findes. */
     if (v.haNotify) {
       const navn = String(v.haNotify).replace(/^notify\./, '');
+      /* Companion-appen kræver TTS-teksten inde i data – ellers svarer HA
+         «not a valid option at 'tts_text'». */
       h.callService('notify', navn, {
         message: 'TTS',
-        tts_text: tekst,
-        media_stream: 'music_stream',
+        data: { tts_text: tekst, media_stream: 'music_stream' },
       }).catch(() => {});
       return true;
     }

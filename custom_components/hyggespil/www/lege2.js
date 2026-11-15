@@ -19,15 +19,41 @@
     hg = { ord, hint, gættet: new Set(), fejl: 0, slut: false, vandt: false };
   }
 
+  /* ---- galgen: streg for streg, og figuren falder om ved sidste fejl ---- */
+  const HG_CSS = '#hgfig{transition:transform 1s cubic-bezier(.6,.05,.9,.4);transform-box:view-box;transform-origin:140px 82px}'
+    + 'svg{overflow:visible}'
+    + '#hgfig.doed{transform:rotate(82deg) translate(10px,26px)}'
+    + '.hgdel{animation:hgInd .45s ease-out both}'
+    + '@keyframes hgInd{from{opacity:0;stroke-dasharray:200;stroke-dashoffset:200}to{opacity:1;stroke-dasharray:200;stroke-dashoffset:0}}';
+  function hgSvg() {
+    const f = hg.fejl;
+    const d = (n, s) => (f >= n ? s : '');
+    return '<svg class="hgsvg" viewBox="0 0 200 240" style="width:min(240px,64vw);height:auto;display:block;margin:2px auto 6px" aria-label="galge">'
+      + '<g stroke="#c9c3e6" stroke-width="6" stroke-linecap="round" fill="none">'
+      + '<line x1="16" y1="224" x2="132" y2="224"/><line x1="54" y1="224" x2="54" y2="22"/>'
+      + '<line x1="54" y1="22" x2="140" y2="22"/><line x1="140" y1="22" x2="140" y2="44"/>'
+      + '</g>'
+      + '<g id="hgfig" stroke="#ffd166" stroke-width="6" stroke-linecap="round" fill="none">'
+      + d(1, '<circle class="hgdel" cx="140" cy="62" r="18"/>')
+      + d(2, '<line class="hgdel" x1="140" y1="80" x2="140" y2="134"/>')
+      + d(3, '<line class="hgdel" x1="140" y1="94" x2="116" y2="120"/>')
+      + d(4, '<line class="hgdel" x1="140" y1="94" x2="164" y2="120"/>')
+      + d(5, '<line class="hgdel" x1="140" y1="134" x2="120" y2="170"/>')
+      + d(6, '<line class="hgdel" x1="140" y1="134" x2="160" y2="170"/>')
+      + '</g>'
+      + '<g stroke="#ffd166" stroke-width="4" fill="none">'
+      + d(1, '<line class="hgdel" x1="134" y1="58" x2="134" y2="63"/><line class="hgdel" x1="146" y1="58" x2="146" y2="63"/>')
+      + '</g></svg>';
+  }
+
   KINDS.hangman = {
     init() { hgNew(); g.ph = 0; },
     render() {
       const ord = hg.ord, synlig = [...ord].map(c => (c === ' ' || hg.gættet.has(c) ? c : '_')).join(' ');
-      let o = '<div class="card glass"><div class="q">🪢 Hangman</div>'
+      let o = '<style>' + HG_CSS + '</style><div class="card glass"><div class="q">🪢 Hangman</div>'
         + '<p class="hint">Kategori: ' + esc(hg.hint) + ' · ' + (6 - hg.fejl) + ' liv tilbage</p>'
+        + hgSvg()
         + '<div class="ans" style="letter-spacing:.18em;font-size:clamp(22px,5vw,38px)">' + esc(synlig) + '</div>';
-      o += '<div style="display:flex;gap:4px;justify-content:center;margin:10px 0">'
-        + Array.from({ length: 6 }, (_, i) => '<span style="width:14px;height:14px;border-radius:50%;background:' + (i < hg.fejl ? '#e63946' : '#2ec4b6') + '"></span>').join('') + '</div>';
       if (hg.slut) {
         o += '<div class="ans">' + (hg.vandt ? '🎉 Rigtigt!' : '💀 Desværre – ordet var ' + esc(ord)) + '</div>';
         if (hg.vandt) o += awardChips(1, -1);
@@ -43,13 +69,18 @@
       const igen = document.getElementById('hgigen');
       if (igen) igens();
       function igens() { igen.onclick = () => { hgNew(); render(); }; }
+      /* figuren får først «doed» efter indsættelsen, så faldet animeres */
+      if (hg.slut && !hg.vandt) {
+        const fig = document.getElementById('hgfig');
+        if (fig) setTimeout(() => fig.classList.add('doed'), 60);
+      }
       document.querySelectorAll('#main [data-b]').forEach(b => {
         b.onclick = () => {
           const c = b.dataset.b;
           if (hg.gættet.has(c) || hg.slut) return;
           hg.gættet.add(c);
           if (!hg.ord.includes(c)) hg.fejl++;
-          if (hg.fejl >= 6) { hg.slut = true; hg.vandt = false; }
+          if (hg.fejl >= 6) { hg.slut = true; hg.vandt = false; try { window.hsFeedback && window.hsFeedback('doed'); } catch (e) {} }
           else if ([...hg.ord].every(ch => ch === ' ' || hg.gættet.has(ch))) { hg.slut = true; hg.vandt = true; boom(); }
           render();
         };

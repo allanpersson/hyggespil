@@ -274,7 +274,8 @@ function onGo(){
   g.vals=v;const ans=g.item.a,ds=v.map(z=>Math.abs(z-ans)),md=Math.min(...ds);g.win=ds.map((d,i)=>d===md?i:-1).filter(i=>i>=0);g.win.forEach(i=>add(i,1));g.reveal=true;boom();return render()}
  if(x.kind==='choice'){
   const cor=g.b.correct0;g.reveal=true;g.sol=[];
-  if(cor!=null){g.b.judges.forEach(i=>{if(g.assign[i]===cor){add(i,1);g.sol.push(i)}});boom()}
+  if(cor!=null){g.b.judges.forEach(i=>{if(g.assign[i]===cor){add(i,1);g.sol.push(i)}});if(g.sol.length)boom();else try{window.hsFeedback&&window.hsFeedback('forkert')}catch(e){}}
+  else try{window.hsFeedback&&window.hsFeedback('forkert')}catch(e){}
   return render()}
 }
 function est(){

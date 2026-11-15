@@ -46,12 +46,13 @@ Boksen med indstillinger åbner **første gang, du starter et spil** – derefte
   Den bruges ikke i bræt-, terning- og 3D-spillene, hvor en tid pr. spørgsmål ikke giver mening.
 - **Ekstra point for hurtigt svar** – 0-3 point, hvis svaret kommer inden for det valgte antal sekunder
   (standard 10). Pointene gives én gang pr. spiller pr. spørgsmål.
-- **Spændingsmusik** – vælg mellem **12 indbyggede drama- og quizlyde** (dyb spænding, fare på vej,
-  ur der tikker, langsomt ur, hjerteslag, krigstrommer, drama-sting, filmisk whoosh, forkert svar,
-  sejr, fanfare og «tid er gået»), din egen lydfil (maks. 8 MB) eller **Ingen musik**. Lyden spiller
-  de sidste sekunder af nedtællingen, og **🎵/🔇** i spillets bjælke slår den til og fra midt i
-  spillet. Mens der læses op, dæmpes musikken – den fortsætter altså, men man kan høre spørgsmålet.
-  Se [docs/lyd.md](docs/lyd.md) (inkl. kreditering og licenser).
+- **Spændingsmusik** – **standard er «Ur der tikker» de sidste 20 sekunder**. Vælg mellem **12 indbyggede
+  drama- og quizlyde** (dyb spænding, fare på vej, ur der tikker, langsomt ur, hjerteslag, krigstrommer,
+  drama-sting, filmisk whoosh, forkert svar, sejr, fanfare og «tid er gået»), din egen lydfil (maks. 8 MB)
+  eller **Ingen musik**. Lyden spiller de sidste sekunder af nedtællingen (antallet kan ændres), og
+  **🎵/🔇** i spillets bjælke slår den til og fra midt i spillet. Mens der læses op, dæmpes musikken –
+  den fortsætter altså, men man kan høre spørgsmålet. Se [docs/lyd.md](docs/lyd.md) (inkl. kreditering
+  og licenser).
 - **Oplæsning** – som standard læses spørgsmålet op med **den enhed, du spiller på** (telefon, tablet
   eller tv). I **Home Assistant-appen** findes browserens stemme ikke; vælg derfor telefonens
   Companion-app under **📱 Læs op på telefonen** – så taler telefonen selv, mens lys-automationen

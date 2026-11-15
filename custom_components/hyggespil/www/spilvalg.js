@@ -20,7 +20,7 @@
   const aes = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const esc = aes;
   const spillere = () => { try { const h = window.hsSpil; return (h && h.players) || []; } catch (e) { return []; } };
-  const STANDARD = { tid: 0, bonus: 0, bonusInden: 10, musikStart: 10, musik: '', musikNavn: '', lyd: true,
+  const STANDARD = { tid: 0, bonus: 0, bonusInden: 10, musikStart: 20, musik: 'tikken', musikNavn: '', lyd: true,
     oplaes: true, taleRate: 1, stemme: '', haTts: '', haPlayer: '', haNotify: '' };
   /* Indstillinger findes på to niveauer:
      - globalt (valg): gælder alle spil
@@ -231,9 +231,14 @@
     return el;
   }
   function visUr(vis) { const el = urEl(); el.style.display = vis ? 'flex' : 'none'; }
+  let tidVist = false;
   function tegnUr() {
     const el = urEl(); if (el.style.display === 'none') return;
     const s = Math.max(0, Math.ceil(rest));
+    if (rest <= 0 && valg.tid && !tidVist) {
+      tidVist = true;
+      try { window.hsFeedback && window.hsFeedback('tid'); } catch (e) {}
+    }
     const andel = valg.tid ? Math.min(1, rest / valg.tid) : 0;
     const farve = rest <= 0 ? '#ff3d6e' : andel < 0.25 ? '#ff5d8f' : andel < 0.55 ? '#ffb703' : '#4cc9f0';
     document.getElementById('hsv-tal').textContent = s;
@@ -250,6 +255,7 @@
 
   function forbered() {
     bonusBrugt = new Set();
+    tidVist = false;
     t0 = Date.now();
     rest = valg.tid || 0;
     aktiv = !!(valg.tid && !UDEN_TID.has(spil));

@@ -27,11 +27,31 @@
     },
     bind() {
       const $ = id => document.getElementById(id);
-      [0, 1].forEach(i => { const b = $('gs' + i); if (b) b.onclick = () => { g.pick = i; g.ph = 1; render(); }; });
+      [0, 1].forEach(i => { const b = $('gs' + i); if (b) b.onclick = () => { g.pick = i; g.ph = 1; try { window.hsFeedback && window.hsFeedback(i === (g.item || [])[1] ? 'rigtig' : 'forkert'); } catch (e) {} render(); }; });
     },
   };
 
   /* ---- Fodboldquiz: item = [spørgsmål, [4 svar], indeks på rigtigt, forklaring] ---- */
+  /* Tydelige svarkort: to kolonner på tablet, én på telefon, og stor kontrast ved afsløring. */
+  const MCSS = '.mc4grid{display:grid;grid-template-columns:1fr;gap:12px;margin:16px 0}'
+    + '@media(min-width:560px){.mc4grid{grid-template-columns:1fr 1fr}}'
+    + '.mc4opt{display:flex;align-items:center;gap:12px;padding:15px 16px;border-radius:18px;text-align:left;font-size:17px;font-weight:700;'
+    + 'background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);box-shadow:0 6px 18px rgba(0,0,0,.25);transition:transform .15s,background .15s}'
+    + '.mc4opt:hover{transform:translateY(-2px);background:rgba(255,255,255,.12)}'
+    + '.mc4opt .k{flex:0 0 32px;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:900;background:#8f6bff;color:#fff}'
+    + '.mc4res{display:grid;grid-template-columns:1fr;gap:10px;margin:14px 0}'
+    + '@media(min-width:560px){.mc4res{grid-template-columns:1fr 1fr}}'
+    + '.mc4res .r{display:flex;align-items:center;gap:10px;padding:13px 15px;border-radius:16px;background:rgba(255,255,255,.05);'
+    + 'border:1px solid rgba(255,255,255,.1);opacity:.5;font-weight:700}'
+    + '.mc4res .r.korrekt{opacity:1;background:rgba(46,196,182,.22);border-color:#2ec4b6;box-shadow:0 0 26px rgba(46,196,182,.45);animation:mc4Pulse .9s ease-out 2}'
+    + '.mc4res .r.fejl{opacity:1;background:rgba(230,57,70,.22);border-color:#e63946;animation:mc4Shake .45s ease-in-out}'
+    + '.mc4res .r .k{flex:0 0 30px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:rgba(0,0,0,.3);font-weight:900}'
+    + '@keyframes mc4Pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}'
+    + '@keyframes mc4Shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(8px)}}';
+  if (!document.getElementById('mc4-css')) {
+    const s = document.createElement('style'); s.id = 'mc4-css'; s.textContent = MCSS; document.head.appendChild(s);
+  }
+
   KINDS.mc4 = {
     init() { g.ph = 0; g.pick = null; },
     render() {
@@ -39,12 +59,14 @@
       const q = it[0], opts = it[1], a = it[2], note = it[3];
       let o = '<div class="card glass"><div class="q">' + esc(q) + '</div>';
       if (g.ph === 0) {
-        o += '<div class="mid">' + opts.map((t, i) =>
-          '<button class="btn opt" data-o="' + i + '" style="text-align:left">' + esc(t) + '</button>').join('') + '</div>';
+        o += '<div class="mc4grid">' + opts.map((t, i) =>
+          '<button class="mc4opt" data-o="' + i + '"><span class="k">' + 'ABCD'[i] + '</span><span>' + esc(t) + '</span></button>').join('') + '</div>';
       } else {
-        o += '<div class="res">' + opts.map((t, i) =>
-          '<span style="' + (i === a ? 'background:#2ec4b6;color:#06221f;font-weight:800' : (i === g.pick ? 'background:#e63946;color:#fff' : '')) + '">'
-          + esc(t) + (i === a ? ' ✓' : (i === g.pick ? ' ✗' : '')) + '</span>').join('') + '</div>'
+        o += '<div class="mc4res">' + opts.map((t, i) => {
+          const korrekt = i === a, valgt = i === g.pick;
+          return '<div class="r' + (korrekt ? ' korrekt' : valgt ? ' fejl' : '') + '">'
+            + '<span class="k">' + (korrekt ? '✓' : valgt ? '✗' : 'ABCD'[i]) + '</span><span>' + esc(t) + '</span></div>';
+        }).join('') + '</div>'
           + (note ? '<p class="hint">' + esc(note) + '</p>' : '')
           + awardChips(1, -1)
           + '<div class="row"><button class="btn big green" id="nx">Næste →</button></div>';
@@ -53,7 +75,11 @@
     },
     bind() {
       document.querySelectorAll('#main [data-o]').forEach(b => {
-        b.onclick = () => { g.pick = +b.dataset.o; g.ph = 1; render(); };
+        b.onclick = () => {
+          g.pick = +b.dataset.o; g.ph = 1;
+          try { window.hsFeedback && window.hsFeedback(g.pick === (g.item || [])[2] ? 'rigtig' : 'forkert'); } catch (e) {}
+          render();
+        };
       });
     },
   };
