@@ -3,7 +3,7 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.27<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.28<!-- version:end -->
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
@@ -195,6 +195,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.28 – 2026-11-15
+
+**Ændret**
+- **Nyt app-ikon:** et spillekort med et rødt hjerte og en terning erstatter rødvinsglasset – både i Home Assistants sidepanel og i integrationens brand-ikon.
+- Forsiden og velkomstboksen bruger nu 🃏.
+
 ### 0.2.27 – 2026-11-15
 
 **Rettet**
@@ -246,16 +252,6 @@ en kop kaffe:
 
 **Ændret**
 - **Børnepuljerne** udvides automatisk med 20 kort pr. aldersgruppe (3–5, 6–8, 9–11, 12–14) — første runde gav 241 nye kort.
-
-### 0.2.19 – 2026-11-14
-
-**Rettet**
-- 🍾 **Flasken ligner nu en rigtig flaske** (kork, skuldre, krop, etiket og lys) i stedet for en grøn kapsel, og den er tilpasset, så spillernes navne ikke længere gemmer sig bag den.
-- ⏳ **Længere opladning**: man kan holde inde i op til ca. 3,5 sekunder, og flasken snurrer 3–7 omgange i 2,4–4,8 sekunder.
-- ⚖️ **Præcis lige stor chance**: spilleren vælges med `crypto.getRandomValues`, og flaskens slutvinkel styres derefter til den valgte spillers felt. Fordelingen er dermed 1/n uanset hvor mange der spiller.
-
-**Tilføjet**
-- 🔍 Kvalitetskontrollen tjekker nu også **sprog og grammatik** via LanguageTool (dansk) med `node tools/kvalitet.js --sprog`. Fundene skrives i kvalitetsrapporten; egennavne markeres ofte fejlagtigt og skal vurderes manuelt.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
