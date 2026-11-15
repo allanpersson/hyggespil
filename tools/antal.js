@@ -141,3 +141,29 @@ if (process.argv.includes('--json')) {
   console.log(`mindste (pulje, aldersgruppe): ${mindste} – over 200: ${mindste >= 200}, over 300: ${mindste >= 300}`);
   console.log('skrev ' + path.relative(ROD, UD) + ' og docs/puljestatus.json');
 }
+
+/* --- kontekst til de daglige job: hvad findes der allerede i hver pulje? ---
+   Skrives som emnelister, så AI'en kan undgå dubletter uden at skulle gætte. */
+const ki = process.argv.indexOf('--kontekst');
+if (ki > 0 && process.argv[ki + 1]) {
+  const emne = it => {
+    if (!it) return '';
+    if (typeof it === 'string') return it.slice(0, 90);
+    if (Array.isArray(it)) return '';
+    const t = it.q || it.s || it.t || it.w || (Array.isArray(it.o) ? it.o[it.a] : '') || it.a || '';
+    return String(t).slice(0, 90);
+  };
+  const ud = {};
+  for (const [pool, liste] of Object.entries(D)) {
+    if (!Array.isArray(liste)) continue;
+    ud[pool] = liste.map(it => {
+      const post = { e: emne(it) };
+      if (it && typeof it.age === 'number') post.age = it.age;
+      return post;
+    }).filter(x => x.e);
+  }
+  const mål = process.argv[ki + 1];
+  fs.mkdirSync(path.dirname(mål), { recursive: true });
+  fs.writeFileSync(mål, JSON.stringify({ opdateret: new Date().toISOString(), antal: tal, puljer: ud }) + '\n', 'utf8');
+  console.log('kontekst skrevet: ' + mål + ' (' + Object.keys(ud).length + ' puljer)');
+}
