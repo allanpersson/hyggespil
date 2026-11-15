@@ -3,7 +3,7 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.21<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.22<!-- version:end -->
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
@@ -181,6 +181,11 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.22 – 2026-11-15
+
+**Tilføjet**
+- **394 nye spørgsmål og kort** fordelt på: Ord og rim (81), Mest sandsynlig (børn) (66), Hvad ville du helst? (børn) (66), Gæt og vis (børn) (60), Dalgona (11), Hvem i familien? (11), zip (10), ftl_fod (10), Sandt eller falsk (5), Byer (5), Love & regler (4), ftl_cykel (4), ftl_andre (4), Tal & gæt (4), Find løgnen (4), Hvad skete først? (4), Skøre rekorder (4), Hvem/hvad er jeg? (4), Mærkelige ord (4), Hvilket sprog? (4), Hellere end (3), Jeg har aldrig (3), Mest sandsynlig (3), Udfordringer (3), Dybe samtaler (3), Forbudte ord (3), Gæt og vis (3), Destination (3), Stormester (2), ftl_bil (2), Dystre valg (1).
+
 ### 0.2.21 – 2026-11-14
 
 **Rettet**
@@ -228,12 +233,6 @@ en kop kaffe:
 - 🔒 **Alle spørgsmålspuljer er krypterede**: de ligger ikke længere som læsbar tekst i repositoryet, men som base64-blobs, der først dekrypteres, når spillet starter (`www/hs-krypto.js`). Det gør det ikke trivielt at læse svarene fra GitHub eller «vis kilde», og besværligt at kopiere puljen til en anden app.
 - Værktøj: `node tools/krypt.js laas|laas-op|--tjek`. Nattens job og kildetjekket krypterer automatisk `ex_daily.js` og `vf2.js` efter skrivning, og CI afviser en udgivelse, hvis en pulje ikke kan dekrypteres.
 - **Forbehold:** nøglen skal ligge i browseren, så en besluttet person kan stadig trække den ud. Det er anti-snyd i praksis, ikke kryptografisk hemmeligholdelse.
-
-### 0.2.13 – 2026-11-14
-
-**Ændret**
-- 🏛️ **Græker eller sygdom er gjort sværere**: de mest åbenlyse navne (Sokrates, Platon, Zeus, Athene …) er ude, bi-navne som «fra Elea» er fjernet, og der er kommet mange mere ukendte filosoffer, læger, astronomer og digtere ind. Sygdomsnavnene står på latin uden «Morbus»-præfiks (fx «Addison», «Scorobutus» → «Scorbutus», «Osteoporosis»). Puljen er på 111 ord.
-- 🔊 **«Opsæt stemme»-knap** i indstillingsboksen: viser de præcise trin for Android/iOS/Windows/macOS, og på Android kan knappen åbne telefonens taleindstillinger direkte. Bruges når enheden mangler en dansk stemme.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
