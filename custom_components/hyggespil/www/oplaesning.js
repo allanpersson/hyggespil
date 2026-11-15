@@ -177,7 +177,7 @@
 
   function stop() { try { speechSynthesis.cancel(); } catch (e) {} duk(false); }
 
-  /* Den tekst, der står som spørgsmål på skærmen lige nu */
+  /* Den tekst, der står som spørgsmål på skærmen lige nu – inkl. svarmuligheder */
   function spoergsmaal() {
     const main = document.getElementById('main');
     if (!main) return '';
@@ -187,7 +187,32 @@
     const q = main.querySelector('.card .q, .q');
     if (!q) return '';
     const tekst = (q.textContent || '').trim();
-    return tekst.length > 1 ? tekst : '';
+    if (tekst.length < 2) return '';
+
+    /* Læs også svarmulighederne, så man ikke skal gætte på dem.
+       Rækkefølgen følger skærmen: kort-zoner, mc4-kort og almindelige svarknapper. */
+    const rens = s => String(s || '').replace(/[\u{1F000}-\u{1FAFF}\u2600-\u27BF\uFE0F]/gu, ' ')
+      .replace(/\s+/g, ' ').trim();
+    let valg = [];
+    const zoner = [...main.querySelectorAll('.zone:not(.pool)')].filter(z => z.querySelector('.zl'));
+    if (zoner.length) {
+      valg = zoner.map((z, i) => {
+        const l = z.querySelector('.zl');
+        let t = rens(l ? l.textContent : z.textContent);
+        t = t.replace(/^[A-D]\s*[:.]?\s*/i, '').trim();       // fjern A/B/C/D foran
+        return t ? String.fromCharCode(65 + i) + ': ' + t : '';
+      });
+    } else {
+      const kort = [...main.querySelectorAll('.mc4opt, .btn.opt, .svar button')];
+      if (kort.length) valg = kort.map((b, i) => {
+        const k = b.querySelector('.k');
+        const t = rens(k ? b.textContent.replace(k.textContent, '') : b.textContent);
+        return t ? String.fromCharCode(65 + i) + ': ' + t : '';
+      });
+    }
+    valg = valg.filter(Boolean).slice(0, 6);
+    const intro = /[.!?]$/.test(tekst) ? tekst : tekst + '.';
+    return valg.length ? intro + ' Mulighederne er: ' + valg.join('. ') + '.' : tekst;
   }
 
   function maaskeLaes() {
