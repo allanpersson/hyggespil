@@ -4,7 +4,7 @@
 (function(){
 if(window.HSCFG)return;
 window.HSCFG={
-  version:'0.2.40',
+  version:'0.2.39',
   repo:'allanpersson/hyggespil',
   kaffe:'https://buymeacoffee.com/i8B3Mn5'      // GitHub-repo, som feedback-knappen åbner sager i
 };
