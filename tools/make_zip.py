@@ -9,6 +9,7 @@
 #
 # Kør:  python tools/make_zip.py [mappe]
 import os
+import re
 import shutil
 import sys
 import zipfile
@@ -16,7 +17,10 @@ import zipfile
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 COMP = os.path.join(ROOT, "custom_components", "hyggespil")
 # Udgivelsen må ikke indeholde udviklerens egne filer: kildeoversigten og kildetjekkets mellemresultater.
-UNDGÅ = {"extra.json", "ledger.json", "verify_state.json", "extra_pending.json", "hs-user-pools.js"}
+UNDGÅ = {"extra.json", "ledger.json", "verify_state.json", "extra_pending.json", "hs-user-pools.js",
+         "github.json", "secrets.json", ".env", ".netrc"}
+# Tokens og private nøgler må ikke kunne læses ud af en udgivelse
+TOKEN = re.compile(rb"gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY-----")
 
 
 def build(dest: str = ROOT) -> str:
@@ -31,6 +35,9 @@ def build(dest: str = ROOT) -> str:
             if f.endswith(".pyc") or f in UNDGÅ:
                 continue
             fuld = os.path.join(base, f)
+            with open(fuld, "rb") as h:
+                if TOKEN.search(h.read()):
+                    raise SystemExit(f"FEJL: {os.path.relpath(fuld, ROOT)} ser ud til at indeholde en nøgle")
             poster.append((fuld, os.path.relpath(fuld, COMP).replace(os.sep, "/")))
     # manifest.json først, så et afbrudt download aldrig efterlader en "tom" integration
     poster.sort(key=lambda p: (p[1] != "manifest.json", p[1]))

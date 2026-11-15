@@ -65,6 +65,14 @@ const api = async (p, metode = 'GET', krop) => {
     return;
   }
 
+  /* SIKKERHED: send aldrig nøgler eller tokens til GitHub. Tjekket kører på præcis den
+     filsamling, der er ved at blive sendt, og stopper før der uploades noget. */
+  const tjek = cp.spawnSync('node', [path.join(__dirname, 'tjek_hemmeligheder.js'), '--head'], { stdio: 'inherit' });
+  if (tjek.status !== 0) {
+    console.error('STOP: synkroniseringen blev afbrudt af tjekket for hemmeligheder');
+    process.exit(1);
+  }
+
   // 3) ét træ, ét commit, én ref-opdatering – med genforsøg hvis main er flyttet
   for (let forsøg = 1; forsøg <= 3; forsøg++) {
     try {

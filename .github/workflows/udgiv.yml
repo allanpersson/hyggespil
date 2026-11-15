@@ -149,6 +149,7 @@ jobs:
       - name: Tjek inden udgivelse
         if: steps.loop.outputs.loop == 'nej' && steps.indhold.outputs.ja == 'ja'
         run: |
+          node tools/tjek_hemmeligheder.js --head
           python tools/tjek_manifest.py
           node tools/krypt.js --tjek
           node tools/build.js check
