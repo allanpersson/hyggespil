@@ -107,7 +107,7 @@ const D = ctx.DATA || {};
 const puljer = Object.fromEntries(Object.entries(D).map(([k, v]) => [k, Array.isArray(v) ? v.length : 0]));
 const spørgsmål = Object.values(puljer).reduce((a, b) => a + b, 0);
 const set = new Map();
-for (const g of (ctx.GAMES || [])) if (g && g.id && !set.has(g.id)) set.set(g.id, String(g.t || g.id));
+for (const g of (ctx.GAMES || [])) if (g && g.id && !g.skjult && !set.has(g.id)) set.set(g.id, String(g.t || g.id));
 const spil = set.size;
 
 const tal = { spil, spoergsmaal: spørgsmål, puljer: Object.keys(puljer).length };

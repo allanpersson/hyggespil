@@ -175,9 +175,9 @@ function bindModal(){
 
 function home(){
  let tot=0,h='';
- for(const grp of [...new Set(GAMES.map(x=>x.grp))]){
-  h+=`<div class="grp">${grp}</div><div class="grid">${GAMES.filter(x=>x.grp===grp).map(x=>{const liste=pool(x.key),n=liste.length;const harAlder=liste.some(i=>i&&typeof i.age==='number');const gruppeMin=harAlder?Math.min(...[[3,5],[6,8],[9,11],[12,14]].map(([a,b])=>liste.filter(i=>!i||typeof i.age!=='number'||(i.age>=a&&i.age<=b)).length)):n;const enkelt=n<=1,ny=!enkelt&&(n<100||gruppeMin<100);return `<button class="gc" style="--g:${x.g}" onclick="start('${x.id}')"><div class="em">${x.e}</div><div class="t">${x.t}</div><div class="d">${x.d}</div><div class="mn">${x.min}+ spillere</div>${enkelt?'':`<div class="pswrap"><div class="ps">${n} i puljen</div>${ny?'<div class="ps ny">Nyt spil, puljen udvides løbende</div>':''}</div>`}</button>`}).join('')}</div>`}
- const keys=[...new Set(GAMES.map(x=>x.key))];tot=keys.reduce((s,k)=>s+(pool(k).length>1?pool(k).length:0),0);
+ for(const grp of [...new Set(GAMES.filter(x=>!x.skjult).map(x=>x.grp))]){
+  h+=`<div class="grp">${grp}</div><div class="grid">${GAMES.filter(x=>x.grp===grp&&!x.skjult).map(x=>{const liste=x.kind==='menu'?(x.sub||[]).reduce((a,z)=>a.concat(pool(z.key)),[]):pool(x.key),n=liste.length;const harAlder=liste.some(i=>i&&typeof i.age==='number');const gruppeMin=harAlder?Math.min(...[[3,5],[6,8],[9,11],[12,14]].map(([a,b])=>liste.filter(i=>!i||typeof i.age!=='number'||(i.age>=a&&i.age<=b)).length)):n;const enkelt=n<=1,ny=!enkelt&&(n<100||gruppeMin<100);return `<button class="gc" style="--g:${x.g}" onclick="hsStart('${x.id}')"><div class="em">${x.e}</div><div class="t">${x.t}</div><div class="d">${x.d}</div><div class="mn">${x.min}+ spillere</div>${enkelt?'':`<div class="pswrap"><div class="ps">${n} i puljen</div>${ny?'<div class="ps ny">Nyt spil, puljen udvides løbende</div>':''}</div>`}</button>`}).join('')}</div>`}
+ const keys=[...new Set(GAMES.filter(x=>x.key).map(x=>x.key))];tot=keys.reduce((s,k)=>s+(pool(k).length>1?pool(k).length:0),0);
  document.getElementById('main').innerHTML=h+`<p class="hint" style="margin-top:22px">${tot} spørgsmål, opgaver og kort i alt. Du får ikke samme kort igen, før hele puljen er brugt. Point gemmes, til du starter en ny aften.</p>`;
 }
 function start(id){const x=gm(id);if(players.length<x.min){alert('Der skal mindst være '+x.min+' spillere – tilføj flere under «Spillere».');return}

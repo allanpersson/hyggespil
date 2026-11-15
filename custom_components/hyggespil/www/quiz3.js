@@ -1,6 +1,9 @@
-/* Hyggespil: 19 nye quiz-spil – musik, film, serier og roller.
-   De bruger samme mc4-visning som fodboldquizzen (store svarkort og tydelig afsløring).
-   Puljerne er nye og udvides løbende af de daglige job. */
+/* Hyggespil: store quiz-familier med en undermenu.
+ *
+ * Forsiden viser ét kort pr. familie (Musikquiz, Filmquiz). Trykker man på det,
+ * åbner en undermenu med årtier, genrer og særlige emner. De enkelte spil ligger
+ * stadig i GAMES, men er markeret «skjult», så de ikke fylder forsiden.
+ */
 (function () {
   if (window.__quiz3) return; window.__quiz3 = true;
 
@@ -30,13 +33,67 @@
     ['roller', 'Hvem spillede rollen?', 'Hvem spillede figuren?', '🎭', '#fbbf24,#92400e'],
   ];
 
-  const tilføj = [];
-  for (const [key, t, d, e, g] of musik)
-    tilføj.push({ id: key, key, grp: '🎵 Musikquiz', kind: 'mc4', t, d, e, min: 2, g: 'linear-gradient(135deg,' + g + ')' });
-  for (const [key, t, d, e, g] of film)
-    tilføj.push({ id: key, key, grp: '🎬 Filmquiz', kind: 'mc4', t, d, e, min: 2, g: 'linear-gradient(135deg,' + g + ')' });
-  for (const [key, t, d, e, g, grp] of mere)
-    tilføj.push({ id: key, key, grp: grp || '🎬 Filmquiz', kind: 'mc4', t, d, e, min: 2, g: 'linear-gradient(135deg,' + g + ')' });
+  const lav = (key, t, d, e, g, grp) => ({
+    id: key, key, grp, kind: 'mc4', t, d, e, min: 2,
+    g: 'linear-gradient(135deg,' + g + ')', skjult: true,
+  });
 
-  tilføj.forEach(x => { if (!GAMES.some(y => y.id === x.id)) GAMES.push(x); });
+  const musikSpil = musik.map(([key, t, d, e, g]) => lav(key, t, d, e, g, '🎵 Musikquiz'));
+  const filmSpil = film.map(([key, t, d, e, g]) => lav(key, t, d, e, g, '🎬 Filmquiz'));
+  const mereSpil = mere.map(([key, t, d, e, g, grp]) => lav(key, t, d, e, g, grp || '🎬 Filmquiz'));
+
+  const alle = musikSpil.concat(filmSpil, mereSpil);
+  alle.forEach(spil => { if (!GAMES.some(y => y.id === spil.id)) GAMES.push(spil); });
+
+  const menuer = [
+    {
+      id: 'musikquiz', grp: '🎵 Musikquiz', kind: 'menu', t: 'Musikquiz',
+      d: 'Vælg årti, dansk musik, MGP eller Børne-MGP',
+      e: '🎵', min: 2, g: 'linear-gradient(135deg,#8b5cf6,#db2777)', sub: musikSpil,
+    },
+    {
+      id: 'filmquiz', grp: '🎬 Filmquiz', kind: 'menu', t: 'Filmquiz',
+      d: 'Vælg årti, dansk film, Harry Potter eller K-pop',
+      e: '🎬', min: 2, g: 'linear-gradient(135deg,#0ea5e9,#7c3aed)', sub: filmSpil,
+    },
+  ];
+  menuer.forEach(m => { if (!GAMES.some(y => y.id === m.id)) GAMES.push(m); });
+
+  /* undermenuen på forsiden */
+  const CSS = '.subgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:10px}'
+    + '.subcard{display:flex;gap:12px;align-items:center;padding:14px;border-radius:16px;text-align:left;font-weight:800;'
+    + 'background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);transition:transform .15s,background .15s}'
+    + '.subcard:hover{transform:translateY(-2px);background:rgba(255,255,255,.12)}'
+    + '.subcard .e{font-size:26px;flex:0 0 34px;text-align:center}'
+    + '.subcard .t{font-size:15px}.subcard .d{font-size:12px;opacity:.75;font-weight:600}';
+  const stil = document.createElement('style'); stil.textContent = CSS; document.head.appendChild(stil);
+
+  function undermenu(m) {
+    const d = document.createElement('div');
+    d.className = 'modal';
+    d.style.zIndex = '75';
+    d.innerHTML = '<div class="mbox" style="width:min(680px,100%);max-height:92vh;overflow:auto">'
+      + '<h2 style="margin-top:0">' + m.e + ' ' + m.t + '</h2>'
+      + '<p class="hint" style="text-align:left;margin-top:0">' + m.d + '</p>'
+      + '<div class="subgrid">' + (m.sub || []).map(s => {
+          const n = (window.DATA && window.DATA[s.key] || []).length;
+          return '<button class="subcard" data-sub="' + s.id + '"><span class="e">' + s.e + '</span>'
+            + '<span><span class="t">' + s.t + '</span><br><span class="d">' + (n ? n + ' i puljen' : s.d) + '</span></span></button>';
+        }).join('') + '</div>'
+      + '<div class="row" style="margin-top:16px"><button class="btn ghost" id="sub-luk">← Alle spil</button></div></div>';
+    document.body.appendChild(d);
+    d.querySelectorAll('[data-sub]').forEach(b => b.onclick = () => {
+      d.remove();
+      window.start(b.dataset.sub);
+    });
+    d.querySelector('#sub-luk').onclick = () => d.remove();
+    d.addEventListener('click', e => { if (e.target === d) d.remove(); });
+  }
+
+  /* forsiden kalder hsStart, så menuer får en undermenu i stedet for et spil */
+  window.hsStart = function (id) {
+    const x = (window.GAMES || []).find(g => g.id === id);
+    if (x && x.kind === 'menu') { undermenu(x); return; }
+    window.start(id);
+  };
 })();
