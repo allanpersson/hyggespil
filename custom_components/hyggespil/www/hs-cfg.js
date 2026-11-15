@@ -4,8 +4,9 @@
 (function(){
 if(window.HSCFG)return;
 window.HSCFG={
-  version:'0.2.37',
-  repo:'allanpersson/hyggespil'      // GitHub-repo, som feedback-knappen åbner sager i
+  version:'0.2.33',
+  repo:'allanpersson/hyggespil',
+  kaffe:'https://www.buymeacoffee.com/allanpersson'      // GitHub-repo, som feedback-knappen åbner sager i
 };
 /* SHA-256 i ren JavaScript: browserens crypto.subtle findes kun på https/localhost, og Home Assistant køres ofte på http i hjemmet. */
 function sha256(ascii){
