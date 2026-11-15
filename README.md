@@ -3,7 +3,7 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.29<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.30<!-- version:end -->
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
@@ -212,6 +212,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.30 – 2026-11-15
+
+**Tilføjet**
+- **Spil sammen fra hver telefon:** tryk 📱 i spillets hoved → «Nyt rum». Værten får en firdelt kode, og de andre telefoner deltager med koden og deres navn. Deres telefon viser en stor «JEG VED DET!»-knap, og tavlen viser rækkefølgen og bipper, så I kan give point til den, der var først. «Ryd listen» mellem spørgsmålene.
+- Rummet ligger i `sensor.hyggespil_spil` (`rum`, `rum_aktiv`, `rum_buzzere`) og kan styres med den nye tjeneste `hyggespil.rum`. Alt går gennem Home Assistant – ingen ekstern server.
+
 ### 0.2.29 – 2026-11-15
 
 **Tilføjet**
@@ -262,11 +268,6 @@ en kop kaffe:
 
 **Ændret**
 - Forberedelse af de to nye spil – indholdet i puljerne var uændret i forhold til 0.2.22.
-
-### 0.2.22 – 2026-11-15
-
-**Tilføjet**
-- **818 nye spørgsmål og kort** fordelt på: Ord og rim (74), Mest sandsynlig (børn) (66), Hvad ville du helst? (børn) (66), Hvad hører ikke til? (66), Sandt eller falsk (børn) (64), Hvilket dyr er jeg? (64), Gør som dyret (64), Børnegåder (64), Gæt og vis (børn) (60), Tæl og gæt (60), Børnequiz (49), Færdselsloven (20), Dalgona (11), Hvem i familien? (11), Postnummer-quiz (10), Byer (5), Sandt eller falsk (5), Tal & gæt (4), Find løgnen (4), Hvad skete først? (4), Hvem/hvad er jeg? (4), Mærkelige ord (4), Hvilket sprog? (4), Skøre rekorder (4), Love & regler (4) samt mindre tilføjelser i Hellere end, Jeg har aldrig, Mest sandsynlig, Udfordringer, Dybe samtaler, Forbudte ord, Gæt og vis, Destination, Stormester og Dystre valg.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
