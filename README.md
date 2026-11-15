@@ -9,7 +9,7 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 ## Indhold
 
-<!-- tal:start -->91 spil og 8.174 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->110 spil og 8.289 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -26,6 +26,9 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 | 🔤 Ordspil | Ord af bogstaver · Ordkæde · Ordtrappe · Ordsplit · Baglæns · Rim · Længste ord · Stavboks · Staveling |
 | 🧮 Tal & matematik | Tænk et tal · Hovedregning · Talrækker · Overslag · Procent · Sanseprøve · Ur & tid · Bogstavværdi |
 | 🎲 Random | Alt i ét · Random børnespil |
+| 🎵 Musikquiz | 60'erne · 70'erne · 80'erne · 90'erne · 00'erne · 10'erne · Kun dansk · MGP · Børne-MGP |
+| 🎬 Filmquiz | 80'erne · 90'erne · 00'erne · 10'erne · Dansk film · Harry Potter · K-pop Demon Hunters · Disney · Hvem spillede rollen? |
+| 📺 Serier | Seriequiz |
 | 🔞 Kun for voksne | Romantik · Sexy udfordringer · Grænseløs · Intime spørgsmål · Jeg har aldrig 🔞 · Random 🔞 |
 
 Desuden: point og stilling, grupper med løbende stilling fra aften til aften, og mulighed for at fortsætte et afbrudt spil.

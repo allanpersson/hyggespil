@@ -117,6 +117,7 @@ const grupper = [[3, 5], [6, 8], [9, 11], [12, 14]];
 const detaljer = {};
 for (const [k, liste] of Object.entries(D)) {
   if (!Array.isArray(liste)) continue;
+  if (liste.length <= 1) continue;      // spil med kun ét kort (fx Glasbroen) kan ikke vokse
   if (!liste.some(x => x && typeof x.age === 'number')) { detaljer[k] = liste.length; continue; }
   for (const [a, b] of grupper) {
     detaljer[k + ':' + a + '-' + b] = liste.filter(x => !x || typeof x.age !== 'number' || (x.age >= a && x.age <= b)).length;
