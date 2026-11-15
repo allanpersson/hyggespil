@@ -69,6 +69,13 @@ Valgene huskes til næste gang.
 lyset styres helt separat af `sensor.hyggespil_spil` i Home Assistant. De to kan derfor bruges
 samtidig – automatiseringen hører hverken musikken eller oplæsningen.
 
+#### 🧠 Ekspertspørgsmål
+
+Hver pulje skal have **mindst 5 spørgsmål på Mensa/Einstein-niveau** til de skarpeste børn og voksne.
+De markeres med `niveau: "ekspert"` (eller `"ekspert"` som femte led i fler-svars-opgaver), så de kan
+vælges og tælles særskilt. `docs/ekspertstatus.json` viser, hvor mange hver pulje har, og hvilke der
+mangler. Nattens `ekspert`-job udfylder hullerne med kildekontrollerede spørgsmål.
+
 #### Spil sammen fra hver telefon
 
 Én telefon (eller tablet/tv) er **tavlen**, hvor spillet kører. De andre telefoner kan byde ind:

@@ -1,0 +1,547 @@
+{
+ "maal": 5,
+ "huller": [
+  {
+   "pool": "num",
+   "antal": 0
+  },
+  {
+   "pool": "tf",
+   "antal": 0
+  },
+  {
+   "pool": "odd",
+   "antal": 0
+  },
+  {
+   "pool": "rather",
+   "antal": 0
+  },
+  {
+   "pool": "never",
+   "antal": 0
+  },
+  {
+   "pool": "likely",
+   "antal": 0
+  },
+  {
+   "pool": "dare",
+   "antal": 0
+  },
+  {
+   "pool": "mys",
+   "antal": 0
+  },
+  {
+   "pool": "riddle",
+   "antal": 0
+  },
+  {
+   "pool": "who",
+   "antal": 0
+  },
+  {
+   "pool": "taboo",
+   "antal": 0
+  },
+  {
+   "pool": "char",
+   "antal": 0
+  },
+  {
+   "pool": "deep",
+   "antal": 0
+  },
+  {
+   "pool": "tl",
+   "antal": 0
+  },
+  {
+   "pool": "city",
+   "antal": 0
+  },
+  {
+   "pool": "geo",
+   "antal": 0
+  },
+  {
+   "pool": "zip",
+   "antal": 0
+  },
+  {
+   "pool": "weird",
+   "antal": 0
+  },
+  {
+   "pool": "lang",
+   "antal": 0
+  },
+  {
+   "pool": "wheel",
+   "antal": 0
+  },
+  {
+   "pool": "sqdal",
+   "antal": 0
+  },
+  {
+   "pool": "sqdil",
+   "antal": 0
+  },
+  {
+   "pool": "sqwho",
+   "antal": 0
+  },
+  {
+   "pool": "sqrl",
+   "antal": 0
+  },
+  {
+   "pool": "sqglass",
+   "antal": 0
+  },
+  {
+   "pool": "sqmarb",
+   "antal": 0
+  },
+  {
+   "pool": "kwho",
+   "antal": 0
+  },
+  {
+   "pool": "kmove",
+   "antal": 0
+  },
+  {
+   "pool": "kriddle",
+   "antal": 0
+  },
+  {
+   "pool": "kquiz",
+   "antal": 0
+  },
+  {
+   "pool": "kchar",
+   "antal": 0
+  },
+  {
+   "pool": "kword",
+   "antal": 0
+  },
+  {
+   "pool": "krather",
+   "antal": 0
+  },
+  {
+   "pool": "ktf",
+   "antal": 0
+  },
+  {
+   "pool": "kodd",
+   "antal": 0
+  },
+  {
+   "pool": "kest",
+   "antal": 0
+  },
+  {
+   "pool": "klik",
+   "antal": 0
+  },
+  {
+   "pool": "prov",
+   "antal": 0
+  },
+  {
+   "pool": "provw",
+   "antal": 0
+  },
+  {
+   "pool": "dx",
+   "antal": 0
+  },
+  {
+   "pool": "sm",
+   "antal": 0
+  },
+  {
+   "pool": "cifsym",
+   "antal": 0
+  },
+  {
+   "pool": "cifvine",
+   "antal": 0
+  },
+  {
+   "pool": "cifbrl",
+   "antal": 0
+  },
+  {
+   "pool": "cifcol",
+   "antal": 0
+  },
+  {
+   "pool": "cifmors",
+   "antal": 0
+  },
+  {
+   "pool": "cifcaes",
+   "antal": 0
+  },
+  {
+   "pool": "cifspjl",
+   "antal": 0
+  },
+  {
+   "pool": "cifked",
+   "antal": 0
+  },
+  {
+   "pool": "ordlav",
+   "antal": 0
+  },
+  {
+   "pool": "ordkaede",
+   "antal": 0
+  },
+  {
+   "pool": "ordtrappe",
+   "antal": 0
+  },
+  {
+   "pool": "ordsplit",
+   "antal": 0
+  },
+  {
+   "pool": "omvendt",
+   "antal": 0
+  },
+  {
+   "pool": "rim",
+   "antal": 0
+  },
+  {
+   "pool": "langst",
+   "antal": 0
+  },
+  {
+   "pool": "stavboks",
+   "antal": 0
+  },
+  {
+   "pool": "staveling",
+   "antal": 0
+  },
+  {
+   "pool": "t1tal",
+   "antal": 0
+  },
+  {
+   "pool": "t1reg",
+   "antal": 0
+  },
+  {
+   "pool": "t1rak",
+   "antal": 0
+  },
+  {
+   "pool": "t1est",
+   "antal": 0
+  },
+  {
+   "pool": "t1proc",
+   "antal": 0
+  },
+  {
+   "pool": "t1sans",
+   "antal": 0
+  },
+  {
+   "pool": "t1ur",
+   "antal": 0
+  },
+  {
+   "pool": "t1bog",
+   "antal": 0
+  },
+  {
+   "pool": "grsyg",
+   "antal": 0
+  },
+  {
+   "pool": "fb_int",
+   "antal": 0
+  },
+  {
+   "pool": "fb_dk",
+   "antal": 0
+  },
+  {
+   "pool": "reality",
+   "antal": 0
+  },
+  {
+   "pool": "mus60",
+   "antal": 0
+  },
+  {
+   "pool": "mus70",
+   "antal": 0
+  },
+  {
+   "pool": "mus80",
+   "antal": 0
+  },
+  {
+   "pool": "mus90",
+   "antal": 0
+  },
+  {
+   "pool": "mus00",
+   "antal": 0
+  },
+  {
+   "pool": "mus10",
+   "antal": 0
+  },
+  {
+   "pool": "musdk",
+   "antal": 0
+  },
+  {
+   "pool": "mgp",
+   "antal": 0
+  },
+  {
+   "pool": "bmgp",
+   "antal": 0
+  },
+  {
+   "pool": "film80",
+   "antal": 0
+  },
+  {
+   "pool": "film90",
+   "antal": 0
+  },
+  {
+   "pool": "film00",
+   "antal": 0
+  },
+  {
+   "pool": "film10",
+   "antal": 0
+  },
+  {
+   "pool": "filmdk",
+   "antal": 0
+  },
+  {
+   "pool": "harry",
+   "antal": 0
+  },
+  {
+   "pool": "kpop",
+   "antal": 0
+  },
+  {
+   "pool": "serier",
+   "antal": 0
+  },
+  {
+   "pool": "disney",
+   "antal": 0
+  },
+  {
+   "pool": "roller",
+   "antal": 0
+  },
+  {
+   "pool": "ftl_cykel",
+   "antal": 0
+  },
+  {
+   "pool": "ftl_bil",
+   "antal": 0
+  },
+  {
+   "pool": "cult",
+   "antal": 0
+  },
+  {
+   "pool": "ftl_fod",
+   "antal": 0
+  },
+  {
+   "pool": "ftl_andre",
+   "antal": 0
+  },
+  {
+   "pool": "rec",
+   "antal": 0
+  },
+  {
+   "pool": "law",
+   "antal": 0
+  },
+  {
+   "pool": "xr",
+   "antal": 0
+  },
+  {
+   "pool": "xs",
+   "antal": 0
+  },
+  {
+   "pool": "xh",
+   "antal": 0
+  },
+  {
+   "pool": "xq",
+   "antal": 0
+  },
+  {
+   "pool": "xn",
+   "antal": 0
+  },
+  {
+   "pool": "ftl_all",
+   "antal": 0
+  },
+  {
+   "pool": "shiri",
+   "antal": 0
+  },
+  {
+   "pool": "yut",
+   "antal": 0
+  },
+  {
+   "pool": "suit",
+   "antal": 0
+  },
+  {
+   "pool": "shagai",
+   "antal": 0
+  },
+  {
+   "pool": "inuit",
+   "antal": 0
+  },
+  {
+   "pool": "lot",
+   "antal": 0
+  }
+ ],
+ "ekspert": {
+  "num": 0,
+  "tf": 0,
+  "odd": 0,
+  "rather": 0,
+  "never": 0,
+  "likely": 0,
+  "dare": 0,
+  "mys": 0,
+  "riddle": 0,
+  "who": 0,
+  "taboo": 0,
+  "char": 0,
+  "deep": 0,
+  "tl": 0,
+  "city": 0,
+  "geo": 0,
+  "zip": 0,
+  "weird": 0,
+  "lang": 0,
+  "wheel": 0,
+  "sqdal": 0,
+  "sqdil": 0,
+  "sqwho": 0,
+  "sqrl": 0,
+  "sqglass": 0,
+  "sqmarb": 0,
+  "kwho": 0,
+  "kmove": 0,
+  "kriddle": 0,
+  "kquiz": 0,
+  "kchar": 0,
+  "kword": 0,
+  "krather": 0,
+  "ktf": 0,
+  "kodd": 0,
+  "kest": 0,
+  "klik": 0,
+  "prov": 0,
+  "provw": 0,
+  "dx": 0,
+  "sm": 0,
+  "cifsym": 0,
+  "cifvine": 0,
+  "cifbrl": 0,
+  "cifcol": 0,
+  "cifmors": 0,
+  "cifcaes": 0,
+  "cifspjl": 0,
+  "cifked": 0,
+  "ordlav": 0,
+  "ordkaede": 0,
+  "ordtrappe": 0,
+  "ordsplit": 0,
+  "omvendt": 0,
+  "rim": 0,
+  "langst": 0,
+  "stavboks": 0,
+  "staveling": 0,
+  "t1tal": 0,
+  "t1reg": 0,
+  "t1rak": 0,
+  "t1est": 0,
+  "t1proc": 0,
+  "t1sans": 0,
+  "t1ur": 0,
+  "t1bog": 0,
+  "grsyg": 0,
+  "fb_int": 0,
+  "fb_dk": 0,
+  "reality": 0,
+  "mus60": 0,
+  "mus70": 0,
+  "mus80": 0,
+  "mus90": 0,
+  "mus00": 0,
+  "mus10": 0,
+  "musdk": 0,
+  "mgp": 0,
+  "bmgp": 0,
+  "film80": 0,
+  "film90": 0,
+  "film00": 0,
+  "film10": 0,
+  "filmdk": 0,
+  "harry": 0,
+  "kpop": 0,
+  "serier": 0,
+  "disney": 0,
+  "roller": 0,
+  "ftl_cykel": 0,
+  "ftl_bil": 0,
+  "cult": 0,
+  "ftl_fod": 0,
+  "ftl_andre": 0,
+  "rec": 0,
+  "law": 0,
+  "xr": 0,
+  "xs": 0,
+  "xh": 0,
+  "xq": 0,
+  "xn": 0,
+  "ftl_all": 0,
+  "shiri": 0,
+  "yut": 0,
+  "suit": 0,
+  "shagai": 0,
+  "inuit": 0,
+  "lot": 0
+ }
+}

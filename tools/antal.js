@@ -143,6 +143,20 @@ if (process.argv.includes('--json')) {
   console.log('skrev ' + path.relative(ROD, UD) + ' og docs/puljestatus.json');
 }
 
+/* Ekspert-spørgsmål: mindst 5 i hver pulje (Mensa/Einstein-niveau).
+   Markeres med niveau:'ekspert' på objekter eller «ekspert» som 5. led i fler-svars-rækker. */
+const erEkspert = it => !!it && (it.niveau === 'ekspert' || (Array.isArray(it) && it[4] === 'ekspert'));
+const ekspert = {};
+for (const [pool, liste] of Object.entries(D)) {
+  if (!Array.isArray(liste)) continue;
+  ekspert[pool] = liste.filter(erEkspert).length;
+}
+const huller = Object.entries(ekspert).filter(([, n]) => n < 5).map(([p, n]) => ({ pool: p, antal: n }));
+if (!process.argv.includes('--json')) {
+  fs.writeFileSync(path.join(ROD, 'docs', 'ekspertstatus.json'),
+    JSON.stringify({ maal: 5, huller, ekspert }, null, 1) + '\n', 'utf8');
+}
+
 /* --- kontekst til de daglige job: hvad findes der allerede i hver pulje? ---
    Skrives som emnelister, så AI'en kan undgå dubletter uden at skulle gætte. */
 const ki = process.argv.indexOf('--kontekst');
