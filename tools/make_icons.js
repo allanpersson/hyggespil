@@ -24,7 +24,7 @@ function png(size, rgba) {
 }
 
 // ---------- tegning ----------
-const BG = [41, 25, 90], GLASS = [248, 246, 255], WINE = [204, 33, 96], DICE = [255, 183, 3];
+const BG = [41, 25, 90], KORT = [250, 248, 255], HJERTE = [220, 38, 72], DICE = [255, 183, 3];
 function paint(size) {
   const px = Buffer.alloc(size * size * 4);
   const put = (x, y, c, a = 255) => {
@@ -38,31 +38,50 @@ function paint(size) {
     return (x - cx) ** 2 + (y - cy) ** 2 <= rad * rad || (x >= m + rad && x <= s - m - rad) || (y >= m + rad && y <= s - m - rad);
   };
   const inCircle = (x, y, cx, cy, r) => (x - cx) ** 2 + (y - cy) ** 2 <= r * r;
-  const cx = s / 2;
+  const cx = s / 2, cy = s * 0.52;
   for (let y = 0; y < s; y++) for (let x = 0; x < s; x++) {
     if (!insideSquare(x, y)) continue;
     put(x, y, BG);
   }
-  // glas: skål = halvcirkel, stilk, fod
-  const bowlTop = s * 0.22, bowlR = s * 0.155, bowlCy = bowlTop + bowlR * 0.15;
+
+  /* spillekort, let drejet: hvidt kort med et rødt hjerte og hjørneprikker */
+  const vinkel = -0.22, cos = Math.cos(vinkel), sin = Math.sin(vinkel);
+  const cw = s * 0.46, ch = s * 0.66, cr = s * 0.05;
+  const hjerteR = s * 0.085;
+  const hjerte = (u, v) => {
+    const top = v < 0;
+    if (top) {
+      const dx = Math.abs(u);
+      return (dx - hjerteR * 0.52) ** 2 + (v + hjerteR * 0.34) ** 2 <= hjerteR * hjerteR * 0.92;
+    }
+    return Math.abs(u) <= hjerteR * (1 - (v / (hjerteR * 1.45))) * 1.02 && v <= hjerteR * 1.45;
+  };
   for (let y = 0; y < s; y++) for (let x = 0; x < s; x++) {
-    const inBowl = y >= bowlTop && y <= bowlTop + bowlR * 1.35 && inCircle(x, y, cx, bowlTop, bowlR) && y >= bowlTop;
-    const stem = Math.abs(x - cx) <= s * 0.017 && y > bowlTop + bowlR * 1.3 && y < s * 0.72;
-    const foot = Math.abs(x - cx) <= s * 0.11 && y >= s * 0.72 && y <= s * 0.755;
-    if (inBowl || stem || foot) put(x, y, GLASS);
-    // vin i den nederste del af skålen
-    if (inBowl && y > bowlTop + bowlR * 0.55) put(x, y, WINE);
+    if (!insideSquare(x, y)) continue;
+    const dx = x - cx, dy = y - cy;
+    const u = dx * cos - dy * sin, v = dx * sin + dy * cos;
+    if (Math.abs(u) > cw / 2 || Math.abs(v) > ch / 2) continue;
+    const qx = Math.abs(u) - (cw / 2 - cr), qy = Math.abs(v) - (ch / 2 - cr);
+    const udenfor = qx > 0 && qy > 0 && qx * qx + qy * qy > cr * cr;
+    if (udenfor) continue;
+    put(x, y, KORT);
+    if (hjerte(u, v)) put(x, y, HJERTE);
+    /* små hjørnehjerter */
+    for (const [su, sv] of [[-1, -1], [1, 1]]) {
+      const pu = u - su * (cw / 2 - s * 0.075), pv = v - sv * (ch / 2 - s * 0.085);
+      if ((pu * pu + pv * pv) <= (s * 0.026) ** 2) put(x, y, HJERTE);
+    }
   }
-  // terning
-  const d = s * 0.2, dx = s * 0.6, dy = s * 0.55, rr = s * 0.045;
+  /* lille terning nederst til højre, så både kort og terning er med */
+  const d = s * 0.17, dx0 = s * 0.66, dy0 = s * 0.64, rr = s * 0.038;
   for (let y = 0; y < s; y++) for (let x = 0; x < s; x++) {
-    if (x < dx || y < dy || x > dx + d || y > dy + d) continue;
-    const cornerX = x < dx + rr ? dx + rr : x > dx + d - rr ? dx + d - rr : x;
-    const cornerY = y < dy + rr ? dy + rr : y > dy + d - rr ? dy + d - rr : y;
-    if ((x < dx + rr || x > dx + d - rr) && (y < dy + rr || y > dy + d - rr) && (x - cornerX) ** 2 + (y - cornerY) ** 2 > rr * rr) continue;
+    if (x < dx0 || y < dy0 || x > dx0 + d || y > dy0 + d) continue;
+    const cornerX = x < dx0 + rr ? dx0 + rr : x > dx0 + d - rr ? dx0 + d - rr : x;
+    const cornerY = y < dy0 + rr ? dy0 + rr : y > dy0 + d - rr ? dy0 + d - rr : y;
+    if ((x < dx0 + rr || x > dx0 + d - rr) && (y < dy0 + rr || y > dy0 + d - rr) && (x - cornerX) ** 2 + (y - cornerY) ** 2 > rr * rr) continue;
     put(x, y, DICE);
-    for (const [fx, fy] of [[0.25, 0.25], [0.5, 0.5], [0.75, 0.75]]) {
-      if (inCircle(x, y, dx + d * fx, dy + d * fy, s * 0.021)) put(x, y, BG);
+    for (const [fx, fy] of [[0.5, 0.25], [0.25, 0.5], [0.75, 0.5], [0.5, 0.75]]) {
+      if (inCircle(x, y, dx0 + d * fx, dy0 + d * fy, s * 0.017)) put(x, y, BG);
     }
   }
   return px;

@@ -125,14 +125,14 @@ const pool=k=>k==='num'?DATA.num.concat(own):(DATA[k]||[]);
 window.hsSpil={get players(){return players},get view(){return view},get g(){return g},gm,pool};
 const idOf=it=>typeof it==='string'?it:(it.q&&it.a!==undefined&&typeof it.a!=='object'?it.q:(it.q||it.s||it.t||it.w||(it.o&&it.o[0])||it.b||it.a||it.c||JSON.stringify(it)))+(it.a&&typeof it.a==='object'?'|'+it.a[0]:'');
 function draw(gk,list){let seen=LS.get('seen2_'+gk,[]);let av=list.filter(x=>!seen.includes(idOf(x)));if(!av.length){seen=[];av=list}const it=av[Math.random()*av.length|0];seen.push(idOf(it));LS.set('seen2_'+gk,seen);return it}
-function boom(){const em=['🎉','🍷','✨','🥂','🎊','⭐'];for(let i=0;i<34;i++){const s=document.createElement('div');s.className='conf';s.textContent=em[i%em.length];s.style.left=Math.random()*100+'vw';s.style.animationDelay=Math.random()*.6+'s';s.style.fontSize=(18+Math.random()*20)+'px';document.body.appendChild(s);setTimeout(()=>s.remove(),3200)}}
+function boom(){const em=['🎉','🃏','✨','🎲','🎊','⭐'];for(let i=0;i<34;i++){const s=document.createElement('div');s.className='conf';s.textContent=em[i%em.length];s.style.left=Math.random()*100+'vw';s.style.animationDelay=Math.random()*.6+'s';s.style.fontSize=(18+Math.random()*20)+'px';document.body.appendChild(s);setTimeout(()=>s.remove(),3200)}}
 function add(i,n){players[i].s+=n;save();g.gp=g.gp||{};g.gp[i]=(g.gp[i]||0)+n;renderScore()}
 function ask(text,yes){const d=document.createElement('div');d.className='modal';d.innerHTML=`<div class="mbox"><h3 style="margin-top:0">${esc(text)}</h3><div class="row"><button class="btn red" id="cy">Ja</button><button class="btn ghost" id="cn">Annuller</button></div></div>`;document.body.appendChild(d);d.querySelector('#cn').onclick=()=>d.remove();d.querySelector('#cy').onclick=()=>{d.remove();yes()}}
 
 function render(){
  const app=document.getElementById('app');
  if(players.length<2&&!modal)modal='pl';
- app.innerHTML=`<header><h1 onclick="go('home')">🍷 Hyggespil</h1>
+ app.innerHTML=`<header><h1 onclick="go('home')">🃏 Hyggespil</h1>
  <button class="btn ghost" onclick="modal='pl';render()">👥 Spillere</button>
  <button class="btn ghost" onclick="modal='q';render()">➕ Foreslå spørgsmål</button>
  <button class="btn ghost" onclick="newEvening()">↺ Ny aften</button></header>

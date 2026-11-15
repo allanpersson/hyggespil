@@ -1,4 +1,4 @@
-# 🍷 Hyggespil
+# 🃏 Hyggespil
 
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.

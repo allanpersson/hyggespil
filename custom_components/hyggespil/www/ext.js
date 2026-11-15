@@ -266,7 +266,7 @@ function ensureSetup(){
  save();
  const d=document.createElement('div');d.className='modal';
  d.innerHTML=`<div class="mbox" style="max-height:92vh;overflow:auto">
- <h2 style="margin-top:0">🍷 Velkommen til Hyggespil</h2>
+ <h2 style="margin-top:0">🃏 Velkommen til Hyggespil</h2>
  <p class="hint" style="text-align:left">Spillet kører helt hos dig selv: spillernavne, aldre, point og egne spørgsmål gemmes kun i browseren på denne enhed og forlader den aldrig. Ingen data fra udviklerens eget spil følger med.</p>
  <h3 style="margin:14px 0 6px" id="fh1">① Vælg din egen 🔞-kode</h3>
  <p class="hint" style="text-align:left" id="ftxt">Afsnittet for voksne (18+) låses med en kode, <b>du finder på</b> – 4–8 cifre. Der findes ingen fælles kode, og koden gemmes kun som en kontrolsum på denne enhed.</p>
