@@ -32,7 +32,9 @@ async function hentJson(p, init) {
   console.log('reference: ' + ref.slice(0, 12));
 
   // 1) FILER: hver fil i lokal HEAD skal ligge på GitHub med samme indhold
-  const filer = g('ls-tree -r HEAD --name-only').toString('utf8').split(/\r?\n/).filter(Boolean).filter(f => !UDVIKLER(f));
+  const dekod = s => s.replace(/\\([0-7]{3})/g, (_, o) => String.fromCharCode(parseInt(o, 8)));
+  const filer = g('-c core.quotepath=false ls-tree -r HEAD --name-only').toString('utf8')
+    .split(/\r?\n/).map(dekod).filter(Boolean).filter(f => !UDVIKLER(f));
   const træ = (await hentJson('/git/trees/' + ref + '?recursive=1')).json;
   if (!træ) { fejl.push('kunne ikke læse filoversigten på GitHub'); }
   else {
@@ -100,8 +102,9 @@ async function hentJson(p, init) {
       if (r.head_sha && r.head_sha !== ref) continue;   // sikkerhed, hvis filteret ikke virker
       if (!senestePr.has(r.name)) senestePr.set(r.name, r);
     }
-    const fejlede = [...senestePr.values()].filter(r => r.conclusion === 'failure');
-    console.log(`CI: ${senestePr.size} workflows — ${fejlede.length} fejler`);
+    const fejlede = [...senestePr.values()].filter(r => r.status === 'completed' && r.conclusion === 'failure');
+    const kører = [...senestePr.values()].filter(r => r.status !== 'completed');
+    console.log(`CI: ${senestePr.size} workflows — ${fejlede.length} fejler` + (kører.length ? `, ${kører.length} kører stadig` : ''));
     for (const r of fejlede) {
       console.log('  FEJL: ' + r.name + ' ' + r.created_at + ' ' + r.html_url);
       fejl.push('CI-fejl: ' + r.name);

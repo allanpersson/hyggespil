@@ -20,7 +20,12 @@ const fejl = [];
 const browser = await chromium.launch();
 const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
 const page = await ctx.newPage();
-page.on('console', m => { if (m.type() === 'error') fejl.push('konsol: ' + m.text()); });
+page.on('console', m => {
+  if (m.type() !== 'error') return;
+  const t = m.text();
+  if (/Failed to load resource.*(extra\.json|favicon\.ico)/.test(t)) return;   // forventet i lokal test
+  fejl.push('konsol: ' + t);
+});
 page.on('pageerror', e => fejl.push('sidefejl: ' + e.message));
 
 await page.addInitScript(() => {
