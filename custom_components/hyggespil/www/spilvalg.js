@@ -315,13 +315,21 @@
   function enhedsListe(domæne) {
     const h = hassObjekt();
     if (!h || !h.states) return null;
-    return Object.keys(h.states)
-      .filter(e => e.startsWith(domæne + '.'))
-      .sort()
-      .map(e => ({
-        id: e,
-        navn: (h.states[e] && h.states[e].attributes && h.states[e].attributes.friendly_name) || e,
-      }));
+    /* Flere integrationer kan eksponere samme højttaler (fx Chromecast og Google TV).
+       Vis derfor kun én pr. navn – den første, alfabetisk – så listen ikke druknere i dubletter. */
+    const set = new Map();
+    for (const id of Object.keys(h.states).filter(e => e.startsWith(domæne + '.'))) {
+      const st = h.states[id] || {};
+      const navn = String((st.attributes && st.attributes.friendly_name) || id).trim();
+      const noegle = navn.toLowerCase();
+      const utilgaengelig = st.state === 'unavailable';
+      if (!set.has(noegle) || (set.get(noegle).utilgaengelig && !utilgaengelig)) {
+        set.set(noegle, { id, navn, utilgaengelig });
+      }
+    }
+    return [...set.values()]
+      .sort((a, b) => a.navn.localeCompare(b.navn, 'da'))
+      .map(x => ({ id: x.id, navn: x.navn + (x.utilgaengelig ? ' (utilgængelig)' : '') }));
   }
   /* Companion-appen kan tale i telefonens egen højtaler via notify.mobile_app_* */
   function notifyListe() {
@@ -417,7 +425,7 @@
         '</div>' +
         '<p class="hint" style="text-align:left;margin:6px 0 0">Bruger enhedens egne stemmer – ingen forbindelse til internettet.</p>' +
         '<h3 style="margin:16px 0 6px">🎧 Music Assistant</h3>' +
-        '<p class="hint" style="text-align:left;margin:0 0 6px">Vælg den højttaler, «Hør og gæt» skal afspille på. Quizzen kræver, at Music Assistant er installeret i Home Assistant.</p>' +
+        '<p class="hint" style="text-align:left;margin:0 0 6px">Vælg den højttaler, «Hør og gæt» skal afspille på. Quizzen kræver, at Music Assistant er installeret. Telefonens egen højtaler kan kun vælges, hvis den findes som en media_player i Home Assistant (fx via Music Assistant-appen).</p>' +
         '<div class="row" style="justify-content:flex-start">' +
         '<select class="in" id="hsv-ma" style="max-width:260px;text-align:left"><option value="">Ingen</option>' +
         ((enhedsListe('media_player') || []).map(x => '<option value="' + esc(x.id) + '"' + (valg.maPlayer === x.id ? ' selected' : '') + '>' + esc(x.navn) + '</option>').join('')) +

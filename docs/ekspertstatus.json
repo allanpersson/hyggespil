@@ -362,10 +362,6 @@
    "antal": 0
   },
   {
-   "pool": "rec",
-   "antal": 0
-  },
-  {
    "pool": "law",
    "antal": 0
   },
@@ -514,7 +510,7 @@
   "cult": 0,
   "ftl_fod": 0,
   "ftl_andre": 0,
-  "rec": 0,
+  "rec": 7,
   "law": 0,
   "xr": 0,
   "xs": 0,
