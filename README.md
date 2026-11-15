@@ -81,7 +81,17 @@ samtidig – automatiseringen hører hverken musikken eller oplæsningen.
 
 Alt går gennem Home Assistants egen forbindelse – ingen ekstern server, ingen konto. Rummet ligger i
 `sensor.hyggespil_spil` som attributterne `rum`, `rum_aktiv` og `rum_buzzere`, så det kan bruges i
-egne automatiseringer. Tjenesten `hyggespil.rum` kan også kaldes manuelt (`opret`, `buzz`, `ryd`, `luk`).
+egne automatiseringer. Tjenesten `hyggespil.rum` kan også kaldes manuelt (`opret`, `deltag`, `forlad`,
+`buzz`, `ryd`, `luk`, `start`, `svar`, `naeste`, `afslut`).
+
+**Fælles quiz med egen skærm (beta):** værten vælger en pulje og trykker **Start runde**. Så får alle
+deltagere spørgsmålet på deres egen telefon, og turen går på omgang:
+
+- Kun den spiller, hvis tur det er, kan trykke på et svar – de andre ser «Det er X's tur».
+- Det rigtige svar ligger **kun på serveren**, indtil runden afsløres, så ingen kan snyde ved at kigge
+  i sensoren.
+- Pointene står på alles skærme, og værten trykker **Næste spørgsmål**. Hver telefon husker, hvilken
+  spiller den er, så spørgsmål og point altid lander det rigtige sted.
 
 #### Sensor og automationer
 

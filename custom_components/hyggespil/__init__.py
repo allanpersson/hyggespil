@@ -63,37 +63,117 @@ async def _async_status(hass: HomeAssistant, call: ServiceCall) -> None:
 
 
 async def _async_rum(hass: HomeAssistant, call: ServiceCall) -> None:
-    """Fælles rum: flere telefoner kan byde ind på samme spil.
+    """Fælles rum: flere telefoner spiller samme spil.
 
-    handling = opret | buzz | ryd | luk. Rummets tilstand ligger i hass.data og
-    spejles i sensorens attributter, så alle telefoner kan følge den.
+    handling = opret | deltag | forlad | buzz | ryd | luk | start | svar | naeste | afslut.
+    Rummets offentlige tilstand spejles i sensorens attributter. Det rigtige svar
+    gemmes kun her på serveren og offentliggøres først, når runden afsløres –
+    så ingen telefon kan snyde ved at kigge i sensoren.
     """
     handling = str(call.data.get("handling") or "opret")
     kode = str(call.data.get("kode") or "").strip()[:8]
-    navn = str(call.data.get("navn") or "").strip()[:32]
+    navn = str(call.data.get("navn") or "").strip()[:24]
+    enhed = str(call.data.get("enhed") or "").strip()[:24]
     rum: dict = hass.data.setdefault(DOMAIN, {}).setdefault("rum", {})
 
-    if handling == "opret":
+    def nulstil() -> None:
         rum.clear()
-        rum.update({"kode": kode or f"{random.randint(1000, 9999)}", "aktiv": True, "buzzere": []})
+        rum.update({
+            "kode": kode or f"{random.randint(1000, 9999)}",
+            "aktiv": True,
+            "buzzere": [],
+            "spillere": [],
+            "vaert": enhed,
+            "spil": "",
+            "fase": "lobby",
+            "tur": 0,
+            "spoergsmaal": None,
+            "korrekt": None,
+            "svar": None,
+        })
+
+    def find(enhed_id: str) -> dict | None:
+        return next((p for p in rum.get("spillere", []) if p.get("enhed") == enhed_id), None)
+
+    if handling == "opret":
+        nulstil()
+    elif handling == "deltag":
+        if not rum.get("aktiv") or not enhed or not navn:
+            return
+        if find(enhed) is None and len(rum.get("spillere", [])) < 8:
+            brugte = {p.get("navn") for p in rum.get("spillere", [])}
+            unikt, n = navn, 2
+            while unikt in brugte:
+                unikt, n = f"{navn} {n}", n + 1
+            rum.setdefault("spillere", []).append({"enhed": enhed, "navn": unikt, "point": 0})
+    elif handling == "forlad":
+        rum["spillere"] = [p for p in rum.get("spillere", []) if p.get("enhed") != enhed]
+        if rum.get("tur", 0) >= len(rum["spillere"]):
+            rum["tur"] = 0
     elif handling == "buzz":
         if not rum.get("aktiv") or kode != rum.get("kode") or not navn:
             return
         if any(b.get("navn") == navn for b in rum.get("buzzere", [])):
             return
-        rum.setdefault("buzzere", []).append(
-            {"navn": navn, "tid": datetime.now(UTC).isoformat()}
-        )
+        rum.setdefault("buzzere", []).append({"navn": navn, "tid": datetime.now(UTC).isoformat()})
         rum["buzzere"] = rum["buzzere"][-12:]
     elif handling == "ryd":
         rum["buzzere"] = []
     elif handling == "luk":
         rum.clear()
+    elif handling == "start":
+        if not rum.get("spillere") or (rum.get("vaert") and enhed != rum.get("vaert")):
+            return
+        rum.update({
+            "spil": str(call.data.get("spil") or ""),
+            "fase": "spoergsmaal",
+            "tur": 0,
+            "spoergsmaal": call.data.get("spoergsmaal") or None,
+            "korrekt": call.data.get("korrekt"),
+            "svar": None,
+        })
+        for p in rum["spillere"]:
+            p["point"] = 0
+    elif handling == "svar":
+        if rum.get("fase") != "spoergsmaal" or not rum.get("spillere"):
+            return
+        aktiv = rum["spillere"][rum.get("tur", 0)]
+        if aktiv.get("enhed") != enhed:
+            return                      # kun den spiller, hvis tur det er, må svare
+        valg = call.data.get("svar")
+        rum["svar"] = valg
+        if valg is not None and int(valg) == int(rum.get("korrekt")):
+            aktiv["point"] = int(aktiv.get("point", 0)) + 1
+        rum["fase"] = "afsloret"
+    elif handling == "naeste":
+        if not rum.get("spillere") or (rum.get("vaert") and enhed != rum.get("vaert")):
+            return
+        rum["tur"] = (int(rum.get("tur", 0)) + 1) % len(rum["spillere"])
+        rum.update({
+            "fase": "spoergsmaal",
+            "spoergsmaal": call.data.get("spoergsmaal") or rum.get("spoergsmaal"),
+            "korrekt": call.data.get("korrekt"),
+            "svar": None,
+        })
+    elif handling == "afslut":
+        rum.update({"fase": "lobby", "spoergsmaal": None, "korrekt": None, "svar": None, "spil": ""})
 
+    spillere = rum.get("spillere", [])
+    tur = int(rum.get("tur", 0)) if spillere else None
+    afsloeret = rum.get("fase") == "afsloret"
     data = {
         "rum": rum.get("kode", ""),
         "rum_aktiv": bool(rum.get("aktiv")),
         "rum_buzzere": [b.get("navn") for b in rum.get("buzzere", [])],
+        "rum_spillere": [{"navn": p.get("navn"), "point": p.get("point", 0), "enhed": p.get("enhed")} for p in spillere],
+        "rum_tur": tur,
+        "rum_tur_navn": spillere[tur]["navn"] if spillere else "",
+        "rum_vaert": rum.get("vaert", ""),
+        "rum_fase": rum.get("fase", "lobby"),
+        "rum_spil": rum.get("spil", ""),
+        "rum_spoergsmaal": rum.get("spoergsmaal") if rum.get("fase") in ("spoergsmaal", "afsloret") else None,
+        "rum_korrekt": rum.get("korrekt") if afsloeret else None,
+        "rum_svar": rum.get("svar") if afsloeret else None,
         "rum_opdateret": datetime.now(UTC).isoformat(),
     }
     sensor = hass.data.get(DOMAIN, {}).get("sensor")
