@@ -3,7 +3,7 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.24<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.25<!-- version:end -->
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
@@ -181,6 +181,15 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.25 – 2026-11-15
+
+**Rettet**
+- **Indstillingerne huskes nu** og gemmes på enheden. Boksen vises kun, første gang du starter et spil – derefter åbner du den med **⚙** i spillets bjælke. Du vælger selv, om ændringerne skal gælde **kun dette spil** eller **alle spil**.
+- **Oplæsning er slået til som standard** og bruger den enhed, du spiller på. Musik, bip og oplæsning kan sagtens køre samtidig med lys-automationen.
+- **Al tekst er gennemgået:** ødelagte tegn og skjulte kontroltegn i puljerne er fjernet, og afkortede forklaringer er ryddet op. «Græker eller sygdom» har nu 73 rene poster.
+- **Krypteringen er nu UTF-8**, så æ, ø, å og – bevares ordret i alle puljer.
+- **Beskrivelsen af appen** viser de rigtige tal (91 spil og 8.174 spørgsmål) og opdateres ved hver udgivelse.
+
 ### 0.2.24 – 2026-11-15
 
 **Tilføjet**
@@ -227,11 +236,6 @@ en kop kaffe:
 
 **Tilføjet**
 - 🔍 **Kvalitetskontrol** (`tools/kvalitet.js`): gennemgår puljerne for tomme tekster, dubletter, svar der står i spørgsmålet, HTML-rester, skæve citationstegn/parenteser og tal uden for rimelige grænser. Rapporten ligger i [docs/kvalitetsrapport.md](docs/kvalitetsrapport.md) og laves på ny i CI ved hver ændring. Se [docs/kvalitet.md](docs/kvalitet.md).
-
-### 0.2.16 – 2026-11-14
-
-**Rettet**
-- 🔊 **Oplæsning i Home Assistant-appen**: appens WebView giver ikke spillet adgang til telefonens tale, også selv om dansk tekst-til-tale er installeret. Spillet opdager det nu og tilbyder **«Åbn i Chrome»** (hvor oplæsningen virker) samt Home Assistant-højttaleren. Der ventes også længere på Androids stemmeliste.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
