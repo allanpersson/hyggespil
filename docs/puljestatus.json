@@ -1,7 +1,7 @@
 {
  "min": 0,
  "detaljer": {
-  "num": 198,
+  "num": 201,
   "tf": 173,
   "odd": 149,
   "rather": 280,
@@ -173,5 +173,5 @@
  "over200": false,
  "over300": false,
  "spil": 93,
- "spoergsmaal": 8309
+ "spoergsmaal": 8312
 }

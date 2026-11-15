@@ -95,6 +95,10 @@ const LS={get(k,d){try{const v=localStorage.getItem('hs_'+k);return v?JSON.parse
 const COLORS=['#ff5d8f','#ffb703','#2ec4b6','#8f6bff','#4cc9f0','#80ed99','#ff7b00','#f15bb5'];
 let players=LS.get('players',[]),own=LS.get('own',[]),view='home',g={},modal=null,tid=null;
 const vis16=()=>{try{return localStorage.getItem('hs_16')==='ja'}catch(e){return false}};
+const hsNeverIkon=()=>(players.some(p=>p&&p.age>0&&p.age<16)?'🥤':'🍷');
+const hsBarnMed=()=>players.some(p=>p&&p.age>0&&p.age<16);
+const hsDareTitel=()=>(hsBarnMed()?'Saftevands udfordringer':'Vinudfordringer');
+const hsDareIkon=()=>(hsBarnMed()?'🧃':'🍷');
 function hs16(){const nu=vis16();const skift=()=>{try{localStorage.setItem('hs_16',nu?'nej':'ja')}catch(e){};render()};if(nu)return skift();if(window.ask)window.ask('Vis spil for 16+? De indeholder dystre dilemmaer og spørgsmål.',skift);else skift()}
 /* Udvidelses-hooks: ext.js kan tilføje spil (GAMES.push), nye spiltyper (KINDS) og byggere til valgspil (CHOICE_BUILD) */
 window.KINDS={};window.CHOICE_BUILD={};
@@ -178,7 +182,7 @@ function bindModal(){
 function home(){
  let tot=0,h='';
  for(const grp of [...new Set(GAMES.filter(x=>!x.skjult&&(vis16()||!(x.alder>=16))).map(x=>x.grp))]){
-  h+=`<div class="grp">${grp}</div><div class="grid">${GAMES.filter(x=>x.grp===grp&&!x.skjult&&(vis16()||!(x.alder>=16))).map(x=>{const liste=x.kind==='menu'?(x.sub||[]).reduce((a,z)=>a.concat(pool(z.key)),[]):pool(x.key),n=liste.length;const harAlder=liste.some(i=>i&&typeof i.age==='number');const gruppeMin=harAlder?Math.min(...[[3,5],[6,8],[9,11],[12,14]].map(([a,b])=>liste.filter(i=>!i||typeof i.age!=='number'||(i.age>=a&&i.age<=b)).length)):n;const enkelt=n<=1,ny=!enkelt&&(n<100||gruppeMin<100);return `<button class="gc" style="--g:${x.g}" onclick="hsStart('${x.id}')"><div class="em">${x.e}</div><div class="t">${x.t}</div><div class="d">${x.d}</div><div class="mn">${x.min}+ spillere</div>${enkelt?'':`<div class="pswrap"><div class="ps">${n} i puljen</div>${ny?'<div class="ps ny">Nyt spil, puljen udvides løbende</div>':''}</div>`}</button>`}).join('')}</div>`}
+  h+=`<div class="grp">${grp}</div><div class="grid">${GAMES.filter(x=>x.grp===grp&&!x.skjult&&(vis16()||!(x.alder>=16))).map(x=>{const liste=x.kind==='menu'?(x.sub||[]).reduce((a,z)=>a.concat(pool(z.key)),[]):pool(x.key),n=liste.length;const harAlder=liste.some(i=>i&&typeof i.age==='number');const gruppeMin=harAlder?Math.min(...[[3,5],[6,8],[9,11],[12,14]].map(([a,b])=>liste.filter(i=>!i||typeof i.age!=='number'||(i.age>=a&&i.age<=b)).length)):n;const enkelt=n<=1,ny=!enkelt&&(n<100||gruppeMin<100);return `<button class="gc" style="--g:${x.g}" onclick="hsStart('${x.id}')"><div class="em">${x.id==='nev'?hsNeverIkon():(x.id==='dare'?hsDareIkon():x.e)}</div><div class="t">${x.id==='dare'?hsDareTitel():x.t}</div><div class="d">${x.d}</div><div class="mn">${x.min}+ spillere</div>${enkelt?'':`<div class="pswrap"><div class="ps">${n} i puljen</div>${ny?'<div class="ps ny">Nyt spil, puljen udvides løbende</div>':''}</div>`}</button>`}).join('')}</div>`}
  const keys=[...new Set(GAMES.filter(x=>x.key&&(vis16()||!(x.alder>=16))).map(x=>x.key))];tot=keys.reduce((s,k)=>s+(pool(k).length>1?pool(k).length:0),0);
  document.getElementById('main').innerHTML=h+`<p class="hint" style="margin-top:22px">${tot} spørgsmål, opgaver og kort i alt. Du får ikke samme kort igen, før hele puljen er brugt. Point gemmes, til du starter en ny aften.</p>`;
 }
@@ -217,7 +221,7 @@ function bindDnd(root,b,rerender){
 
 function game(){
  const x=gm(view),m=document.getElementById('main');
- const bar=`<div class="bar"><button class="btn ghost" onclick="go('home')">← Alle spil</button><span class="tag">${x.e} ${x.t}${g.fb?' – klassisk (2 spillere)':''}</span><span class="sp"></span>${g.done?'':'<button class="btn red" id="endg">🏁 Afslut spil</button>'}</div>`;
+ const bar=`<div class="bar"><button class="btn ghost" onclick="go('home')">← Alle spil</button><span class="tag">${x.id==='nev'?hsNeverIkon():(x.id==='dare'?hsDareIkon():x.e)} ${x.id==='dare'?hsDareTitel():x.t}${g.fb?' – klassisk (2 spillere)':''}</span><span class="sp"></span>${g.done?'':'<button class="btn red" id="endg">🏁 Afslut spil</button>'}</div>`;
  let body='';
  if(g.done)body=results();
  else if(KINDS[x.kind])body=KINDS[x.kind].render();

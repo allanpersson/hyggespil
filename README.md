@@ -3,13 +3,13 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.34<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.33<!-- version:end -->
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->93 spil og 8.309 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->93 spil og 8.312 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -235,14 +235,6 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
-### 0.2.34 – 2026-11-15
-
-**Tilføjet**
-- **Hør og gæt med Music Assistant:** under Musikquiz findes nu en quiz, der afspiller et 20-sekunders uddrag af en sang på en Music Assistant-højttaler, og I gætter kunstneren. Vælg højttaleren under ⚙ → Music Assistant. Spillet viser tydeligt, at det **kræver Music Assistant installeret**.
-- **16+-knap:** «Dystre valg» og «Hvem i familien?» vises ikke som standard. Tryk **16+** øverst for at vise dem (og igen for at skjule).
-**Rettet**
-- Spil med egen optrækning (fx Music Assistant-quizzen) kan nu slå fælles korttrækning fra, så de ikke kolliderer med spillets egne valg.
-
 ### 0.2.33 – 2026-11-15
 
 **Ændret**
@@ -296,6 +288,13 @@ en kop kaffe:
 - **Animationer i alle spil:** grøn «Rigtigt!» ved korrekt svar, rød rysten ved forkert, 💀 ved død og ⏰ når tiden løber ud.
 - **Fodboldquiz:** svarene er nu store kort i én eller to kolonner, og afsløringen viser tydelige grønne/røde kort med ✓/✗.
 - **Standardlyd:** «Ur der tikker» spiller nu de sidste 20 sekunder af nedtællingen, medmindre du vælger en anden lyd.
+
+### 0.2.26 – 2026-11-15
+
+﻿### Rettet
+- **Oplæsning på telefonen virker nu i Home Assistant-appen.** Vælg telefonens Companion-app under **⚙ → 📱 Læs op på telefonen**, så læses spørgsmålet op i telefonens egen højtaler via en TTS-notifikation. Lys-automationen kører uændret videre, fordi den kun lytter til `sensor.hyggespil_spil`.
+- Har du præcis én Companion-app, vælges den automatisk, når browseren ikke kan tale.
+- **README og dokumentationen** beskriver nu, hvordan lyd og lys kan bruges samtidig.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
