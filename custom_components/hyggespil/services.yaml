@@ -71,3 +71,29 @@ status:
       description: Om der er valgt et lokalt musikstykke
       selector:
         boolean:
+
+rum:
+  name: Fælles rum til flere telefoner
+  description: Én telefon viser spillet, og de andre kan byde ind med deres navn.
+  fields:
+    handling:
+      name: Handling
+      description: opret, buzz, ryd eller luk
+      required: true
+      selector:
+        select:
+          options:
+            - opret
+            - buzz
+            - ryd
+            - luk
+    kode:
+      name: Rumkode
+      description: Den fircifrede kode, som værten viser
+      selector:
+        text:
+    navn:
+      name: Navn
+      description: Medspillerens navn (bruges ved buzz)
+      selector:
+        text:

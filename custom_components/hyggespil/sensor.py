@@ -39,16 +39,28 @@ class HyggespilSpilSensor(SensorEntity):
         """Start som klar."""
         self._attr_native_value = "klar"
         self._attr_extra_state_attributes: dict = {}
+        self._status: dict = {}
+        self._rum: dict = {}
 
     async def async_added_to_hass(self) -> None:
         """Gør sensoren kendt, så tjenesten kan opdatere den."""
         self.hass.data.setdefault(DOMAIN, {})["sensor"] = self
 
+    def _skriv(self) -> None:
+        """Skriv status og rumdata samlet, så de ikke overskriver hinanden."""
+        attrs = dict(self._status)
+        attrs.update(self._rum)
+        self._attr_extra_state_attributes = attrs
+        if self.hass is not None:
+            self.async_write_ha_state()
+
     def ny_status(self, data: dict) -> None:
         """Gem ny tilstand fra spillet og skriv den til Home Assistant."""
         self._attr_native_value = str(data.get("state") or "klar")
-        self._attr_extra_state_attributes = {
-            noegle: data[noegle] for noegle in FELTER if noegle in data
-        }
-        if self.hass is not None:
-            self.async_write_ha_state()
+        self._status = {noegle: data[noegle] for noegle in FELTER if noegle in data}
+        self._skriv()
+
+    def ny_rum(self, data: dict) -> None:
+        """Gem rummets tilstand (kode og buzzere), så alle telefoner kan se den."""
+        self._rum = {noegle: vaerdi for noegle, vaerdi in data.items() if vaerdi is not None}
+        self._skriv()

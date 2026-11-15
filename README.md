@@ -69,6 +69,20 @@ Valgene huskes til næste gang.
 lyset styres helt separat af `sensor.hyggespil_spil` i Home Assistant. De to kan derfor bruges
 samtidig – automatiseringen hører hverken musikken eller oplæsningen.
 
+#### Spil sammen fra hver telefon
+
+Én telefon (eller tablet/tv) er **tavlen**, hvor spillet kører. De andre telefoner kan byde ind:
+
+1. Tryk **📱** i spillets hoved → **Nyt rum**. Værten får en firdelt kode, fx `4821`.
+2. De andre åbner Hyggespil på deres egen telefon, trykker **📱 → Deltag**, skriver koden og deres navn.
+3. Deres telefon viser nu en stor **«JEG VED DET!»**-knap. Når nogen trykker, viser tavlen
+   rækkefølgen (1, 2, 3 …) og bipper, så I kan give point til den, der var først.
+4. **Ryd listen** mellem spørgsmålene.
+
+Alt går gennem Home Assistants egen forbindelse – ingen ekstern server, ingen konto. Rummet ligger i
+`sensor.hyggespil_spil` som attributterne `rum`, `rum_aktiv` og `rum_buzzere`, så det kan bruges i
+egne automatiseringer. Tjenesten `hyggespil.rum` kan også kaldes manuelt (`opret`, `buzz`, `ryd`, `luk`).
+
 #### Sensor og automationer
 
 Integrationen opretter **`sensor.hyggespil_spil`** (`klar` / `spiller` / `slut`) med attributterne

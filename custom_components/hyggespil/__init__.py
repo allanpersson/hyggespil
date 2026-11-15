@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import json
 import logging
+import random
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -61,6 +62,46 @@ async def _async_status(hass: HomeAssistant, call: ServiceCall) -> None:
     hass.bus.async_fire(f"{DOMAIN}_spil_status", data)
 
 
+async def _async_rum(hass: HomeAssistant, call: ServiceCall) -> None:
+    """Fælles rum: flere telefoner kan byde ind på samme spil.
+
+    handling = opret | buzz | ryd | luk. Rummets tilstand ligger i hass.data og
+    spejles i sensorens attributter, så alle telefoner kan følge den.
+    """
+    handling = str(call.data.get("handling") or "opret")
+    kode = str(call.data.get("kode") or "").strip()[:8]
+    navn = str(call.data.get("navn") or "").strip()[:32]
+    rum: dict = hass.data.setdefault(DOMAIN, {}).setdefault("rum", {})
+
+    if handling == "opret":
+        rum.clear()
+        rum.update({"kode": kode or f"{random.randint(1000, 9999)}", "aktiv": True, "buzzere": []})
+    elif handling == "buzz":
+        if not rum.get("aktiv") or kode != rum.get("kode") or not navn:
+            return
+        if any(b.get("navn") == navn for b in rum.get("buzzere", [])):
+            return
+        rum.setdefault("buzzere", []).append(
+            {"navn": navn, "tid": datetime.now(UTC).isoformat()}
+        )
+        rum["buzzere"] = rum["buzzere"][-12:]
+    elif handling == "ryd":
+        rum["buzzere"] = []
+    elif handling == "luk":
+        rum.clear()
+
+    data = {
+        "rum": rum.get("kode", ""),
+        "rum_aktiv": bool(rum.get("aktiv")),
+        "rum_buzzere": [b.get("navn") for b in rum.get("buzzere", [])],
+        "rum_opdateret": datetime.now(UTC).isoformat(),
+    }
+    sensor = hass.data.get(DOMAIN, {}).get("sensor")
+    if sensor is not None:
+        sensor.ny_rum(data)
+    hass.bus.async_fire(f"{DOMAIN}_rum", data)
+
+
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Servér spillets filer og vis panelet i sidebjælken."""
     has_game = await hass.async_add_executor_job((WWW_DIR / "hs.html").is_file)
@@ -78,7 +119,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         async def _async_status_call(call: ServiceCall) -> None:
             await _async_status(hass, call)
 
+        async def _async_rum_call(call: ServiceCall) -> None:
+            await _async_rum(hass, call)
+
         hass.services.async_register(DOMAIN, "status", _async_status_call)
+        hass.services.async_register(DOMAIN, "rum", _async_rum_call)
         hass.data[_SERVICE_REGISTERED] = True
 
     await hass.config_entries.async_forward_entry_setups(entry, _PLATFORMS)
