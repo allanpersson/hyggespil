@@ -3,7 +3,7 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.45<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.46<!-- version:end -->
 
 **Hentet fra GitHub:** <!-- downloads:start -->241<!-- downloads:end --> gange
 
@@ -242,6 +242,15 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.46 – 2026-11-16
+
+**Tilføjet**
+- **382 nye spørgsmål og kort** fordelt på: Hvad hører ikke til? (69), Hvad ville du helst? (børn) (66), Sandt eller falsk (børn) (47), Hvilket dyr er jeg? (45), Tæl og gæt (44), Børnegåder (42), Børnequiz (24), Postnummer-quiz (7), Sandt eller falsk (4), Find løgnen (4), Hvem/hvad er jeg? (4), Hvad skete først? (4), Byer (4), Mærkelige ord (4), Hvilket sprog? (4), Skøre rekorder (4), Tal & gæt (3), Destination (3).
+**Rettet**
+- **Nattens job udgiver nu selv:** efter puljekørslen køres udgivelsen automatisk, så nye spørgsmål kommer ud samme nat. README opdateres i samme commit, så versions- og taltjekket ikke fejler.
+- Nattens udgivelse og CI-fix
+- Nye spørgsmål: 382
+
 ### 0.2.45 – 2026-11-15
 
 **Rettet**
@@ -296,14 +305,6 @@ en kop kaffe:
 **Ændret**
 - **Kaffe-linket** peger nu altid på `buymeacoffee.com/i8B3Mn5` og står som «☕ Køb en kaffe til mig».
 - **Ny disclaimer på forsiden:** «🎲 Inspireret – ikke kopieret» fortæller, at spillene tager afsæt i klassiske spils, gamle lege og tv- og radioprogrammer, at man bør købe den fysiske udgave, hvis man kan lide spillet, og at alt indhold er skrevet til Hyggespil – inspireret af, aldrig kopieret fra originalerne. Den kan fjernes permanent med ét tryk og åbnes igen via «Om spillene» nederst.
-
-### 0.2.33 – 2026-11-15
-
-**Ændret**
-- **Forsiden er blevet kortere:** de store quizzer er samlet i ét kort med en undermenu. Tryk på **Musikquiz** og vælg mellem 60’erne, 70’erne, 80’erne, 90’erne, 00’erne, 10’erne, kun dansk musik, MGP og Børne-MGP. **Filmquiz** samler årtierne, dansk film, Harry Potter og K-pop Demon Hunters på samme måde.
-- Underspillene tælles ikke længere som selvstændige spil på forsiden – der er nu 93 kort i stedet for 110.
-**Rettet**
-- Undermenuens kort viser det samlede antal i puljen og badgen «Nyt spil, puljen udvides løbende», når en af underkategorierne har under 100.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
