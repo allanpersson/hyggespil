@@ -25,7 +25,7 @@ const EXP={
  geo:r=>({c:r[0],la:r[1],lo:r[2]}),
  rec:r=>({q:r[0],v:r[1],u:r[2]||'',e:r[3]||''})
 };
-const PLAIN=['never','likely','dare','deep','char','xr','xs','xh','xq','xn'];
+const PLAIN=['never','likely','dare','deep','char','xr','xs','xh','xq','xn','julesjov','gamingleg'];
 const ok=(...a)=>a.every(Boolean);
 const S=x=>typeof x==='string'&&x.trim().length>1;
 const N=x=>typeof x==='number'&&isFinite(x);
@@ -313,5 +313,5 @@ window.render=function(){const r=_render2.apply(this,arguments);try{if(frisk())e
 })();
 
 /* ---- indlæs kortdata og datapakker (synkront, før start) ---- */
-['hs-cfg','world','p1','p2','p3','p4','p5','p6','p7','p8','p9','map3d','resume','vf2','hs2','hs3','hs4','hs5','k1','pv','dx','sm','c1','w1','t1','gs','fb','reality','musik','film','quiz','quiz3','musikma','lege','lege2','ex_daily','effekt','feedback','sporgsmal','backup','spilvalg','rum','oplaesning'].forEach(n=>document.write('<script src="'+n+'.js?v='+VER+'"></scr'+'ipt>'));
+['hs-cfg','world','p1','p2','p3','p4','p5','p6','p7','p8','p9','map3d','resume','vf2','hs2','hs3','hs4','hs5','k1','pv','dx','sm','c1','w1','t1','gs','fb','reality','musik','film','quiz','quiz3','musikma','jul','julspil','gaming','gamingspil','lege','lege2','ex_daily','effekt','feedback','sporgsmal','backup','spilvalg','rum','oplaesning'].forEach(n=>document.write('<script src="'+n+'.js?v='+VER+'"></scr'+'ipt>'));
 })();

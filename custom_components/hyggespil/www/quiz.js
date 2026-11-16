@@ -56,7 +56,11 @@
     init() { g.ph = 0; g.pick = null; },
     render() {
       const it = g.item || ['?', ['?'], 0, ''];
-      const q = it[0], opts = it[1], a = it[2], note = it[3];
+      /* både korte rækker [q, svar, indeks, note] og objekter {q, o, a, e} */
+      const q = Array.isArray(it) ? it[0] : it.q;
+      const opts = Array.isArray(it) ? it[1] : it.o;
+      const a = Array.isArray(it) ? it[2] : it.a;
+      const note = Array.isArray(it) ? it[3] : it.e;
       let o = '<div class="card glass"><div class="q">' + esc(q) + '</div>';
       if (g.ph === 0) {
         o += '<div class="mc4grid">' + opts.map((t, i) =>
@@ -77,7 +81,8 @@
       document.querySelectorAll('#main [data-o]').forEach(b => {
         b.onclick = () => {
           g.pick = +b.dataset.o; g.ph = 1;
-          try { window.hsFeedback && window.hsFeedback(g.pick === (g.item || [])[2] ? 'rigtig' : 'forkert'); } catch (e) {}
+          const rigtigt = Array.isArray(g.item) ? g.item[2] : (g.item || {}).a;
+          try { window.hsFeedback && window.hsFeedback(g.pick === rigtigt ? 'rigtig' : 'forkert'); } catch (e) {}
           render();
         };
       });

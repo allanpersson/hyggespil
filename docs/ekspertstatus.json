@@ -342,6 +342,46 @@
    "antal": 0
   },
   {
+   "pool": "julequiz",
+   "antal": 0
+  },
+  {
+   "pool": "julekalender",
+   "antal": 0
+  },
+  {
+   "pool": "julesange",
+   "antal": 0
+  },
+  {
+   "pool": "julefilm",
+   "antal": 0
+  },
+  {
+   "pool": "julesjov",
+   "antal": 0
+  },
+  {
+   "pool": "gamingquiz",
+   "antal": 0
+  },
+  {
+   "pool": "konsolquiz",
+   "antal": 0
+  },
+  {
+   "pool": "spilnavn",
+   "antal": 0
+  },
+  {
+   "pool": "gaminghistorie",
+   "antal": 0
+  },
+  {
+   "pool": "gamingleg",
+   "antal": 0
+  },
+  {
    "pool": "ftl_cykel",
    "antal": 0
   },
@@ -505,6 +545,16 @@
   "serier": 0,
   "disney": 0,
   "roller": 0,
+  "julequiz": 0,
+  "julekalender": 0,
+  "julesange": 0,
+  "julefilm": 0,
+  "julesjov": 0,
+  "gamingquiz": 0,
+  "konsolquiz": 0,
+  "spilnavn": 0,
+  "gaminghistorie": 0,
+  "gamingleg": 0,
   "ftl_cykel": 0,
   "ftl_bil": 0,
   "cult": 0,

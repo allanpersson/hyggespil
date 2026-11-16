@@ -5,13 +5,13 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 **Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.46<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->241<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->251<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->93 spil og 8.728 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->103 spil og 8.830 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -27,11 +27,15 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 | 🔐 Kodespil | Zodiac-glyfer · Gridskrift · Punktskrift · Farver · Morse · Cæsars brev · Spejlbrev · Bogstavkæde |
 | 🔤 Ordspil | Ord af bogstaver · Ordkæde · Ordtrappe · Ordsplit · Baglæns · Rim · Længste ord · Stavboks · Staveling |
 | 🧮 Tal & matematik | Tænk et tal · Hovedregning · Talrækker · Overslag · Procent · Sanseprøve · Ur & tid · Bogstavværdi |
+| 🎄 Jul | Julequiz · Julekalender-quiz · Julesange · Julefilm · Julesjov |
+| 🎮 Gaming | Gamingquiz · Konsol-quiz · Hvilket spil? · Gaming-historie · Gaminglege |
 | 🎲 Random | Alt i ét · Random børnespil |
 | 🎵 Musikquiz | 60'erne · 70'erne · 80'erne · 90'erne · 00'erne · 10'erne · Kun dansk · MGP · Børne-MGP |
 | 🎬 Filmquiz | 80'erne · 90'erne · 00'erne · 10'erne · Dansk film · Harry Potter · K-pop Demon Hunters · Disney · Hvem spillede rollen? |
 | 📺 Serier | Seriequiz |
 | 🔞 Kun for voksne | Romantik · Sexy udfordringer · Grænseløs · Intime spørgsmål · Jeg har aldrig 🔞 · Random 🔞 |
+
+**Nye spil:** vises som **«Kommer snart»**, indtil puljen har over 50 spørgsmål. Det gælder som standard for nye spil.
 
 **Aldersgrænser:** «Dystre valg» og «Hvem i familien?» er **18+**. De vises automatisk, når alle spillere i Spillere er 18 eller ældre — og skjules, hvis blot én er under. Er der ingen alder angivet, regnes spilleren som voksen.
 

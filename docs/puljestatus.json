@@ -157,6 +157,16 @@
   "serier": 6,
   "disney": 6,
   "roller": 6,
+  "julequiz": 12,
+  "julekalender": 10,
+  "julesange": 10,
+  "julefilm": 10,
+  "julesjov": 10,
+  "gamingquiz": 10,
+  "konsolquiz": 10,
+  "spilnavn": 10,
+  "gaminghistorie": 10,
+  "gamingleg": 10,
   "ftl_cykel": 30,
   "ftl_bil": 25,
   "cult": 6,
@@ -172,6 +182,6 @@
  },
  "over200": false,
  "over300": false,
- "spil": 93,
- "spoergsmaal": 8728
+ "spil": 103,
+ "spoergsmaal": 8830
 }

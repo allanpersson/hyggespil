@@ -97,8 +97,26 @@
   }
 
   /* forsiden kalder hsStart, så menuer får en undermenu i stedet for et spil */
+  function snartModal(x, graense) {
+    const n = (window.DATA[x.key] || []).length;
+    const d = document.createElement('div');
+    d.className = 'modal'; d.style.zIndex = '95';
+    d.innerHTML = '<div class="mbox" style="width:min(480px,100%)">'
+      + '<h2 style="margin-top:0">' + x.e + ' ' + x.t + '</h2>'
+      + '<p class="hint" style="text-align:left">Dette spil er på vej. Der er <b>' + n + ' af ' + (graense + 1) +
+      '</b> spørgsmål i puljen – det åbner, når der er over ' + graense + '.</p>'
+      + '<p class="hint" style="text-align:left">Puljen udvides automatisk af de daglige job, så kig igen om et par dage.</p>'
+      + '<div class="row" style="margin-top:14px"><button class="btn big green" id="snart-luk">Okay</button></div></div>';
+    document.body.appendChild(d);
+    d.querySelector('#snart-luk').onclick = () => d.remove();
+    d.addEventListener('click', e => { if (e.target === d) d.remove(); });
+  }
+
+  /* Standard for nye spil: «Kommer snart» indtil puljen har over 50 kort. */
   window.hsStart = function (id) {
     const x = (window.GAMES || []).find(g => g.id === id);
+    const graense = x ? (x.kommerSnart != null ? x.kommerSnart : (x.ny ? 50 : 0)) : 0;
+    if (x && graense && ((window.DATA[x.key] || []).length <= graense)) { snartModal(x, graense); return; }
     if (x && x.kind === 'menu') { undermenu(x); return; }
     window.start(id);
   };
