@@ -3,7 +3,7 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.46<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.47<!-- version:end -->
 
 **Hentet fra GitHub:** <!-- downloads:start -->251<!-- downloads:end --> gange
 
@@ -246,6 +246,15 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.47 – 2026-11-16
+
+**Tilføjet**
+- **Fem julespil:** Julequiz, Julekalender-quiz, Julesange, Julefilm og Julesjov.
+- **Fem gaming-spil:** Gamingquiz, Konsol-quiz, Hvilket spil?, Gaming-historie og Gaminglege.
+**Ændret**
+- **«Kommer snart» er nu standard for nye spil:** de vises med badge og kan ikke startes, før puljen har over 50 spørgsmål. Puljerne udvides af de daglige job.
+- Jule- og gamingspil
+
 ### 0.2.46 – 2026-11-16
 
 **Tilføjet**
@@ -303,12 +312,6 @@ en kop kaffe:
 **Rettet**
 - **Dubletter i højttaler-listerne er væk:** samme enhed blev vist flere gange, fordi flere integrationer (fx Chromecast og Google TV) eksponerer den. Listen viser nu én pr. navn, alfabetisk, og markerer utilgængelige enheder.
 - **Telefonens egen højtaler** kan vælges, når den findes som `media_player` i Home Assistant (fx via Music Assistant-appen). Music Assistant kan ikke selv afspille i en browserfane, så enheden skal være oprettet som afspiller – det står nu også i hjælpeteksten.
-
-### 0.2.38 – 2026-11-15
-
-**Ændret**
-- **Kaffe-linket** peger nu altid på `buymeacoffee.com/i8B3Mn5` og står som «☕ Køb en kaffe til mig».
-- **Ny disclaimer på forsiden:** «🎲 Inspireret – ikke kopieret» fortæller, at spillene tager afsæt i klassiske spils, gamle lege og tv- og radioprogrammer, at man bør købe den fysiske udgave, hvis man kan lide spillet, og at alt indhold er skrevet til Hyggespil – inspireret af, aldrig kopieret fra originalerne. Den kan fjernes permanent med ét tryk og åbnes igen via «Om spillene» nederst.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
