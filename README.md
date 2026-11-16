@@ -5,13 +5,13 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 **Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.45<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->226<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->241<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->93 spil og 8.346 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->93 spil og 8.728 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|

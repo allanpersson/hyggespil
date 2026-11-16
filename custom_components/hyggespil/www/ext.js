@@ -1,4 +1,4 @@
-/* Hyggespil udvidelser v6: ren tilfældig trækning, validering, pakker, nye spil, offline-kort, 🔞 */
+/* Hyggespil udvidelser v6 (nattens udgivelse 2026-11-16): ren tilfældig trækning, validering, pakker, nye spil, offline-kort, 🔞 */
 (function(){
 const VM=((document.currentScript||{}).src||'').match(/v=([^&]+)/),VER=VM?VM[1]:'6';
 const st=document.createElement('style');

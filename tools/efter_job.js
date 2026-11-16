@@ -71,6 +71,10 @@ try {
 } catch (e) { console.log('kunne ikke læse puljestatus: ' + e.message); }
 console.log('noter:\n' + noter);
 
+/* README skal have de nye tal og nyheder med i samme commit, ellers fejler CI's README-tjek. */
+try { cp.execFileSync('python', [path.join(ROD, 'tools', 'opdater_readme.py')], { stdio: 'inherit', cwd: ROD }); }
+catch (e) { console.log('kunne ikke opdatere README: ' + e.message); }
+
 try {
   cp.execFileSync(GIT, ['-C', ROD, 'add', '-A'], { stdio: 'inherit' });
   cp.execFileSync(GIT, ['-C', ROD, 'commit', '-m', 'Nye spørgsmål: ' + iAlt + ' (' + dag + ')'], { stdio: 'inherit' });
