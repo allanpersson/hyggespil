@@ -1,12 +1,14 @@
 # Kvalitetsrapport
 
-Genereret 2026-11-15 af `tools/kvalitet.js`.
+Genereret 2026-11-17 af `tools/kvalitet.js`.
 
 | Regel | Antal |
 |---|---|
-| tom | 275 |
-| lækage | 240 |
-| dublet | 79 |
+| lækage | 488 |
+| tom | 481 |
+| dublet | 155 |
+| lille-begyndelse | 50 |
+| kontroltegn | 20 |
 
 ## Poster med alvorlige fejl
 
@@ -76,17 +78,17 @@ Genereret 2026-11-15 af `tools/kvalitet.js`.
 - **who** #25: Pangolin — lækage
 - **who** #26: Dovendyr — lækage
 - **who** #27: Aye-aye — tom, lækage
+- **who** #28: Alan Turing — lækage
+- **who** #29: Hedy Lamarr — lækage
+- **who** #30: Rosalind Franklin — lækage
+- **who** #31: Ada Lovelace — lækage
+- **who** #32: Nikola Tesla — lækage
+- **who** #33: Axolotl — tom, lækage
+- **who** #34: Grace Hopper — lækage
+- **who** #35: Koala — tom, lækage
+- **who** #36: Panda — tom, lækage
+- **who** #37: Næsehorn — lækage
+- **who** #38: Skunk — tom, lækage
+- **who** #39: En blæksprutte — lækage
+- **who** #40: En flagermus — lækage
 - **taboo** #0: Vin — tom
-- **taboo** #1: Kaffe — tom
-- **taboo** #2: Elefant — tom
-- **taboo** #4: Pizza — tom
-- **taboo** #5: Bil — tom
-- **taboo** #6: Sne — tom
-- **taboo** #7: Cykel — tom
-- **taboo** #9: Paraply — tom
-- **taboo** #10: Kuffert — tom
-- **taboo** #12: Pirat — tom
-- **taboo** #14: Biograf — tom
-- **taboo** #15: Fodbold — tom
-- **taboo** #18: Telefon — tom
-- **taboo** #19: Hund — tom
