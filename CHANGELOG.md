@@ -3,6 +3,12 @@
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
 
+## 0.2.51 – 2026-11-17
+
+### Tilføjet
+- **12 nye spørgsmål og kort** fordelt på: rim (12).
+- Nye spørgsmål: 12
+
 ## 0.2.50 – 2026-11-17
 
 - Vedligeholdelse og fejlretning.

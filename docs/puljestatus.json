@@ -97,7 +97,7 @@
   "ordtrappe": 7,
   "ordsplit": 17,
   "omvendt": 11,
-  "rim": 17,
+  "rim": 29,
   "langst": 16,
   "stavboks": 32,
   "staveling": 15,
@@ -183,5 +183,5 @@
  "over200": false,
  "over300": false,
  "spil": 103,
- "spoergsmaal": 9516
+ "spoergsmaal": 9528
 }

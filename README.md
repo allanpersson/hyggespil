@@ -3,15 +3,15 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.50<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.51<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->271<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->278<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->103 spil og 9.516 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->103 spil og 9.528 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.51 – 2026-11-17
+
+**Tilføjet**
+- **12 nye spørgsmål og kort** fordelt på: rim (12).
+- Nye spørgsmål: 12
+
 ### 0.2.50 – 2026-11-17
 
 - Vedligeholdelse og fejlretning.
@@ -293,18 +299,6 @@ en kop kaffe:
 - Android-TTS uden forkert vejledning
 - Actionlint-fix
 - CI: flere tests og overvaagning
-
-### 0.2.43 – 2026-11-15
-
-**Ændret**
-- **Android-appen bruger telefonens egen højtaler som standard** og viser kun de indstillinger, der giver mening på en telefon: Music Assistant, Home Assistant-højttaler og Companion-TTS er skjult, fordi de ikke kan bruges i den lokale app.
-- **«Hør og gæt (Music Assistant)»** og **📱 «Spil sammen»** vises ikke i Android-appen, da begge kræver Home Assistant.
-- CI bygger og linter Android-appen, kontrollerer at spillets filer ligger i APK'en, og udgiver APK + AAB.
-- Android-tilpassede indstillinger
-- Henvisning til Android-app
-- CI-fixes til browser-test og overvaagning
-- CI med kode, indhold, build, release og gameplay
-- Fuldstaendig changelog
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
