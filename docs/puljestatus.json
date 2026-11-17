@@ -138,7 +138,7 @@
   "fb_dk": 44,
   "reality": 29,
   "mus60": 30,
-  "mus70": 20,
+  "mus70": 32,
   "mus80": 6,
   "mus90": 6,
   "mus00": 6,
@@ -183,5 +183,5 @@
  "over200": false,
  "over300": false,
  "spil": 103,
- "spoergsmaal": 9504
+ "spoergsmaal": 9516
 }
