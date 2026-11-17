@@ -3,6 +3,10 @@
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
 
+## 0.2.50 – 2026-11-17
+
+- Vedligeholdelse og fejlretning.
+
 ## 0.2.49 – 2026-11-17
 
 ### Tilføjet
