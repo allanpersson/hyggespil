@@ -3,15 +3,15 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.47<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.48<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->251<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->258<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->103 spil og 8.830 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->103 spil og 9.380 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.48 – 2026-11-17
+
+**Tilføjet**
+- **550 nye spørgsmål og kort** fordelt på: Tæl og gæt (100), Børnegåder (85), Børnequiz (84), Hvad hører ikke til? (67), Hvad ville du helst? (børn) (66), Sandt eller falsk (børn) (66), Hvilket dyr er jeg? (59), zip (6), Byer (5), Mærkelige ord (4), Hvilket sprog? (3), Destination (3), Hvem/hvad er jeg? (2).
+- Nye spørgsmål: 550
+
 ### 0.2.47 – 2026-11-16
 
 **Tilføjet**
@@ -306,12 +312,6 @@ en kop kaffe:
 - **Kortenes layout:** tekst, antal i puljen og badgen «Nyt spil, puljen udvides løbende» står nu under hinanden i bunden af kortet i stedet for at ligge oven på hinanden. Beskrivelsen har fået luft og kan ikke længere flyde sammen med badges.
 - **Kontrast:** kortene har fået en mørk bundgradient og stærkere tekstskygge, så hvid tekst er læsbar på de lyse orange/gule flader, og «2+ spillere» har fået en mørk baggrund.
 - **Ekspertjobbet** har i første runde lagt 41 nye ekspertspørgsmål ind (num, tf, odd, tl, who, rec) og fortsætter ved næste kørsel, indtil alle puljer har 5.
-
-### 0.2.39 – 2026-11-15
-
-**Rettet**
-- **Dubletter i højttaler-listerne er væk:** samme enhed blev vist flere gange, fordi flere integrationer (fx Chromecast og Google TV) eksponerer den. Listen viser nu én pr. navn, alfabetisk, og markerer utilgængelige enheder.
-- **Telefonens egen højtaler** kan vælges, når den findes som `media_player` i Home Assistant (fx via Music Assistant-appen). Music Assistant kan ikke selv afspille i en browserfane, så enheden skal være oprettet som afspiller – det står nu også i hjælpeteksten.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
