@@ -3,6 +3,12 @@
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
 
+## 0.2.49 – 2026-11-17
+
+### Tilføjet
+- **124 nye spørgsmål og kort** fordelt på: stavboks (26), ordlav (24), mus60 (24), mus70 (14), Hvilket sprog? (12), rim (12), langst (12).
+- Nye spørgsmål: 124
+
 ## 0.2.48 – 2026-11-17
 
 ### Tilføjet

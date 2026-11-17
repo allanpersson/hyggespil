@@ -3,15 +3,15 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.48<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.49<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->258<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->271<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->103 spil og 9.380 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->103 spil og 9.504 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.49 – 2026-11-17
+
+**Tilføjet**
+- **124 nye spørgsmål og kort** fordelt på: stavboks (26), ordlav (24), mus60 (24), mus70 (14), Hvilket sprog? (12), rim (12), langst (12).
+- Nye spørgsmål: 124
+
 ### 0.2.48 – 2026-11-17
 
 **Tilføjet**
@@ -303,15 +309,6 @@ en kop kaffe:
 
 **Rettet**
 - **Oplæsning af svarmuligheder:** spørgsmålet læses fortsat højt, og nu læses også A, B, C og D op, så man ikke skal gætte på mulighederne.
-
-### 0.2.41 – 2026-11-15
-
-**Ændret**
-- **16+-knappen er fjernet.** Spil med aldersgrænse vises nu automatisk ud fra spillernes alder: «Dystre valg» og «Hvem i familien?» er hævet til **18+** og skjules, hvis blot én spiller er under 18. Mangler en alder, regnes spilleren som voksen.
-**Rettet**
-- **Kortenes layout:** tekst, antal i puljen og badgen «Nyt spil, puljen udvides løbende» står nu under hinanden i bunden af kortet i stedet for at ligge oven på hinanden. Beskrivelsen har fået luft og kan ikke længere flyde sammen med badges.
-- **Kontrast:** kortene har fået en mørk bundgradient og stærkere tekstskygge, så hvid tekst er læsbar på de lyse orange/gule flader, og «2+ spillere» har fået en mørk baggrund.
-- **Ekspertjobbet** har i første runde lagt 41 nye ekspertspørgsmål ind (num, tf, odd, tl, who, rec) og fortsætter ved næste kørsel, indtil alle puljer har 5.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
