@@ -3,15 +3,15 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.51<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.52<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->278<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->296<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->103 spil og 9.528 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->103 spil og 9.981 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.52 – 2026-11-18
+
+**Tilføjet**
+- **453 nye spørgsmål og kort** fordelt på: Hvilket dyr er jeg? (91), Børnequiz (75), Hvad hører ikke til? (69), Sandt eller falsk (børn) (67), Tæl og gæt (53), Hvad ville du helst? (børn) (46), Børnegåder (44), zip (8).
+- Nye spørgsmål: 453
+
 ### 0.2.51 – 2026-11-17
 
 **Tilføjet**
@@ -291,14 +297,6 @@ en kop kaffe:
 **Rettet**
 - **Spillet bliver i fokus:** under et spil skjules pointrækken og den store topmenu, og siden rykker selv spillets kort op i billedet, hvis det er ude af syne. Man skal ikke længere scrolle op efter fx et spin på lykkehjulet. «← Alle spil» i spillets bjælke går stadig til forsiden.
 - Fokus-tilstand i spil
-
-### 0.2.44 – 2026-11-15
-
-**Rettet**
-- **Android-appen viser ikke længere Home Assistant-vejledningen ved oplæsning.** Den lokale app har sin egen TTS-bro, så den taler med det samme og springer «Åbn i Chrome»/Companion-vejledningen over. Home Assistant-appen beholder den vejledning, der gælder der.
-- Android-TTS uden forkert vejledning
-- Actionlint-fix
-- CI: flere tests og overvaagning
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->

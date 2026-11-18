@@ -3,6 +3,12 @@
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
 
+## 0.2.52 – 2026-11-18
+
+### Tilføjet
+- **453 nye spørgsmål og kort** fordelt på: Hvilket dyr er jeg? (91), Børnequiz (75), Hvad hører ikke til? (69), Sandt eller falsk (børn) (67), Tæl og gæt (53), Hvad ville du helst? (børn) (46), Børnegåder (44), zip (8).
+- Nye spørgsmål: 453
+
 ## 0.2.51 – 2026-11-17
 
 ### Tilføjet
