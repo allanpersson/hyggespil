@@ -3,15 +3,15 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.52<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.53<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->296<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->309<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->103 spil og 9.981 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->103 spil og 10.735 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.53 – 2026-11-18
+
+**Tilføjet**
+- **754 nye spørgsmål og kort** fordelt på: t1tal (108), t1est (108), t1sans (108), t1bog (108), t1proc (107), t1ur (107), t1reg (54), t1rak (54).
+- Nye spørgsmål: 754
+
 ### 0.2.52 – 2026-11-18
 
 **Tilføjet**
@@ -291,12 +297,6 @@ en kop kaffe:
 - **Nattens job udgiver nu selv:** efter puljekørslen køres udgivelsen automatisk, så nye spørgsmål kommer ud samme nat. README opdateres i samme commit, så versions- og taltjekket ikke fejler.
 - Nattens udgivelse og CI-fix
 - Nye spørgsmål: 382
-
-### 0.2.45 – 2026-11-15
-
-**Rettet**
-- **Spillet bliver i fokus:** under et spil skjules pointrækken og den store topmenu, og siden rykker selv spillets kort op i billedet, hvis det er ude af syne. Man skal ikke længere scrolle op efter fx et spin på lykkehjulet. «← Alle spil» i spillets bjælke går stadig til forsiden.
-- Fokus-tilstand i spil
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
