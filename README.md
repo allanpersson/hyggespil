@@ -3,15 +3,15 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.54<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.55<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->314<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->322<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->103 spil og 13.319 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->103 spil og 13.824 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.55 – 2026-11-19
+
+**Tilføjet**
+- **505 nye spørgsmål og kort** fordelt på: Gør som dyret (108), Gæt og vis (børn) (108), bmgp (34), mgp (30), musdk (29), Ord og rim (27), mus10 (27), mus80 (26), film80 (26), Hvad hører ikke til? (25), mus90 (14), mus00 (14), film90 (14), film00 (14), Tæl og gæt (9).
+- Nye spørgsmål: 505
+
 ### 0.2.54 – 2026-11-19
 
 **Tilføjet**
@@ -285,15 +291,6 @@ en kop kaffe:
 **Tilføjet**
 - **550 nye spørgsmål og kort** fordelt på: Tæl og gæt (100), Børnegåder (85), Børnequiz (84), Hvad hører ikke til? (67), Hvad ville du helst? (børn) (66), Sandt eller falsk (børn) (66), Hvilket dyr er jeg? (59), zip (6), Byer (5), Mærkelige ord (4), Hvilket sprog? (3), Destination (3), Hvem/hvad er jeg? (2).
 - Nye spørgsmål: 550
-
-### 0.2.47 – 2026-11-16
-
-**Tilføjet**
-- **Fem julespil:** Julequiz, Julekalender-quiz, Julesange, Julefilm og Julesjov.
-- **Fem gaming-spil:** Gamingquiz, Konsol-quiz, Hvilket spil?, Gaming-historie og Gaminglege.
-**Ændret**
-- **«Kommer snart» er nu standard for nye spil:** de vises med badge og kan ikke startes, før puljen har over 50 spørgsmål. Puljerne udvides af de daglige job.
-- Jule- og gamingspil
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
