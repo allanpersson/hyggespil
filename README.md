@@ -3,15 +3,15 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.53<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.54<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->309<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->314<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->103 spil og 10.735 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->103 spil og 13.319 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.54 – 2026-11-19
+
+**Tilføjet**
+- **2584 nye spørgsmål og kort** fordelt på: Hvilket dyr er jeg? (243), Tæl og gæt (227), Sandt eller falsk (børn) (215), Hvad hører ikke til? (215), t1reg (193), t1rak (168), Børnegåder (164), Børnequiz (159), Hvad ville du helst? (børn) (135), t1tal (128), Mest sandsynlig (børn) (109), t1est (108), t1sans (108), t1ur (108), t1bog (108), t1proc (106), Ord og rim (81), zip (9).
+- Nye spørgsmål: 2584
+
 ### 0.2.53 – 2026-11-18
 
 **Tilføjet**
@@ -288,15 +294,6 @@ en kop kaffe:
 **Ændret**
 - **«Kommer snart» er nu standard for nye spil:** de vises med badge og kan ikke startes, før puljen har over 50 spørgsmål. Puljerne udvides af de daglige job.
 - Jule- og gamingspil
-
-### 0.2.46 – 2026-11-16
-
-**Tilføjet**
-- **382 nye spørgsmål og kort** fordelt på: Hvad hører ikke til? (69), Hvad ville du helst? (børn) (66), Sandt eller falsk (børn) (47), Hvilket dyr er jeg? (45), Tæl og gæt (44), Børnegåder (42), Børnequiz (24), Postnummer-quiz (7), Sandt eller falsk (4), Find løgnen (4), Hvem/hvad er jeg? (4), Hvad skete først? (4), Byer (4), Mærkelige ord (4), Hvilket sprog? (4), Skøre rekorder (4), Tal & gæt (3), Destination (3).
-**Rettet**
-- **Nattens job udgiver nu selv:** efter puljekørslen køres udgivelsen automatisk, så nye spørgsmål kommer ud samme nat. README opdateres i samme commit, så versions- og taltjekket ikke fejler.
-- Nattens udgivelse og CI-fix
-- Nye spørgsmål: 382
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
