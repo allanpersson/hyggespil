@@ -142,13 +142,33 @@ def main() -> None:
     if antal_dl is not None:
         ny = udskift(ny, DOWNLOAD_START, DOWNLOAD_SLUT, f"{antal_dl:,}".replace(",", "."), inline=True)
 
+    if tjek:
+        # Sammenlign de styrerede blokke – ikke hele filen, så linjeskift/whitespace
+        # ikke giver falske fejl i CI.
+        def blok(tekst: str, start: str, slut: str) -> str:
+            m = re.search(re.escape(start) + r"(.*?)" + re.escape(slut), tekst, re.S)
+            return re.sub(r"\s+", " ", m.group(1)).strip() if m else ""
+
+        def nøgle(tekst: str, start: str, slut: str) -> str:
+            m = re.search(re.escape(start) + r"(.*?)" + re.escape(slut), ny, re.S)
+            return re.sub(r"\s+", " ", m.group(1)).strip() if m else ""
+
+        fejl = []
+        if blok(tekst, VERSION_START, VERSION_SLUT) != nøgle(tekst, VERSION_START, VERSION_SLUT):
+            fejl.append("version")
+        if blok(tekst, TAL_START, TAL_SLUT) != nøgle(tekst, TAL_START, TAL_SLUT):
+            fejl.append("antal spil/spørgsmål")
+        if blok(tekst, NYHEDER_START, NYHEDER_SLUT) != nøgle(tekst, NYHEDER_START, NYHEDER_SLUT):
+            fejl.append("nyheder")
+        if fejl:
+            print("FEJL: README er ikke i sync (" + ", ".join(fejl) + ") – kør: python tools/opdater_readme.py")
+            sys.exit(1)
+        print(f"README er i sync (version {version()}, {tal})")
+        return
+
     if ny == tekst:
         print(f"README er i sync (version {version()}, {tal})")
         return
-    if tjek:
-        print(f"FEJL: README.md er ikke opdateret (version {version()}, {tal}) – "
-              "kør: python tools/opdater_readme.py")
-        sys.exit(1)
     open(README, "w", encoding="utf-8", newline="\n").write(ny)
     print(f"README opdateret: version {version()}, {tal}, {len(nyheder.splitlines())} linjer nyheder")
 

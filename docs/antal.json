@@ -1,6 +1,6 @@
 {
  "spil": 103,
- "spoergsmaal": 13824,
+ "spoergsmaal": 13838,
  "puljer": {
   "num": 204,
   "tf": 184,
@@ -84,7 +84,7 @@
   "musma": 16,
   "film80": 32,
   "film90": 20,
-  "film00": 20,
+  "film00": 34,
   "film10": 6,
   "filmdk": 6,
   "harry": 8,
