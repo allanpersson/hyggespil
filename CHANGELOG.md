@@ -3,10 +3,6 @@
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
 
-## 0.2.59 – 2026-11-20
-
-- Daglig spiltest og UI-rettelser
-
 ## 0.2.58 – 2026-11-20
 
 ### Tilføjet

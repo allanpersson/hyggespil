@@ -52,3 +52,7 @@ udg/
 
 # Skærmbilleder fra spiltesten (gemmes som CI-artifact)
 artefakter/
+
+# Playwright til spiltesten (installeres lokalt/CI)
+package.json
+package-lock.json
