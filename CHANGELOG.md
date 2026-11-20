@@ -3,6 +3,13 @@
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
 
+## 0.2.60 – 2026-11-20
+
+### Tilføjet
+- **86 nye spørgsmål og kort** fordelt på: gaminghistorie (18), cifsym (17), omvendt (17), julequiz (17), gamingleg (17).
+- Nye spørgsmål og ren kvalitetsrapport
+- Node-filer ud af repoet
+
 ## 0.2.58 – 2026-11-20
 
 ### Tilføjet
