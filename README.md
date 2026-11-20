@@ -3,15 +3,15 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.57<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.58<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->343<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->355<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->103 spil og 14.115 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->103 spil og 14.156 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.58 – 2026-11-20
+
+**Tilføjet**
+- **41 nye spørgsmål og kort** fordelt på: julesange (6), Hellere end (3), Jeg har aldrig (3), Mest sandsynlig (3), Udfordringer (3), Forbudte ord (3), Gæt og vis (3), Dybe samtaler (3), Gør som dyret (2), Børnegåder (2), Hvad ville du helst? (børn) (2), Mest sandsynlig (børn) (2), Stormester (2), Dalgona (1), Dystre valg (1), Hvem i familien? (1), Ord og rim (1).
+- Nye spørgsmål: 41
+
 ### 0.2.57 – 2026-11-20
 
 **Tilføjet**
@@ -284,12 +290,6 @@ en kop kaffe:
 ### 0.2.50 – 2026-11-17
 
 - Vedligeholdelse og fejlretning.
-
-### 0.2.49 – 2026-11-17
-
-**Tilføjet**
-- **124 nye spørgsmål og kort** fordelt på: stavboks (26), ordlav (24), mus60 (24), mus70 (14), Hvilket sprog? (12), rim (12), langst (12).
-- Nye spørgsmål: 124
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
