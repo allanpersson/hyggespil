@@ -38,23 +38,7 @@
    "antal": 0
   },
   {
-   "pool": "city",
-   "antal": 0
-  },
-  {
    "pool": "geo",
-   "antal": 0
-  },
-  {
-   "pool": "zip",
-   "antal": 0
-  },
-  {
-   "pool": "weird",
-   "antal": 0
-  },
-  {
-   "pool": "lang",
    "antal": 0
   },
   {
@@ -94,14 +78,6 @@
    "antal": 0
   },
   {
-   "pool": "kriddle",
-   "antal": 0
-  },
-  {
-   "pool": "kquiz",
-   "antal": 0
-  },
-  {
    "pool": "kchar",
    "antal": 0
   },
@@ -114,23 +90,7 @@
    "antal": 0
   },
   {
-   "pool": "ktf",
-   "antal": 0
-  },
-  {
-   "pool": "kodd",
-   "antal": 0
-  },
-  {
-   "pool": "kest",
-   "antal": 0
-  },
-  {
    "pool": "klik",
-   "antal": 0
-  },
-  {
-   "pool": "prov",
    "antal": 0
   },
   {
@@ -402,10 +362,6 @@
    "antal": 0
   },
   {
-   "pool": "law",
-   "antal": 0
-  },
-  {
    "pool": "xr",
    "antal": 0
   },
@@ -469,11 +425,11 @@
   "char": 0,
   "deep": 0,
   "tl": 6,
-  "city": 0,
+  "city": 7,
   "geo": 0,
-  "zip": 0,
-  "weird": 0,
-  "lang": 0,
+  "zip": 8,
+  "weird": 7,
+  "lang": 7,
   "wheel": 0,
   "sqdal": 0,
   "sqdil": 0,
@@ -483,16 +439,16 @@
   "sqmarb": 0,
   "kwho": 0,
   "kmove": 0,
-  "kriddle": 0,
-  "kquiz": 0,
+  "kriddle": 6,
+  "kquiz": 7,
   "kchar": 0,
   "kword": 0,
   "krather": 0,
-  "ktf": 0,
-  "kodd": 0,
-  "kest": 0,
+  "ktf": 7,
+  "kodd": 7,
+  "kest": 7,
   "klik": 0,
-  "prov": 0,
+  "prov": 7,
   "provw": 0,
   "dx": 0,
   "sm": 0,
@@ -561,7 +517,7 @@
   "ftl_fod": 0,
   "ftl_andre": 0,
   "rec": 11,
-  "law": 0,
+  "law": 7,
   "xr": 0,
   "xs": 0,
   "xh": 0,
