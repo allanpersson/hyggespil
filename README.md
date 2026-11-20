@@ -3,15 +3,15 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.56<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.57<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->322<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->343<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->103 spil og 13.838 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->103 spil og 14.115 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.57 – 2026-11-20
+
+**Tilføjet**
+- **277 nye spørgsmål og kort** fordelt på: ordkaede (27), ordtrappe (14), film10 (14), filmdk (14), harry (14), serier (14), roller (14), julekalender (14), zip (13), disney (12), cult (12), Tal & gæt (7), Byer (7), Mærkelige ord (7), Hvilket sprog? (7), Børnequiz (7), Sandt eller falsk (børn) (7), Hvad hører ikke til? (7), Tæl og gæt (7), Ordsprog (7), Love & regler (7), Børnegåder (6), Sandt eller falsk (5), Find løgnen (4), Hvem/hvad er jeg? (4), Hvad skete først? (4), ftl_fod (4), ftl_andre (4), Skøre rekorder (4), Hvilket dyr er jeg? (3), Destination (3), ftl_cykel (2), ftl_bil (2).
+- Nye spørgsmål: 277
+
 ### 0.2.56 – 2026-11-19
 
 **Tilføjet**
@@ -284,12 +290,6 @@ en kop kaffe:
 **Tilføjet**
 - **124 nye spørgsmål og kort** fordelt på: stavboks (26), ordlav (24), mus60 (24), mus70 (14), Hvilket sprog? (12), rim (12), langst (12).
 - Nye spørgsmål: 124
-
-### 0.2.48 – 2026-11-17
-
-**Tilføjet**
-- **550 nye spørgsmål og kort** fordelt på: Tæl og gæt (100), Børnegåder (85), Børnequiz (84), Hvad hører ikke til? (67), Hvad ville du helst? (børn) (66), Sandt eller falsk (børn) (66), Hvilket dyr er jeg? (59), zip (6), Byer (5), Mærkelige ord (4), Hvilket sprog? (3), Destination (3), Hvem/hvad er jeg? (2).
-- Nye spørgsmål: 550
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
