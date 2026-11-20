@@ -50,6 +50,13 @@ if (gammel && gammel.puljer) {
     if (d > 0) { tæller[k] = d; iAlt += d; }
   }
 }
+/* Puljer må ikke blive mindre – det tyder på tabte kort. */
+if (gammel && gammel.puljer) {
+  const fald = Object.keys(ny.puljer).filter(k => (ny.puljer[k] || 0) < (gammel.puljer[k] || 0));
+  for (const k of fald) console.log('ADVARSEL: puljen ' + k + ' faldt fra ' + gammel.puljer[k] + ' til ' + ny.puljer[k]);
+  if (fald.length) console.log(fald.length + ' pulje(r) blev mindre – tjek for tabte kort');
+}
+
 if (!iAlt) iAlt = Object.values(tæller).reduce((a, b) => a + b, 0);
 if (!iAlt) { console.log('ingen nye spørgsmål i dag – ingen udgivelse'); process.exit(0); }
 

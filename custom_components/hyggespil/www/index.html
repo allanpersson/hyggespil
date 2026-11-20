@@ -334,7 +334,8 @@ function qa(){
 }
 function who(){
  const it=g.item,pts=Math.max(1,6-g.cl);
- let o=`<div class="card glass"><div class="tag">🎭 Hvem/hvad er jeg? – ${g.cl} af ${it.c.length} spor</div><div class="mid">${it.c.slice(0,g.cl).map((c,i)=>`<div class="opt glass">${i+1}. ${esc(c)}</div>`).join('')}</div>`;
+ const gx=GAMES.find(x=>x.id===view)||{e:'🎭',t:'Hvem/hvad er jeg?'};
+ let o=`<div class="card glass"><div class="tag">${gx.e||'🎭'} ${esc(gx.t||'Hvem/hvad er jeg?')} – ${g.cl} af ${it.c.length} spor</div><div class="mid">${it.c.slice(0,g.cl).map((c,i)=>`<div class="opt glass">${i+1}. ${esc(c)}</div>`).join('')}</div>`;
  if(g.ans)return o+`<div class="ans" style="font-size:clamp(26px,4.5vw,44px)">${esc(it.a)}</div><p class="hint">Hvem gættede det? (${pts} point – ${g.cl} spor brugt)</p>${awardChips(pts,-1)}<div class="row" style="margin-top:12px"><button class="btn ghost" id="skip">Ingen – næste →</button></div></div>`;
  return o+`<p class="hint">Jo færre spor, jo flere point (5 spor = 1 point, 1 spor = 5 point). Sig gættet højt!</p><div class="row">${g.cl<it.c.length?'<button class="btn" id="clue">Næste spor</button>':''}<button class="btn green" id="shans">Vis svaret</button></div></div>`;
 }

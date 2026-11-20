@@ -49,3 +49,6 @@ tools/sammenlign_trae.js
 tools/kaede.js
 tools/gransk_ordspil.js
 udg/
+
+# Skærmbilleder fra spiltesten (gemmes som CI-artifact)
+artefakter/

@@ -29,7 +29,7 @@ document.head.appendChild(st);
 const wst=document.createElement('style');
 wst.textContent='.wcard{transition:box-shadow .4s}.wturn{display:flex;align-items:center;justify-content:center;gap:10px;padding:12px 16px;border-radius:18px;font-weight:900;font-size:clamp(18px,5vw,26px);color:#111;margin:4px 0 8px;animation:wpulse 1.6s ease-in-out infinite}@keyframes wpulse{50%{transform:scale(1.025);filter:brightness(1.15)}}'
 +'.wboard{display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:center;margin:12px 0;perspective:700px}.wword{display:flex;gap:4px;flex-wrap:nowrap}'
-+'.wt{width:var(--tw);height:calc(var(--tw)*1.3);border-radius:calc(var(--tw)*.2);display:grid;place-items:center;font-weight:900;font-size:calc(var(--tw)*.62);background:linear-gradient(180deg,#16336b,#0b1d44);border:1px solid rgba(255,255,255,.22);color:transparent;box-shadow:inset 0 -3px 6px rgba(0,0,0,.35)}'
++'.wt{width:var(--tw);height:calc(var(--tw)*1.3);border-radius:calc(var(--tw)*.2);display:grid;place-items:center;font-weight:900;font-size:calc(var(--tw)*.62);background:linear-gradient(180deg,#16336b,#0b1d44);border:1px solid rgba(255,255,255,.22);color:transparent;box-shadow:inset 0 -3px 6px rgba(0,0,0,.35)}.wt:not(.on){border-style:dashed;border-color:rgba(255,255,255,.34)}'
 +'.wt.on{background:linear-gradient(180deg,#fff,#dfe6f5);color:#0b1d44;box-shadow:0 3px 8px rgba(0,0,0,.35)}.wt.flip{animation:wflip .75s cubic-bezier(.3,1.4,.5,1) both}@keyframes wflip{0%{transform:rotateY(90deg) scale(.8)}100%{transform:rotateY(0) scale(1)}}.wt.pun{background:none;border:0;box-shadow:none;color:#fff;width:calc(var(--tw)*.5)}'
 +'.wcash{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:6px 0}.wcash span{padding:6px 12px;border-radius:14px;border:2px solid;font-weight:800;opacity:.75}.wcash span.act{opacity:1;transform:scale(1.08);box-shadow:0 0 18px currentColor}'
 +'.wwheel{position:relative;width:min(78vw,320px);margin:6px auto}.wwheel svg{width:100%;display:block;filter:drop-shadow(0 8px 14px rgba(0,0,0,.45))}.wptr{position:absolute;left:50%;top:-6px;transform:translateX(-50%);width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-top:28px solid #ffd166;filter:drop-shadow(0 2px 3px rgba(0,0,0,.6));z-index:2}'
@@ -134,7 +134,7 @@ KINDS.wheel={
  render(){
   const p=players[g.wt],done=g.ph==='done';
   let o='<div class="card glass wcard" style="'+(done?'':'box-shadow:0 0 0 3px '+p.c+',0 0 36px '+p.c+'66')+'">';
-  o+='<div class="row"><span class="tag">🎡 Lykkehjulet</span><span class="tag">Kategori: '+esc(g.pz.c)+'</span></div>';
+  o+='<div class="row"><span class="tag">🎡 Lykkehjulet</span><span class="tag">Kategori: '+esc(g.pz.c)+' · '+[...g.pz.t].filter(isLetter).length+' bogstaver</span></div>';
   if(!done)o+='<div class="wturn" style="background:linear-gradient(135deg,'+p.c+',#fff8)">🎤 '+esc(p.n)+'s tur</div>';
   o+=tilesHTML()+cashHTML();
   if(g.msg)o+='<p class="hint" style="font-size:16px">'+g.msg+'</p>';

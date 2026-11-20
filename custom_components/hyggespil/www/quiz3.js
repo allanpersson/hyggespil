@@ -118,6 +118,7 @@
     const graense = x ? (x.kommerSnart != null ? x.kommerSnart : (x.ny ? 50 : 0)) : 0;
     if (x && graense && ((window.DATA[x.key] || []).length <= graense)) { snartModal(x, graense); return; }
     if (x && x.kind === 'menu') { undermenu(x); return; }
+    if (window.hsAnker) window.hsAnker(id);
     window.start(id);
   };
 })();

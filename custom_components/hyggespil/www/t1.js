@@ -253,7 +253,7 @@ DATA.t1proc=(function(){
  return out})();
 
 /* ================= PULJE 6: sanseprøve – glasset tegner NOSTEMT så mange stykker som facit ================= */
-const T1GL=[{em:'🍬',b:'slik i glasset'},{em:'🫐',b:'blåbær i skålen'},{em:'⭐',b:'stjerner på tallerkenen'},{em:'🟢',b:'ærter i posen'}];
+const T1GL=[{em:'🍬',b:'slik i glasset'},{em:'🫐',b:'blåbær i glasset'},{em:'⭐',b:'stjerner i glasset'},{em:'🟢',b:'ærter i glasset'}];
 DATA.t1sans=(function(){
  const out=[];
  for(let bi=0;bi<3;bi++){const age=[5,10,17][bi];
@@ -317,7 +317,10 @@ function t1urSVG(h,m){const ha=((h%12)+m/60)*30,ma=m*6;
 function t1glass(it){const r=rng32(it.seed),fs=it.n<=20?30:it.n<=45?24:19;
  let s='<svg viewBox="0 0 180 240" class="t1svg"><rect class="t1la" x="34" y="14" width="112" height="16" rx="8"/>'+
   '<path class="t1glas" d="M42 36 h96 v186 a12 12 0 0 1 -12 12 h-72 a12 12 0 0 1 -12 -12 z"/>';
- for(let i=0;i<it.n;i++){const x=50+r()*80,y=64+r()*(186-fs);
+ /* stykkerne skal blive inde i glasset: x er tekstens startpunkt, så tegnet fylder
+    fs til højre for x; y er grundlinjen, så toppen ligger ca. 0,8·fs over y. */
+ const x0=48,x1=132-fs,y0=46+fs*0.8,y1=228-fs*0.2;
+ for(let i=0;i<it.n;i++){const x=x0+r()*Math.max(4,x1-x0),y=y0+r()*Math.max(4,y1-y0);
   s+='<text class="t1gl" x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" font-size="'+fs+'">'+it.em+'</text>'}
  return s+'</svg>'}
 function t1tælrækker(it){let s='<div class="t1rows">';
@@ -463,8 +466,8 @@ function t1tgRender(st){
        :'<div class="row"><button class="btn big" id="t1show">🙈 Vis det hemmelige tal</button></div>';
   if(st.hist.length)o+='<div class="t1hist">'+st.hist.map(h=>'<span class="t1tmp" style="background:'+T1TEMP[h.t][2]+'">'+h.g+' · '+T1TEMP[h.t][1]+'</span>').join('')+'</div>';
   else o+='<p class="hint">Interval: <b>'+it.lo+'–'+it.hi+'</b> · første gæt melder udgangspunktet.</p>';
-  o+='<div class="t1inrow"><input class="in" id="t1in" inputmode="numeric" autocomplete="off" placeholder="Skriv årets gæt" value="'+t1esc(st.in||'')+'"></div>';
-  o+='<div class="row"><button class="btn green" id="t1ok">🌡️ Vurdier gættet</button><button class="btn ghost" id="t1rev">🏳️ Giv op – vis tallet</button></div>';
+  o+='<div class="t1inrow"><input class="in" id="t1in" inputmode="numeric" autocomplete="off" placeholder="Skriv jeres gæt" value="'+t1esc(st.in||'')+'"></div>';
+  o+='<div class="row"><button class="btn green" id="t1ok">🌡️ Vurdér gættet</button><button class="btn ghost" id="t1rev">🏳️ Giv op – vis tallet</button></div>';
   if(st.err)o+='<p class="hint t1bad">❌ '+t1esc(st.err)+'</p>';
  }else{
   o+='<div class="ans">'+st.svar+'</div>';

@@ -52,10 +52,28 @@ const fund = [];
 function tekstAf(it) {
   if (typeof it === 'string') return it;
   if (!it) return '';
-  return String(it.q || it.s || it.t || it.w || (it.o && it.o[0]) || it.a || '');
+  const svar = tekstAf0(it);
+  return svar.trim();
+}
+function tekstAf0(it) {
+  /* sporkort (fx «Hvem er jeg?»): teksten er sporene, ikke svaret */
+  if (Array.isArray(it.c) && it.c.length) return it.c.join(' ');
+  /* «ville du hellere»: begge valg er kortets tekst – der er ikke et svar */
+  if (it.a != null && it.b != null && it.q == null && it.t == null) return it.a + ' / ' + it.b;
+  /* taboo: ordet plus de forbudte ord */
+  if (it.w != null && Array.isArray(it.f)) return it.w + ' ' + it.f.join(' ');
+  /* tidslinje: spørgsmålet er fælles, og svarene er de to begivenheder */
+  if (Array.isArray(it.a)) return String(it.q || '') + ' ' + it.a.join(' ');
+  /* flervalgsopgaver: det unikke ligger i svarmulighederne */
+  if (Array.isArray(it.o)) return String(it.q || it.t || '') + ' ' + it.o.join(' ');
+  return String(it.q || it.s || it.t || it.w || (it.o && it.o[0]) || '');
 }
 function svarAf(it) {
-  if (it && typeof it === 'object') return it.a;
+  if (it && typeof it === 'object' && !Array.isArray(it)) {
+    /* kort uden facit: sporkort og ville-du-hellere-kort */
+    if (Array.isArray(it.c) || it.b != null) return null;
+    return it.a;
+  }
   return null;
 }
 
@@ -75,9 +93,12 @@ for (const [pool, liste] of Object.entries(pools)) {
       }
       return;
     }
+    /* rådata til generatorerne (fx lande med koordinater) er ikke spørgsmål */
+    if (it && typeof it === 'object' && it.la != null && it.lo != null) return;
     const t = tekstAf(it);
     const fejl = [];
-    if (!t || t.trim().length < 8) fejl.push('tom');
+    if (!t || t.trim().length < 2) fejl.push('tom');
+    else if (t.trim().length < 8) fejl.push('kort');
     if (/[<>]/.test(t)) fejl.push('html');
     if (/  +/.test(t)) fejl.push('dobbelt-mellemrum');
     if (/^\s|\s$/.test(t)) fejl.push('løse-mellemrum');
@@ -90,9 +111,15 @@ for (const [pool, liste] of Object.entries(pools)) {
     if (åbne % 2 === 1 || cite % 2 === 1) fejl.push('skæve-citater');
     if ((t.match(/\(/g) || []).length !== (t.match(/\)/g) || []).length) fejl.push('skæve-parenteser');
     const n = svarAf(it);
-    if (typeof n === 'number' && (n < 0 || n > 1e9 || !isFinite(n))) fejl.push('tal-ude-af-range');
+    if (typeof n === 'number' && (n < -1e12 || n > 1e15 || !isFinite(n))) fejl.push('tal-ude-af-range');
     if (typeof n === 'string' && t && n.length > 3 && t.toLowerCase().includes(n.toLowerCase())) fejl.push('lækage');
-    const k = t.toLowerCase().replace(/\s+/g, ' ').trim();
+    /* samme tekst til forskellige aldre er med vilje (fx sandt/falsk-kort) */
+    const alder = it && typeof it === 'object' && it.age != null ? '|' + it.age : '';
+    /* «ville du hellere»: rækkefølgen af de to valg betyder ikke noget */
+    const nøgleTekst = (it && typeof it === 'object' && it.a != null && it.b != null && it.q == null && it.t == null)
+      ? [it.a, it.b].map(x => String(x).toLowerCase()).sort().join(' / ')
+      : t.toLowerCase();
+    const k = nøgleTekst.replace(/\s+/g, ' ').trim() + alder;
     if (k && set.has(k)) fejl.push('dublet'); else set.add(k);
     if (fejl.length) fund.push({ pool, idx, tekst: t.slice(0, 90), fejl });
   });

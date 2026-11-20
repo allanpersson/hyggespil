@@ -46,10 +46,19 @@ const VAL={
 };
 PLAIN.forEach(k=>VAL[k]=i=>S(i));
 function key(i){try{if(typeof i==='string')return i;if(i.q!==undefined&&i.o===undefined&&i.p===undefined)return JSON.stringify([i.q,i.a,i.v]);return JSON.stringify(i)}catch(e){return Math.random()+''}}
+/* Skjulte kontroltegn fra importeret tekst (fx \u0013 i stedet for en tankestreg)
+   ville blive vist som en tom boks. De rettes til en tankestreg ved indlæsning. */
+const KONTROL=/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g;
+function rens(x){
+ if(typeof x==='string')return x.replace(KONTROL,' – ').replace(/ +– +/g,' – ');
+ if(Array.isArray(x)){for(let n=0;n<x.length;n++)x[n]=rens(x[n]);return x}
+ if(x&&typeof x==='object'){for(const q in x)if(Object.prototype.hasOwnProperty.call(x,q))x[q]=rens(x[q]);return x}
+ return x;
+}
 function cleanAll(){
  const rep={};
  for(const k in VAL){if(!Array.isArray(DATA[k]))continue;const seen=new Set(),out=[];
-  for(const i of DATA[k]){let good=false;try{good=VAL[k](i)}catch(e){}if(!good){rep[k]=(rep[k]||0)+1;continue}const id=key(i);if(seen.has(id)){rep[k+'(dup)']=(rep[k+'(dup)']||0)+1;continue}seen.add(id);out.push(i)}
+  for(let i of DATA[k]){i=rens(i);let good=false;try{good=VAL[k](i)}catch(e){}if(!good){rep[k]=(rep[k]||0)+1;continue}const id=key(i);if(seen.has(id)){rep[k+'(dup)']=(rep[k+'(dup)']||0)+1;continue}seen.add(id);out.push(i)}
   DATA[k]=out}
  if(Object.keys(rep).length)console.warn('HS: frasorteret',rep);
 }
@@ -184,7 +193,7 @@ KINDS.pin={
  bind(){
   const box=document.getElementById('map');if(!box||(!window.WORLD&&!window.globeReady))return;const it=g.item;
    const svgMap2=(b,cb)=>(window.globeReady&&window.globeMap&&window.globeMap(b,cb))||svgMap(b,cb);
-   if(!window.globeReady&&!window.globeError&&window.__map3dLoaded&&(g.gw||0)<60){g.gw=(g.gw||0)+1;box.innerHTML="<div style='display:grid;place-items:center;height:100%;color:#fff;font-weight:700'>🌍 Indlæser 3D-globus…</div>";setTimeout(()=>{if(document.getElementById('map')===box)render()},400);return}
+   if(!window.globeReady&&!window.globeError&&window.__map3dLoaded&&(g.gw||0)<25){g.gw=(g.gw||0)+1;box.innerHTML="<div style='display:grid;place-items:center;gap:12px;height:100%;color:#fff;font-weight:700'><div>🌍 Indlæser 3D-globus…</div><button type='button' class='btn ghost' onclick='g.gw=999;render()'>Brug 2D-kort</button></div>";setTimeout(()=>{if(document.getElementById('map')===box)render()},400);return}
   if(g.ph===0){
    let mk=null;const btn=document.getElementById('pinlock'),p=players[g.pi];
    const api=svgMap2(box,(lat,lon)=>{g.cur=[lat,lon];if(mk)api.move(mk,lat,lon);else mk=api.mark(lat,lon,p.c,2.6);btn.disabled=false});

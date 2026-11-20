@@ -200,10 +200,30 @@ window.render=function(){
 /* Anker: «← Alle spil» skal lande ved det spil, man kom fra – også når man fortryder
    i indstillingsboksen, før spillet er startet (så sættes ankeret af spilvalg.js). */
 window.hsAnker=function(id){try{if(id)localStorage.setItem('hs_hjem',JSON.stringify({id:String(id)}))}catch(e){}};
+/* finder forsidens kort for et spil – også når spillet er en underkategori,
+   eller når et blandet spil har skiftet til et tilfældigt spil undervejs. */
+window.hsKort=function(id){
+ const bs=[].slice.call(document.querySelectorAll('#main button.gc'));
+ const ved=function(k){return bs.find(function(x){return (x.getAttribute('onclick')||'').indexOf("'"+k+"'")>=0})||null};
+ let b=ved(id);if(b)return b;
+ const gs=window.GAMES||[];
+ let mor=null;
+ /* underkategorier kan pege på deres hovedspil med sub: 'prov' … */
+ const selv=gs.find(function(g){return g.id===id});
+ if(selv&&typeof selv.sub==='string')mor=selv.sub;
+ /* … eller hovedspillet kan være en menu med en liste af underkategorier */
+ if(!mor){
+  const menu=gs.find(function(g){return g.kind==='menu'&&(g.sub||[]).some(function(s){return s.id===id})});
+  if(menu)mor=menu.id;
+ }
+ if(mor)b=ved(mor);
+ return b||null};
 const go0=window.go;
 window.go=function(v){
  const fra=(typeof view==='string'&&view&&view!=='home')?view:null;
- if(fra&&v==='home')window.hsAnker(fra);
+ /* gem kun et anker, der faktisk har et kort på forsiden – ellers bevares det,
+    som blev sat da spilleren åbnede spillet (fx «Alt i ét» og underkategorier). */
+ if(fra&&v==='home'&&window.hsKort(fra))window.hsAnker(fra);
  const r=go0.apply(this,arguments);
  if(v==='home'){
   const rul=function(){
@@ -211,7 +231,7 @@ window.go=function(v){
     const gemt=JSON.parse(localStorage.getItem('hs_hjem')||'null');
     const id=gemt&&gemt.id;
     if(!id)return;
-    const b=[].slice.call(document.querySelectorAll('#main button.gc')).find(function(x){return (x.getAttribute('onclick')||'').indexOf("'"+id+"'")>=0});
+    const b=window.hsKort(id);
     if(!b)return;
     /* rul til selve spillkortet (ikke sektionsoverskriften), så man lander ved spillet */
     const y=b.getBoundingClientRect().top+window.scrollY-90;

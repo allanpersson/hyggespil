@@ -1,0 +1,71 @@
+name: Daglig spiltest
+
+# Spiller 1–5 tilfældige spil hver dag og ALLE spil hver søndag:
+# funktion, UI, game play, «Kommer snart», «← Alle spil» og skærmbredde.
+# Skriver docs/spiltest.md og gemmer skærmbilleder som artifact.
+
+on:
+  schedule:
+    - cron: "0 6 * * *"    # hver dag: 5 spil
+    - cron: "0 4 * * 0"    # hver søndag: alle spil
+  workflow_dispatch:
+    inputs:
+      antal:
+        description: Antal spil (1–5) eller «alle»
+        type: string
+        default: "5"
+
+permissions:
+  contents: read
+
+jobs:
+  spil:
+    name: Spil, UI og game play
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Installér Playwright og Chromium
+        run: |
+          npm init -y >/dev/null 2>&1
+          npm install --no-audit --no-fund playwright@1.48.2
+          npx playwright install --with-deps chromium
+
+      - name: Start spillets lokale server
+        run: |
+          node tools/serve.js 8899 > /tmp/server.log 2>&1 &
+          for _ in $(seq 1 30); do
+            curl -sf http://127.0.0.1:8899/hs.html >/dev/null && break
+            sleep 1
+          done
+
+      - name: Spiltest
+        env:
+          HS_URL: http://127.0.0.1:8899/hs.html
+          ANTAL: ${{ inputs.antal }}
+          KØRSEL: ${{ github.event.schedule }}
+        run: |
+          if [ "$KØRSEL" = "0 4 * * 0" ]; then
+            node tests/spiltest.mjs alle
+          else
+            node tests/spiltest.mjs "${ANTAL:-5}"
+          fi
+
+      - name: Vis rapporten i jobbet
+        if: always()
+        run: cat docs/spiltest.md || true
+
+      - name: Gem skærmbilleder og rapport
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spiltest-${{ github.run_id }}
+          path: |
+            artefakter/spiltest/*.png
+            docs/spiltest.md
+          retention-days: 30
+          if-no-files-found: ignore
