@@ -3,7 +3,7 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.58<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.59<!-- version:end -->
 
 **Hentet fra GitHub:** <!-- downloads:start -->361<!-- downloads:end --> gange
 
@@ -246,6 +246,10 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.59 – 2026-11-20
+
+- Daglig spiltest og UI-rettelser
+
 ### 0.2.58 – 2026-11-20
 
 **Tilføjet**
@@ -286,10 +290,6 @@ en kop kaffe:
 **Tilføjet**
 - **12 nye spørgsmål og kort** fordelt på: rim (12).
 - Nye spørgsmål: 12
-
-### 0.2.50 – 2026-11-17
-
-- Vedligeholdelse og fejlretning.
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
