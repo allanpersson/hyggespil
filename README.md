@@ -3,15 +3,15 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.61<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.62<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->366<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->368<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->103 spil og 14.566 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->103 spil og 15.029 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.62 – 2026-11-21
+
+**Tilføjet**
+- **463 nye spørgsmål og kort** fordelt på: cifspjl (22), Dystre valg (20), ordtrappe (20), film90 (20), film10 (20), julekalender (20), julesjov (20), gamingleg (20), filmdk (18), harry (18), serier (18), roller (18), ftl_andre (18), ordsplit (17), langst (17), musma (17), disney (17), cult (17), julesange (15), Dalgona (10), Hvem i familien? (10), omvendt (10), rim (10), mus90 (10), ftl_bil (10), zip (9), mus00 (9), Sandt eller falsk (5), Find løgnen (4), Hvad skete først? (4), ftl_cykel (4), ftl_fod (4), Skøre rekorder (4), Love & regler (4), Tal & gæt (3), Hvem/hvad er jeg? (1).
+- Nye spørgsmål: 463
+
 ### 0.2.61 – 2026-11-21
 
 **Tilføjet**
@@ -287,12 +293,6 @@ en kop kaffe:
 **Tilføjet**
 - **754 nye spørgsmål og kort** fordelt på: t1tal (108), t1est (108), t1sans (108), t1bog (108), t1proc (107), t1ur (107), t1reg (54), t1rak (54).
 - Nye spørgsmål: 754
-
-### 0.2.52 – 2026-11-18
-
-**Tilføjet**
-- **453 nye spørgsmål og kort** fordelt på: Hvilket dyr er jeg? (91), Børnequiz (75), Hvad hører ikke til? (69), Sandt eller falsk (børn) (67), Tæl og gæt (53), Hvad ville du helst? (børn) (46), Børnegåder (44), zip (8).
-- Nye spørgsmål: 453
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
