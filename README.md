@@ -3,15 +3,15 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.60<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.61<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->364<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->366<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->103 spil og 14.379 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->103 spil og 14.566 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.61 – 2026-11-21
+
+**Tilføjet**
+- **187 nye spørgsmål og kort** fordelt på: cifbrl (50), julequiz (20), cifvine (17), cifcol (17), cifmors (17), cifcaes (17), cifked (17), staveling (17), cifspjl (15).
+- Nye spørgsmål: 187
+
 ### 0.2.60 – 2026-11-20
 
 **Tilføjet**
@@ -287,12 +293,6 @@ en kop kaffe:
 **Tilføjet**
 - **453 nye spørgsmål og kort** fordelt på: Hvilket dyr er jeg? (91), Børnequiz (75), Hvad hører ikke til? (69), Sandt eller falsk (børn) (67), Tæl og gæt (53), Hvad ville du helst? (børn) (46), Børnegåder (44), zip (8).
 - Nye spørgsmål: 453
-
-### 0.2.51 – 2026-11-17
-
-**Tilføjet**
-- **12 nye spørgsmål og kort** fordelt på: rim (12).
-- Nye spørgsmål: 12
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
