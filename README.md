@@ -3,15 +3,15 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.63<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.64<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->384<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->386<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->103 spil og 15.358 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->103 spil og 15.412 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.64 – 2026-11-22
+
+**Tilføjet**
+- **54 nye spørgsmål og kort** fordelt på: t1tal (27), t1proc (27).
+- Nye spørgsmål: 54
+
 ### 0.2.63 – 2026-11-22
 
 **Tilføjet**
@@ -287,12 +293,6 @@ en kop kaffe:
 
 **Tilføjet**
 - **505 nye spørgsmål og kort** fordelt på: Gør som dyret (108), Gæt og vis (børn) (108), bmgp (34), mgp (30), musdk (29), Ord og rim (27), mus10 (27), mus80 (26), film80 (26), Hvad hører ikke til? (25), mus90 (14), mus00 (14), film90 (14), film00 (14), Tæl og gæt (9).
-
-### 0.2.54 – 2026-11-19
-
-**Tilføjet**
-- **2584 nye spørgsmål og kort** fordelt på: Hvilket dyr er jeg? (243), Tæl og gæt (227), Sandt eller falsk (børn) (215), Hvad hører ikke til? (215), t1reg (193), t1rak (168), Børnegåder (164), Børnequiz (159), Hvad ville du helst? (børn) (135), t1tal (128), Mest sandsynlig (børn) (109), t1est (108), t1sans (108), t1ur (108), t1bog (108), t1proc (106), Ord og rim (81), zip (9).
-- Nye spørgsmål: 2584
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->

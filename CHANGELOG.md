@@ -3,6 +3,12 @@
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
 
+## 0.2.64 – 2026-11-22
+
+### Tilføjet
+- **54 nye spørgsmål og kort** fordelt på: t1tal (27), t1proc (27).
+- Nye spørgsmål: 54
+
 ## 0.2.63 – 2026-11-22
 
 ### Tilføjet
