@@ -3,7 +3,7 @@
 if(window.__hs3)return;window.__hs3=true;
 const rnd=n=>Math.random()*n|0,pick=a=>a[rnd(a.length)];
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=rnd(i+1);[a[i],a[j]]=[a[j],a[i]]}return a};
-const GRP_S='🦑 Squid Games';
+const GRP_S='💀 Dødsspil';
 const st=document.createElement('style');
 st.textContent='.tiles{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;margin:14px 0}.word{display:flex;gap:4px}.tile{width:34px;height:44px;border-radius:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);display:grid;place-items:center;font-weight:900;font-size:22px}.tile.on{background:#fff;color:#1b1340}.tile.pun{background:none;border:0;width:16px}'
 +'.kb{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0}.kb button{width:42px;height:46px;border-radius:10px;font-weight:800;font-size:18px;background:rgba(255,255,255,.16);color:#fff;border:0}.kb button:disabled{opacity:.25}'
@@ -134,7 +134,7 @@ KINDS.wheel={
  render(){
   const p=players[g.wt],done=g.ph==='done';
   let o='<div class="card glass wcard" style="'+(done?'':'box-shadow:0 0 0 3px '+p.c+',0 0 36px '+p.c+'66')+'">';
-  o+='<div class="row"><span class="tag">🎡 Lykkehjulet</span><span class="tag">Kategori: '+esc(g.pz.c)+' · '+[...g.pz.t].filter(isLetter).length+' bogstaver</span></div>';
+  o+='<div class="row"><span class="tag">🎡 Ordhjulet</span><span class="tag">Kategori: '+esc(g.pz.c)+' · '+[...g.pz.t].filter(isLetter).length+' bogstaver</span></div>';
   if(!done)o+='<div class="wturn" style="background:linear-gradient(135deg,'+p.c+',#fff8)">🎤 '+esc(p.n)+'s tur</div>';
   o+=tilesHTML()+cashHTML();
   if(g.msg)o+='<p class="hint" style="font-size:16px">'+g.msg+'</p>';
@@ -283,7 +283,7 @@ KINDS.marb={
  }
 };
 GAMES.push(
-{id:'wheel',grp:'Gæt & kvis',key:'wheel',kind:'wheel',t:'Lykkehjulet',d:'Snurr hjulet, gæt bogstaver, køb vokaler og løs gåden – inspireret af tv-programmet',e:'🎡',g:'linear-gradient(135deg,#f9d423,#ff4e50,#7209b7)',min:2},
+{id:'wheel',grp:'Gæt & kvis',key:'wheel',kind:'wheel',t:'Ordhjulet',d:'Snurr hjulet, gæt bogstaver, køb vokaler og løs gåden – inspireret af tv-programmet',e:'🎡',g:'linear-gradient(135deg,#f9d423,#ff4e50,#7209b7)',min:2},
 {id:'sqrl',grp:GRP_S,key:'sqrl',kind:'rl',t:'Rødt lys, grønt lys',d:'Gå, når skærmen er grøn – stå stille, når den er rød',e:'🔴',g:'linear-gradient(135deg,#e63946,#2ec4b6)',min:2},
 {id:'sqglass',grp:GRP_S,key:'sqglass',kind:'glass',t:'Glasbroen',d:'Vælg rigtig glasflise – den, der falder, hjælper de næste',e:'🌉',g:'linear-gradient(135deg,#00b4d8,#023e8a)',min:2},
 {id:'sqmarb',grp:GRP_S,key:'sqmarb',kind:'marb',t:'Kugler: lige eller ulige',d:'Gæt, om modstanderen holder et lige eller ulige antal kugler',e:'🔮',g:'linear-gradient(135deg,#6a4c93,#1982c4)',min:2},

@@ -1,4 +1,4 @@
-# Spiltest – 2026-11-20
+# Spiltest – 2026-11-23
 
 Spil testet: 101
 
@@ -192,12 +192,12 @@ Spil testet: 101
 - OK: startede, kunne spilles og tegnede korrekt
 - skærmbillede: `artefakter/spiltest/dx.png`
 
-## Stormester (sm)
+## Opgavemesteren (sm)
 - type: sm · pulje: sm
 - OK: startede, kunne spilles og tegnede korrekt
 - skærmbillede: `artefakter/spiltest/sm.png`
 
-## Lykkehjulet (wheel)
+## Ordhjulet (wheel)
 - type: wheel · pulje: wheel
 - OK: startede, kunne spilles og tegnede korrekt
 - skærmbillede: `artefakter/spiltest/wheel.png`

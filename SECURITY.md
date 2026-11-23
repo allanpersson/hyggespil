@@ -38,3 +38,31 @@ Sager på GitHub er offentlige. Skriv derfor ikke navne, adresser eller andre pe
 ## Meld et problem
 
 Sikkerheds- eller privatlivsproblemer meldes fortroligt via **Security → Report a vulnerability** i dette repository – ikke som en åben sag.
+
+## Android-appen (Play og sideload)
+
+Appen er en tynd WebView omkring de samme filer som Home Assistant-udgaven. Den er hærdet sådan:
+
+| Indstilling | Værdi | Hvorfor |
+|---|---|---|
+| Netværkstilladelse | **Ingen** | alt ligger i appen; eksterne links åbnes i browseren |
+| `allowBackup` | `false` | spillets data og aldersbekræftelsen skal ikke kopieres til skyen |
+| Filadgang | `allowFileAccess=false`, `allowContentAccess=false` | WebView kan ikke læse telefonens filer |
+| Mixed content | aldrig | ingen http-indhold |
+| Debug | kun i debug-build | release kan ikke inspiceres via USB |
+| Eksterne links | kun https til `github.com`, `buymeacoffee.com`, `allanpersson.github.io` | forhindrer videresendelse til ukendte sider |
+| JavaScript-bro | kun `tal()` og `stopTale()` | TTS, intet andet |
+| Play-upload-nøgle | **ikke** i repoet | sideload-nøglen er offentlig og må kun bruges til GitHub-APK |
+
+Spillet har ingen cookies, ingen localStorage-nøgler med personoplysninger ud over spillernavne/aldre, og ingen adgang til kontakter, kamera, mikrofon eller placering.
+
+## Aldersporten (🔞) – hvad den er, og hvad den ikke er
+
+For at beskytte børn kræver voksensektionen:
+
+1. En **aldersbekræftelse** (fødselsår) første gang, 🔞 åbnes. Bekræftelsen gemmes kun på enheden og følger ikke med en backup.
+2. En **kode på 4–8 cifre**, som brugeren selv vælger. Koden gemmes kun som saltet SHA-256.
+
+Det er en adgangskontrol og en alderserklæring – ikke en teknisk børnesikring. En voksen, der deler enheden med et barn, bør låse 🔞 igen efter brug, og enhedens egen brugersikring (skærmlås/børnetilstand) er det stærkeste værn. Indholdet ligger i spillets filer og kan læses af den, der har adgang til filerne.
+
+Ønskes en helt familievenlig udgave, kan voksenafsnittet slås helt fra med `window.HSA = { udenVoksen: true }` (se `docs/PLAY.md`).

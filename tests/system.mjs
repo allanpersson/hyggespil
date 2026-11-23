@@ -87,6 +87,34 @@ const ok = (navn, ja) => { antal++; console.log((ja ? 'OK  ' : 'FEJL') + '  ' + 
   await ctx.close();
 }
 
+/* ---------- 4) Android-tilstand: indstillinger uden HA-felter ---------- */
+{
+  const { ctx, page } = await nySide(() => {
+    window.HSA = { android: true, play: true };
+    localStorage.setItem('hs_forst', 'ja');
+    localStorage.setItem('hs_players', JSON.stringify([{ n: 'A', c: '#ff5d8f', s: 0, age: 30 }, { n: 'B', c: '#ffb703', s: 0, age: 30 }]));
+    localStorage.setItem('hs_xlock', JSON.stringify({ s: 'salt', k: 'kontrol' }));
+    localStorage.setItem('hs_indst', 'true');
+  });
+  ok('telefonen bruger Android-tilstand', await page.evaluate(() => window.HSPLATFORM === 'android'));
+  await page.evaluate(() => window.hsStart('harry'));
+  const s = page.locator('#hsv-startspil'); if (await s.count()) await s.click();
+  await page.waitForSelector('#main .card');
+  await page.click('#hsv-stil');
+  await page.waitForTimeout(400);
+  const tekst = await page.evaluate(() => {
+    const m = document.querySelector('.modal');
+    return m ? m.innerText.replace(/\s+/g, ' ') : '';
+  });
+  ok('indstillinger åbner på Android', /Indstillinger til/.test(tekst));
+  ok('ingen Music Assistant-felter på Android', !/Music Assistant/i.test(tekst));
+  ok('ingen HA-højttaler på Android', !/Home Assistant-højttaler/i.test(tekst));
+  await page.click('#hsv-startspil');
+  await page.waitForTimeout(500);
+  ok('«Start spil» virker fra indstillingerne', (await page.locator('.modal').count()) === 0);
+  await ctx.close();
+}
+
 await browser.close();
 console.log(antal + ' tjek, ' + fejl.length + ' sidefejl');
 if (fejl.length) console.log(fejl.slice(0, 6).join('\n'));

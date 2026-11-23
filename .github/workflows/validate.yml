@@ -179,3 +179,27 @@ jobs:
         run: python tools/verify_integration.py
       - name: Ingen hemmeligheder i filerne
         run: node tools/tjek_hemmeligheder.js --head
+
+  system:
+    name: Indstillinger, aldersport og Play-tilstand
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Installér Playwright og Chromium
+        run: |
+          npm init -y >/dev/null 2>&1
+          npm install --no-audit --no-fund playwright@1.48.2
+          npx playwright install --with-deps chromium
+      - name: Start spillets lokale server
+        run: |
+          node tools/serve.js 8899 > /tmp/server.log 2>&1 &
+          for _ in $(seq 1 30); do
+            curl -sf http://127.0.0.1:8899/hs.html >/dev/null && break
+            sleep 1
+          done
+      - name: Systemtest
+        run: node tests/system.mjs

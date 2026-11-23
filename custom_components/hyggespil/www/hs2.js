@@ -91,7 +91,7 @@ const kidAge=()=>{const a=players.map(p=>p.age).filter(x=>x>0);return a.length?M
 
 /* ================= 2) Random-mix ================= */
 let MIX=null;
-const inMode=(mode,x)=>x.kind!=='mix'&&(mode==='mixall'?(x.grp!==GRP_X&&x.grp!==GRP_K&&x.grp!==GRP_R&&x.grp!=='🦑 Squid Games'):mode==='mixkids'?x.grp===GRP_K:mode==='mixxxx'?x.grp===GRP_X:x.sub===mode);
+const inMode=(mode,x)=>x.kind!=='mix'&&(mode==='mixall'?(x.grp!==GRP_X&&x.grp!==GRP_K&&x.grp!==GRP_R&&x.grp!=='💀 Dødsspil'):mode==='mixkids'?x.grp===GRP_K:mode==='mixxxx'?x.grp===GRP_X:x.sub===mode);
 const eligible=mode=>GAMES.filter(x=>inMode(mode,x)&&players.length>=x.min&&(x.id!=='ffm'||players.length>=3)&&pool(x.key).length>0&&(mode!=='mixall'||!window.hsFit||window.hsFit(x)!=='no'));
 const n0=window.next;
 window.next=function(){
@@ -190,7 +190,7 @@ GAMES.push(
 {id:'provc',grp:'__h',sub:'prov',key:'prov',kind:'choice',t:'Ordsprog – vælg rigtigt',d:'',e:'📜',g:'',min:2},
 {id:'provw',grp:'__h',sub:'prov',key:'provw',kind:'provw',t:'Ordsprog – skriv ordene',d:'',e:'✍️',g:'',min:2},
 {id:'dx',grp:'Geografi & ord',key:'dx',kind:'dx',t:'Destination: hvor er vi?',d:'Gæt stedet ud fra spor – men pas på snydesporene, der leder dig forkert',e:'🧭',g:'linear-gradient(135deg,#00b4d8,#023e8a)',min:2},
-{id:'sm',grp:'Party & leg',key:'sm',kind:'sm',t:'Stormester',d:'Skøre opgaver i hjemmet – Stormesteren giver 0–5 point',e:'🎩',g:'linear-gradient(135deg,#ffd166,#e63946)',min:2});
+{id:'sm',grp:'Party & leg',key:'sm',kind:'sm',t:'Opgavemesteren',d:'Skøre opgaver i hjemmet – Stormesteren giver 0–5 point',e:'🎩',g:'linear-gradient(135deg,#ffd166,#e63946)',min:2});
 
 const nz=s=>String(s).toLowerCase().replace(/[.,!?;:"'«»()\-–]/g,'').replace(/\s+/g,' ').trim();
 const EYE=`onclick="var i=this.previousElementSibling;i.type=i.type==='password'?'text':'password';this.textContent=i.type==='password'?'👁️':'🙈'"`;

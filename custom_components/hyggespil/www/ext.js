@@ -223,6 +223,8 @@ const XK='hs_xlock',XRE=/^\d{4,8}$/;
    FØR man kan vælge eller bruge en kode. Bekræftelsen gemmes kun på enheden
    (fødselsår + tidspunkt) og følger ikke med en backup. */
 const XVOKSEN='hs_voksen';
+/* Kan slås helt fra i en butiksudgave: window.HSA = { udenVoksen: true } */
+const UDEN_VOKSEN=!!(window.HSA&&window.HSA.udenVoksen);
 const voksenOK=()=>{try{const v=JSON.parse(localStorage.getItem(XVOKSEN)||'null');
  return !!(v&&Number.isInteger(v.aar)&&(new Date().getFullYear()-v.aar)>=18)}catch(e){return false}};
 const gemVoksen=aar=>{try{localStorage.setItem(XVOKSEN,JSON.stringify({aar:aar,t:new Date().toISOString()}))}catch(e){}};
@@ -257,6 +259,7 @@ function setLock(on){
  else{for(let i=GAMES.length-1;i>=0;i--)if(GAMES[i].grp==='🔞 XXX')GAMES.splice(i,1);if(!gm(view)){view='home';g={}}}
  render()}
 function gate(){
+ if(UDEN_VOKSEN)return;
  if(!voksenOK())return aldersport(gate);
  const isNew=!xStore();
  while(players.length<2)players.push({n:'Spiller '+(players.length+1),c:(window.COLORS||['#4cc9f0','#ff5d8f'])[players.length%2],s:0,t:0});
@@ -287,6 +290,7 @@ const _render=window.render;
 window.render=function(){
  _render();
  const h=document.querySelector('header');if(!h)return;
+ if(UDEN_VOKSEN)return;
  const b=document.createElement('button');b.className='btn ghost xbtn';b.id='xbtn';b.textContent=unlocked?'🔞🔓':'🔞';b.title=unlocked?'Lås 🔞':'🔞 (egen kode)';
  b.onclick=()=>unlocked?setLock(false):gate();h.appendChild(b)};
 /* husk at mind om at vælge kode, hvis enheden allerede har data men ingen kode */

@@ -455,46 +455,50 @@
       };
       o.querySelectorAll('[data-tid]').forEach(b => b.onclick = () => { valg.tid = +b.dataset.tid; $('hsv-egen').value = ''; opdaterKnapper(); });
       o.querySelectorAll('[data-bonus]').forEach(b => b.onclick = () => { valg.bonus = +b.dataset.bonus; opdaterKnapper(); });
-      $('hsv-egen').oninput = () => { const v = +$('hsv-egen').value; if (v >= 5) { valg.tid = v; opdaterKnapper(); } };
-      $('hsv-inden').oninput = () => { const v = +$('hsv-inden').value; if (v >= 3) valg.bonusInden = v; };
-      $('hsv-start').oninput = () => { const v = +$('hsv-start').value; if (v >= 3) valg.musikStart = v; };
+      /* Alle valgfrie felter bindes med et tjek: enheder uden fx Music Assistant
+         eller «Opsæt stemme» må ikke kunne blokere resten af indstillingerne. */
+      const bind = (id, ev, fn) => { const el = $(id); if (el) el[ev] = fn; };
+      bind('hsv-egen', 'oninput', () => { const v = +$('hsv-egen').value; if (v >= 5) { valg.tid = v; opdaterKnapper(); } });
+      bind('hsv-inden', 'oninput', () => { const v = +$('hsv-inden').value; if (v >= 3) valg.bonusInden = v; });
+      bind('hsv-start', 'oninput', () => { const v = +$('hsv-start').value; if (v >= 3) valg.musikStart = v; });
       /* musik: indbygget lyd, egen fil eller ingen */
-      const visFil = () => { $('hsv-vaelefil').style.display = valg.musik === 'egen' ? '' : 'none'; };
+      const visFil = () => { const e = $('hsv-vaelefil'); if (e) e.style.display = valg.musik === 'egen' ? '' : 'none'; };
       visFil();
-      $('hsv-musik').onchange = e => { valg.musik = e.target.value; gemValg(); visFil(); };
-      $('hsv-lytmusik').onclick = () => {
+      bind('hsv-musik', 'onchange', e => { valg.musik = e.target.value; gemValg(); visFil(); });
+      bind('hsv-lytmusik', 'onclick', () => {
         stopMusik();
         const id = valg.musik === 'egen' ? '' : valg.musik;
         if (!id) { visToast('Vælg en lyd først'); return; }
         const a = new Audio('lyd/' + id + '.mp3');
         a.volume = 0.9; a.loop = LOOP.has(id); a.play().catch(() => {});
         setTimeout(() => { try { a.pause(); } catch (e) {} }, 4000);
-      };
+      });
       /* oplæsning */
       const stemmer = (window.HSTTS && window.HSTTS.stemmer) ? window.HSTTS.stemmer() : [];
       const selv = $('hsv-stemme');
-      selv.innerHTML = stemmer.length
-        ? stemmer.map(s => '<option value="' + esc(s.voiceURI || s.name) + '"' + ((valg.stemme === (s.voiceURI || s.name)) ? ' selected' : '') + '>' + esc(s.name) + ' (' + esc(s.lang) + ')</option>').join('')
-        : '<option value="">Enhedens standardsstemme</option>';
-      $('hsv-oplaes').onchange = e => { valg.oplaes = e.target.checked; gemValg(); };
-      selv.onchange = e => { valg.stemme = e.target.value; gemValg(); };
-      $('hsv-rate').oninput = e => { const v = +e.target.value; if (v >= 0.5 && v <= 2) { valg.taleRate = v; gemValg(); } };
-      $('hsv-prov').onclick = () => { if (window.HSTTS) window.HSTTS.tal('Om lidt bliver det din tur. Hvad er Danmarks hovedstad?', true); };
-      $('hsv-opsaet').onclick = () => { if (window.HSTTS && window.HSTTS.guide) window.HSTTS.guide(); };
-      const bind = (id, ev, fn) => { const el = $(id); if (el) el[ev] = fn; };
+      if (selv) {
+        selv.innerHTML = stemmer.length
+          ? stemmer.map(s => '<option value="' + esc(s.voiceURI || s.name) + '"' + ((valg.stemme === (s.voiceURI || s.name)) ? ' selected' : '') + '>' + esc(s.name) + ' (' + esc(s.lang) + ')</option>').join('')
+          : '<option value="">Enhedens standardsstemme</option>';
+        selv.onchange = e => { valg.stemme = e.target.value; gemValg(); };
+      }
+      bind('hsv-oplaes', 'onchange', e => { valg.oplaes = e.target.checked; gemValg(); });
+      bind('hsv-rate', 'oninput', e => { const v = +e.target.value; if (v >= 0.5 && v <= 2) { valg.taleRate = v; gemValg(); } });
+      bind('hsv-prov', 'onclick', () => { if (window.HSTTS) window.HSTTS.tal('Om lidt bliver det din tur. Hvad er Danmarks hovedstad?', true); });
+      bind('hsv-opsaet', 'onclick', () => { if (window.HSTTS && window.HSTTS.guide) window.HSTTS.guide(); });
       bind('hsv-hatts', 'oninput', e => { valg.haTts = e.target.value.trim(); gemValg(); });
       bind('hsv-haplayer', 'oninput', e => { valg.haPlayer = e.target.value.trim(); gemValg(); });
       bind('hsv-hanotify', 'oninput', e => { valg.haNotify = e.target.value.trim(); gemValg(); });
       bind('hsv-ma', 'onchange', e => { valg.maPlayer = e.target.value.trim(); gemValg(); });
-      $('hsv-fil').onchange = async e => {
+      bind('hsv-fil', 'onchange', async e => {
         const f = e.target.files && e.target.files[0];
         if (!f) return;
         if (f.size > 8 * 1024 * 1024) { visToast('Filen er over 8 MB - vælg en mindre'); return; }
         await gemMusik(f, f.name);
         valg.musik = 'egen'; gemValg();
-        $('hsv-filnavn').textContent = f.name;
+        const navn = $('hsv-filnavn'); if (navn) navn.textContent = f.name;
         visToast('Musik gemt på denne enhed');
-      };
+      });
       const gemOmfang = () => {
         try {
           if (omfang === 'alle') {

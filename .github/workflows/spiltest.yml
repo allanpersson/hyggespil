@@ -43,6 +43,9 @@ jobs:
             sleep 1
           done
 
+      - name: Systemtest (indstillinger, aldersport, Play)
+        run: node tests/system.mjs
+
       - name: Spiltest
         env:
           HS_URL: http://127.0.0.1:8899/hs.html

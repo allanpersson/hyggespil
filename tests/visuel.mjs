@@ -34,6 +34,7 @@ await page.addInitScript(() => {
     { n: 'Test B', c: '#ffb703', s: 0, t: 0, age: 30 },
   ]));
   localStorage.setItem('hs_xlock', JSON.stringify({ s: 'salt', k: 'kontrol' }));
+  localStorage.setItem('hs_forst', 'ja');
   localStorage.setItem('hs_indst', 'true');
   localStorage.setItem('hs_disclaimer', 'ja');
 });
