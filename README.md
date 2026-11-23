@@ -11,7 +11,7 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 ## Indhold
 
-<!-- tal:start -->103 spil og 16.207 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->103 spil og 16.227 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|

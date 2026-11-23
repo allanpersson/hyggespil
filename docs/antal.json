@@ -1,6 +1,6 @@
 {
  "spil": 103,
- "spoergsmaal": 16207,
+ "spoergsmaal": 16227,
  "puljer": {
   "num": 217,
   "tf": 198,
@@ -47,7 +47,7 @@
   "cifvine": 52,
   "cifbrl": 63,
   "cifcol": 63,
-  "cifmors": 48,
+  "cifmors": 58,
   "cifcaes": 50,
   "cifspjl": 51,
   "cifked": 56,
@@ -55,7 +55,7 @@
   "ordkaede": 53,
   "ordtrappe": 51,
   "ordsplit": 50,
-  "omvendt": 48,
+  "omvendt": 58,
   "rim": 50,
   "langst": 53,
   "stavboks": 52,

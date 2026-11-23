@@ -76,10 +76,10 @@
   "cifcol:6-8": 32,
   "cifcol:9-11": 13,
   "cifcol:12-14": 8,
-  "cifmors:3-5": 6,
-  "cifmors:6-8": 25,
-  "cifmors:9-11": 11,
-  "cifmors:12-14": 4,
+  "cifmors:3-5": 7,
+  "cifmors:6-8": 28,
+  "cifmors:9-11": 14,
+  "cifmors:12-14": 6,
   "cifcaes:3-5": 7,
   "cifcaes:6-8": 22,
   "cifcaes:9-11": 11,
@@ -96,7 +96,7 @@
   "ordkaede": 53,
   "ordtrappe": 51,
   "ordsplit": 50,
-  "omvendt": 48,
+  "omvendt": 58,
   "rim": 50,
   "langst": 53,
   "stavboks": 52,
@@ -183,5 +183,5 @@
  "over200": false,
  "over300": false,
  "spil": 103,
- "spoergsmaal": 16207
+ "spoergsmaal": 16227
 }
