@@ -3,6 +3,14 @@
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
 
+## 0.2.75 – 2026-11-23
+
+- Top- og bundmargen i web og HA
+- Fælles spil og sikker top/bund
+- Første start viser velkomsten
+- Systemtest venter på velkomsten
+- Google Play-forberedelse og sikre indstillinger
+
 ## 0.2.74 – 2026-11-23
 
 ### Rettet
