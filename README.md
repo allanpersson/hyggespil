@@ -3,15 +3,15 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.69<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.70<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->414<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->420<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->103 spil og 15.855 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->103 spil og 16.146 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.70 – 2026-11-23
+
+**Tilføjet**
+- **291 nye spørgsmål og kort** fordelt på: julekalender (22), Udfordringer (20), cifcol (20), Dansk fodbold (20), film00 (20), disney (20), julefilm (20), cult (20), mus80 (18), spilnavn (12), Dystre valg (10), cifked (10), ordlav (10), langst (10), mus10 (10), musdk (10), musma (10), gamingquiz (10), gaminghistorie (10), ordkaede (9).
+- Nye spørgsmål: 291
+
 ### 0.2.69 – 2026-11-23
 
 **Tilføjet**
@@ -307,12 +313,6 @@ en kop kaffe:
 **Tilføjet**
 - **329 nye spørgsmål og kort** fordelt på: t1tal (26), t1rak (21), cifked (16), ordlav (16), cifcol (12), Destination (11), cifsym (11), cifvine (10), cifcaes (10), langst (10), stavboks (10), staveling (10), Dansk reality (10), mus60 (10), mus70 (10), mus80 (10), mus00 (10), mus10 (10), film80 (9), zip (8), cifmors (8), julesange (8), Hvem/hvad er jeg? (5), Børnequiz (5), Sandt eller falsk (4), Find løgnen (4), Hvad skete først? (4), Byer (4), Mærkelige ord (4), Hvilket sprog? (4), Sandt eller falsk (børn) (4), ftl_cykel (4), ftl_bil (4), ftl_fod (4), ftl_andre (4), Skøre rekorder (4), Love & regler (4), Tal & gæt (3), Hvilket dyr er jeg? (3), Hvad hører ikke til? (3), Tæl og gæt (2).
 - Nye spørgsmål: 329
-
-### 0.2.62 – 2026-11-21
-
-**Tilføjet**
-- **463 nye spørgsmål og kort** fordelt på: cifspjl (22), Dystre valg (20), ordtrappe (20), film90 (20), film10 (20), julekalender (20), julesjov (20), gamingleg (20), filmdk (18), harry (18), serier (18), roller (18), ftl_andre (18), ordsplit (17), langst (17), musma (17), disney (17), cult (17), julesange (15), Dalgona (10), Hvem i familien? (10), omvendt (10), rim (10), mus90 (10), ftl_bil (10), zip (9), mus00 (9), Sandt eller falsk (5), Find løgnen (4), Hvad skete først? (4), ftl_cykel (4), ftl_fod (4), Skøre rekorder (4), Love & regler (4), Tal & gæt (3), Hvem/hvad er jeg? (1).
-- Nye spørgsmål: 463
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
