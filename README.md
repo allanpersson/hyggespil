@@ -3,15 +3,15 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.68<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.69<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->409<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->414<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->103 spil og 15.637 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->103 spil og 15.855 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.69 – 2026-11-23
+
+**Tilføjet**
+- **218 nye spørgsmål og kort** fordelt på: Udfordringer (30), Destination (10), cifsym (10), cifvine (10), cifcaes (10), ordtrappe (10), stavboks (10), staveling (10), mus60 (10), mus70 (10), mus90 (10), bmgp (10), film80 (10), film90 (10), harry (10), julesange (10), ftl_cykel (10), ftl_bil (10), ftl_fod (10), film10 (8).
+- Nye spørgsmål: 218
+
 ### 0.2.68 – 2026-11-23
 
 **Rettet**
@@ -307,12 +313,6 @@ en kop kaffe:
 **Tilføjet**
 - **463 nye spørgsmål og kort** fordelt på: cifspjl (22), Dystre valg (20), ordtrappe (20), film90 (20), film10 (20), julekalender (20), julesjov (20), gamingleg (20), filmdk (18), harry (18), serier (18), roller (18), ftl_andre (18), ordsplit (17), langst (17), musma (17), disney (17), cult (17), julesange (15), Dalgona (10), Hvem i familien? (10), omvendt (10), rim (10), mus90 (10), ftl_bil (10), zip (9), mus00 (9), Sandt eller falsk (5), Find løgnen (4), Hvad skete først? (4), ftl_cykel (4), ftl_fod (4), Skøre rekorder (4), Love & regler (4), Tal & gæt (3), Hvem/hvad er jeg? (1).
 - Nye spørgsmål: 463
-
-### 0.2.61 – 2026-11-21
-
-**Tilføjet**
-- **187 nye spørgsmål og kort** fordelt på: cifbrl (50), julequiz (20), cifvine (17), cifcol (17), cifmors (17), cifcaes (17), cifked (17), staveling (17), cifspjl (15).
-- Nye spørgsmål: 187
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
