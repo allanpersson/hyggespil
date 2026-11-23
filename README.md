@@ -3,9 +3,9 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.66<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.67<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->404<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->407<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
@@ -246,6 +246,21 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.67 – 2026-11-23
+
+**Rettet**
+- **Indstillinger (⚙)** åbner igen i både Home Assistant- og Android-udgaven. Et manglende platformstjek fik boksen til at fejle, og en fejl i bindingen kunne gøre «Start spil» død.
+- **Feedback-knappen 💬** virker igen efter en navnekollision med lydmodulet.
+- **Første gangs start** kræver ikke længere en 🔞-kode for at komme i gang.
+**Tilføjet**
+- **Aldersport:** 🔞 kræver en bekræftelse af, at man er fyldt 18, før man kan vælge eller bruge en kode. Koden er stadig valgfri og kan slås helt fra i en butiksudgave.
+- **Fælles platformstjek** (`platform.js`), så Android-udgaven skjuler Home Assistant-, Music Assistant- og højttalerting.
+- **Diskret «Støt»-knap** i Play-udgaven – ingen reklamer og ingen eksterne købslinks.
+- **Systemtest** af indstillinger, første start, aldersport og Play-tilstand kører nu i CI.
+- **Dokumentation:** `PLAY.md`, `OPHAVSRET.md`, `PLATFORM.md`, `IOS.md`, `INDTJENING.md`, `BUTIKSTEKST.md` og `PRIVACY.md`.
+- **Spilnavne uden varemærker:** Ordhjulet, Opgavemesteren, Troldmandsfilmene, Tegnefilmsquiz, K-pop og dæmoner, Dødsspil og Grand Prix.
+- Google Play-forberedelse og sikre indstillinger
+
 ### 0.2.66 – 2026-11-23
 
 **Tilføjet**
@@ -288,12 +303,6 @@ en kop kaffe:
 - **86 nye spørgsmål og kort** fordelt på: gaminghistorie (18), cifsym (17), omvendt (17), julequiz (17), gamingleg (17).
 - Nye spørgsmål og ren kvalitetsrapport
 - Node-filer ud af repoet
-
-### 0.2.58 – 2026-11-20
-
-**Tilføjet**
-- **41 nye spørgsmål og kort** fordelt på: julesange (6), Hellere end (3), Jeg har aldrig (3), Mest sandsynlig (3), Udfordringer (3), Forbudte ord (3), Gæt og vis (3), Dybe samtaler (3), Gør som dyret (2), Børnegåder (2), Hvad ville du helst? (børn) (2), Mest sandsynlig (børn) (2), Stormester (2), Dalgona (1), Dystre valg (1), Hvem i familien? (1), Ord og rim (1).
-- Nye spørgsmål: 41
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
