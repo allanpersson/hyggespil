@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="da"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Hyggespil</title>
+<html lang="da"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Hyggespil</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><!-- ingen eksterne kald: spillet kører 100 % lokalt i Home Assistant -->
 <style>
 :root{--bg:#0f0a24;--glass:rgba(255,255,255,.08);--line:rgba(255,255,255,.16);--tx:#fff;--mut:#b9b4d6}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{padding-bottom:env(safe-area-inset-bottom)}max-width:100%;overflow-x:hidden}
+html,body{padding-top:28px;padding-bottom:calc(64px + env(safe-area-inset-bottom));max-width:100%;overflow-x:hidden}html.hs-native body{padding-top:6px;padding-bottom:calc(14px + env(safe-area-inset-bottom))}
 #app,#main,.card,.mbox{max-width:100%}
 svg,img{max-width:100%;height:auto}
 .q,.ans,.opt,.tag,.hint,.rk,.c1ins,.wsol{overflow-wrap:anywhere;word-break:break-word}

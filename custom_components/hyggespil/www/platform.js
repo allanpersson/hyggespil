@@ -21,4 +21,6 @@
   window.HSPLATFORM = android ? 'android' : ios ? 'ios' : 'web';
   /* Play-udgaven må ikke vise links til køb uden for butikken. */
   window.HSPLAY = flag.play === true;
+  /* den rigtige app lægger selv sikkerhedsmargen på WebView'en */
+  if (android) { try { document.documentElement.classList.add('hs-native'); } catch (e) {} }
 })();
