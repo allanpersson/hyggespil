@@ -3,6 +3,7 @@
 - **Indstillinger (⚙)** åbner igen i både Home Assistant- og Android-udgaven. Et manglende platformstjek fik boksen til at fejle, og en fejl i bindingen kunne gøre «Start spil» død.
 - **Feedback-knappen 💬** virker igen efter en navnekollision med lydmodulet.
 - **Første gangs start** kræver ikke længere en 🔞-kode for at komme i gang.
+- **Første start** viser nu altid velkomstboksen med navnefelter i stedet for den tomme spillermodal.
 
 ### Tilføjet
 

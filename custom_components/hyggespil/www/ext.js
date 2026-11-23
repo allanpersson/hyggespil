@@ -303,7 +303,17 @@ const FMT='hs_forst';
 const frisk=()=>{try{return localStorage.getItem(FMT)!=='ja'}catch(e){return true}};
 function ensureSetup(){
  if(!frisk()||typeof players==='undefined'||typeof save!=='function')return;
- if(document.querySelector('.modal'))return;
+ /* På en helt ny enhed åbner forsiden «Spillere»-boksen, fordi der endnu ikke er
+    to spillere. Velkomsten skal have pladsen i stedet, ellers ser man aldrig
+    navnefelterne og aldersinformationen. */
+ const åben=document.querySelector('.modal');
+ if(åben){
+  let kunSpillere=false;
+  try{kunSpillere=(typeof modal!=='undefined'&&modal==='pl')}catch(e){}
+  if(!kunSpillere)return;
+  åben.remove();
+  try{modal=null}catch(e){}
+ }
  /* sæt to spillere op – uden nogen data fra udvikleren */
  const C=window.COLORS||['#4cc9f0','#ff5d8f','#ffb703'];
  while(players.length<2)players.push({n:'Spiller '+(players.length+1),c:C[players.length%C.length],s:0,t:0});
