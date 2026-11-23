@@ -3,15 +3,15 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.64<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.65<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->386<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->402<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->103 spil og 15.412 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->103 spil og 15.419 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.65 – 2026-11-23
+
+**Tilføjet**
+- **7 nye spørgsmål og kort** fordelt på: zip (7).
+- Nye spørgsmål: 7
+
 ### 0.2.64 – 2026-11-22
 
 **Tilføjet**
@@ -288,11 +294,6 @@ en kop kaffe:
 **Tilføjet**
 - **277 nye spørgsmål og kort** fordelt på: ordkaede (27), ordtrappe (14), film10 (14), filmdk (14), harry (14), serier (14), roller (14), julekalender (14), zip (13), disney (12), cult (12), Tal & gæt (7), Byer (7), Mærkelige ord (7), Hvilket sprog? (7), Børnequiz (7), Sandt eller falsk (børn) (7), Hvad hører ikke til? (7), Tæl og gæt (7), Ordsprog (7), Love & regler (7), Børnegåder (6), Sandt eller falsk (5), Find løgnen (4), Hvem/hvad er jeg? (4), Hvad skete først? (4), ftl_fod (4), ftl_andre (4), Skøre rekorder (4), Hvilket dyr er jeg? (3), Destination (3), ftl_cykel (2), ftl_bil (2).
 - Nye spørgsmål: 277
-
-### 0.2.56 – 2026-11-19
-
-**Tilføjet**
-- **505 nye spørgsmål og kort** fordelt på: Gør som dyret (108), Gæt og vis (børn) (108), bmgp (34), mgp (30), musdk (29), Ord og rim (27), mus10 (27), mus80 (26), film80 (26), Hvad hører ikke til? (25), mus90 (14), mus00 (14), film90 (14), film00 (14), Tæl og gæt (9).
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
