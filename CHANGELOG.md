@@ -3,6 +3,12 @@
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
 
+## 0.2.71 – 2026-11-23
+
+### Tilføjet
+- **11 nye spørgsmål og kort** fordelt på: gaminghistorie (11).
+- Nye spørgsmål: 11
+
 ## 0.2.70 – 2026-11-23
 
 ### Tilføjet

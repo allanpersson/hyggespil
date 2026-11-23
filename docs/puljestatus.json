@@ -165,7 +165,7 @@
   "gamingquiz": 53,
   "konsolquiz": 10,
   "spilnavn": 57,
-  "gaminghistorie": 55,
+  "gaminghistorie": 66,
   "gamingleg": 47,
   "ftl_cykel": 50,
   "ftl_bil": 51,
@@ -183,5 +183,5 @@
  "over200": false,
  "over300": false,
  "spil": 103,
- "spoergsmaal": 16146
+ "spoergsmaal": 16157
 }
