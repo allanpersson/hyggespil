@@ -11,7 +11,7 @@
  */
 (function () {
   if (window.__rum) return; window.__rum = true;
-  const ANDROID = /^appassets\.androidplatform\.net$/.test(location.hostname) || /[?&]android=1/.test(location.search);
+  const ANDROID = window.HSPLATFORM === 'android';
 
   const NOEGLE = 'hs_rum', ENHED = 'hs_enhed';
   let enhed = '';

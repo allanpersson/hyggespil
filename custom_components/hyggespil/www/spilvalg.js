@@ -12,6 +12,9 @@
  */
 (function () {
   if (window.HSV) return;
+  /* Android-appen kører filerne fra appassets; den har telefonens egen højtaler og
+     skal ikke vise Home Assistant- eller Music Assistant-valg. */
+  const ANDROID = window.HSPLATFORM === 'android';
   /* index.html har LS som en global const (ikke window.LS). Brug den, ellers en lille lokal lagerhjælper. */
   const lager = (typeof window !== 'undefined' && window.LS && typeof window.LS.get === 'function') ? window.LS : {
     get(k, d) { try { const v = localStorage.getItem('hs_' + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },

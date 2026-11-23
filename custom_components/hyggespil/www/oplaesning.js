@@ -10,7 +10,7 @@
  */
 (function () {
   if (window.HSTTS) return;
-  const ANDROID = /^appassets\.androidplatform\.net$/.test(location.hostname) || /[?&]android=1/.test(location.search);
+  const ANDROID = window.HSPLATFORM === 'android';
   const valg = () => (window.HSV ? window.HSV.valg : {});
   let sidst = { tekst: '', tid: 0 };
 

@@ -3,7 +3,7 @@
    Med i sagen: spillerens tekst, spillets navn og – hvis fluebenet står – version, browser, antal spillere og de seneste
    tekniske fejlmeddelelser. Aldrig navne, aldre eller point. Tekniske fejl logges kun lokalt (hs_errorlog). */
 (function(){
-if(window.hsFeedback)return;
+if(window.hsFeedbackBox)return;
 const K_ERR='hs_errorlog',K_SENT='hs_feedback_sent',MAXLOG=40;
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const lsGet=k=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):null}catch(e){return null}};
@@ -71,7 +71,7 @@ function box(){
   $('fmsg').textContent=copy(c.text)?'Teksten er kopieret.':'Kunne ikke kopiere – markér og kopiér teksten selv.'};
  $('ftx').focus();
 }
-window.hsFeedback=box;
+window.hsFeedbackBox=box;
 
 /* ---------- knapper: i baren i hvert spil og nederst på forsiden ---------- */
 const g0=window.game;
@@ -84,7 +84,7 @@ const h0=window.home;
 window.home=function(){const r=h0.apply(this,arguments);
  try{const m=document.getElementById('main');
   if(m&&!document.getElementById('fhome')){const w=document.createElement('p');w.className='hint';w.style.marginTop='14px';
-   w.innerHTML='Hyggespil '+esc(window.HSCFG?HSCFG.version:'')+' · Feedback om et bestemt spil: brug 💬 øverst i spillet · <button class="btn ghost fbs" id="fhome">💬 Generel feedback</button> · <a href="https://buymeacoffee.com/i8B3Mn5" target="_blank" rel="noopener" title="Køb en kaffe"><img src="kaffe.png" alt="Køb en kaffe" style="height:36px;vertical-align:middle;border-radius:9px"></a>';
-   m.appendChild(w);w.querySelector('#fhome').onclick=box}}catch(e){window.hsLogError('feedback-forside',e)}
+   w.innerHTML='Hyggespil '+esc(window.HSCFG?HSCFG.version:'')+' · Feedback om et bestemt spil: brug 💬 øverst i spillet · <button class="btn ghost fbs" id="fhome">💬 Generel feedback</button> · '+(window.HSPLAY?'<button class="btn ghost fbs" id="fstotte">☕ Støt</button>':'<a href="https://buymeacoffee.com/i8B3Mn5" target="_blank" rel="noopener" title="Køb en kaffe"><img src="kaffe.png" alt="Køb en kaffe" style="height:36px;vertical-align:middle;border-radius:9px"></a>')+'';
+   m.appendChild(w);w.querySelector('#fhome').onclick=box;if(w.querySelector('#fstotte'))w.querySelector('#fstotte').onclick=()=>window.hsStotte&&window.hsStotte()}}catch(e){window.hsLogError('feedback-forside',e)}
  return r};
 })();
