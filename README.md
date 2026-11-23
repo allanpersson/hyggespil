@@ -3,15 +3,15 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.75<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.76<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->429<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->437<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->103 spil og 16.227 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->103 spil og 16.364 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.76 – 2026-11-23
+
+**Tilføjet**
+- **137 nye spørgsmål og kort** fordelt på: serier (20), Hvem i familien? (10), cifcaes (10), Dansk reality (10), mus00 (10), film10 (10), filmdk (10), julequiz (10), julesange (10), ftl_fod (10), ftl_andre (10), roller (9), ordsplit (8).
+- Nye spørgsmål: 137
+
 ### 0.2.75 – 2026-11-23
 
 - Top- og bundmargen i web og HA
@@ -313,23 +319,6 @@ en kop kaffe:
 **Tilføjet**
 - **218 nye spørgsmål og kort** fordelt på: Udfordringer (30), Destination (10), cifsym (10), cifvine (10), cifcaes (10), ordtrappe (10), stavboks (10), staveling (10), mus60 (10), mus70 (10), mus90 (10), bmgp (10), film80 (10), film90 (10), harry (10), julesange (10), ftl_cykel (10), ftl_bil (10), ftl_fod (10), film10 (8).
 - Nye spørgsmål: 218
-
-### 0.2.68 – 2026-11-23
-
-**Rettet**
-- **Indstillinger (⚙)** åbner igen i både Home Assistant- og Android-udgaven. Et manglende platformstjek fik boksen til at fejle, og en fejl i bindingen kunne gøre «Start spil» død.
-- **Feedback-knappen 💬** virker igen efter en navnekollision med lydmodulet.
-- **Første gangs start** kræver ikke længere en 🔞-kode for at komme i gang.
-- **Første start** viser nu altid velkomstboksen med navnefelter i stedet for den tomme spillermodal.
-**Tilføjet**
-- **Aldersport:** 🔞 kræver en bekræftelse af, at man er fyldt 18, før man kan vælge eller bruge en kode. Koden er stadig valgfri og kan slås helt fra i en butiksudgave.
-- **Fælles platformstjek** (`platform.js`), så Android-udgaven skjuler Home Assistant-, Music Assistant- og højttalerting.
-- **Diskret «Støt»-knap** i Play-udgaven – ingen reklamer og ingen eksterne købslinks.
-- **Systemtest** af indstillinger, første start, aldersport og Play-tilstand kører nu i CI.
-- **Dokumentation:** `PLAY.md`, `OPHAVSRET.md`, `PLATFORM.md`, `IOS.md`, `INDTJENING.md`, `BUTIKSTEKST.md` og `PRIVACY.md`.
-- **Spilnavne uden varemærker:** Ordhjulet, Opgavemesteren, Troldmandsfilmene, Tegnefilmsquiz, K-pop og dæmoner, Dødsspil og Grand Prix.
-- Første start viser velkomsten
-- Systemtest venter på velkomsten
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
