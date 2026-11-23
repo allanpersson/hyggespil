@@ -13,7 +13,7 @@ Sidst kontrolleret: 23. november 2026. Kilder er Googles egne sider, og de er n�
 | Mål-API 36 (Android 16) | ✅ | `app/build.gradle.kts` |
 | AAB til Play | ✅ | bygges i CI som artifact |
 | Signering med upload-nøgle | ⚠️ kræver hemmelig nøgle | se § 3 |
-| Ingen netværkstilladelse | ✅ | `AndroidManifest.xml` |
+| Netværk kun til fælles rum | ✅ | `AndroidManifest.xml` (INTERNET, bruges kun ved rum) |
 | Ingen backup af data | ✅ | `allowBackup="false"` |
 | Privatlivspolitik | ✅ | `PRIVACY.md` |
 | Ingen reklamer/sporing | ✅ | ingen SDK'er |
@@ -48,7 +48,7 @@ Kilder: [App testing requirements for new personal developer accounts](https://s
 | Signering | Play App Signing + **egen upload-nøgle** |
 | versionCode | `a*1.000.000 + b*10.000 + c*100 + d` (fx 0.2.67 → 26700) |
 | 64-bit | Ja (Kotlin/Java, ingen native libs) |
-| Permissions | **Ingen** (INTERNET er fjernet) |
+| Permissions | `INTERNET` – bruges kun til fælles rum; intet sendes ellers |
 | Backup | Slået fra (`allowBackup="false"`) |
 | WebView | Kun lokale filer, filadgang og mixed content slået fra, eksterne links kræver https + whitelist |
 | Debug | `WebView.setWebContentsDebuggingEnabled(false)` i release |
@@ -100,7 +100,7 @@ Udfyldes under **Policy → App content**:
 | Sundhed | Nej |
 | Offentlig myndighed | Nej |
 | Brugergenereret indhold | **Nej** – egne spørgsmål gemmes kun lokalt og deles ikke |
-| Datasikkerhed | Ingen indsamling, ingen deling, ingen kryptering i transit (intet sendes) |
+| Datasikkerhed | Ingen indsamling og ingen deling. Data sendes kun, hvis brugeren selv starter et fælles rum; indholdet er ende-til-ende-krypteret med rumkoden (ntfy.sh ser kun krypteret tekst). |
 
 ### Content rating (IARC)
 

@@ -28,7 +28,15 @@ Hyggespil er bygget som en webkerne, der kan pakkes i flere skins. Android er de
 
 ## 2. Fælles spil på tværs af platforme
 
-I dag findes «fælles spil» kun i Home Assistant-udgaven via HA's websocket (`hyggespil.rum`). Den kan ikke bruges fra en telefon uden HA. Derfor skal fælles spil bygges om til en **transport-uafhængig protokol**, som både HA, Android og iOS kan tale.
+Fælles spil virker nu uden Home Assistant: værten har spilstanden i sin telefon, de andre telefoner sender handlinger, og tilstanden deles gennem en lille beskedtjeneste. Det er implementeret i `custom_components/hyggespil/www/rum-online.js` og virker i browser, Android og (når appen findes) iOS.
+
+- **Vært:** den telefon, der opretter rummet, ejer spilstanden og udregner point.
+- **Transport:** `ntfy.sh` i produktion (åben beskedtjeneste, intet login) eller et lokalt relay (`/rum/sub` og `/rum/pub` i `tools/serve.js`) til test og selvhosting.
+- **Kryptering:** alle beskeder RC4-krypteres med rumkoden, så tjenesten kun ser volapyk. Private kort (Taboo) er desuden krypteret med hver spillers egen nøgle.
+- **Rumkode:** fire cifre + to bogstaver, fx `4821-KL`.
+- **Grænse:** ntfy.sh tillader 250 beskeder pr. dag pr. IP. Spillet sender kun beskeder ved handlinger og et hjerteslag hvert 25. sekund, så en almindelig spilledag holder sig inden for loftet. Til større brug kan man pege på sit eget relay.
+
+Protokollen er stadig dokumenteret herunder, så en iOS-app kan tale med de andre platforme.
 
 ### Protokol: HSRUM/1
 

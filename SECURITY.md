@@ -45,13 +45,14 @@ Appen er en tynd WebView omkring de samme filer som Home Assistant-udgaven. Den 
 
 | Indstilling | Værdi | Hvorfor |
 |---|---|---|
-| Netværkstilladelse | **Ingen** | alt ligger i appen; eksterne links åbnes i browseren |
+| Netværkstilladelse | kun til fælles rum | spillet virker offline; netværket bruges kun, når du selv opretter/deltager i et rum (krypteret via ntfy.sh) |
 | `allowBackup` | `false` | spillets data og aldersbekræftelsen skal ikke kopieres til skyen |
 | Filadgang | `allowFileAccess=false`, `allowContentAccess=false` | WebView kan ikke læse telefonens filer |
 | Mixed content | aldrig | ingen http-indhold |
 | Debug | kun i debug-build | release kan ikke inspiceres via USB |
 | Eksterne links | kun https til `github.com`, `buymeacoffee.com`, `allanpersson.github.io` | forhindrer videresendelse til ukendte sider |
 | JavaScript-bro | kun `tal()` og `stopTale()` | TTS, intet andet |
+| Fælles rum | værten har sandheden; indholdet krypteres med rumkoden | tjenesten ser kun volapyk; kun kaldenavn og tilfældigt id |
 | Play-upload-nøgle | **ikke** i repoet | sideload-nøglen er offentlig og må kun bruges til GitHub-APK |
 
 Spillet har ingen cookies, ingen localStorage-nøgler med personoplysninger ud over spillernavne/aldre, og ingen adgang til kontakter, kamera, mikrofon eller placering.

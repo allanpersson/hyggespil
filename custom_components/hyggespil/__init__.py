@@ -197,6 +197,7 @@ async def _async_rum(hass: HomeAssistant, call: ServiceCall) -> None:
             return
         rum["tur"] = (int(rum.get("tur", 0)) + 1) % len(rum["spillere"])
         rum.update({
+            "spil": str(call.data.get("spil") or rum.get("spil") or ""),
             "fase": "spoergsmaal",
             "spoergsmaal": call.data.get("spoergsmaal") or rum.get("spoergsmaal"),
             "korrekt": call.data.get("korrekt"),

@@ -384,8 +384,8 @@ Spil testet: 101
 
 ## Julekalender-quiz (julekalender)
 - type: mc4 · pulje: julekalender
-- OK: «Kommer snart» – puljen er under grænsen, og start er blokeret korrekt
-- skærmbillede: `artefakter/spiltest/julekalender-snart.png`
+- OK: startede, kunne spilles og tegnede korrekt
+- skærmbillede: `artefakter/spiltest/julekalender.png`
 
 ## Julesange (julesange)
 - type: mc4 · pulje: julesange
@@ -394,8 +394,8 @@ Spil testet: 101
 
 ## Julefilm (julefilm)
 - type: mc4 · pulje: julefilm
-- OK: «Kommer snart» – puljen er under grænsen, og start er blokeret korrekt
-- skærmbillede: `artefakter/spiltest/julefilm-snart.png`
+- OK: startede, kunne spilles og tegnede korrekt
+- skærmbillede: `artefakter/spiltest/julefilm.png`
 
 ## Julesjov (julesjov)
 - type: award · pulje: julesjov
@@ -404,8 +404,8 @@ Spil testet: 101
 
 ## Gamingquiz (gamingquiz)
 - type: mc4 · pulje: gamingquiz
-- OK: «Kommer snart» – puljen er under grænsen, og start er blokeret korrekt
-- skærmbillede: `artefakter/spiltest/gamingquiz-snart.png`
+- OK: startede, kunne spilles og tegnede korrekt
+- skærmbillede: `artefakter/spiltest/gamingquiz.png`
 
 ## Konsol-quiz (konsolquiz)
 - type: mc4 · pulje: konsolquiz
@@ -414,13 +414,13 @@ Spil testet: 101
 
 ## Hvilket spil? (spilnavn)
 - type: mc4 · pulje: spilnavn
-- OK: «Kommer snart» – puljen er under grænsen, og start er blokeret korrekt
-- skærmbillede: `artefakter/spiltest/spilnavn-snart.png`
+- OK: startede, kunne spilles og tegnede korrekt
+- skærmbillede: `artefakter/spiltest/spilnavn.png`
 
 ## Gaming-historie (gaminghistorie)
 - type: mc4 · pulje: gaminghistorie
-- OK: «Kommer snart» – puljen er under grænsen, og start er blokeret korrekt
-- skærmbillede: `artefakter/spiltest/gaminghistorie-snart.png`
+- OK: startede, kunne spilles og tegnede korrekt
+- skærmbillede: `artefakter/spiltest/gaminghistorie.png`
 
 ## Gaminglege (gamingleg)
 - type: award · pulje: gamingleg

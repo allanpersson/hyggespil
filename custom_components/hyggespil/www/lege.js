@@ -7,7 +7,7 @@
 
   const st = document.createElement('style');
   st.textContent =
-    '.flwrap{position:relative;width:min(92vw,380px);height:min(92vw,380px);margin:10px auto 0}'
+    '.flwrap{position:relative;width:min(92vw,380px);max-width:100%;aspect-ratio:1;margin:10px auto 0}'
     + '.flring{position:absolute;inset:12%;border-radius:50%;border:2px dashed rgba(255,255,255,.14)}'
     + '.flbottle{position:absolute;left:50%;bottom:50%;width:44px;height:104px;margin-left:-22px;transform-origin:50% 100%;z-index:2;filter:drop-shadow(0 6px 14px rgba(0,0,0,.45))}'
     + '.flbottle svg{width:100%;height:100%;display:block}'

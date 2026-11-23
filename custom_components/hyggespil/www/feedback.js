@@ -81,10 +81,13 @@ window.game=function(){const r=g0.apply(this,arguments);
    b.onclick=box;const e=document.getElementById('endg');e?bar.insertBefore(b,e):bar.appendChild(b)}}catch(e){window.hsLogError('feedback-knap',e)}
  return r};
 const h0=window.home;
-window.home=function(){const r=h0.apply(this,arguments);
- try{const m=document.getElementById('main');
-  if(m&&!document.getElementById('fhome')){const w=document.createElement('p');w.className='hint';w.style.marginTop='14px';
-   w.innerHTML='Hyggespil '+esc(window.HSCFG?HSCFG.version:'')+' · Feedback om et bestemt spil: brug 💬 øverst i spillet · <button class="btn ghost fbs" id="fhome">💬 Generel feedback</button> · '+(window.HSPLAY?'<button class="btn ghost fbs" id="fstotte">☕ Støt</button>':'<a href="https://buymeacoffee.com/i8B3Mn5" target="_blank" rel="noopener" title="Køb en kaffe"><img src="kaffe.png" alt="Køb en kaffe" style="height:36px;vertical-align:middle;border-radius:9px"></a>')+'';
-   m.appendChild(w);w.querySelector('#fhome').onclick=box;if(w.querySelector('#fstotte'))w.querySelector('#fstotte').onclick=()=>window.hsStotte&&window.hsStotte()}}catch(e){window.hsLogError('feedback-forside',e)}
+window.home=function(){
+ const r=h0.apply(this,arguments);
+ try{
+  const f=document.getElementById('fhome');
+  if(f)f.onclick=box;
+  const s=document.getElementById('fstotte');
+  if(s)s.onclick=()=>window.hsStotte&&window.hsStotte();
+ }catch(e){window.hsLogError('feedback-forside',e)}
  return r};
 })();

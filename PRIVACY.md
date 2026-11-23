@@ -28,7 +28,8 @@ Der indsamles **ingen** navne, e-mailadresser, telefonnumre, IP-adresser, placer
 ## 3. Netværk
 
 - **Home Assistant-udgaven** henter kun spillets egne filer fra din egen Home Assistant-installation. Oplæsning kan valgfrit bruge Home Assistants lokale TTS-tjeneste.
-- **Android- og iOS-appen** har ingen netværkstilladelse og henter kun filer, der ligger i appen. Eksterne links (fx GitHub) åbnes først i telefonens browser, når du selv trykker på dem.
+- **Android- og iOS-appen** henter spillets filer fra appen og virker helt uden internet. Appen har kun netværkstilladelse til **fælles spil fra hver sin telefon**: når du selv opretter eller deltager i et rum, sendes små, krypterede beskeder gennem den åbne beskedtjeneste ntfy.sh. Indholdet krypteres med rumkoden, og der sendes kun et kaldenavn og et tilfældigt enheds-id – ingen konto, e-mail eller telefonnummer. Uden et rum sendes intet.
+- Eksterne links (fx GitHub) åbnes først i telefonens browser, når du selv trykker på dem.
 - Spillet bruger ikke internettet til at hente spørgsmål, musik eller opdateringer under spil.
 
 ## 4. Køb og støtte

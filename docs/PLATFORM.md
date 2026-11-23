@@ -31,7 +31,7 @@ Disse funktioner er slået fra eller skjult i Android-appen:
 | Automatisk lys/spænding via blueprint | kræver HA-automatiseringer |
 | Music Assistant-quizzen («Hør og gæt») | kræver HA og en MA-højttaler |
 | Valg af HA-højttaler til oplæsning | Android bruger telefonens egen TTS |
-| Fælles spil via `hyggespil.rum` (HA-websocket) | Android har ingen HA-forbindelse |
+| Fælles spil via `hyggespil.rum` (HA-websocket) | Android bruger i stedet det fælles rum over internettet (se nedenfor) |
 | «Køb en kaffe»-link | Play-udgaven må ikke linke til køb uden for butikken |
 
 Koden tjekker platformen ét sted:

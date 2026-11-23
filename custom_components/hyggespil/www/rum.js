@@ -61,10 +61,10 @@
   const QUIZ = [
     ['mus60', 'Musikquiz – 60’erne'], ['mus70', 'Musikquiz – 70’erne'], ['mus80', 'Musikquiz – 80’erne'],
     ['mus90', 'Musikquiz – 90’erne'], ['mus00', 'Musikquiz – 00’erne'], ['mus10', 'Musikquiz – 10’erne'],
-    ['musdk', 'Musikquiz – kun dansk'], ['mgp', 'Musikquiz – MGP'], ['bmgp', 'Musikquiz – Børne-MGP'],
+    ['musdk', 'Musikquiz – kun dansk'], ['mgp', 'Musikquiz – Grand Prix'], ['bmgp', 'Musikquiz – børnenes Grand Prix'],
     ['film80', 'Filmquiz – 80’erne'], ['film90', 'Filmquiz – 90’erne'], ['film00', 'Filmquiz – 00’erne'],
-    ['film10', 'Filmquiz – 10’erne'], ['filmdk', 'Filmquiz – dansk film'], ['harry', 'Filmquiz – Harry Potter'],
-    ['kpop', 'Filmquiz – K-pop Demon Hunters'], ['serier', 'Seriequiz'], ['disney', 'Disneyquiz'],
+    ['film10', 'Filmquiz – 10’erne'], ['filmdk', 'Filmquiz – dansk film'], ['harry', 'Filmquiz – Troldmandsfilmene'],
+    ['kpop', 'Filmquiz – K-pop og dæmoner'], ['serier', 'Seriequiz'], ['disney', 'Tegnefilmsquiz'],
     ['roller', 'Hvem spillede rollen?'], ['fb_dk', 'Dansk fodbold'], ['fb_int', 'International fodbold'],
     ['reality', 'Dansk reality'], ['forklar', 'Forklar ordet (Taboo)'],
   ];
@@ -102,12 +102,23 @@
   }
   function kald(data) {
     const h = hass();
-    if (!h || !h.callService) return Promise.reject(new Error('kræver Home Assistant'));
-    return h.callService('hyggespil', 'rum', Object.assign({ enhed, noegle }, data));
+    if (h && h.callService) return h.callService('hyggespil', 'rum', Object.assign({ enhed, noegle }, data));
+    if (window.HSRUM) return window.HSRUM.kald(data);
+    return Promise.reject(new Error('kræver Home Assistant eller internet'));
   }
   function data() {
     const h = hass();
-    if (!h || !h.states) return null;
+    if (!h || !h.states) {
+      const d = window.HSRUM ? window.HSRUM.data() : null;
+      if (!d) return null;
+      return {
+        kode: d.rum || d.kode || '', aktiv: !!d.rum_aktiv, buzzere: d.rum_buzzere || [],
+        spillere: d.rum_spillere || [], tur: d.rum_tur, turNavn: d.rum_tur_navn || '',
+        vaert: d.rum_vaert || '', fase: d.rum_fase || 'lobby', spil: d.rum_spil || '',
+        spoergsmaal: d.rum_spoergsmaal || null, korrekt: d.rum_korrekt, svar: d.rum_svar,
+        privat: d.rum_privat || {},
+      };
+    }
     const e = h.states['sensor.hyggespil_spil'];
     if (!e || !e.attributes) return { spillere: [] };
     const a = e.attributes;
@@ -148,6 +159,8 @@
     const el = spilEl();
     const vis = d && d.fase && d.fase !== 'lobby' && (d.spoergsmaal || d.spil === 'forklar');
     el.style.display = vis ? 'block' : 'none';
+    /* når runden går i gang, lukkes indstillingsboksen, så den ikke dækker spillet */
+    if (vis) { const dlg = document.querySelector('.modal'); if (dlg && dlg.querySelector('#rum-close')) dlg.remove(); }
     if (!vis) return;
     if (d.spil === 'forklar') { tegnForklar(el, d); return; }
     const q = d.spoergsmaal, opts = q.o || [];
@@ -156,6 +169,7 @@
     el.innerHTML = '<div class="rp"><div class="top">'
       + '<div class="sp">' + (navn ? navn[1] : 'Fælles spil') + '</div>'
       + '<span style="opacity:.7">Rum ' + d.kode + '</span>'
+      + '<button class="btn ghost" id="rum-aabn">Rum</button>'
       + (erVaert() ? '<button class="btn ghost" id="rum-luk-spil">Afslut</button>' : '')
       + (med ? '<button class="btn ghost" id="rum-forlad2">Forlad</button>' : '')
       + '</div>'
@@ -180,6 +194,8 @@
     }
     const nx = document.getElementById('rum-naeste');
     if (nx) nx.onclick = naesteRunde;
+    const aabn = document.getElementById('rum-aabn');
+    if (aabn) aabn.onclick = dialog;
     const luk = document.getElementById('rum-luk-spil');
     if (luk) luk.onclick = () => kald({ handling: 'afslut' }).catch(e => toast(e.message));
     const fl = document.getElementById('rum-forlad2');
@@ -234,6 +250,7 @@
     el.innerHTML = '<div class="rp"><div class="top">'
       + '<div class="sp">🗣️ Forklar ordet</div>'
       + '<span style="opacity:.7">Rum ' + d.kode + '</span>'
+      + '<button class="btn ghost" id="rum-aabn">Rum</button>'
       + (erVaert() ? '<button class="btn ghost" id="rum-luk-spil">Afslut</button>' : '')
       + (med ? '<button class="btn ghost" id="rum-forlad2">Forlad</button>' : '')
       + '</div>'
@@ -253,6 +270,8 @@
     if (nx) nx.onclick = naesteRunde;
     const giv = document.getElementById('rum-giv');
     if (giv) giv.onclick = () => kald({ handling: 'giv' }).then(() => biplyd(640)).catch(e => toast(e.message));
+    const aabn2 = document.getElementById('rum-aabn');
+    if (aabn2) aabn2.onclick = dialog;
     const luk = document.getElementById('rum-luk-spil');
     if (luk) luk.onclick = () => kald({ handling: 'afslut' }).catch(e => toast(e.message));
   }
@@ -260,14 +279,16 @@
   /* ---------------- dialog ---------------- */
   function dialog() {
     const d0 = data() || { spillere: [], buzzere: [], kode: '' };
-    if (!hass()) { toast('Kræver Home Assistant'); return; }
+    const online = !hass();
+    if (online && (!window.HSRUM || !window.HSRUM.kan())) { toast('Kræver internet eller Home Assistant'); return; }
     const el = document.createElement('div');
     el.className = 'modal'; el.style.zIndex = '99';
     el.innerHTML = '<div class="mbox" style="width:min(560px,100%);max-height:92vh;overflow:auto">'
       + '<h2 style="margin-top:0">📱 Spil sammen fra hver telefon</h2>'
       + '<p class="hint" style="text-align:left">Én telefon opretter rummet. De andre deltager med koden og får deres egen skærm. Spørgsmålene går på omgang, og kun den, hvis tur det er, kan svare.</p>'
+      + (online ? '<p class="hint" style="text-align:left">Rummet virker over internettet via den åbne beskedtjeneste ntfy.sh. Indholdet er krypteret med rumkoden, og der sendes kun kaldenavn og et tilfældigt enheds-id.</p>' : '')
       + '<h3 style="margin:14px 0 6px">① Rummet</h3>'
-      + (d0.kode ? '<div class="rumkode">' + d0.kode + '</div>' : '<p class="hint" style="text-align:left">Der er endnu ikke oprettet et rum.</p>')
+      + '<div id="rum-kodevis">' + (d0.kode ? '<div class="rumkode">' + d0.kode + '</div>' : '<p class="hint" style="text-align:left">Der er endnu ikke oprettet et rum.</p>') + '</div>'
       + '<div class="row" style="justify-content:flex-start;margin-top:8px"><button class="btn" id="rum-nyt">Nyt rum</button>'
       + '<button class="btn ghost" id="rum-ryd">Ryd buzzere</button>'
       + '<button class="btn ghost" id="rum-luk">Luk rum</button></div>'
@@ -283,6 +304,10 @@
 
     function tegn() {
       const d = data() || { spillere: [], buzzere: [], kode: '' };
+      const vis = $('rum-kodevis');
+      if (vis) vis.innerHTML = d.kode
+        ? '<div class="rumkode">' + d.kode + '</div>'
+        : '<p class="hint" style="text-align:left">Der er endnu ikke oprettet et rum.</p>';
       if (d.kode && $('rum-spillere')) {
         $('rum-spillere').innerHTML = d.spillere.length ? d.spillere.map((p, i) =>
           '<div class="r' + (p.enhed === enhed ? ' mig' : '') + '"><span class="n">' + (i + 1) + '</span>' + p.navn
@@ -306,23 +331,30 @@
         if (medI < 0 && d.kode) kald({ handling: 'deltag', kode: d.kode, navn: med.navn }).catch(() => {});
       } else {
         mig.innerHTML = '<div class="row" style="justify-content:flex-start">'
-          + '<input class="in" id="rum-kode" inputmode="numeric" maxlength="8" placeholder="Rumkode" style="max-width:130px;text-align:center">'
+          + '<input class="in" id="rum-kode" maxlength="9" placeholder="Rumkode" autocomplete="off" style="max-width:150px;text-align:center;text-transform:uppercase">'
           + '<input class="in" id="rum-navn" maxlength="16" placeholder="Dit navn" style="max-width:170px">'
           + '<button class="btn" id="rum-join">Deltag</button></div>';
         $('rum-join').onclick = () => {
           const kode = String($('rum-kode').value || '').trim(), navn = String($('rum-navn').value || '').trim();
-          if (!/^\d{3,8}$/.test(kode)) return toast('Skriv koden fra værten');
+          if (!/^\d{3,8}$/.test(kode) && !/^[0-9]{4}-?[A-Za-z]{2}$/.test(kode)) return toast('Skriv koden fra værten');
           if (!navn) return toast('Skriv dit navn');
           gemMed({ kode, navn, enhed });
-          kald({ handling: 'deltag', kode, navn }).then(() => tegn()).catch(e => toast(e.message));
+          const send = (online && window.HSRUM && !window.HSRUM.erVaert())
+            ? window.HSRUM.deltag(kode, navn)
+            : kald({ handling: 'deltag', kode, navn });
+          Promise.resolve(send).then(() => tegn()).catch(e => toast(e.message));
         };
       }
     }
     tegn();
 
     $('rum-nyt').onclick = () => {
-      const kode = String(Math.floor(1000 + Math.random() * 9000));
-      kald({ handling: 'opret', kode }).then(() => { biplyd(); setTimeout(tegn, 300); }).catch(e => toast(e.message));
+      if (online && window.HSRUM) {
+        window.HSRUM.opret().then(() => { biplyd(); setTimeout(tegn, 300); }).catch(e => toast(e.message));
+      } else {
+        const k = String(Math.floor(1000 + Math.random() * 9000));
+        kald({ handling: 'opret', kode: k }).then(() => { biplyd(); setTimeout(tegn, 300); }).catch(e => toast(e.message));
+      }
     };
     $('rum-ryd').onclick = () => kald({ handling: 'ryd' }).then(() => setTimeout(tegn, 250)).catch(e => toast(e.message));
     $('rum-luk').onclick = () => kald({ handling: 'luk' }).then(() => setTimeout(() => el.remove(), 250)).catch(e => toast(e.message));
@@ -352,7 +384,8 @@
     const r = render0.apply(this, arguments);
     try {
       const h = document.querySelector('header');
-      if (h && !ANDROID && !document.getElementById('rumbtn')) {
+      const muligt = h || (window.HSRUM && window.HSRUM.kan());
+      if (muligt && !document.getElementById('rumbtn')) {
         const b = document.createElement('button');
         b.id = 'rumbtn'; b.className = 'btn ghost'; b.textContent = '📱';
         b.title = 'Spil sammen fra hver telefon';

@@ -203,3 +203,6 @@ jobs:
           done
       - name: Systemtest
         run: node tests/system.mjs
+
+      - name: Fælles spil fra to telefoner
+        run: node tests/rumtest.mjs
