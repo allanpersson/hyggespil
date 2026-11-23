@@ -3,15 +3,15 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.65<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.66<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->402<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->404<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->103 spil og 15.419 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->103 spil og 15.637 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.66 – 2026-11-23
+
+**Tilføjet**
+- **218 nye spørgsmål og kort** fordelt på: ordsplit (16), Udfordringer (12), rim (11), Dybe samtaler (10), Dalgona (10), Hvem i familien? (10), cifmors (10), ordkaede (10), omvendt (10), Dansk reality (10), mus90 (10), mus00 (10), mgp (10), musma (10), film00 (10), filmdk (10), serier (10), disney (10), roller (10), cult (10), musdk (9).
+- Nye spørgsmål: 218
+
 ### 0.2.65 – 2026-11-23
 
 **Tilføjet**
@@ -288,12 +294,6 @@ en kop kaffe:
 **Tilføjet**
 - **41 nye spørgsmål og kort** fordelt på: julesange (6), Hellere end (3), Jeg har aldrig (3), Mest sandsynlig (3), Udfordringer (3), Forbudte ord (3), Gæt og vis (3), Dybe samtaler (3), Gør som dyret (2), Børnegåder (2), Hvad ville du helst? (børn) (2), Mest sandsynlig (børn) (2), Stormester (2), Dalgona (1), Dystre valg (1), Hvem i familien? (1), Ord og rim (1).
 - Nye spørgsmål: 41
-
-### 0.2.57 – 2026-11-20
-
-**Tilføjet**
-- **277 nye spørgsmål og kort** fordelt på: ordkaede (27), ordtrappe (14), film10 (14), filmdk (14), harry (14), serier (14), roller (14), julekalender (14), zip (13), disney (12), cult (12), Tal & gæt (7), Byer (7), Mærkelige ord (7), Hvilket sprog? (7), Børnequiz (7), Sandt eller falsk (børn) (7), Hvad hører ikke til? (7), Tæl og gæt (7), Ordsprog (7), Love & regler (7), Børnegåder (6), Sandt eller falsk (5), Find løgnen (4), Hvem/hvad er jeg? (4), Hvad skete først? (4), ftl_fod (4), ftl_andre (4), Skøre rekorder (4), Hvilket dyr er jeg? (3), Destination (3), ftl_cykel (2), ftl_bil (2).
-- Nye spørgsmål: 277
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
