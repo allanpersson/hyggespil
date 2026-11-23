@@ -44,7 +44,8 @@ const ok = (navn, ja) => { antal++; console.log((ja ? 'OK  ' : 'FEJL') + '  ' + 
 /* ---------- 2) første gangs start: ingen 🔞-kode ---------- */
 {
   const { ctx, page } = await nySide(() => localStorage.clear());
-  await page.waitForTimeout(700);
+  await page.waitForSelector('#fn1', { timeout: 6000 }).catch(() => {});
+  await page.waitForTimeout(200);
   ok('ny installation viser velkomst', await page.locator('.modal').count() > 0);
   ok('velkomsten kræver ingen 🔞-kode', (await page.locator('.modal input[type=password]').count()) === 0);
   await page.fill('#fn1', 'Anna');
