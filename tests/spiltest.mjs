@@ -15,7 +15,7 @@ const ARG = process.argv[2] || '5';
 const ALLE = ARG === 'alle';
 const ANTAL = ALLE ? 999 : Math.max(1, Math.min(5, +ARG));
 const UD = 'artefakter/spiltest';
-const RAPPORT = 'docs/spiltest.md';
+const RAPPORT = ALLE ? 'docs/spiltest.md' : 'docs/spiltest-dag.md';
 fs.mkdirSync(UD, { recursive: true });
 
 const idag = new Date().toISOString().slice(0, 10);

@@ -60,7 +60,7 @@ jobs:
 
       - name: Vis rapporten i jobbet
         if: always()
-        run: cat docs/spiltest.md || true
+        run: cat docs/spiltest-dag.md docs/spiltest.md 2>/dev/null || true
 
       - name: Gem skærmbilleder og rapport
         if: always()
@@ -69,6 +69,7 @@ jobs:
           name: spiltest-${{ github.run_id }}
           path: |
             artefakter/spiltest/*.png
+            docs/spiltest-dag.md
             docs/spiltest.md
           retention-days: 30
           if-no-files-found: ignore
