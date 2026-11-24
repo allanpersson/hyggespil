@@ -141,7 +141,7 @@
   "mus70": 72,
   "mus80": 70,
   "mus90": 71,
-  "mus00": 69,
+  "mus00": 79,
   "mus10": 83,
   "musdk": 71,
   "mgp": 74,
@@ -183,5 +183,5 @@
  "over200": false,
  "over300": false,
  "spil": 99,
- "spoergsmaal": 17487
+ "spoergsmaal": 17497
 }

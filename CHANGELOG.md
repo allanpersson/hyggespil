@@ -3,6 +3,10 @@
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
 
+## 0.2.83 – 2026-11-24
+
+- Nye spørgsmål: 246
+
 ## 0.2.82 – 2026-11-24
 
 ### Tilføjet

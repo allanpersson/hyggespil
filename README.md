@@ -3,7 +3,7 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.82<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.83<!-- version:end -->
 
 **Hentet fra GitHub:** <!-- downloads:start -->465<!-- downloads:end --> gange
 
@@ -11,7 +11,7 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 ## Indhold
 
-<!-- tal:start -->99 spil og 17.487 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->99 spil og 17.497 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,10 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.83 – 2026-11-24
+
+- Nye spørgsmål: 246
+
 ### 0.2.82 – 2026-11-24
 
 **Tilføjet**
@@ -289,14 +293,6 @@ en kop kaffe:
 **Tilføjet**
 - **137 nye spørgsmål og kort** fordelt på: serier (20), Hvem i familien? (10), cifcaes (10), Dansk reality (10), mus00 (10), film10 (10), filmdk (10), julequiz (10), julesange (10), ftl_fod (10), ftl_andre (10), roller (9), ordsplit (8).
 - Nye spørgsmål: 137
-
-### 0.2.75 – 2026-11-23
-
-- Top- og bundmargen i web og HA
-- Fælles spil og sikker top/bund
-- Første start viser velkomsten
-- Systemtest venter på velkomsten
-- Google Play-forberedelse og sikre indstillinger
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
