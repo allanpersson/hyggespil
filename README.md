@@ -3,15 +3,15 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.79<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.80<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->444<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->453<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->99 spil og 16.793 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->99 spil og 17.004 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,13 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.80 – 2026-11-24
+
+**Tilføjet**
+- **211 nye spørgsmål og kort** fordelt på: mus60 (18), ftl_cykel (18), Hvem i familien? (10), cifsym (10), cifcaes (10), cifspjl (10), ordtrappe (10), rim (10), Dansk reality (10), mus80 (10), mus90 (10), mus00 (10), bmgp (10), film90 (10), harry (10), gamingquiz (10), ftl_bil (10), julesange (9), film80 (8), julequiz (8).
+- Nye spørgsmål: 211
+- Gaming som ét samlet spil
+
 ### 0.2.79 – 2026-11-24
 
 **Tilføjet**
@@ -306,20 +313,6 @@ en kop kaffe:
 - Rummet er **krypteret med rumkoden**, sender kun kaldenavn og et tilfældigt enheds-id og virker både i browseren, på Android og senere på iOS.
 - **Test af fælles spil** med to telefoner kører nu i CI sammen med systemtesten.
 - Top- og bundmargen i web og HA
-
-### 0.2.72 – 2026-11-23
-
-**Rettet**
-- **Top og bund på Android:** indholdet blev tegnet under status- og navigationslinjen på Android 15+. Appen lægger nu selv sikkerhedsmargen, så kort og fod bliver synlige.
-- **Foden på forsiden** var delt i to linjer, og kaffebilledet kunne dække knapperne. Nu er der én linje: version, støtte, feedback og «Om spillene».
-- **Rumdialogen** viser nu rumkoden med det samme og lukker sig selv, når runden starter, så den ikke dækker spillet.
-- **Flaskehalsen** holdt sig ikke inden for skærmen (12 px overløb); den skalerer nu efter pladsen.
-- **Nyt spil i et rum** (fx skift fra quiz til «Forklar ordet») skiftede ikke spillens titel og kort; det gør det nu – også i Home Assistant-udgaven.
-**Tilføjet**
-- **Fælles spil fra hver sin telefon – uden Home Assistant.** Én telefon opretter et rum og deler koden (fx `4821-KL`). De andre deltager og får deres egen skærm med spørgsmål, ture og point. Virker til quiz og til «Forklar ordet», hvor kun den, hvis tur det er, kan se kortet.
-- Rummet er **krypteret med rumkoden**, sender kun kaldenavn og et tilfældigt enheds-id og virker både i browseren, på Android og senere på iOS.
-- **Test af fælles spil** med to telefoner kører nu i CI sammen med systemtesten.
-- Fælles spil og sikker top/bund
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
