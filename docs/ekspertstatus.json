@@ -362,15 +362,15 @@
    "antal": 0
   },
   {
+   "pool": "xh",
+   "antal": 0
+  },
+  {
    "pool": "xr",
    "antal": 0
   },
   {
    "pool": "xs",
-   "antal": 0
-  },
-  {
-   "pool": "xh",
    "antal": 0
   },
   {
@@ -518,9 +518,9 @@
   "ftl_andre": 0,
   "rec": 11,
   "law": 7,
+  "xh": 0,
   "xr": 0,
   "xs": 0,
-  "xh": 0,
   "xq": 0,
   "xn": 0,
   "ftl_all": 0,
