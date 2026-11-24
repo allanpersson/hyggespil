@@ -3,15 +3,15 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.83<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.84<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->465<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->475<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->99 spil og 17.497 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->99 spil og 17.718 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.84 – 2026-11-24
+
+**Tilføjet**
+- **221 nye spørgsmål og kort** fordelt på: ftl_bil (24), bmgp (20), Destination (10), cifsym (10), cifvine (10), cifcaes (10), cifspjl (10), ordtrappe (10), stavboks (10), staveling (10), International fodbold (10), mus90 (10), musdk (10), film80 (10), film90 (10), harry (10), gamingquiz (10), ftl_fod (10), mus80 (9), cifbrl (8).
+- Nye spørgsmål: 221
+
 ### 0.2.83 – 2026-11-24
 
 - Nye spørgsmål: 246
@@ -287,12 +293,6 @@ en kop kaffe:
 **Tilføjet**
 - **219 nye spørgsmål og kort** fordelt på: mus70 (20), mus90 (11), Udfordringer (10), Dystre valg (10), Destination (10), cifsym (10), cifvine (10), cifspjl (10), ordkaede (10), ordtrappe (10), stavboks (10), staveling (10), mus60 (10), film80 (10), film90 (10), harry (10), ftl_cykel (10), ftl_bil (10), ftl_fod (10), rim (9), bmgp (9).
 - Nye spørgsmål: 219
-
-### 0.2.76 – 2026-11-23
-
-**Tilføjet**
-- **137 nye spørgsmål og kort** fordelt på: serier (20), Hvem i familien? (10), cifcaes (10), Dansk reality (10), mus00 (10), film10 (10), filmdk (10), julequiz (10), julesange (10), ftl_fod (10), ftl_andre (10), roller (9), ordsplit (8).
-- Nye spørgsmål: 137
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->

@@ -3,6 +3,12 @@
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
 
+## 0.2.84 – 2026-11-24
+
+### Tilføjet
+- **221 nye spørgsmål og kort** fordelt på: ftl_bil (24), bmgp (20), Destination (10), cifsym (10), cifvine (10), cifcaes (10), cifspjl (10), ordtrappe (10), stavboks (10), staveling (10), International fodbold (10), mus90 (10), musdk (10), film80 (10), film90 (10), harry (10), gamingquiz (10), ftl_fod (10), mus80 (9), cifbrl (8).
+- Nye spørgsmål: 221
+
 ## 0.2.83 – 2026-11-24
 
 - Nye spørgsmål: 246
