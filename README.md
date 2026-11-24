@@ -3,7 +3,7 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.77<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.78<!-- version:end -->
 
 **Hentet fra GitHub:** <!-- downloads:start -->440<!-- downloads:end --> gange
 
@@ -11,7 +11,7 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 ## Indhold
 
-<!-- tal:start -->103 spil og 16.583 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->103 spil og 16.591 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.78 – 2026-11-24
+
+**Tilføjet**
+- **8 nye spørgsmål og kort** fordelt på: zip (8).
+- Nye spørgsmål: 8
+
 ### 0.2.77 – 2026-11-24
 
 **Tilføjet**
@@ -313,12 +319,6 @@ en kop kaffe:
 **Tilføjet**
 - **11 nye spørgsmål og kort** fordelt på: gaminghistorie (11).
 - Nye spørgsmål: 11
-
-### 0.2.70 – 2026-11-23
-
-**Tilføjet**
-- **291 nye spørgsmål og kort** fordelt på: julekalender (22), Udfordringer (20), cifcol (20), Dansk fodbold (20), film00 (20), disney (20), julefilm (20), cult (20), mus80 (18), spilnavn (12), Dystre valg (10), cifked (10), ordlav (10), langst (10), mus10 (10), musdk (10), musma (10), gamingquiz (10), gaminghistorie (10), ordkaede (9).
-- Nye spørgsmål: 291
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->

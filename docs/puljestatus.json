@@ -17,7 +17,7 @@
   "tl": 133,
   "city": 329,
   "geo": 290,
-  "zip": 522,
+  "zip": 530,
   "weird": 173,
   "lang": 228,
   "wheel": 400,
@@ -183,5 +183,5 @@
  "over200": false,
  "over300": false,
  "spil": 103,
- "spoergsmaal": 16583
+ "spoergsmaal": 16591
 }
