@@ -3,15 +3,15 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.78<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.79<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->440<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->444<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->103 spil og 16.591 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->99 spil og 16.793 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,13 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.79 – 2026-11-24
+
+**Tilføjet**
+- **202 nye spørgsmål og kort** fordelt på: ordlav (20), Dalgona (10), Stormester (10), cifmors (10), cifked (10), langst (10), mus10 (10), musma (10), film10 (10), filmdk (10), roller (10), julesjov (10), spilnavn (10), gamingleg (10), ftl_andre (10), ordsplit (9), omvendt (9), musdk (8), mgp (8), gamingquiz (8).
+- **Nye spil:** Gaming.
+- Nye spørgsmål: 202
+
 ### 0.2.78 – 2026-11-24
 
 **Tilføjet**
@@ -313,12 +320,6 @@ en kop kaffe:
 - Rummet er **krypteret med rumkoden**, sender kun kaldenavn og et tilfældigt enheds-id og virker både i browseren, på Android og senere på iOS.
 - **Test af fælles spil** med to telefoner kører nu i CI sammen med systemtesten.
 - Fælles spil og sikker top/bund
-
-### 0.2.71 – 2026-11-23
-
-**Tilføjet**
-- **11 nye spørgsmål og kort** fordelt på: gaminghistorie (11).
-- Nye spørgsmål: 11
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
