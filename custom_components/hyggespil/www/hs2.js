@@ -91,8 +91,8 @@ const kidAge=()=>{const a=players.map(p=>p.age).filter(x=>x>0);return a.length?M
 
 /* ================= 2) Random-mix ================= */
 let MIX=null;
-const inMode=(mode,x)=>x.kind!=='mix'&&(mode==='mixall'?(x.grp!==GRP_X&&x.grp!==GRP_K&&x.grp!==GRP_R&&x.grp!=='💀 Dødsspil'):mode==='mixkids'?x.grp===GRP_K:mode==='mixxxx'?x.grp===GRP_X:x.sub===mode);
-const eligible=mode=>GAMES.filter(x=>inMode(mode,x)&&players.length>=x.min&&(x.id!=='ffm'||players.length>=3)&&pool(x.key).length>0&&(mode!=='mixall'||!window.hsFit||window.hsFit(x)!=='no'));
+const inMode=(mode,x)=>x.kind!=='mix'&&(mode==='mixall'?(x.grp!==GRP_X&&x.grp!==GRP_K&&x.grp!==GRP_R&&x.grp!=='💀 Dødsspil'):mode==='mixkids'?x.grp===GRP_K:mode==='mixxxx'?x.grp===GRP_X:mode==='gamingmix'?['gamingquiz','konsolquiz','spilnavn','gaminghistorie','gamingleg'].includes(x.id):x.sub===mode);
+const eligible=mode=>GAMES.filter(x=>inMode(mode,x)&&players.length>=x.min&&(x.id!=='ffm'||players.length>=3)&&pool(x.key).length>0&&(mode!=='mixall'||!window.hsFit||window.hsFit(x)!=='no')&&(mode!=='gamingmix'||pool(x.key).length>50));
 const n0=window.next;
 window.next=function(){
  if(MIX&&g){const el=eligible(MIX),pk=el.length>2?el.filter(x=>x.id!==g.lastMix):el,x=pk.length?pick(pk):null;if(x){view=x.id;g.lastMix=x.id;g.mixmode=MIX;g.fb=false}}

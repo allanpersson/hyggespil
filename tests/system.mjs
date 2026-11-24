@@ -41,6 +41,24 @@ const ok = (navn, ja) => { antal++; console.log((ja ? 'OK  ' : 'FEJL') + '  ' + 
   await ctx.close();
 }
 
+/* ---------- 1b) Gaming er ét samlet kort ---------- */
+{
+  const { ctx, page } = await nySide(() => {
+    localStorage.setItem('hs_forst', 'ja');
+    localStorage.setItem('hs_players', JSON.stringify([{ n: 'A', c: '#ff5d8f', s: 0, age: 30 }, { n: 'B', c: '#ffb703', s: 0, age: 30 }]));
+    localStorage.setItem('hs_xlock', JSON.stringify({ s: 'salt', k: 'kontrol' }));
+    localStorage.setItem('hs_indst', 'true');
+  });
+  const antal = await page.evaluate(() => [...document.querySelectorAll('button.gc')]
+    .filter(b => /gamingmix|gamingquiz|konsolquiz|spilnavn|gaminghistorie|gamingleg/.test(b.getAttribute('onclick') || '')).length);
+  const navn = await page.evaluate(() => {
+    const b = [...document.querySelectorAll('button.gc')].find(x => (x.getAttribute('onclick') || '').includes('gamingmix'));
+    return b ? b.querySelector('.t').textContent : '';
+  });
+  ok('Gaming vises som ét samlet kort', antal === 1 && navn === 'Gaming');
+  await ctx.close();
+}
+
 /* ---------- 2) første gangs start: ingen 🔞-kode ---------- */
 {
   const { ctx, page } = await nySide(() => localStorage.clear());
