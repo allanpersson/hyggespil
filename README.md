@@ -3,15 +3,15 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.76<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.77<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->437<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->440<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->103 spil og 16.364 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->103 spil og 16.583 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.77 – 2026-11-24
+
+**Tilføjet**
+- **219 nye spørgsmål og kort** fordelt på: mus70 (20), mus90 (11), Udfordringer (10), Dystre valg (10), Destination (10), cifsym (10), cifvine (10), cifspjl (10), ordkaede (10), ordtrappe (10), stavboks (10), staveling (10), mus60 (10), film80 (10), film90 (10), harry (10), ftl_cykel (10), ftl_bil (10), ftl_fod (10), rim (9), bmgp (9).
+- Nye spørgsmål: 219
+
 ### 0.2.76 – 2026-11-23
 
 **Tilføjet**
@@ -313,12 +319,6 @@ en kop kaffe:
 **Tilføjet**
 - **291 nye spørgsmål og kort** fordelt på: julekalender (22), Udfordringer (20), cifcol (20), Dansk fodbold (20), film00 (20), disney (20), julefilm (20), cult (20), mus80 (18), spilnavn (12), Dystre valg (10), cifked (10), ordlav (10), langst (10), mus10 (10), musdk (10), musma (10), gamingquiz (10), gaminghistorie (10), ordkaede (9).
 - Nye spørgsmål: 291
-
-### 0.2.69 – 2026-11-23
-
-**Tilføjet**
-- **218 nye spørgsmål og kort** fordelt på: Udfordringer (30), Destination (10), cifsym (10), cifvine (10), cifcaes (10), ordtrappe (10), stavboks (10), staveling (10), mus60 (10), mus70 (10), mus90 (10), bmgp (10), film80 (10), film90 (10), harry (10), julesange (10), ftl_cykel (10), ftl_bil (10), ftl_fod (10), film10 (8).
-- Nye spørgsmål: 218
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
