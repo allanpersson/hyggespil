@@ -1,6 +1,6 @@
-# Spiltest – 2026-11-23
+# Spiltest – 2026-11-24
 
-Spil testet: 101
+Spil testet: 97
 
 ## Alt i ét – random (mixall)
 - type: mix · pulje: mixall
@@ -379,8 +379,8 @@ Spil testet: 101
 
 ## Julequiz (julequiz)
 - type: mc4 · pulje: julequiz
-- OK: «Kommer snart» – puljen er under grænsen, og start er blokeret korrekt
-- skærmbillede: `artefakter/spiltest/julequiz-snart.png`
+- OK: startede, kunne spilles og tegnede korrekt
+- skærmbillede: `artefakter/spiltest/julequiz.png`
 
 ## Julekalender-quiz (julekalender)
 - type: mc4 · pulje: julekalender
@@ -389,8 +389,8 @@ Spil testet: 101
 
 ## Julesange (julesange)
 - type: mc4 · pulje: julesange
-- OK: «Kommer snart» – puljen er under grænsen, og start er blokeret korrekt
-- skærmbillede: `artefakter/spiltest/julesange-snart.png`
+- OK: startede, kunne spilles og tegnede korrekt
+- skærmbillede: `artefakter/spiltest/julesange.png`
 
 ## Julefilm (julefilm)
 - type: mc4 · pulje: julefilm
@@ -402,30 +402,10 @@ Spil testet: 101
 - OK: startede, kunne spilles og tegnede korrekt
 - skærmbillede: `artefakter/spiltest/julesjov.png`
 
-## Gamingquiz (gamingquiz)
-- type: mc4 · pulje: gamingquiz
+## Gaming (gamingmix)
+- type: mix · pulje: gamingquiz
 - OK: startede, kunne spilles og tegnede korrekt
-- skærmbillede: `artefakter/spiltest/gamingquiz.png`
-
-## Konsol-quiz (konsolquiz)
-- type: mc4 · pulje: konsolquiz
-- OK: «Kommer snart» – puljen er under grænsen, og start er blokeret korrekt
-- skærmbillede: `artefakter/spiltest/konsolquiz-snart.png`
-
-## Hvilket spil? (spilnavn)
-- type: mc4 · pulje: spilnavn
-- OK: startede, kunne spilles og tegnede korrekt
-- skærmbillede: `artefakter/spiltest/spilnavn.png`
-
-## Gaming-historie (gaminghistorie)
-- type: mc4 · pulje: gaminghistorie
-- OK: startede, kunne spilles og tegnede korrekt
-- skærmbillede: `artefakter/spiltest/gaminghistorie.png`
-
-## Gaminglege (gamingleg)
-- type: award · pulje: gamingleg
-- OK: startede, kunne spilles og tegnede korrekt
-- skærmbillede: `artefakter/spiltest/gamingleg.png`
+- skærmbillede: `artefakter/spiltest/gamingmix.png`
 
 ## Flaskehalsen peger på (flaske)
 - type: flaske · pulje: deep
