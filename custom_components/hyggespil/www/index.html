@@ -14,7 +14,7 @@ body:before{background:#ff3d81;top:-25vmax;left:-15vmax}
 body:after{background:#3a86ff;bottom:-25vmax;right:-15vmax;animation-delay:-8s}
 @keyframes drift{to{transform:translate(8vmax,6vmax) scale(1.15)}}
 #app{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:16px}
-header{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+header{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;overflow-x:auto;margin-bottom:12px}header h1{flex:0 0 auto;white-space:nowrap;font-size:clamp(18px,4.6vw,28px);margin:0}header .sp{flex:1}header .btn{padding:8px 10px;white-space:nowrap}
 h1{margin:0;font-size:26px;font-weight:800;background:linear-gradient(90deg,#ffb703,#ff5d8f,#8f6bff,#4cc9f0);-webkit-background-clip:text;background-clip:text;color:transparent;flex:1;cursor:pointer}
 button{font:inherit;cursor:pointer;border:0;color:#fff}
 .btn{padding:10px 18px;border-radius:14px;font-weight:700;background:linear-gradient(135deg,#8f6bff,#ff5d8f);box-shadow:0 6px 20px rgba(143,107,255,.35);transition:transform .15s}
@@ -50,7 +50,7 @@ body.igang header{display:none}
 @keyframes pop{from{opacity:0;transform:scale(.92) translateY(14px)}}
 .q{font-size:clamp(22px,3.4vw,34px);font-weight:700;line-height:1.3;text-align:center;margin:10px 0 18px}
 .tag{display:inline-block;padding:5px 14px;border-radius:30px;font-size:13px;font-weight:700;background:rgba(255,255,255,.12)}
-.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}.bar .sp{flex:1}
+.bar{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;align-items:center;margin-bottom:12px;position:relative;background:linear-gradient(180deg,#160e33f7,#160e33e6);padding:6px 0;border-radius:0 0 12px 12px}body.igang #main{padding-top:58px}body.igang #main .bar{position:fixed;top:env(safe-area-inset-top);left:0;right:0;z-index:9;border-radius:0;padding:8px max(10px,env(safe-area-inset-right)) 8px max(10px,env(safe-area-inset-left));margin:0;background:#160e33f7}.bar .sp{flex:1}.bar .tag{min-width:0;max-width:46vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bar .btn{padding:8px 10px;flex:0 0 auto}
 .row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;align-items:center}
 .zones{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:14px 0}
 .zone{border-radius:20px;border:2px dashed var(--line);padding:10px;min-height:96px;transition:.2s;background:rgba(255,255,255,.04)}
@@ -93,7 +93,7 @@ input.in:focus{border-color:#ffb703}
 .shake{animation:sh .35s}@keyframes sh{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
 .rk{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:18px;background:rgba(255,255,255,.08);margin:8px 0;font-size:20px;font-weight:800}
 .rk .n{flex:1}.rk.w{box-shadow:0 0 0 2px #ffb703,0 0 26px rgba(255,183,3,.45)}
-</style></head><body><div id="app"></div>
+@media(max-width:520px){.bar .tag{display:none}}</style></head><body><div id="app"></div>
 <script src="hs-krypto.js?v=5"></script>
 <script src="data.js?v=5"></script><script src="data2.js?v=5"></script><script src="data3.js?v=5"></script>
 <script>
@@ -170,19 +170,46 @@ function boom(){const em=['🎉','🃏','✨','🎲','🎊','⭐'];for(let i=0;i
 function add(i,n){players[i].s+=n;save();g.gp=g.gp||{};g.gp[i]=(g.gp[i]||0)+n;renderScore()}
 function ask(text,yes){const d=document.createElement('div');d.className='modal';d.innerHTML=`<div class="mbox"><h3 style="margin-top:0">${esc(text)}</h3><div class="row"><button class="btn red" id="cy">Ja</button><button class="btn ghost" id="cn">Annuller</button></div></div>`;document.body.appendChild(d);d.querySelector('#cn').onclick=()=>d.remove();d.querySelector('#cy').onclick=()=>{d.remove();yes()}}
 
+function hsMenu(){
+ const d=document.createElement('div');d.className='modal';d.style.zIndex='96';
+ d.innerHTML='<div class="mbox" style="max-width:420px"><h2 style="margin-top:0">⋯ '+t('menu')+'</h2>'
+  +'<div class="row" style="justify-content:flex-start;flex-wrap:wrap">'
+  +'<button class="btn" data-m="pl">👥 '+t('players')+'</button>'
+  +'<button class="btn" data-m="q">➕ '+t('suggest')+'</button>'
+  +'<button class="btn" data-m="new">↺ '+t('newEvening')+'</button>'
+  +(window.hsGrupper?'<button class="btn ghost" data-m="grp">👨‍👩‍👧 '+(window.hsGruppeNavn?hsGruppeNavn():t('groups'))+'</button>':'')
+  +(window.hsVoksenSynlig&&hsVoksenSynlig()?'<button class="btn ghost" data-m="voksen">🔞 18+</button>':'')
+  +(window.hsRumKan&&hsRumKan()?'<button class="btn ghost" data-m="rum">📱 '+(window.HSLANG==='en'?'Play together':'Spil sammen')+'</button>':'')
+  +'<button class="btn ghost" data-m="sprog">🌐 '+t('language')+'</button>'
+  +'<button class="btn ghost" data-m="about">ℹ️ '+t('about')+'</button>'
+  +'<button class="btn ghost" data-m="support">☕ '+t('support')+'</button>'
+  +'</div><div class="row" style="margin-top:14px"><button class="btn ghost" id="mclose">'+t('close')+'</button></div></div>';
+ document.body.appendChild(d);
+ d.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{const m=b.dataset.m;d.remove();
+  if(m==='pl'||m==='q'){modal=m;render()}
+  else if(m==='new')newEvening();
+  else if(m==='about')hsOm();
+  else if(m==='support'&&window.hsStotte)hsStotte();
+  else if(m==='grp'&&window.hsGrupper)hsGrupper();
+  else if(m==='voksen'&&window.hsVoksen)hsVoksen();
+  else if(m==='rum'&&window.hsRum)hsRum();
+  else if(m==='sprog')hsSprog((window.HSLANG==='en')?'da':'en');
+ });
+ d.querySelector('#mclose').onclick=()=>d.remove();
+ d.addEventListener('click',e=>{if(e.target===d)d.remove()});
+}
 function render(){
  const app=document.getElementById('app');
  if(players.length<1&&!modal)modal='pl';
  const næsteSprog=(window.HSLANG==='en')?'da':'en';
- app.innerHTML=`<header><h1 onclick="go('home')">🃏 Hygge Games</h1>
- <button class="btn ghost" onclick="modal='pl';render()">👥 ${t('players')}</button>
- <button class="btn ghost" onclick="modal='q';render()">➕ ${t('suggest')}</button>
- <button class="btn ghost" onclick="newEvening()">↺ ${t('newEvening')}</button>
- <button class="btn ghost" id="langbtn" title="${t('language')}" onclick="hsSprog('${næsteSprog}')">${næsteSprog.toUpperCase()}</button></header>
+ app.innerHTML=`<header><h1 onclick="go('home')">🃏 Hygge Games</h1><span class="sp"></span>
+ <button class="btn ghost" id="langbtn" title="${t('language')}" onclick="hsSprog('${næsteSprog}')">🌐 ${(window.HSLANG||'da').toUpperCase()}</button>
+ <button class="btn ghost" id="menubtn" title="${t('menu')}" onclick="hsMenu()">⋯</button></header>
  <div id="score"></div><div id="main"></div>${modal?modalHTML():''}`;
  renderScore();
  if(view==='home')home();else game();
  bindModal();
+ try{window.hsOversat&&hsOversat(document.getElementById('app'))}catch(e){}
  /* Spillet skal blive i billedet: skjul pointrækken og sørg for, at kortet står øverst,
     uden at rykke siden, hvis det allerede er synligt. */
  const igang=view!=='home';
@@ -226,8 +253,9 @@ function bindModal(){
 
 function home(){
  let tot=0,h='';
- for(const grp of [...new Set(GAMES.filter(x=>!x.skjult&&alderOK(x)).map(x=>x.grp))]){
-  h+=`<div class="grp">${hsGruppe(grp)}</div><div class="grid">${GAMES.filter(x=>x.grp===grp&&!x.skjult&&alderOK(x)&&!(window.HSLANG!=='da'&&window.hsKunDa&&hsKunDa(x.id))&&(window.HSLANG==='da'||(window.HS_EN_KAN||[]).includes(x.id))).map(x=>{const liste=x.kind==='menu'?(x.sub||[]).reduce((a,z)=>a.concat(pool(z.key)),[]):pool(x.key),n=x.antalPuljer?x.antalPuljer.reduce((a,k)=>a+pool(k).length,0):(x.antal!=null?x.antal:liste.length);const harAlder=liste.some(i=>i&&typeof i.age==='number');const gruppeMin=harAlder?Math.min(...[[3,5],[6,8],[9,11],[12,14]].map(([a,b])=>liste.filter(i=>!i||typeof i.age!=='number'||(i.age>=a&&i.age<=b)).length)):n;const graense=x.kommerSnart!=null?x.kommerSnart:(x.ny?50:0),enkelt=n<=1,snart=graense&&n<=graense,ny=!enkelt&&!snart&&(n<100||gruppeMin<100);return `<button class="gc" style="--g:${x.g}" onclick="hsStart('${x.id}')"><div class="em">${x.id==='nev'?hsNeverIkon():(x.id==='dare'?hsDareIkon():x.e)}</div><div class="t">${x.id==='dare'?hsDareTitel():hsNavn(x.id,'t',x.t)}</div><div class="d">${hsNavn(x.id,'d',x.d)}</div><div class="mn">${x.min<=1?t('solo'):t('playersMin',x.min)}</div>${enkelt?'':`<div class="pswrap"><div class="ps">${n} i puljen</div>${snart?'<div class="ps snart">'+t('comingSoon')+' · '+(graense+1)+'</div>':''}${ny?'<div class="ps ny">'+t('newPool')+'</div>':''}</div>`}</button>`}).join('')}</div>`}
+ const synlig=x=>!x.skjult&&alderOK(x)&&!(window.HSLANG!=='da'&&window.hsKunDa&&hsKunDa(x.id))&&(window.HSLANG==='da'||(window.HS_EN_KAN||[]).includes(x.id));
+ for(const grp of [...new Set(GAMES.filter(synlig).map(x=>x.grp))]){
+  h+=`<div class="grp">${hsGruppe(grp)}</div><div class="grid">${GAMES.filter(x=>x.grp===grp&&synlig(x)).map(x=>{const liste=x.kind==='menu'?(x.sub||[]).reduce((a,z)=>a.concat(pool(z.key)),[]):pool(x.key),n=x.antalPuljer?x.antalPuljer.reduce((a,k)=>a+pool(k).length,0):(x.antal!=null?x.antal:liste.length);const harAlder=liste.some(i=>i&&typeof i.age==='number');const gruppeMin=harAlder?Math.min(...[[3,5],[6,8],[9,11],[12,14]].map(([a,b])=>liste.filter(i=>!i||typeof i.age!=='number'||(i.age>=a&&i.age<=b)).length)):n;const graense=x.kommerSnart!=null?x.kommerSnart:(x.ny?50:0),enkelt=n<=1,snart=graense&&n<=graense,ny=!enkelt&&!snart&&(n<100||gruppeMin<100);return `<button class="gc" style="--g:${x.g}" onclick="hsStart('${x.id}')"><div class="em">${x.id==='nev'?hsNeverIkon():(x.id==='dare'?hsDareIkon():x.e)}</div><div class="t">${x.id==='dare'?hsDareTitel():hsNavn(x.id,'t',x.t)}</div><div class="d">${hsNavn(x.id,'d',x.d)}</div><div class="mn">${x.min<=1?t('solo'):t('playersMin',x.min)}</div>${enkelt?'':`<div class="pswrap"><div class="ps">${t('inPool',n)}</div>${snart?'<div class="ps snart">'+t('comingSoon')+' · '+(graense+1)+'</div>':''}${ny?'<div class="ps ny">'+t('newPool')+'</div>':''}</div>`}</button>`}).join('')}</div>`}
  const keys=[...new Set(GAMES.filter(x=>x.key&&alderOK(x)).map(x=>x.key))];tot=keys.reduce((s,k)=>s+(pool(k).length>1?pool(k).length:0),0);
  document.getElementById('main').innerHTML=h+`<p class="hint" style="margin-top:22px">${window.HSLANG!=='da'&&!tot?t('moreEnglish'):t('total',tot)}</p>`
  + (skalViseDisc() ? `<div class="card glass" id="discl" style="margin-top:16px;padding:16px;text-align:left"><div style="font-weight:900;font-size:17px;margin-bottom:6px">🎲 Inspireret – ikke kopieret</div><p class="hint" style="margin:0 0 6px">Spillene her tager afsæt i klassiske selskabsspil, gamle lege og tv- og radioprogrammer. Er der et spil, du holder af, så køb den fysiske udgave, hvis den findes – det støtter dem, der har lavet originalen.</p><p class="hint" style="margin:0 0 10px">Alt indhold er skrevet til Hyggespil: inspireret af originalerne, aldrig kopieret fra dem.</p><div class="row" style="justify-content:flex-start"><button class="btn green" onclick="hsDiscLuk()">Forstået – vis ikke igen</button><button class="btn ghost" onclick="hsOm()">Læs mere</button></div></div>` : '') +`<p class="hint" style="margin-top:12px;text-align:center;font-size:12px">Hygge Games v${(window.HSCFG&&HSCFG.version)||''} · ${window.HSPLAY?'<button class="btn ghost" id="fstotte" style="padding:2px 8px;font-size:12px" onclick="window.hsStotte&&window.hsStotte()">☕ '+t('support')+'</button>':`<a href="${(window.HSCFG&&HSCFG.kaffe)||'https://buymeacoffee.com/i8B3Mn5'}" target="_blank" rel="noopener" style="color:#ffb703;font-weight:800;text-decoration:none">☕ ${t('coffee')}</a>`} · <button class="btn ghost" id="fhome" style="padding:2px 8px;font-size:12px">💬 ${t('feedback')}</button> · <a href="#" onclick="hsOm();return false" style="color:#b9b4d6;text-decoration:none">${t('about')}</a></p>`;
@@ -267,7 +295,7 @@ function bindDnd(root,b,rerender){
 
 function game(){
  const x=gm(view),m=document.getElementById('main');
- const bar=`<div class="bar"><button class="btn ghost" onclick="go('home')">${t('allGames')}</button><span class="tag">${x.id==='nev'?hsNeverIkon():(x.id==='dare'?hsDareIkon():x.e)} ${x.id==='dare'?hsDareTitel():x.t}${g.fb?' – klassisk (2 spillere)':''}</span><span class="sp"></span>${g.done?'':'<button class="btn red" id="endg">'+t('endGame')+'</button>'}</div>`;
+ const bar=`<div class="bar"><button class="btn ghost" title="${t('allGames')}" onclick="go('home')">←</button><span class="tag">${x.id==='nev'?hsNeverIkon():(x.id==='dare'?hsDareIkon():x.e)} ${x.id==='dare'?hsDareTitel():hsNavn(x.id,'t',x.t)}${g.fb?' – klassisk (2 spillere)':''}</span><span class="sp"></span>${g.done?'':'<button class="btn red" id="endg" title="'+t('endGame')+'">🏁</button>'}</div>`;
  let body='';
  if(g.done)body=results();
  else if(KINDS[x.kind])body=KINDS[x.kind].render();
@@ -308,7 +336,7 @@ function ffm(){
  g.b={judges:players.map((_,i)=>i).filter(i=>i!==a&&i!==b2),zones:[{id:'l',l:'FISK – lavere',e:'🐟',c:'#4cc9f0'},{id:'m',l:'MIDT IMELLEM',e:'🤝',c:'#ffb703'},{id:'h',l:'FUGL – højere',e:'🐦',c:'#ff5d8f'}],reveal:g.ph===2,correct:g.ph===2?cor:null,correct0:cor};
  let out=head+`<div class="bids">${[a,b2].map((i,k)=>`<div class="bid" style="--c:${players[i].c}"><small>${esc(players[i].n)}</small><b>${fmt(g.bids[k])}</b></div>`).join('')}</div>`;
  out+=`<div id="board">${boardHTML(g.b)}</div>`;
- if(g.ph===1)out+=`<div class="row"><button class="btn big" id="go">Afslør svaret! 🥁</button></div>`;
+ if(g.ph===1)out+=`<div class="row"><button class="btn big" id="go">${t('revealAnswer')}</button></div>`;
  else out+=`<div class="ans">${fmt(ans)} ${esc(it.u||'')}</div>${it.n?`<p class="hint">${esc(it.n)}</p>`:''}<div class="res">${g.res.map(r=>`<span>${esc(r)}</span>`).join('')}</div><div class="row"><button class="btn big green" id="nx">Næste runde →</button></div>`;
  return out+'</div>';
 }
@@ -333,7 +361,7 @@ function onGo(){
 }
 function est(){
  const it=g.item;let h=`<div class="card glass"><div class="q">${esc(it.q)}</div>`;
- if(!g.reveal)return h+`<div class="est">${players.map((p,i)=>`<div class="p" style="--c:${p.c}"><b>${esc(p.n)}</b><input class="in" type="password" autocomplete="off" inputmode="decimal" id="e${i}" placeholder="Gæt"></div>`).join('')}</div><p class="hint">Alle skriver deres gæt (skjult). ${it.u?'Enhed: '+esc(it.u):''}</p><div class="row"><button class="btn big" id="go">Afslør svaret! 🥁</button></div></div>`;
+ if(!g.reveal)return h+`<div class="est">${players.map((p,i)=>`<div class="p" style="--c:${p.c}"><b>${esc(p.n)}</b><input class="in" type="password" autocomplete="off" inputmode="decimal" id="e${i}" placeholder="${t('guess')}"></div>`).join('')}</div><p class="hint">Alle skriver deres gæt (skjult). ${it.u?'Enhed: '+esc(it.u):''}</p><div class="row"><button class="btn big" id="go">Afslør svaret! 🥁</button></div></div>`;
  return h+`<div class="ans">${fmt(it.a)} ${esc(it.u||'')}</div>${it.n?`<p class="hint">${esc(it.n)}</p>`:''}<div class="est">${players.map((p,i)=>`<div class="p" style="--c:${p.c};${g.win.includes(i)?'box-shadow:0 0 24px '+p.c:''}"><b>${g.win.includes(i)?'🏆 ':''}${esc(p.n)}</b><div style="font-size:22px;font-weight:800">${fmt(g.vals[i])}</div></div>`).join('')}</div><div class="row"><button class="btn big green" id="nx">Næste →</button></div></div>`;
 }
 function mysHead(it){return `<div class="tag">🔍 ${esc(it.t)}</div><div class="q" style="font-size:clamp(18px,2.6vw,26px)">${esc(it.s)}</div><div class="mid">${it.c.slice(0,g.cl).map((c,i)=>`<div class="opt glass">🔎 Spor ${i+1}: ${esc(c)}</div>`).join('')}</div>`}

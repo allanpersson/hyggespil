@@ -20,7 +20,7 @@ const EXP={
  riddle:r=>({q:r[0],a:r[1]}),
  who:r=>({a:r[0],c:r.slice(1,6)}),
  taboo:r=>({w:r[0],f:r.slice(1,4)}),
- tl:r=>({q:'Hvad skete først?',a:[r[0]+' ('+r[1]+')',r[2]+' ('+r[3]+')'],c:r[1]<r[3]?0:1,e:r[4]||''}),
+ tl:r=>({q:(window.HSLANG==='en'?'What happened first?':'Hvad skete først?'),a:[r[0]+' ('+r[1]+')',r[2]+' ('+r[3]+')'],c:r[1]<r[3]?0:1,e:r[4]||''}),
  weird:r=>({q:'Hvad betyder «'+r[0]+'» ('+r[1]+')?',o:[r[2],r[3],r[4],r[5]],a:0}),
  geo:r=>({c:r[0],la:r[1],lo:r[2]}),
  rec:r=>({q:r[0],v:r[1],u:r[2]||'',e:r[3]||''})
@@ -286,13 +286,12 @@ function gate(){
  const rs=d.querySelector('#xreset');
  if(rs)rs.onclick=()=>{d.remove();ask('Nulstil 🔞-koden på denne enhed? Du vælger en ny bagefter.',()=>{try{localStorage.removeItem(XK)}catch(e){}gate()})};
  i.focus()}
-const _render=window.render;
-window.render=function(){
- _render();
- const h=document.querySelector('header');if(!h)return;
- if(UDEN_VOKSEN)return;
- const b=document.createElement('button');b.className='btn ghost xbtn';b.id='xbtn';b.textContent=unlocked?'🔞🔓':'🔞';b.title=unlocked?'Lås 🔞':'🔞 (egen kode)';
- b.onclick=()=>unlocked?setLock(false):gate();h.appendChild(b)};
+/* 🔞 ligger i menu-knappen, så toppen er rolig. Skjules for mindreårige. */
+window.hsVoksenSynlig=()=>{
+ if(UDEN_VOKSEN)return false;
+ try{return !(window.players||[]).some(p=>p&&typeof p.age==='number'&&p.age<18)}catch(e){return true}
+};
+window.hsVoksen=()=>{if(!window.hsVoksenSynlig())return;unlocked?setLock(false):gate()};
 /* husk at mind om at vælge kode, hvis enheden allerede har data men ingen kode */
 window.hsKodeMangler=()=>!xStore();
 

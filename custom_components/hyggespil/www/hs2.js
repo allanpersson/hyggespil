@@ -14,7 +14,7 @@ document.head.appendChild(st);
 const GK='groups';
 const getG=()=>{let o=LS.get(GK,null);if(!o||!Array.isArray(o.list)||!o.list.length){o={cur:'g0',list:[{id:'g0',name:'Standard',players:null,hist:[],nights:0}]};LS.set(GK,o)}return o};
 const curG=o=>o.list.find(x=>x.id===o.cur)||o.list[0];
-const nn=n=>(n||0)+(n===1?' aften':' aftener');
+const nn=n=>(n||0)+(window.HSLANG==='en'?(n===1?' evening':' evenings'):(n===1?' aften':' aftener'));
 window.hsGroupId=curG(getG()).id;
 players.forEach(p=>{if(p.t==null)p.t=p.s||0});save();
 
@@ -117,7 +117,7 @@ window.render=function(){
  syncXMix();if(view==='home')MIX=null;
  const r=r0.apply(this,arguments);
  try{const h=document.querySelector('header');
-  if(h&&!document.getElementById('gbtn')){const b=document.createElement('button');b.className='btn ghost xbtn';b.id='gbtn';b.textContent='👨‍👩‍👧 '+curG(getG()).name;b.title='Grupper & løbende spil';b.onclick=()=>{modal='grp';render()};h.appendChild(b)}
+  window.hsGrupper=()=>{modal='grp';render()}; window.hsGruppeNavn=()=>curG(getG()).name;
  }catch(e){}
  return r;
 };
@@ -128,7 +128,7 @@ window.home=function(){
   const m=document.getElementById('main');if(!m)return r;
   const c=curG(getG()),tot=players.slice().sort((a,b)=>(b.t||0)-(a.t||0));
   const line=tot.some(p=>(p.t||0)>0)?tot.map(p=>'<b style="color:'+p.c+'">'+esc(p.n)+'</b> '+(p.t||0)).join(' · '):'ingen point endnu';
-  m.insertAdjacentHTML('afterbegin','<div class="rsr" id="ssn" style="margin-bottom:14px"><div class="rst"><b>👨‍👩‍👧 '+esc(c.name)+' – løbende stilling</b><small>'+line+' · '+nn(c.nights)+'</small></div><button class="btn ghost" id="ssnb">Grupper</button></div>');
+  m.insertAdjacentHTML('afterbegin','<div class="rsr" id="ssn" style="margin-bottom:14px"><div class="rst"><b>👨‍👩‍👧 '+esc(c.name)+' – '+t('running')+'</b><small>'+line+' · '+nn(c.nights)+'</small></div><button class="btn ghost" id="ssnb">'+t('groups')+'</button></div>');
   document.getElementById('ssnb').onclick=()=>{modal='grp';render()};
   const hid=[...m.querySelectorAll('.grp')].find(e=>e.textContent.trim()==='__h');
   if(hid){const gr=hid.nextElementSibling;if(gr&&gr.classList.contains('grid'))gr.remove();hid.remove()}

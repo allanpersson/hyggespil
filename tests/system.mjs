@@ -73,7 +73,9 @@ const ok = (navn, ja) => { antal++; console.log((ja ? 'OK  ' : 'FEJL') + '  ' + 
   ok('spillet starter uden kode', (await page.locator('.modal').count()) === 0);
 
   /* aldersport */
-  await page.click('#xbtn');
+  await page.click('#menubtn');
+  await page.waitForSelector('[data-m="voksen"]');
+  await page.click('[data-m="voksen"]');
   await page.waitForTimeout(300);
   ok('🔞 kræver aldersbekræftelse først', (await page.locator('#xalder').count()) === 1);
   ok('der vises ingen kode før alderen er bekræftet', (await page.locator('.modal input[type=password]').count()) === 0);
@@ -171,7 +173,7 @@ const ok = (navn, ja) => { antal++; console.log((ja ? 'OK  ' : 'FEJL') + '  ' + 
   const q = await page.evaluate(() => (document.querySelector('#main .q') || {}).textContent || '');
   ok('spørgsmålet er på engelsk', /[A-Za-z]/.test(q) && !/[æøå]/i.test(q));
   ok('knapperne er på engelsk', await page.evaluate(() =>
-    [...document.querySelectorAll('#main .bar button')].some(b => /All games/.test(b.textContent))));
+    [...document.querySelectorAll('#main .bar button')].some(b => /End game/.test(b.title || ''))));
   await ctx.close();
 }
 

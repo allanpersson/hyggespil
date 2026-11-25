@@ -83,7 +83,7 @@ window.home=function(){
   const list=live().filter(s=>s.sig===sig()&&gm(s.view));if(!list.length)return r;
   m.insertAdjacentHTML('afterbegin','<div class="rsm">'+list.map(s=>{const x=gm(s.view),gp=(s.g&&s.g.gp)||{};
    const pts=players.map((p,i)=>esc(p.n)+' '+(gp[i]||0)).join(' · ');
-   return '<div class="rsr"><div class="rst"><b>'+(s.g&&s.g.mixmode?(s.g.mixmode==='prov'?'📜 ':'🎲 '):'')+x.e+' '+esc(x.t)+'</b><small>'+(s.ended?'Afsluttet':'Afbrudt')+' for '+ago(s.ended||s.ts)+' siden · point i spillet: '+pts+'</small></div><button class="btn green" data-rs="'+s.id+'">▶ Fortsæt</button><button class="btn ghost" data-rx="'+s.id+'" title="Fjern">✕</button></div>'}).join('')+'</div>');
+   return '<div class="rsr"><div class="rst"><b>'+(s.g&&s.g.mixmode?(s.g.mixmode==='prov'?'📜 ':'🎲 '):'')+x.e+' '+esc(window.hsNavn?hsNavn(x.id,'t',x.t):x.t)+'</b><small>'+(s.ended?t('finished'):t('paused'))+(window.HSLANG==='en'?' for ':' for ')+ago(s.ended||s.ts)+(window.HSLANG==='en'?' ago · ':' siden · ')+t('pointsInGame')+': '+pts+'</small></div><button class="btn green" data-rs="'+s.id+'">▶ '+t('continue')+'</button><button class="btn ghost" data-rx="'+s.id+'" title="Fjern">✕</button></div>'}).join('')+'</div>');
   m.querySelectorAll('[data-rs]').forEach(b=>b.onclick=()=>doResume(b.dataset.rs));
   m.querySelectorAll('[data-rx]').forEach(b=>b.onclick=()=>{LS.set(KEY,all().filter(s=>s.id!==b.dataset.rx));render()});
  }catch(e){console.warn('HS resume banner',e)}

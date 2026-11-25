@@ -1,14 +1,19 @@
-# Spiltest – 2026-11-23
+# Spiltest – 2026-11-25
 
-Spil testet: 2
+Spil testet: 3
 
-## Ordsplit (ordsplit)
-- type: w1 · pulje: ordsplit
+## Ord lav (ordlav)
+- type: w1 · pulje: ordlav
 - OK: startede, kunne spilles og tegnede korrekt
-- skærmbillede: `artefakter/spiltest/ordsplit.png`
+- skærmbillede: `artefakter/spiltest/ordlav.png`
 
-## Hovedregning (hovedregning)
-- type: t1 · pulje: t1reg
+## Stavboks (stavboks)
+- type: w1 · pulje: stavboks
 - OK: startede, kunne spilles og tegnede korrekt
-- skærmbillede: `artefakter/spiltest/hovedregning.png`
+- skærmbillede: `artefakter/spiltest/stavboks.png`
+
+## Sanseprøven (sanseprøve)
+- type: t1 · pulje: t1sans
+- OK: startede, kunne spilles og tegnede korrekt
+- skærmbillede: `artefakter/spiltest/sanseprøve.png`
 

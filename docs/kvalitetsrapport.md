@@ -4,8 +4,8 @@ Genereret 2026-11-25 af `tools/kvalitet.js`.
 
 | Regel | Antal |
 |---|---|
-| kort | 885 |
-| lille-begyndelse | 306 |
+| kort | 901 |
+| lille-begyndelse | 336 |
 | kontroltegn | 20 |
 | lækage | 2 |
 

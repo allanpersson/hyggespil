@@ -5,18 +5,19 @@ st.textContent='.eyew{position:relative;display:flex;align-items:center}.eyew .i
 document.head.appendChild(st);
 const isYear=(v,it)=>Math.abs(v)>=1000&&Math.abs(v)<=2100&&(it.u==='år'||/hvilket år/i.test(it.q||''));
 const F=(v,it)=>isYear(v,it)?String(Math.round(v)):fmt(v)+(it.u?' '+it.u:'');
-const D=(d,it)=>fmt(d)+(it.u?' '+it.u:isYear(it.a,it)?' år':'');
+const D=(d,it)=>fmt(d)+(it.u?' '+it.u:isYear(it.a,it)?((window.HSLANG==='en')?' years':' år'):'');
 window.est=function(){
+ const en=(window.HSLANG||'da')!=='da';
  const it=g.item;let h=`<div class="card glass"><div class="q">${esc(it.q)}</div>`;
- if(!g.reveal)return h+`<div class="est">${players.map((p,i)=>`<div class="p" style="--c:${p.c}"><b>${esc(p.n)}</b><div class="eyew"><input class="in" type="password" autocomplete="off" inputmode="decimal" id="e${i}" placeholder="Gæt"><button type="button" class="eye" title="Vis/skjul" onclick="var i=this.previousElementSibling;i.type=i.type==='password'?'text':'password';this.textContent=i.type==='password'?'👁️':'🙈'">👁️</button></div></div>`).join('')}</div><p class="hint">Alle skriver deres gæt (skjult). Tryk 👁️ for at tjekke dit eget gæt – og skjul det igen. ${it.u&&!isYear(it.a,it)?'Enhed: '+esc(it.u):''}</p><div class="row"><button class="btn big" id="go">Afslør svaret! 🥁</button></div></div>`;
+ if(!g.reveal)return h+`<div class="est">${players.map((p,i)=>`<div class="p" style="--c:${p.c}"><b>${esc(p.n)}</b><div class="eyew"><input class="in" type="password" autocomplete="off" inputmode="decimal" id="e${i}" placeholder="${t('guess')}"><button type="button" class="eye" title="${en?'Show/hide':'Vis/skjul'}" onclick="var i=this.previousElementSibling;i.type=i.type==='password'?'text':'password';this.textContent=i.type==='password'?'👁️':'🙈'">👁️</button></div></div>`).join('')}</div><p class="hint">${en?'Everyone writes a guess (hidden). Tap 👁️ to check your own guess – then hide it again.':'Alle skriver deres gæt (skjult). Tryk 👁️ for at tjekke dit eget gæt – og skjul det igen.'} ${it.u&&!isYear(it.a,it)?(en?'Unit: ':'Enhed: ')+esc(it.u):''}</p><div class="row"><button class="btn big" id="go">${t('revealAnswer')}</button></div></div>`;
  const ans=it.a,vals=g.vals,ds=vals.map(z=>Math.abs(z-ans)),md=Math.max(...ds)||1;
  const ord=vals.map((_,i)=>i).sort((a,b)=>ds[a]-ds[b]);
  const lo=Math.min(ans,...vals),hi=Math.max(ans,...vals),sp=(hi-lo)||1,pos=v=>8+84*(v-lo)/sp;
  const nl2=`<div class="nl"><div class="nm a" style="left:${pos(ans)}%;top:36px"><i>🎯</i>${esc(F(ans,it))}</div>${ord.map((i,k)=>`<div class="nm" style="left:${pos(vals[i])}%;top:${k%2?78:-4}px"><i style="background:${players[i].c}">${esc(players[i].n[0]||'?')}</i></div>`).join('')}</div>`;
  const med=['🥇','🥈','🥉'];
- const rows=ord.map((i,k)=>{const d=ds[i],w=g.win.includes(i),fill=Math.max(6,Math.round((1-d/md)*100)),rel=d===0?'Præcis rigtigt! 🎯':(vals[i]<ans?'For lavt med ':'For højt med ')+D(d,it);
+ const rows=ord.map((i,k)=>{const d=ds[i],w=g.win.includes(i),fill=Math.max(6,Math.round((1-d/md)*100)),rel=d===0?(en?'Exactly right! 🎯':'Præcis rigtigt! 🎯'):(vals[i]<ans?(en?'Too low by ':'For lavt med '):(en?'Too high by ':'For højt med '))+D(d,it);
   return `<div class="rkd ${w?'w':''}" style="--c:${players[i].c}"><div class="t"><span>${w?'🏆':(med[k]||(k+1)+'.')}</span><span class="n" style="color:${players[i].c}">${esc(players[i].n)}</span><span>${esc(F(vals[i],it))}</span>${w?'<span style="color:#ffb703">+1</span>':''}</div><div class="d">${rel}</div><div class="bar2"><b style="width:${fill}%;background:${players[i].c}"></b></div></div>`}).join('');
- return h+`<div class="ans">${esc(F(ans,it))}</div>${it.n?`<p class="hint">${esc(it.n)}</p>`:''}${nl2}<p class="hint" style="margin-top:0">🎯 = rigtigt svar · cirklerne er gæt</p>${rows}<div class="row"><button class="btn big green" id="nx">Næste →</button></div></div>`;
+ return h+`<div class="ans">${esc(F(ans,it))}</div>${it.n?`<p class="hint">${esc(it.n)}</p>`:''}${nl2}<p class="hint" style="margin-top:0">${en?'🎯 = correct answer · circles are guesses':'🎯 = rigtigt svar · cirklerne er gæt'}</p>${rows}<div class="row"><button class="btn big green" id="nx">${t('next')}</button></div></div>`;
 };
 
 /* ---- tydelige regler for Gæt og vis / Tabu ---- */

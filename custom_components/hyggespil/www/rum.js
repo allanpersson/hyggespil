@@ -209,7 +209,7 @@
     const d = data();
 
     if (key === 'forklar') {
-      const liste = (window.DATA && window.DATA.taboo) || [];
+      const liste = (window.DATA && (window.DATA.taboo_en && window.HSLANG === 'en' ? window.DATA.taboo_en : window.DATA.taboo)) || [];
       if (!liste.length) { toast('Taboo-puljen er tom'); return; }
       const it = liste[Math.floor(Math.random() * liste.length)];
       const w = Array.isArray(it) ? it[0] : it.w;
@@ -225,7 +225,7 @@
       return;
     }
 
-    const liste = (window.DATA && window.DATA[key]) || [];
+    const liste = (window.DATA && (window.DATA[key + (window.HSLANG === 'en' ? '_en' : '')] || window.DATA[key])) || [];
     if (!liste.length) { toast('Puljen er tom'); return; }
     let bag = [];
     try { bag = JSON.parse(localStorage.getItem('hs_rum_bag_' + key) || '[]'); } catch (e) {}
@@ -379,20 +379,6 @@
     if (d.buzzere.length > sidsteBuzz) { if (sidsteBuzz) biplyd(1000); sidsteBuzz = d.buzzere.length; }
   }, 1200);
 
-  const render0 = window.render;
-  window.render = function () {
-    const r = render0.apply(this, arguments);
-    try {
-      const h = document.querySelector('header');
-      const muligt = h || (window.HSRUM && window.HSRUM.kan());
-      if (muligt && !document.getElementById('rumbtn')) {
-        const b = document.createElement('button');
-        b.id = 'rumbtn'; b.className = 'btn ghost'; b.textContent = '📱';
-        b.title = 'Spil sammen fra hver telefon';
-        b.onclick = dialog;
-        h.appendChild(b);
-      }
-    } catch (e) {}
-    return r;
-  };
+  window.hsRum = dialog;
+  window.hsRumKan = () => !!(window.HSRUM && window.HSRUM.kan());
 })();

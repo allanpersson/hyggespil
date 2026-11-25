@@ -84,7 +84,7 @@
       + '<div class="subgrid">' + (m.sub || []).map(s => {
           const n = (window.DATA && window.DATA[s.key] || []).length;
           return '<button class="subcard" data-sub="' + s.id + '"><span class="e">' + s.e + '</span>'
-            + '<span><span class="t">' + s.t + '</span><br><span class="d">' + (n ? n + ' i puljen' : s.d) + '</span></span></button>';
+            + '<span><span class="t">' + s.t + '</span><br><span class="d">' + (n ? t('inPool',n) : s.d) + '</span></span></button>';
         }).join('') + '</div>'
       + '<div class="row" style="margin-top:16px"><button class="btn ghost" id="sub-luk">← Alle spil</button></div></div>';
     document.body.appendChild(d);

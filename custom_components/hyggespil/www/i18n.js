@@ -30,7 +30,13 @@
       newPool: 'Nyt spil, puljen udvides løbende', playersMin: (n) => `${n}+ spillere`,
       solo: '1 spiller', moreEnglish: 'Flere spil kommer på engelsk.',
       level: 'Niveau', startGame: 'Start spil', cancel: 'Annuller', close: 'Luk',
-      correct: 'Rigtigt!', wrong: 'Forkert', next: 'Næste', points: 'point',
+      correct: 'Rigtigt!', wrong: 'Forkert', next: 'Næste', nextRound: 'Næste runde →', points: 'point',
+      menu: 'Menu', close: 'Luk', groups: 'Grupper', running: 'Løbende stilling', continue: 'Fortsæt',
+      finished: 'Afsluttet', paused: 'Afbrudt', pointsInGame: 'point i spillet', lessThanMin: 'under 1 min',
+      guess: 'Gæt', revealAnswer: 'Afslør svaret! 🥁', showAnswer: 'Vis svaret', skip: 'Spring over',
+      nextClue: 'Næste spor', givePoint: 'Giv point', nextNoPoint: 'Næste uden point →',
+      reader: 'Oplæser', guessers: 'Gættere', lockBids: 'Lås bud 🔒', true: 'Sandt', false: 'Falsk',
+      higher: 'højere', lower: 'lavere', middle: 'midt imellem', unit: 'Enhed', allGuess: 'Alle skriver deres gæt (skjult).',
     },
     en: {
       players: 'Players', suggest: 'Suggest a question', newEvening: 'New evening',
@@ -42,7 +48,13 @@
       newPool: 'New game – the pool keeps growing', playersMin: (n) => `${n}+ players`,
       solo: '1 player', moreEnglish: 'More games are coming in English.',
       level: 'Level', startGame: 'Start game', cancel: 'Cancel', close: 'Close',
-      correct: 'Correct!', wrong: 'Wrong', next: 'Next', points: 'points',
+      correct: 'Correct!', wrong: 'Wrong', next: 'Next', nextRound: 'Next round →', points: 'points',
+      menu: 'Menu', close: 'Close', groups: 'Groups', running: 'Running standings', continue: 'Continue',
+      finished: 'Finished', paused: 'Paused', pointsInGame: 'points in game', lessThanMin: 'less than 1 min',
+      guess: 'Guess', revealAnswer: 'Reveal the answer! 🥁', showAnswer: 'Show answer', skip: 'Skip',
+      nextClue: 'Next clue', givePoint: 'Give point', nextNoPoint: 'Next without points →',
+      reader: 'Reader', guessers: 'Guessers', lockBids: 'Lock guesses 🔒', true: 'True', false: 'False',
+      higher: 'higher', lower: 'lower', middle: 'in between', unit: 'Unit', allGuess: 'Everyone writes a guess (hidden).',
     },
     de: {}, fr: {},
   };
@@ -170,6 +182,58 @@
     'fbdk', 'reality', 'julesange', 'ordlav', 'ordkaede', 'ordtrappe', 'ordsplit',
     'rim', 'langst', 'stavboks', 'staveling', 'prov', 'provc', 'provw', 'grsyg',
   ]);
+
+  /* Korte UI-tekster i spil, der ikke selv bruger t(). Kun hele tekstknuder. */
+  const MAP = {
+    en: {
+      'Gæt': 'Guess', 'Afslør svaret! 🥁': 'Reveal the answer! 🥁', 'Næste →': 'Next →',
+      'Næste runde →': 'Next round →', 'Vis svaret': 'Show answer', 'Spring over': 'Skip',
+      'Næste spor': 'Next clue', 'Giv point': 'Give point', 'Næste uden point →': 'Next without points →',
+      'Ingen – næste →': 'Nobody – next →', 'Fortsæt': 'Continue', 'Grupper': 'Groups',
+      'Sandt': 'True', 'Falsk': 'False', 'Lås bud 🔒': 'Lock guesses 🔒', 'Afslut spil': 'End game',
+      'Alle spil': 'All games', 'Spillere': 'Players', 'Ny aften': 'New evening',
+      'Foreslå spørgsmål': 'Suggest a question', 'Start spil': 'Start game', 'Annuller': 'Cancel',
+      'Luk': 'Close', 'Tid pr. spørgsmål': 'Time per question', 'Hurtigt-svar-point': 'Quick-answer points',
+      'Oplæsning': 'Read aloud', 'Musik': 'Music', 'Deltag': 'Join', 'Nyt rum': 'New room',
+      'Ryd buzzere': 'Clear buzzers', 'Luk rum': 'Close room', 'Start runde': 'Start round',
+      'Forlad rummet': 'Leave room', 'JEG VED DET!': 'I KNOW IT!', 'Hvem gættede rigtigt?': 'Who guessed right?',
+      'Indstillinger': 'Settings', 'Hvad skal indstillingerne gælde for?': 'What should the settings apply to?',
+      'Kun «dette spil»': 'This game only', 'Tid pr. spørgsmål': 'Time per question', 'Ingen': 'None',
+      'Hurtigt-svar-point': 'Quick-answer points', 'Musik': 'Music', 'Ingen musik': 'No music',
+      'Oplæsning': 'Read aloud', 'Opsæt stemme': 'Set up voice', 'Prøv stemmen': 'Test the voice',
+      'Hastighed': 'Speed', 'Start spil': 'Start game', 'Luk': 'Close', 'Annuller': 'Cancel',
+      'Spil sammen fra hver telefon': 'Play together from each phone', 'Rumkode': 'Room code',
+      'Dit navn': 'Your name', 'Deltag': 'Join', 'Nyt rum': 'New room', 'Start runde': 'Start round',
+      'Ryd buzzere': 'Clear buzzers', 'Luk rum': 'Close room', 'Forlad rummet': 'Leave room',
+      'Vælg en lyd først': 'Choose a sound first', 'Musik gemt på denne enhed': 'Music saved on this device',
+    },
+  };
+  const oversaet = tekst => {
+    if (valgt === 'da') return tekst;
+    const tabel = MAP[valgt] || {};
+    const rent = tekst.trim();
+    if (tabel[rent] != null) return tekst.replace(rent, tabel[rent]);
+    if (rent.startsWith('Indstillinger til ')) return tekst.replace(rent, 'Settings for ' + rent.slice(17));
+    if (rent.startsWith('Kun «') && rent.endsWith('»')) return tekst.replace(rent, 'This game only');
+    return tekst;
+  };
+  const oversat = root => {
+    if (valgt === 'da' || !root) return;
+    try {
+      const gaa = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+      let n;
+      while ((n = gaa.nextNode())) {
+        if (!n.nodeValue || !n.nodeValue.trim()) continue;
+        const ny = oversaet(n.nodeValue);
+        if (ny !== n.nodeValue) n.nodeValue = ny;
+      }
+      root.querySelectorAll('input[placeholder]').forEach(i => {
+        const t2 = oversaet(i.placeholder);
+        if (t2 !== i.placeholder) i.placeholder = t2;
+      });
+    } catch (e) {}
+  };
+  window.hsOversat = oversat;
 
   const UI = (k, ...a) => {
     const f = (T[valgt] && T[valgt][k]) || (T.da[k]);

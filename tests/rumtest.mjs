@@ -19,7 +19,9 @@ const ny = async () => {
   });
   await p.goto(BASE);
   await p.waitForSelector('button.gc');
-  await p.click('#rumbtn');
+  await p.click('#menubtn');
+  await p.waitForSelector('[data-m="rum"]');
+  await p.click('[data-m="rum"]');
   await p.waitForSelector('.modal');
   return { c, p };
 };

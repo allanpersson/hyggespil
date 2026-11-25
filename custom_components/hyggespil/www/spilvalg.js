@@ -444,6 +444,7 @@
         '<button class="btn ghost" id="hsv-uden">Uden tid</button>' +
         '<button class="btn ghost" id="hsv-tilmenu">← Alle spil</button></div></div>';
       document.body.appendChild(o);
+      try{window.hsOversat&&hsOversat(o)}catch(e){};
       const $ = id => o.querySelector('#' + id);
       const tegnOmfang = () => o.querySelectorAll('[data-omfang]').forEach(b =>
         b.className = 'btn' + (b.dataset.omfang === omfang ? '' : ' ghost'));
