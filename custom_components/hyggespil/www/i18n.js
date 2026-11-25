@@ -17,7 +17,6 @@
   try {
     const g = localStorage.getItem('hs_lang');
     if (g && SPROG[g] && SPROG[g].klar !== false) valgt = g;
-    else if (!g && !/^da/i.test(navigator.language || '')) valgt = 'en';
   } catch (e) {}
 
   const T = {
