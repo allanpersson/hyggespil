@@ -9,15 +9,15 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 *Hygge is the Danish tradition of being together at an easy pace – with no pressure to perform, time for each other, something good to eat and room to laugh. Hygge Games is built around exactly that: one screen, everyone can join in, and the time together matters more than the score.*
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.90<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.91<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->487<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->495<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->99 spil og 18.272 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->99 spil og 18.542 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -252,6 +252,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.91 – 2026-11-25
+
+**Tilføjet**
+- **270 nye spørgsmål og kort** fordelt på: musdk (31), tf_en (17), odd_en (17), riddle_en (17), rather_en (17), never_en (17), likely_en (17), who_en (16), deep_en (16), num_en (15), taboo_en (15), Destination (10), cifvine (10), ordtrappe (10), mus90 (10), gamingquiz (10), provw (9), ordlav (8), International fodbold (8).
+- Nye spørgsmål: 270
+
 ### 0.2.90 – 2026-11-25
 
 **Tilføjet**
@@ -311,10 +317,6 @@ en kop kaffe:
 **Tilføjet**
 - **221 nye spørgsmål og kort** fordelt på: ftl_bil (24), bmgp (20), Destination (10), cifsym (10), cifvine (10), cifcaes (10), cifspjl (10), ordtrappe (10), stavboks (10), staveling (10), International fodbold (10), mus90 (10), musdk (10), film80 (10), film90 (10), harry (10), gamingquiz (10), ftl_fod (10), mus80 (9), cifbrl (8).
 - Nye spørgsmål: 221
-
-### 0.2.83 – 2026-11-24
-
-- Nye spørgsmål: 246
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
