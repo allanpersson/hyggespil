@@ -1,6 +1,6 @@
 # Spiltest – 2026-11-25
 
-Spil testet: 3
+Spil testet: 2
 
 ## Ord lav (ordlav)
 - type: w1 · pulje: ordlav
@@ -11,9 +11,4 @@ Spil testet: 3
 - type: w1 · pulje: stavboks
 - OK: startede, kunne spilles og tegnede korrekt
 - skærmbillede: `artefakter/spiltest/stavboks.png`
-
-## Sanseprøven (sanseprøve)
-- type: t1 · pulje: t1sans
-- OK: startede, kunne spilles og tegnede korrekt
-- skærmbillede: `artefakter/spiltest/sanseprøve.png`
 

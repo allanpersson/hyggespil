@@ -36,10 +36,8 @@ await vært.p.waitForTimeout(1200);
 const kode = (await vært.p.locator('.rumkode').innerText()).trim();
 console.log('rumkode:', kode);
 
-await vært.p.fill('#rum-kode', kode);
-await vært.p.fill('#rum-navn', 'Vært');
-await vært.p.click('#rum-join');
-await vært.p.waitForTimeout(600);
+/* værten er automatisk med */
+await vært.p.waitForTimeout(800);
 
 const gæst = await ny();
 await gæst.p.fill('#rum-kode', kode);
@@ -47,7 +45,7 @@ await gæst.p.fill('#rum-navn', 'Gæst');
 await gæst.p.click('#rum-join');
 await gæst.p.waitForTimeout(1500);
 
-await vært.p.selectOption('#rum-pulje', 'harry');
+await vært.p.selectOption('#rum-pulje', 'tf');
 await vært.p.click('#rum-start');
 await vært.p.waitForTimeout(1800);
 console.log('vært:', (await tekst(vært.p)).slice(0, 90));
@@ -72,7 +70,7 @@ console.log('gæst svarer – vært:', (await tekst(vært.p)).slice(0, 70));
 /* privat kort: taboo */
 await vært.p.click('#rum-aabn');
 await vært.p.waitForSelector('#rum-pulje');
-await vært.p.selectOption('#rum-pulje', 'forklar');
+await vært.p.selectOption('#rum-pulje', 'taboo');
 await vært.p.waitForTimeout(400);
 await vært.p.locator('#rum-start').click({ force: true });
 await vært.p.waitForTimeout(2000);

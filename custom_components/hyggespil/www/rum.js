@@ -157,41 +157,51 @@
   }
   function tegnSpil(d) {
     const el = spilEl();
-    const vis = d && d.fase && d.fase !== 'lobby' && (d.spoergsmaal || d.spil === 'forklar');
+    const vis = d && d.fase && d.fase !== 'lobby' && d.spoergsmaal;
     el.style.display = vis ? 'block' : 'none';
-    /* når runden går i gang, lukkes indstillingsboksen, så den ikke dækker spillet */
     if (vis) { const dlg = document.querySelector('.modal'); if (dlg && dlg.querySelector('#rum-close')) dlg.remove(); }
     if (!vis) return;
-    if (d.spil === 'forklar') { tegnForklar(el, d); return; }
-    const q = d.spoergsmaal, opts = q.o || [];
+    const q = d.spoergsmaal;
+    if (q.slags === 'privat' || d.spil === 'forklar') { tegnForklar(el, d); return; }
     const minTur = erMinTur(), afsloeret = d.fase === 'afsloret';
-    const navn = QUIZ.find(x => x[0] === d.spil);
-    el.innerHTML = '<div class="rp"><div class="top">'
-      + '<div class="sp">' + (navn ? navn[1] : 'Fælles spil') + '</div>'
-      + '<span style="opacity:.7">Rum ' + d.kode + '</span>'
-      + '<button class="btn ghost" id="rum-aabn">Rum</button>'
-      + (erVaert() ? '<button class="btn ghost" id="rum-luk-spil">Afslut</button>' : '')
-      + (med ? '<button class="btn ghost" id="rum-forlad2">Forlad</button>' : '')
-      + '</div>'
-      + '<div class="hvem' + (minTur && !afsloeret ? ' mig' : '') + '">' + (afsloeret
-        ? (d.svar === d.korrekt ? '✅ Rigtigt svar' : '❌ Forkert svar')
-        : (minTur ? '🎯 Det er din tur' : '⏳ Det er ' + d.turNavn + 's tur')) + '</div>'
-      + '<div class="q">' + q.q + '</div>'
-      + '<div class="svar">' + opts.map((t, i) => {
-        const korrekt = afsloeret && i === d.korrekt;
-        const fejl = afsloeret && i === d.svar && i !== d.korrekt;
+    const valg = Array.isArray(q.o) ? q.o : null;
+    let indhold = '';
+    if (q.slags === 'kort') {
+      indhold = '<div class="q" style="font-size:clamp(24px,6vw,40px)">' + esc(q.tekst) + '</div>';
+    } else if (q.slags === 'hellere') {
+      indhold = '<div class="q">' + (window.HSLANG === 'en' ? 'Would you rather…' : 'Hvad ville du helst?') + '</div>'
+        + '<div class="svar"><button disabled>A · ' + esc(q.a) + '</button><button disabled>B · ' + esc(q.b) + '</button></div>';
+    } else if (q.slags === 'svar') {
+      indhold = '<div class="q">' + esc(q.q) + '</div>' + (afsloeret ? '<div class="ans">' + esc(q.a) + '</div>' : '');
+    } else {
+      indhold = '<div class="q">' + esc(q.q) + '</div><div class="svar">' + (valg || []).map((t, i) => {
+        const korrekt = afsloeret && i === d.korrekt, fejl = afsloeret && i === d.svar && i !== d.korrekt;
         return '<button data-s="' + i + '"' + ((!minTur || afsloeret) ? ' disabled' : '') + ' class="' + (korrekt ? 'korrekt' : fejl ? 'fejl' : '') + '">'
           + '<span class="k">' + (korrekt ? '✓' : fejl ? '✗' : 'ABCD'[i]) + '</span><span>' + t + '</span></button>';
-      }).join('') + '</div>'
+      }).join('') + '</div>';
+    }
+    el.innerHTML = '<div class="rp"><div class="top">'
+      + '<div class="sp">' + (function(){try{const gx=(window.gm?gm(d.spil):null);return gx?(window.hsNavn?hsNavn(gx.id,'t',gx.t):gx.t):(window.HSLANG==='en'?'Shared game':'Fælles spil')}catch(e){return window.HSLANG==='en'?'Shared game':'Fælles spil'}})() + '</div>'
+      + '<span style="opacity:.7">' + (window.HSLANG === 'en' ? 'Room ' : 'Rum ') + d.kode + '</span>'
+      + '<button class="btn ghost" id="rum-aabn">' + (window.HSLANG === 'en' ? 'Room' : 'Rum') + '</button>'
+      + (erVaert() ? '<button class="btn ghost" id="rum-luk-spil">' + (window.HSLANG === 'en' ? 'End' : 'Afslut') + '</button>' : '')
+      + (med ? '<button class="btn ghost" id="rum-forlad2">' + (window.HSLANG === 'en' ? 'Leave' : 'Forlad') + '</button>' : '')
+      + '</div>'
+      + '<div class="hvem' + (minTur && !afsloeret ? ' mig' : '') + '">' + (afsloeret
+        ? (valg ? (d.svar === d.korrekt ? (window.HSLANG === 'en' ? '✅ Correct' : '✅ Rigtigt svar') : (window.HSLANG === 'en' ? '❌ Wrong' : '❌ Forkert svar')) : (window.HSLANG === 'en' ? 'Answer' : 'Svaret'))
+        : (minTur ? (window.HSLANG === 'en' ? '🎯 Your turn' : '🎯 Det er din tur') : '⏳ ' + (window.HSLANG === 'en' ? 'Waiting for ' : 'Det er ') + d.turNavn + (window.HSLANG === 'en' ? '' : 's tur'))) + '</div>'
+      + indhold
       + '<div class="point">' + d.spillere.map((p, i) => '<span' + (i === d.tur ? ' style="outline:2px solid #ffb703"' : '') + '>' + p.navn + ': ' + p.point + '</span>').join('') + '</div>'
-      + (afsloeret && erVaert() ? '<div class="row" style="margin-top:14px"><button class="btn big green" id="rum-naeste">Næste spørgsmål →</button></div>' : '')
-      + (!med ? '<p class="hint" style="margin-top:10px">Deltag fra din egen telefon med knappen 📱.</p>' : '')
+      + (erVaert() && q.slags === 'svar' && !afsloeret ? '<div class="row" style="margin-top:10px"><button class="btn" id="rum-vis">' + (window.HSLANG === 'en' ? 'Show answer' : 'Vis svaret') + '</button></div>' : '')
+      + (erVaert() ? '<div class="row" style="margin-top:14px"><button class="btn big green" id="rum-naeste">' + (window.HSLANG === 'en' ? 'Next →' : 'Næste →') + '</button></div>' : '')
       + '</div>';
-    if (minTur && !afsloeret) {
+    if (minTur && !afsloeret && valg) {
       el.querySelectorAll('[data-s]').forEach(b => b.onclick = () => {
         kald({ handling: 'svar', svar: +b.dataset.s }).then(() => biplyd(560)).catch(e => toast(e.message));
       });
     }
+    const visSvar = document.getElementById('rum-vis');
+    if (visSvar) visSvar.onclick = () => kald({ handling: 'svar', svar: 0 }).catch(e => toast(e.message));
     const nx = document.getElementById('rum-naeste');
     if (nx) nx.onclick = naesteRunde;
     const aabn = document.getElementById('rum-aabn');
@@ -200,45 +210,6 @@
     if (luk) luk.onclick = () => kald({ handling: 'afslut' }).catch(e => toast(e.message));
     const fl = document.getElementById('rum-forlad2');
     if (fl) fl.onclick = () => kald({ handling: 'forlad' }).then(() => { gemMed(null); el.style.display = 'none'; });
-  }
-
-  /* værten vælger en tilfældig opgave fra den valgte pulje */
-  function naesteRunde() {
-    const sel = document.getElementById('rum-pulje');
-    const key = (sel && sel.value) || 'harry';
-    const d = data();
-
-    if (key === 'forklar') {
-      const liste = (window.DATA && (window.DATA.taboo_en && window.HSLANG === 'en' ? window.DATA.taboo_en : window.DATA.taboo)) || [];
-      if (!liste.length) { toast('Taboo-puljen er tom'); return; }
-      const it = liste[Math.floor(Math.random() * liste.length)];
-      const w = Array.isArray(it) ? it[0] : it.w;
-      const f = Array.isArray(it) ? it.slice(1, 4) : (it.f || []);
-      const antal = d && d.spillere.length ? d.spillere.length : 1;
-      const maal = (d && d.fase !== 'lobby') ? (d.tur + 1) % antal : 0;
-      kald({
-        handling: (d && d.fase === 'lobby') ? 'start' : 'naeste',
-        spil: 'forklar',
-        spoergsmaal: { q: 'Forklar ordet – uden at sige de forbudte ord' },
-        privat: { [maal]: { w, f } },
-      }).then(() => biplyd(760)).catch(e => toast(e.message));
-      return;
-    }
-
-    const liste = (window.DATA && (window.DATA[key + (window.HSLANG === 'en' ? '_en' : '')] || window.DATA[key])) || [];
-    if (!liste.length) { toast('Puljen er tom'); return; }
-    let bag = [];
-    try { bag = JSON.parse(localStorage.getItem('hs_rum_bag_' + key) || '[]'); } catch (e) {}
-    if (!bag.length) bag = liste.map((_, i) => i).sort(() => Math.random() - 0.5);
-    const idx = bag.pop();
-    try { localStorage.setItem('hs_rum_bag_' + key, JSON.stringify(bag)); } catch (e) {}
-    const it = liste[idx];
-    const q = Array.isArray(it) ? { q: it[0], o: it[1] } : { q: it.q, o: it.o };
-    const korrekt = Array.isArray(it) ? it[2] : it.a;
-    kald({
-      handling: (d && d.fase === 'lobby') ? 'start' : 'naeste',
-      spil: key, spoergsmaal: q, korrekt,
-    }).then(() => biplyd(760)).catch(e => toast(e.message));
   }
 
   /* Taboo: kun den spiller, hvis tur det er, kan åbne sit private kort */
@@ -277,6 +248,79 @@
   }
 
   /* ---------------- dialog ---------------- */
+  /* ---------- hvilke spil kan spilles i et rum ---------- */
+  function slagsAf(it) {
+    if (typeof it === 'string') return 'kort';
+    if (Array.isArray(it)) return (it.length >= 3 && Array.isArray(it[1])) ? 'quiz' : '?';
+    if (!it || typeof it !== 'object') return '?';
+    if (it.w != null && Array.isArray(it.f)) return 'privat';
+    if (it.s != null && it.t != null) return 'tf';
+    if (it.a != null && it.b != null && it.q == null) return 'hellere';
+    if (it.q && Array.isArray(it.o)) return 'quiz';
+    if (it.o && it.a != null && !it.q) return 'odd';
+    if (it.q && Array.isArray(it.a)) return 'to';
+    if (it.q && it.a != null) return 'svar';
+    return '?';
+  }
+  function mulige() {
+    const ud = [], set = new Set();
+    for (const g of (window.GAMES || [])) {
+      if (!g || !g.key || g.skjult || g.kind === 'mix' || g.kind === 'menu') continue;
+      if (set.has(g.key)) continue;
+      let liste = [];try{liste=pool(g.key)}catch(e){}
+      if (liste.length < 10) continue;
+      if (slagsAf(liste[0]) === '?') continue;
+      set.add(g.key);
+      ud.push([g.key, (window.hsNavn ? hsNavn(g.id, 't', g.t) : g.t)]);
+    }
+    return ud.sort((a, b) => a[1].localeCompare(b[1]));
+  }
+
+  function naesteRunde() {
+    const sel = document.getElementById('rum-pulje');
+    const key = (sel && sel.value) || 'harry';
+    const d = data();
+    let liste = [];try{liste=pool(key)||[]}catch(e){}
+    if (!liste.length) { toast('Puljen er tom'); return; }
+    let bag = [];
+    try { bag = JSON.parse(localStorage.getItem('hs_rum_bag_' + key) || '[]'); } catch (e) {}
+    if (!bag.length) bag = liste.map((_, i) => i).sort(() => Math.random() - 0.5);
+    const idx = bag.pop();
+    try { localStorage.setItem('hs_rum_bag_' + key, JSON.stringify(bag)); } catch (e) {}
+    const it = liste[idx];
+    const sl = slagsAf(it);
+    let spoergsmaal = null, korrekt = null, privat = {};
+    if (sl === 'quiz') {
+      const q = Array.isArray(it) ? it[0] : it.q, o = Array.isArray(it) ? it[1] : it.o, a = Array.isArray(it) ? it[2] : it.a;
+      spoergsmaal = { slags: 'quiz', q, o: o.map(String) }; korrekt = a;
+    } else if (sl === 'tf') {
+      spoergsmaal = { slags: 'tf', q: it.s, o: [(window.HSLANG === 'en' ? 'True' : 'Sandt'), (window.HSLANG === 'en' ? 'False' : 'Falsk')] };
+      korrekt = it.t ? 0 : 1;
+    } else if (sl === 'odd') {
+      spoergsmaal = { slags: 'odd', q: (window.HSLANG === 'en' ? 'Which statement is the lie?' : 'Hvilken påstand er løgn?'), o: it.o.map(String) }; korrekt = it.a;
+    } else if (sl === 'to') {
+      spoergsmaal = { slags: 'to', q: it.q, o: it.a.map(String) }; korrekt = it.c;
+    } else if (sl === 'svar') {
+      spoergsmaal = { slags: 'svar', q: it.q, a: String(it.a) };
+    } else if (sl === 'kort') {
+      spoergsmaal = { slags: 'kort', tekst: String(it) };
+    } else if (sl === 'hellere') {
+      spoergsmaal = { slags: 'hellere', a: String(it.a), b: String(it.b) };
+    } else if (sl === 'privat') {
+      const antal = d && d.spillere.length ? d.spillere.length : 1;
+      const maal = (d && d.fase !== 'lobby') ? (d.tur + 1) % antal : 0;
+      privat[maal] = { w: it.w, f: it.f };
+      spoergsmaal = { slags: 'privat', q: (window.HSLANG === 'en' ? 'Explain the word – without saying the forbidden words' : 'Forklar ordet – uden at sige de forbudte ord') };
+    } else {
+      toast('Dette spil kan ikke deles'); return;
+    }
+    kald({
+      handling: (d && d.fase === 'lobby') ? 'start' : 'naeste',
+      spil: (sl === 'privat' ? 'forklar' : key),
+      spoergsmaal, korrekt, privat,
+    }).then(() => biplyd(760)).catch(e => toast(e.message));
+  }
+
   function dialog() {
     const d0 = data() || { spillere: [], buzzere: [], kode: '' };
     const online = !hass();
@@ -295,7 +339,7 @@
       + '<div class="rumliste" id="rum-spillere"></div>'
       + '<h3 style="margin:14px 0 6px">② Fælles quiz (værten starter)</h3>'
       + '<div class="row" style="justify-content:flex-start"><select class="in" id="rum-pulje" style="max-width:260px;text-align:left">'
-      + QUIZ.map(([k, t]) => '<option value="' + k + '">' + t + '</option>').join('') + '</select>'
+      + mulige().map(([k, t]) => '<option value="' + k + '">' + t + '</option>').join('') + '</select>'
       + '<button class="btn green" id="rum-start">Start runde</button></div>'
       + '<h3 style="margin:14px 0 6px">③ Din telefon</h3><div id="rum-mig"></div>'
       + '<div class="row" style="margin-top:16px"><button class="btn ghost" id="rum-close">Luk</button></div></div>';
@@ -349,11 +393,19 @@
     tegn();
 
     $('rum-nyt').onclick = () => {
+      /* værten er automatisk med – med sit eget spillernavn */
+      const navn = (window.players && players[0] && players[0].n) || (window.HSLANG === 'en' ? 'Host' : 'Vært');
+      const efter = kode => {
+        gemMed({ kode: kode, navn: navn, enhed: enhed });
+        kald({ handling: 'deltag', kode: kode, navn: navn })
+          .then(() => { biplyd(); setTimeout(tegn, 300); })
+          .catch(e => toast(e.message));
+      };
       if (online && window.HSRUM) {
-        window.HSRUM.opret().then(() => { biplyd(); setTimeout(tegn, 300); }).catch(e => toast(e.message));
+        window.HSRUM.opret().then(() => { const d = data() || {}; efter(d.kode || d.rum || ''); }).catch(e => toast(e.message));
       } else {
         const k = String(Math.floor(1000 + Math.random() * 9000));
-        kald({ handling: 'opret', kode: k }).then(() => { biplyd(); setTimeout(tegn, 300); }).catch(e => toast(e.message));
+        kald({ handling: 'opret', kode: k }).then(() => efter(k)).catch(e => toast(e.message));
       }
     };
     $('rum-ryd').onclick = () => kald({ handling: 'ryd' }).then(() => setTimeout(tegn, 250)).catch(e => toast(e.message));
