@@ -212,8 +212,8 @@ jobs:
           m = re.search(r"^## " + re.escape(v) + r"\s+[–-]\s+.*?$(.*?)(?=^## |\Z)", tekst, flags=re.M | re.S)
           krop = (m.group(1).strip() if m else "Se CHANGELOG.md for hvad der er nyt.")
           open("/tmp/noter.md", "w", encoding="utf-8").write(
-              "## Hyggespil " + v + "\n\n" + krop +
-              "\n\n---\nHent: Indstillinger → Marketplace → Hyggespil → Opdater, og genstart Home Assistant.\n")
+              "## Hygge Games " + v + "\n\n" + krop +
+              "\n\n---\nHent: Indstillinger → Marketplace → Hygge Games → Opdater, og genstart Home Assistant.\n")
           print(krop[:200])
           PY
           ls -l hyggespil.zip || { echo "zippet mangler"; exit 1; }
@@ -221,7 +221,7 @@ jobs:
             gh release edit "$v" --notes-file /tmp/noter.md 2>&1 || true
             gh release upload "$v" hyggespil.zip --clobber 2>&1
           else
-            gh release create "$v" --title "Hyggespil" --notes-file /tmp/noter.md 2>&1
+            gh release create "$v" --title "Hygge Games" --notes-file /tmp/noter.md 2>&1
             gh release upload "$v" hyggespil.zip 2>&1
           fi
           gh release view "$v" --json tagName,assets,isPrerelease 2>&1
