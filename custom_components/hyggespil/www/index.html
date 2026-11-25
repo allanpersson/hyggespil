@@ -251,6 +251,20 @@ function bindModal(){
  if(modal==='q'&&$('saveq'))$('saveq').onclick=()=>{const q=$('qq').value.trim(),a=parseNum($('qa').value),u=$('qu').value.trim();if(!q||a===null){$('qq').classList.add('shake');return}own.push({q,a,u});LS.set('own',own);render()};
 }
 
+function discHTML(){
+ const da=(window.HSLANG||'da')==='da';
+ return '<div class="card glass" id="discl" style="margin-top:16px;padding:16px;text-align:left">'
+  +'<div style="font-weight:900;font-size:17px;margin-bottom:6px">🎲 '+(da?'Inspireret – ikke kopieret':'Inspired – not copied')+'</div>'
+  +'<p class="hint" style="margin:0 0 6px">'+(da
+    ?'Spillene her tager afsæt i klassiske selskabsspil, gamle lege og tv- og radioprogrammer. Er der et spil, du holder af, så køb den fysiske udgave, hvis den findes – det støtter dem, der har lavet originalen.'
+    :'The games here are inspired by classic party games, old playground games and TV and radio formats. If you like a game, please buy the physical original where one exists – it supports the people who made it.')+'</p>'
+  +'<p class="hint" style="margin:0 0 10px">'+(da
+    ?'Alt indhold er skrevet til Hygge Games: inspireret af originalerne, aldrig kopieret fra dem.'
+    :'All content is written for Hygge Games: inspired by the originals, never copied from them.')+'</p>'
+  +'<div class="row" style="justify-content:flex-start"><button class="btn green" onclick="hsDiscLuk()">'
+  +(da?'Forstået – vis ikke igen':'Got it – don’t show again')+'</button><button class="btn ghost" onclick="hsOm()">'
+  +(da?'Læs mere':'Read more')+'</button></div></div>';
+}
 function home(){
  let tot=0,h='';
  const synlig=x=>!x.skjult&&alderOK(x)&&!(window.HSLANG!=='da'&&window.hsKunDa&&hsKunDa(x.id))&&(window.HSLANG==='da'||(window.HS_EN_KAN||[]).includes(x.id));
@@ -258,7 +272,7 @@ function home(){
   h+=`<div class="grp">${hsGruppe(grp)}</div><div class="grid">${GAMES.filter(x=>x.grp===grp&&synlig(x)).map(x=>{const liste=x.kind==='menu'?(x.sub||[]).reduce((a,z)=>a.concat(pool(z.key)),[]):pool(x.key),n=x.antalPuljer?x.antalPuljer.reduce((a,k)=>a+pool(k).length,0):(x.antal!=null?x.antal:liste.length);const harAlder=liste.some(i=>i&&typeof i.age==='number');const gruppeMin=harAlder?Math.min(...[[3,5],[6,8],[9,11],[12,14]].map(([a,b])=>liste.filter(i=>!i||typeof i.age!=='number'||(i.age>=a&&i.age<=b)).length)):n;const graense=x.kommerSnart!=null?x.kommerSnart:(x.ny?50:0),enkelt=n<=1,snart=graense&&n<=graense,ny=!enkelt&&!snart&&(n<100||gruppeMin<100);return `<button class="gc" style="--g:${x.g}" onclick="hsStart('${x.id}')"><div class="em">${x.id==='nev'?hsNeverIkon():(x.id==='dare'?hsDareIkon():x.e)}</div><div class="t">${x.id==='dare'?hsDareTitel():hsNavn(x.id,'t',x.t)}</div><div class="d">${hsNavn(x.id,'d',x.d)}</div><div class="mn">${x.min<=1?t('solo'):t('playersMin',x.min)}</div>${enkelt?'':`<div class="pswrap"><div class="ps">${t('inPool',n)}</div>${snart?'<div class="ps snart">'+t('comingSoon')+' · '+(graense+1)+'</div>':''}${ny?'<div class="ps ny">'+t('newPool')+'</div>':''}</div>`}</button>`}).join('')}</div>`}
  const keys=[...new Set(GAMES.filter(x=>x.key&&alderOK(x)).map(x=>x.key))];tot=keys.reduce((s,k)=>s+(pool(k).length>1?pool(k).length:0),0);
  document.getElementById('main').innerHTML=h+`<p class="hint" style="margin-top:22px">${window.HSLANG!=='da'&&!tot?t('moreEnglish'):t('total',tot)}</p>`
- + (skalViseDisc() ? `<div class="card glass" id="discl" style="margin-top:16px;padding:16px;text-align:left"><div style="font-weight:900;font-size:17px;margin-bottom:6px">🎲 Inspireret – ikke kopieret</div><p class="hint" style="margin:0 0 6px">Spillene her tager afsæt i klassiske selskabsspil, gamle lege og tv- og radioprogrammer. Er der et spil, du holder af, så køb den fysiske udgave, hvis den findes – det støtter dem, der har lavet originalen.</p><p class="hint" style="margin:0 0 10px">Alt indhold er skrevet til Hyggespil: inspireret af originalerne, aldrig kopieret fra dem.</p><div class="row" style="justify-content:flex-start"><button class="btn green" onclick="hsDiscLuk()">Forstået – vis ikke igen</button><button class="btn ghost" onclick="hsOm()">Læs mere</button></div></div>` : '') +`<p class="hint" style="margin-top:12px;text-align:center;font-size:12px">Hygge Games v${(window.HSCFG&&HSCFG.version)||''} · ${window.HSPLAY?'<button class="btn ghost" id="fstotte" style="padding:2px 8px;font-size:12px" onclick="window.hsStotte&&window.hsStotte()">☕ '+t('support')+'</button>':`<a href="${(window.HSCFG&&HSCFG.kaffe)||'https://buymeacoffee.com/i8B3Mn5'}" target="_blank" rel="noopener" style="color:#ffb703;font-weight:800;text-decoration:none">☕ ${t('coffee')}</a>`} · <button class="btn ghost" id="fhome" style="padding:2px 8px;font-size:12px">💬 ${t('feedback')}</button> · <a href="#" onclick="hsOm();return false" style="color:#b9b4d6;text-decoration:none">${t('about')}</a></p>`;
+ + (skalViseDisc() ? discHTML() : '') +`<p class="hint" style="margin-top:12px;text-align:center;font-size:12px">Hygge Games v${(window.HSCFG&&HSCFG.version)||''} · ${window.HSPLAY?'<button class="btn ghost" id="fstotte" style="padding:2px 8px;font-size:12px" onclick="window.hsStotte&&window.hsStotte()">☕ '+t('support')+'</button>':`<a href="${(window.HSCFG&&HSCFG.kaffe)||'https://buymeacoffee.com/i8B3Mn5'}" target="_blank" rel="noopener" style="color:#ffb703;font-weight:800;text-decoration:none">☕ ${t('coffee')}</a>`} · <button class="btn ghost" id="fhome" style="padding:2px 8px;font-size:12px">💬 ${t('feedback')}</button> · <a href="#" onclick="hsOm();return false" style="color:#b9b4d6;text-decoration:none">${t('about')}</a></p>`;
 }
 function start(id){const x=gm(id);if(players.length<x.min){alert('Der skal mindst være '+x.min+' spillere – tilføj flere under «Spillere».');return}
  g={turn:-1,gp:{}};let v=id;if(id==='ffm'&&players.length<3){v='est';g.fb=true}view=v;next()}

@@ -231,18 +231,19 @@ const gemVoksen=aar=>{try{localStorage.setItem(XVOKSEN,JSON.stringify({aar:aar,t
 function aldersport(fortsæt){
  const år=new Date().getFullYear();
  const d=document.createElement('div');d.className='modal';d.style.zIndex='90';
- d.innerHTML=`<div class='mbox'><h2 style='margin-top:0'>🔞 For voksne (18+)</h2>
- <p class='hint' style='text-align:left'>Afsnittet indeholder spil og spørgsmål for voksne. For at beskytte børn skal du bekræfte din alder, før du kan vælge eller bruge en kode.</p>
- <p class='hint' style='text-align:left'>Bekræftelsen gemmes kun på denne enhed og kan fjernes ved at rydde appens data.</p>
- <label class='hint' for='xalder' style='display:block;text-align:left;margin-top:8px'>Skriv dit fødselsår (4 cifre)</label>
- <input class='in' id='xalder' inputmode='numeric' maxlength='4' autocomplete='off' placeholder='Fx 1985'>
+ const da=(window.HSLANG||'da')==='da';
+ d.innerHTML=`<div class='mbox'><h2 style='margin-top:0'>🔞 ${da?'For voksne (18+)':'For adults (18+)'}</h2>
+ <p class='hint' style='text-align:left'>${da?'Afsnittet indeholder spil og spørgsmål for voksne. For at beskytte børn skal du bekræfte din alder, før du kan vælge eller bruge en kode.':'This section contains games and questions for adults. To protect children, confirm your age before you can choose or use a code.'}</p>
+ <p class='hint' style='text-align:left'>${da?'Bekræftelsen gemmes kun på denne enhed og kan fjernes ved at rydde appens data.':'The confirmation is stored only on this device and can be removed by clearing the app’s data.'}</p>
+ <label class='hint' for='xalder' style='display:block;text-align:left;margin-top:8px'>${da?'Skriv dit fødselsår (4 cifre)':'Enter your year of birth (4 digits)'}</label>
+ <input class='in' id='xalder' inputmode='numeric' maxlength='4' autocomplete='off' placeholder='${da?'Fx 1985':'e.g. 1985'}'>
  <p class='hint' id='xamsg' style='min-height:1.2em'></p>
- <div class='row'><button class='btn red' id='xaok'>Bekræft alder</button><button class='btn ghost' id='xano'>Jeg er under 18</button></div></div>`;
+ <div class='row'><button class='btn red' id='xaok'>${da?'Bekræft alder':'Confirm age'}</button><button class='btn ghost' id='xano'>${da?'Jeg er under 18':'I am under 18'}</button></div></div>`;
  document.body.appendChild(d);
  const i=d.querySelector('#xalder'),m=t=>{d.querySelector('#xamsg').textContent=t};
  const go=()=>{const aar=Number(i.value);
-  if(!/^\d{4}$/.test(i.value)||aar<1900||aar>år){m('Skriv et gyldigt fødselsår.');return}
-  if(år-aar<18){i.value='';m('Du skal være fyldt 18 for at bruge dette afsnit.');return}
+  if(!/^\d{4}$/.test(i.value)||aar<1900||aar>år){m(da?'Skriv et gyldigt fødselsår.':'Enter a valid year of birth.');return}
+  if(år-aar<18){i.value='';m(da?'Du skal være fyldt 18 for at bruge dette afsnit.':'You must be 18 or older to use this section.');return}
   gemVoksen(aar);d.remove();fortsæt()};
  d.querySelector('#xaok').onclick=go;
  i.onkeydown=e=>{if(e.key==='Enter')go()};
@@ -318,20 +319,21 @@ function ensureSetup(){
  while(players.length<2)players.push({n:'Spiller '+(players.length+1),c:C[players.length%C.length],s:0,t:0});
  save();
  const d=document.createElement('div');d.className='modal';
+ const da=(window.HSLANG||'da')==='da';
  d.innerHTML=`<div class="mbox" style="max-height:92vh;overflow:auto">
- <h2 style="margin-top:0">🃏 Velkommen til Hygge Games</h2>
- <p class="hint" style="text-align:left">Spillet kører helt hos dig selv: spillernavne, aldre, point og egne spørgsmål gemmes kun i browseren på denne enhed og forlader den aldrig. Ingen data fra udviklerens eget spil følger med.</p>
- <h3 style="margin:14px 0 6px">Hvem spiller med?</h3>
- <p class="hint" style="text-align:left">To spillere er sat op i forvejen – du kan skrive navnene her eller ændre dem senere under 👥 Spillere.</p>
+ <h2 style="margin-top:0">🃏 ${da?'Velkommen til Hygge Games':'Welcome to Hygge Games'}</h2>
+ <p class="hint" style="text-align:left">${da?'Spillet kører helt hos dig selv: spillernavne, aldre, point og egne spørgsmål gemmes kun i browseren på denne enhed og forlader den aldrig. Ingen data fra udviklerens eget spil følger med.':'Everything runs on your own device: player names, ages, scores and your own questions are stored only in this browser and never leave it. No data from the developer’s game is included.'}</p>
+ <h3 style="margin:14px 0 6px">${da?'Hvem spiller med?':'Who is playing?'}</h3>
+ <p class="hint" style="text-align:left">${da?'To spillere er sat op i forvejen – du kan skrive navnene her eller ændre dem senere under 👥 Spillere.':'Two players are set up already – edit the names here or later under 👥 Players.'}</p>
  <input class="in" id="fn1" maxlength="16" placeholder="Spiller 1">
  <div style="height:6px"></div>
  <input class="in" id="fn2" maxlength="16" placeholder="Spiller 2">
  <p class="hint" id="fmsg" style="min-height:1.2em;color:#ffb703"></p>
  <div class="row" style="margin-top:16px"><button class="btn big green" id="fok">Start spillet</button></div>
  <div class="card" style="margin-top:16px;padding:12px;text-align:left">
-  <div style="font-weight:900">🔞 Afsnittet for voksne er slået fra</div>
-  <p class="hint" style="margin:6px 0 0">Vil du bruge det, skal du først bekræfte, at du er fyldt 18 år. Derefter vælger du selv en kode på 4–8 cifre; der findes ingen fælles kode.</p>
-  <div class="row" style="margin-top:10px"><button class="btn ghost" id="fx">Opsæt 🔞-kode</button></div>
+  <div style="font-weight:900">🔞 ${da?'Afsnittet for voksne er slået fra':'The adults section is turned off'}</div>
+  <p class="hint" style="margin:6px 0 0">${da?'Vil du bruge det, skal du først bekræfte, at du er fyldt 18 år. Derefter vælger du selv en kode på 4–8 cifre; der findes ingen fælles kode.':'To use it, confirm that you are 18 or older. Then choose your own 4–8 digit code; there is no shared code.'}</p>
+  <div class="row" style="margin-top:10px"><button class="btn ghost" id="fx">${da?'Opsæt 🔞-kode':'Set up 🔞 code'}</button></div>
  </div></div>`;
  document.body.appendChild(d);
  d.querySelector('#fn1').value=(players[0]&&players[0].n)||'Spiller 1';
