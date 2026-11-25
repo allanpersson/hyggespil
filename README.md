@@ -9,15 +9,15 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 *Hygge is the Danish tradition of being together at an easy pace – with no pressure to perform, time for each other, something good to eat and room to laugh. Hygge Games is built around exactly that: one screen, everyone can join in, and the time together matters more than the score.*
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.95<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.96<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->511<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->520<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->99 spil og 18.969 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->99 spil og 18.999 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -252,6 +252,17 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.96 – 2026-11-25
+
+**Samspil**
+- **Flere spil i rummet:** nu kan næsten alle egnede spil deles – quiz, sandt/falsk, find løgnen, hvad skete først, gåder, kortspil som «Jeg har aldrig» og «Dybe samtaler», «Hellere end» og «Forklar ordet». Værten vælger blot spillet i listen.
+- **Enklere:** værten er automatisk med i rummet med sit eget navn, og der er kun ét rum at oprette. Gæsterne skriver koden og deres navn.
+- **Bedre rumskærm:** spillenes navn vises, kort og svarmuligheder bliver ens på alle telefoner, og kun den, hvis tur det er, kan svare.
+- **Robusthed:** gæsten synkroniserer løbende, så en mistet besked ikke stopper spillet.
+**Tilføjet**
+- **20 nye spørgsmål og kort** fordelt på: julefilm (10), cult (10).
+- Samspil med flere spil
+
 ### 0.2.95 – 2026-11-25
 
 **Tilføjet**
@@ -322,18 +333,6 @@ en kop kaffe:
 **Rettet**
 - Puljer tælles nu pr. sprog (`da`/`en`), så dansk og engelsk udvides og måles hver for sig.
 - Hygge Games i udgivelser
-
-### 0.2.88 – 2026-11-25
-
-**Tilføjet**
-- **Nyt navn: Hygge Games** – med en dansk og engelsk forklaring af, hvad hygge er, og hvordan spillet er bygget op om at være sammen.
-- **Engelsk**: menuer, spilnavne og 12 spil med engelsk indhold (122 kort). Dansk-specifikke kategorier som postnummer, færdselsloven og dansk reality vises ikke på engelsk. Skift sprog med **DA/EN** øverst.
-- **Solo**: ét spiller kan nu spille alle de spil, hvor en modstander ikke er nødvendig – quiz, gåder, ordspil, tal, koder og mere.
-- **Tysk og fransk** er forberedt i sprogarkitekturen og dokumenteret i `docs/SPROG.md`.
-- **Installationsguide**: `docs/INSTALL.md` viser, hvordan man undgår Play Protect-scanning ved hver installation (Play intern test, ADB eller Obtainium).
-**Rettet**
-- Puljer tælles nu pr. sprog (`da`/`en`), så dansk og engelsk udvides og måles hver for sig.
-- Dansk som standardsprog
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->

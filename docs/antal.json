@@ -1,6 +1,6 @@
 {
  "spil": 99,
- "spoergsmaal": 18969,
+ "spoergsmaal": 18999,
  "puljer": {
   "num": 217,
   "tf": 198,
@@ -106,7 +106,7 @@
   "julequiz": 87,
   "julekalender": 88,
   "julesange": 88,
-  "julefilm": 85,
+  "julefilm": 95,
   "julesjov": 87,
   "gamingquiz": 91,
   "konsolquiz": 10,
@@ -115,7 +115,7 @@
   "gamingleg": 87,
   "ftl_cykel": 97,
   "ftl_bil": 95,
-  "cult": 85,
+  "cult": 105,
   "ftl_fod": 108,
   "ftl_andre": 88,
   "rec": 94,
@@ -136,7 +136,7 @@
  "sprog": {
   "da": {
    "puljer": 119,
-   "spoergsmaal": 18444
+   "spoergsmaal": 18474
   },
   "en": {
    "puljer": 11,
