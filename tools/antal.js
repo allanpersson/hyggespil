@@ -85,7 +85,7 @@ function kør(fil) {
   vm.runInContext(s, ctx, { filename: fil });
 }
 
-['hs-krypto.js', 'data.js', 'data2.js', 'data3.js'].forEach(kør);
+['hs-krypto.js', 'data.js', 'data2.js', 'data3.js', 'en.js'].forEach(kør);
 
 const html = fs.readFileSync(path.join(WWW, 'index.html'), 'utf8');
 const kerne = html.split('<script>')[1].split('</script>')[0];
@@ -110,7 +110,15 @@ const set = new Map();
 for (const g of (ctx.GAMES || [])) if (g && g.id && !g.skjult && !set.has(g.id)) set.set(g.id, String(g.t || g.id));
 const spil = set.size;
 
-const tal = { spil, spoergsmaal: spørgsmål, puljer: Object.keys(puljer).length };
+const sprog = { da: { puljer: 0, spoergsmaal: 0 }, en: { puljer: 0, spoergsmaal: 0 } };
+for (const [k, n] of Object.entries(puljer)) {
+  const m = /_(en)$/.exec(k);
+  const sp = (m && m[1] !== 'da') ? m[1] : 'da';
+  if (!sprog[sp]) sprog[sp] = { puljer: 0, spoergsmaal: 0 };
+  sprog[sp].puljer++;
+  sprog[sp].spoergsmaal += n;
+}
+const tal = { spil, spoergsmaal: spørgsmål, puljer: Object.keys(puljer).length, sprog };
 
 /* Hver (pulje, aldersgruppe) er sin egen pulje. Kort uden alder gælder alle aldre. */
 const grupper = [[3, 5], [6, 8], [9, 11], [12, 14]];

@@ -31,7 +31,7 @@ function vis(g){
  if($('bdl'))$('bdl').onclick=()=>{const b=new Blob([tekst],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='hyggespil-sikkerhedskopi-'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000);msg('Filens download er startet.')};
  if($('brest'))$('brest').onclick=()=>{
   let o;try{o=JSON.parse($('btx').value)}catch(e){return msg('Det var ikke gyldig tekst.')}
-  if(!o||o._art!=='hyggespil-data'||!o.indhold)return msg('Filen ser ikke ud til at være en Hyggespil-kopi.');
+  if(!o||o._art!=='hyggespil-data'||!o.indhold)return msg('Filen ser ikke ud til at være en Hygge Games-kopi.');
   Object.keys(o.indhold).forEach(k=>{try{localStorage.setItem(k,String(o.indhold[k]))}catch(e){}});
   msg('Data er genskabt. Genindlæser…');setTimeout(()=>location.reload(),900)};
 }

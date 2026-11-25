@@ -1,17 +1,23 @@
-# 🃏 Hyggespil
+# 🃏 Hygge Games
 
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
+**Hygge** er den danske tradition for at være sammen i et roligt tempo – uden præstationspres, med tid til hinanden, noget godt at spise og plads til at grine. Det handler ikke om at vinde, men om at være sammen.
+
+**Hygge Games** er bygget op om netop det: én skærm, alle kan være med, og samværet er vigtigere end pointene.
+
+*Hygge is the Danish tradition of being together at an easy pace – with no pressure to perform, time for each other, something good to eat and room to laugh. Hygge Games is built around exactly that: one screen, everyone can join in, and the time together matters more than the score.*
+
 **Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.86<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->481<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->483<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->99 spil og 17.927 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->99 spil og 18.192 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|

@@ -4,7 +4,7 @@ Brug teksten som udgangspunkt. Den er skrevet uden varemærker, uden personoplys
 
 ## App-navn
 
-**Hyggespil**
+**Hygge Games**
 
 ## Kort beskrivelse (max 80 tegn)
 
@@ -14,7 +14,7 @@ Brug teksten som udgangspunkt. Den er skrevet uden varemærker, uden personoplys
 
 ## Fuld beskrivelse
 
-> **Hyggespil – dansk selskabsspil til hele familien**
+> **Hygge Games – dansk selskabsspil til hele familien**
 >
 > Saml vennerne eller familien om én skærm, og spil quiz, gåder, ordspil og skøre opgaver. Alt er på dansk, og alt foregår på din egen telefon.
 >

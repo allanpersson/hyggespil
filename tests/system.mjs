@@ -134,6 +134,47 @@ const ok = (navn, ja) => { antal++; console.log((ja ? 'OK  ' : 'FEJL') + '  ' + 
   await ctx.close();
 }
 
+/* ---------- 5) solo: én spiller ---------- */
+{
+  const { ctx, page } = await nySide(() => {
+    localStorage.setItem('hs_forst', 'ja');
+    localStorage.setItem('hs_xlock', JSON.stringify({ s: 'salt', k: 'kontrol' }));
+    localStorage.setItem('hs_players', JSON.stringify([{ n: 'Solo', c: '#ff5d8f', s: 0, age: 30 }]));
+    localStorage.setItem('hs_indst', 'true');
+  });
+  ok('én spiller kræver ikke spillervalg', (await page.locator('.modal').count()) === 0);
+  await page.evaluate(() => window.hsStart('tf'));
+  const s = page.locator('#hsv-startspil'); if (await s.count()) await s.click();
+  await page.waitForSelector('#main .card');
+  ok('et solo-spil starter med én spiller', (await page.locator('#main .q').count()) === 1);
+  await ctx.close();
+}
+
+/* ---------- 6) engelsk: menuer og indhold ---------- */
+{
+  const { ctx, page } = await nySide(() => {
+    localStorage.setItem('hs_lang', 'en');
+    localStorage.setItem('hs_forst', 'ja');
+    localStorage.setItem('hs_xlock', JSON.stringify({ s: 'salt', k: 'kontrol' }));
+    localStorage.setItem('hs_players', JSON.stringify([{ n: 'A', c: '#ff5d8f', s: 0, age: 30 }, { n: 'B', c: '#ffb703', s: 0, age: 30 }]));
+    localStorage.setItem('hs_indst', 'true');
+  });
+  ok('siden skifter til engelsk', await page.evaluate(() => document.documentElement.lang === 'en'));
+  ok('titlen er Hygge Games', (await page.title()) === 'Hygge Games');
+  ok('kun spil med engelsk indhold vises', await page.evaluate(() => {
+    const ids = [...document.querySelectorAll('button.gc')].map(b => (b.getAttribute('onclick') || '').match(/'([^']+)'/)?.[1]);
+    return ids.length >= 10 && !ids.includes('zip') && !ids.includes('law') && !ids.includes('ftl') && ids.includes('tf');
+  }));
+  await page.evaluate(() => window.hsStart('tf'));
+  const s = page.locator('#hsv-startspil'); if (await s.count()) await s.click();
+  await page.waitForSelector('#main .card');
+  const q = await page.evaluate(() => (document.querySelector('#main .q') || {}).textContent || '');
+  ok('spørgsmålet er på engelsk', /[A-Za-z]/.test(q) && !/[æøå]/i.test(q));
+  ok('knapperne er på engelsk', await page.evaluate(() =>
+    [...document.querySelectorAll('#main .bar button')].some(b => /All games/.test(b.textContent))));
+  await ctx.close();
+}
+
 await browser.close();
 console.log(antal + ' tjek, ' + fejl.length + ' sidefejl');
 if (fejl.length) console.log(fejl.slice(0, 6).join('\n'));

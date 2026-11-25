@@ -31,7 +31,7 @@ Sidst kontrolleret: 23. november 2026. Kilder er Googles egne sider, og de er n�
    - **Organisation**: kræver CVR/foreningsoplysninger og en verificerbar hjemmeside/e-mail på domænet. Vælges, hvis Hyggespil skal stå som firma.
 3. Udfyld **Developer profile** (navn, e-mail, hjemmeside) – det vises i butikken.
 4. Opret appen med:
-   - Navn: **Hyggespil**
+   - Navn: **Hygge Games**
    - Sprog: Dansk
    - App eller spil: **Spil**
    - Gratis

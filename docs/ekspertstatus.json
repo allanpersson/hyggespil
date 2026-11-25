@@ -42,6 +42,50 @@
    "antal": 0
   },
   {
+   "pool": "tf_en",
+   "antal": 0
+  },
+  {
+   "pool": "odd_en",
+   "antal": 0
+  },
+  {
+   "pool": "riddle_en",
+   "antal": 0
+  },
+  {
+   "pool": "num_en",
+   "antal": 0
+  },
+  {
+   "pool": "who_en",
+   "antal": 0
+  },
+  {
+   "pool": "taboo_en",
+   "antal": 0
+  },
+  {
+   "pool": "tl_en",
+   "antal": 0
+  },
+  {
+   "pool": "deep_en",
+   "antal": 0
+  },
+  {
+   "pool": "rather_en",
+   "antal": 0
+  },
+  {
+   "pool": "never_en",
+   "antal": 0
+  },
+  {
+   "pool": "likely_en",
+   "antal": 0
+  },
+  {
    "pool": "wheel",
    "antal": 0
   },
@@ -430,6 +474,17 @@
   "zip": 8,
   "weird": 7,
   "lang": 7,
+  "tf_en": 0,
+  "odd_en": 0,
+  "riddle_en": 0,
+  "num_en": 0,
+  "who_en": 0,
+  "taboo_en": 0,
+  "tl_en": 0,
+  "deep_en": 0,
+  "rather_en": 0,
+  "never_en": 0,
+  "likely_en": 0,
   "wheel": 0,
   "sqdal": 0,
   "sqdil": 0,

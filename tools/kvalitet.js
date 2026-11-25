@@ -39,7 +39,7 @@ const sandkasse = { DATA, PACK: () => {}, Object, console: { log() {}, warn() {}
 sandkasse.window = sandkasse;          // som i browseren: window.DATA og DATA er samme objekt
 sandkasse.globalThis = sandkasse;
 vm.createContext(sandkasse);
-for (const f of ['data.js', 'data2.js', 'data3.js', 'ex_daily.js', 'gs.js', 'fb.js', 'reality.js', 'musik.js', 'film.js']) {
+for (const f of ['data.js', 'data2.js', 'data3.js', 'ex_daily.js', 'gs.js', 'fb.js', 'reality.js', 'musik.js', 'film.js', 'en.js']) {
   try { new vm.Script(klart(f), { filename: f }).runInContext(sandkasse); }
   catch (e) { console.error('kunne ikke læse ' + f + ': ' + e.message); }
 }

@@ -320,7 +320,7 @@ function ensureSetup(){
  save();
  const d=document.createElement('div');d.className='modal';
  d.innerHTML=`<div class="mbox" style="max-height:92vh;overflow:auto">
- <h2 style="margin-top:0">🃏 Velkommen til Hyggespil</h2>
+ <h2 style="margin-top:0">🃏 Velkommen til Hygge Games</h2>
  <p class="hint" style="text-align:left">Spillet kører helt hos dig selv: spillernavne, aldre, point og egne spørgsmål gemmes kun i browseren på denne enhed og forlader den aldrig. Ingen data fra udviklerens eget spil følger med.</p>
  <h3 style="margin:14px 0 6px">Hvem spiller med?</h3>
  <p class="hint" style="text-align:left">To spillere er sat op i forvejen – du kan skrive navnene her eller ændre dem senere under 👥 Spillere.</p>
@@ -358,5 +358,5 @@ window.render=function(){const r=_render2.apply(this,arguments);try{if(frisk())e
 })();
 
 /* ---- indlæs kortdata og datapakker (synkront, før start) ---- */
-['platform','hs-cfg','world','p1','p2','p3','p4','p5','p6','p7','p8','p9','map3d','resume','vf2','hs2','hs3','hs4','hs5','k1','pv','dx','sm','c1','w1','t1','gs','fb','reality','musik','film','quiz','quiz3','musikma','jul','julspil','gaming','gamingspil','lege','lege2','ex_daily','effekt','feedback','stotte','sporgsmal','backup','spilvalg','rum-online','rum','oplaesning'].forEach(n=>document.write('<script src="'+n+'.js?v='+VER+'"></scr'+'ipt>'));
+['i18n','platform','hs-cfg','world','p1','p2','p3','p4','p5','p6','p7','p8','p9','map3d','resume','vf2','hs2','hs3','hs4','hs5','k1','pv','dx','sm','c1','w1','t1','gs','fb','reality','musik','film','quiz','quiz3','musikma','jul','julspil','gaming','gamingspil','en','lege','lege2','ex_daily','effekt','feedback','stotte','sporgsmal','backup','spilvalg','solo','rum-online','rum','oplaesning'].forEach(n=>document.write('<script src="'+n+'.js?v='+VER+'"></scr'+'ipt>'));
 })();
