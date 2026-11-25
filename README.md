@@ -9,7 +9,7 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 *Hygge is the Danish tradition of being together at an easy pace – with no pressure to perform, time for each other, something good to eat and room to laugh. Hygge Games is built around exactly that: one screen, everyone can join in, and the time together matters more than the score.*
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.86<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.87<!-- version:end -->
 
 **Hentet fra GitHub:** <!-- downloads:start -->483<!-- downloads:end --> gange
 
@@ -252,6 +252,18 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.87 – 2026-11-25
+
+**Tilføjet**
+- **Nyt navn: Hygge Games** – med en dansk og engelsk forklaring af, hvad hygge er, og hvordan spillet er bygget op om at være sammen.
+- **Engelsk**: menuer, spilnavne og 12 spil med engelsk indhold (122 kort). Dansk-specifikke kategorier som postnummer, færdselsloven og dansk reality vises ikke på engelsk. Skift sprog med **DA/EN** øverst.
+- **Solo**: ét spiller kan nu spille alle de spil, hvor en modstander ikke er nødvendig – quiz, gåder, ordspil, tal, koder og mere.
+- **Tysk og fransk** er forberedt i sprogarkitekturen og dokumenteret i `docs/SPROG.md`.
+- **Installationsguide**: `docs/INSTALL.md` viser, hvordan man undgår Play Protect-scanning ved hver installation (Play intern test, ADB eller Obtainium).
+**Rettet**
+- Puljer tælles nu pr. sprog (`da`/`en`), så dansk og engelsk udvides og måles hver for sig.
+- Hygge Games, engelsk og solo
+
 ### 0.2.86 – 2026-11-25
 
 **Tilføjet**
@@ -292,13 +304,6 @@ en kop kaffe:
 - **211 nye spørgsmål og kort** fordelt på: mus60 (18), ftl_cykel (18), Hvem i familien? (10), cifsym (10), cifcaes (10), cifspjl (10), ordtrappe (10), rim (10), Dansk reality (10), mus80 (10), mus90 (10), mus00 (10), bmgp (10), film90 (10), harry (10), gamingquiz (10), ftl_bil (10), julesange (9), film80 (8), julequiz (8).
 - Nye spørgsmål: 211
 - Gaming som ét samlet spil
-
-### 0.2.79 – 2026-11-24
-
-**Tilføjet**
-- **202 nye spørgsmål og kort** fordelt på: ordlav (20), Dalgona (10), Stormester (10), cifmors (10), cifked (10), langst (10), mus10 (10), musma (10), film10 (10), filmdk (10), roller (10), julesjov (10), spilnavn (10), gamingleg (10), ftl_andre (10), ordsplit (9), omvendt (9), musdk (8), mgp (8), gamingquiz (8).
-- **Nye spil:** Gaming.
-- Nye spørgsmål: 202
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
