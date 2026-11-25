@@ -9,15 +9,15 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 *Hygge is the Danish tradition of being together at an easy pace – with no pressure to perform, time for each other, something good to eat and room to laugh. Hygge Games is built around exactly that: one screen, everyone can join in, and the time together matters more than the score.*
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.89<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.90<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->486<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->487<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->99 spil og 18.221 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->99 spil og 18.272 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -252,6 +252,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.90 – 2026-11-25
+
+**Tilføjet**
+- **51 nye spørgsmål og kort** fordelt på: harry (11), cifsym (10), cifspjl (10), film90 (10), ftl_fod (10).
+- Nye spørgsmål: 51
+
 ### 0.2.89 – 2026-11-25
 
 **Tilføjet**
@@ -309,12 +315,6 @@ en kop kaffe:
 ### 0.2.83 – 2026-11-24
 
 - Nye spørgsmål: 246
-
-### 0.2.82 – 2026-11-24
-
-**Tilføjet**
-- **246 nye spørgsmål og kort** fordelt på: julequiz (20), julesange (20), gaminghistorie (18), julekalender (12), Dalgona (10), Dystre valg (10), Hvem i familien? (10), Stormester (10), omvendt (10), rim (10), Dansk reality (10), mus00 (10), film10 (10), filmdk (10), serier (10), roller (10), julesjov (10), spilnavn (10), gamingleg (10), ftl_andre (10), cifmors (8), ordsplit (8).
-- Nye spørgsmål: 236
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->

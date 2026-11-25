@@ -3,6 +3,12 @@
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
 
+## 0.2.90 – 2026-11-25
+
+### Tilføjet
+- **51 nye spørgsmål og kort** fordelt på: harry (11), cifsym (10), cifspjl (10), film90 (10), ftl_fod (10).
+- Nye spørgsmål: 51
+
 ## 0.2.89 – 2026-11-25
 
 ### Tilføjet

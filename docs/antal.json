@@ -1,6 +1,6 @@
 {
  "spil": 99,
- "spoergsmaal": 18221,
+ "spoergsmaal": 18272,
  "puljer": {
   "num": 217,
   "tf": 198,
@@ -54,13 +54,13 @@
   "provw": 82,
   "dx": 82,
   "sm": 87,
-  "cifsym": 81,
+  "cifsym": 91,
   "cifvine": 82,
   "cifbrl": 87,
   "cifcol": 83,
   "cifmors": 86,
   "cifcaes": 90,
-  "cifspjl": 81,
+  "cifspjl": 91,
   "cifked": 86,
   "ordlav": 82,
   "ordkaede": 83,
@@ -94,11 +94,11 @@
   "bmgp": 89,
   "musma": 83,
   "film80": 89,
-  "film90": 80,
+  "film90": 90,
   "film00": 84,
   "film10": 86,
   "filmdk": 87,
-  "harry": 80,
+  "harry": 91,
   "kpop": 5,
   "serier": 88,
   "disney": 85,
@@ -116,7 +116,7 @@
   "ftl_cykel": 97,
   "ftl_bil": 95,
   "cult": 85,
-  "ftl_fod": 98,
+  "ftl_fod": 108,
   "ftl_andre": 88,
   "rec": 84,
   "law": 95,
@@ -136,7 +136,7 @@
  "sprog": {
   "da": {
    "puljer": 119,
-   "spoergsmaal": 18099
+   "spoergsmaal": 18150
   },
   "en": {
    "puljer": 11,
