@@ -3,15 +3,15 @@
 Danske selskabsspil til Home Assistant: quiz, gåder, lege og udfordringer til én fælles skærm – tablet, tv eller telefon.
 Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller eksterne tjenester.
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.84<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.85<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->475<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->479<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->99 spil og 17.718 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->99 spil og 17.925 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -246,6 +246,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.85 – 2026-11-25
+
+**Tilføjet**
+- **207 nye spørgsmål og kort** fordelt på: mus70 (20), Love & regler (19), Dalgona (10), Stormester (10), cifcol (10), cifmors (10), cifked (10), ordkaede (10), ordsplit (10), omvendt (10), langst (10), Græker eller sygdom (10), mgp (10), musma (10), film00 (10), roller (10), julesjov (10), spilnavn (10), ordlav (8).
+- Nye spørgsmål: 207
+
 ### 0.2.84 – 2026-11-24
 
 **Tilføjet**
@@ -287,12 +293,6 @@ en kop kaffe:
 **Tilføjet**
 - **8 nye spørgsmål og kort** fordelt på: zip (8).
 - Nye spørgsmål: 8
-
-### 0.2.77 – 2026-11-24
-
-**Tilføjet**
-- **219 nye spørgsmål og kort** fordelt på: mus70 (20), mus90 (11), Udfordringer (10), Dystre valg (10), Destination (10), cifsym (10), cifvine (10), cifspjl (10), ordkaede (10), ordtrappe (10), stavboks (10), staveling (10), mus60 (10), film80 (10), film90 (10), harry (10), ftl_cykel (10), ftl_bil (10), ftl_fod (10), rim (9), bmgp (9).
-- Nye spørgsmål: 219
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
