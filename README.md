@@ -9,7 +9,7 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 *Hygge is the Danish tradition of being together at an easy pace – with no pressure to perform, time for each other, something good to eat and room to laugh. Hygge Games is built around exactly that: one screen, everyone can join in, and the time together matters more than the score.*
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.91<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.92<!-- version:end -->
 
 **Hentet fra GitHub:** <!-- downloads:start -->500<!-- downloads:end --> gange
 
@@ -252,6 +252,18 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.92 – 2026-11-25
+
+**Rettet**
+- **Toppen er ryddet op:** én menu (⋯) samler spillere, foreslå spørgsmål, ny aften, grupper, 18+, fælles rum, sprog, om og støtte. Sprogknappen viser **🌐 DA/EN**.
+- **Spillets bjælke** er nu fast i toppen med ikoner (←, 🏁, ⚙, 🔊, 🔊, 💬), så den ikke længere brækker over to linjer eller forsvinder ved scroll.
+- **Engelsk i spilskærmen:** «Gæt», «Afslør svaret», «Næste», enheder og hjælpetekster er oversat i de spil, der findes på engelsk.
+- **Tomme kategorier** vises ikke længere, og grupper med skjulte spil skjules helt.
+- **Dansk-specifikke kategorier** (færdselsloven, postnummer, dansk fodbold, dansk reality, danske ordspil, MGP og julesange) vises ikke på engelsk – de er kun for danskere i Danmark.
+**Tilføjet**
+- **Flere engelske kort** er kommet til via den daglige udvidelse, så de engelske puljer nu tælles og vokser hver for sig.
+- Ryddelig top og engelsk UI
+
 ### 0.2.91 – 2026-11-25
 
 **Tilføjet**
@@ -311,12 +323,6 @@ en kop kaffe:
 **Tilføjet**
 - **207 nye spørgsmål og kort** fordelt på: mus70 (20), Love & regler (19), Dalgona (10), Stormester (10), cifcol (10), cifmors (10), cifked (10), ordkaede (10), ordsplit (10), omvendt (10), langst (10), Græker eller sygdom (10), mgp (10), musma (10), film00 (10), roller (10), julesjov (10), spilnavn (10), ordlav (8).
 - Nye spørgsmål: 207
-
-### 0.2.84 – 2026-11-24
-
-**Tilføjet**
-- **221 nye spørgsmål og kort** fordelt på: ftl_bil (24), bmgp (20), Destination (10), cifsym (10), cifvine (10), cifcaes (10), cifspjl (10), ordtrappe (10), stavboks (10), staveling (10), International fodbold (10), mus90 (10), musdk (10), film80 (10), film90 (10), harry (10), gamingquiz (10), ftl_fod (10), mus80 (9), cifbrl (8).
-- Nye spørgsmål: 221
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
