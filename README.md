@@ -9,15 +9,15 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 *Hygge is the Danish tradition of being together at an easy pace – with no pressure to perform, time for each other, something good to eat and room to laugh. Hygge Games is built around exactly that: one screen, everyone can join in, and the time together matters more than the score.*
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.94<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.95<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->504<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->511<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->99 spil og 18.761 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->99 spil og 18.969 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -252,6 +252,13 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.95 – 2026-11-25
+
+**Tilføjet**
+- **208 nye spørgsmål og kort** fordelt på: tf_en (20), odd_en (20), num_en (20), film00 (20), riddle_en (10), who_en (10), taboo_en (10), deep_en (10), rather_en (10), never_en (10), likely_en (10), Dansk fodbold (10), mgp (10), disney (10), gaminghistorie (10), Skøre rekorder (10), ordsplit (8).
+- Nye spørgsmål: 208
+- Fjern midlertidig test
+
 ### 0.2.94 – 2026-11-25
 
 **Rettet**
@@ -327,18 +334,6 @@ en kop kaffe:
 **Rettet**
 - Puljer tælles nu pr. sprog (`da`/`en`), så dansk og engelsk udvides og måles hver for sig.
 - Dansk som standardsprog
-
-### 0.2.87 – 2026-11-25
-
-**Tilføjet**
-- **Nyt navn: Hygge Games** – med en dansk og engelsk forklaring af, hvad hygge er, og hvordan spillet er bygget op om at være sammen.
-- **Engelsk**: menuer, spilnavne og 12 spil med engelsk indhold (122 kort). Dansk-specifikke kategorier som postnummer, færdselsloven og dansk reality vises ikke på engelsk. Skift sprog med **DA/EN** øverst.
-- **Solo**: ét spiller kan nu spille alle de spil, hvor en modstander ikke er nødvendig – quiz, gåder, ordspil, tal, koder og mere.
-- **Tysk og fransk** er forberedt i sprogarkitekturen og dokumenteret i `docs/SPROG.md`.
-- **Installationsguide**: `docs/INSTALL.md` viser, hvordan man undgår Play Protect-scanning ved hver installation (Play intern test, ADB eller Obtainium).
-**Rettet**
-- Puljer tælles nu pr. sprog (`da`/`en`), så dansk og engelsk udvides og måles hver for sig.
-- Hygge Games, engelsk og solo
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
