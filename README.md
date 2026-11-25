@@ -9,15 +9,15 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 *Hygge is the Danish tradition of being together at an easy pace – with no pressure to perform, time for each other, something good to eat and room to laugh. Hygge Games is built around exactly that: one screen, everyone can join in, and the time together matters more than the score.*
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.88<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.89<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->483<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->486<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->99 spil og 18.192 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->99 spil og 18.221 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -252,6 +252,18 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.89 – 2026-11-25
+
+**Tilføjet**
+- **Nyt navn: Hygge Games** – med en dansk og engelsk forklaring af, hvad hygge er, og hvordan spillet er bygget op om at være sammen.
+- **Engelsk**: menuer, spilnavne og 12 spil med engelsk indhold (122 kort). Dansk-specifikke kategorier som postnummer, færdselsloven og dansk reality vises ikke på engelsk. Skift sprog med **DA/EN** øverst.
+- **Solo**: ét spiller kan nu spille alle de spil, hvor en modstander ikke er nødvendig – quiz, gåder, ordspil, tal, koder og mere.
+- **Tysk og fransk** er forberedt i sprogarkitekturen og dokumenteret i `docs/SPROG.md`.
+- **Installationsguide**: `docs/INSTALL.md` viser, hvordan man undgår Play Protect-scanning ved hver installation (Play intern test, ADB eller Obtainium).
+**Rettet**
+- Puljer tælles nu pr. sprog (`da`/`en`), så dansk og engelsk udvides og måles hver for sig.
+- Hygge Games i udgivelser
+
 ### 0.2.88 – 2026-11-25
 
 **Tilføjet**
@@ -303,12 +315,6 @@ en kop kaffe:
 **Tilføjet**
 - **246 nye spørgsmål og kort** fordelt på: julequiz (20), julesange (20), gaminghistorie (18), julekalender (12), Dalgona (10), Dystre valg (10), Hvem i familien? (10), Stormester (10), omvendt (10), rim (10), Dansk reality (10), mus00 (10), film10 (10), filmdk (10), serier (10), roller (10), julesjov (10), spilnavn (10), gamingleg (10), ftl_andre (10), cifmors (8), ordsplit (8).
 - Nye spørgsmål: 236
-
-### 0.2.81 – 2026-11-24
-
-**Tilføjet**
-- **247 nye spørgsmål og kort** fordelt på: Dansk fodbold (20), mus10 (20), disney (20), julefilm (20), cult (20), Dystre valg (10), Destination (10), cifvine (10), cifcol (10), cifked (10), ordkaede (10), langst (10), stavboks (10), staveling (10), mgp (10), musma (10), film00 (10), julekalender (10), musdk (9), cifbrl (8).
-- Nye spørgsmål: 247
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->

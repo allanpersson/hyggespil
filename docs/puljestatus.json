@@ -90,10 +90,10 @@
   "cifmors:6-8": 35,
   "cifmors:9-11": 23,
   "cifmors:12-14": 14,
-  "cifcaes:3-5": 10,
-  "cifcaes:6-8": 32,
-  "cifcaes:9-11": 20,
-  "cifcaes:12-14": 13,
+  "cifcaes:3-5": 11,
+  "cifcaes:6-8": 35,
+  "cifcaes:9-11": 23,
+  "cifcaes:12-14": 16,
   "cifspjl:3-5": 7,
   "cifspjl:6-8": 21,
   "cifspjl:9-11": 39,
@@ -180,7 +180,7 @@
   "ftl_cykel": 97,
   "ftl_bil": 95,
   "cult": 85,
-  "ftl_fod": 79,
+  "ftl_fod": 98,
   "ftl_andre": 88,
   "rec": 84,
   "law": 95,
@@ -193,5 +193,5 @@
  "over200": false,
  "over300": false,
  "spil": 99,
- "spoergsmaal": 18192
+ "spoergsmaal": 18221
 }
