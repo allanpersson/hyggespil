@@ -9,15 +9,15 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 *Hygge is the Danish tradition of being together at an easy pace – with no pressure to perform, time for each other, something good to eat and room to laugh. Hygge Games is built around exactly that: one screen, everyone can join in, and the time together matters more than the score.*
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.100<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.101<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->542<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->555<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->99 spil og 19.467 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->100 spil og 19.467 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -252,6 +252,16 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.101 – 2026-11-26
+
+**Nyt spil**
+- **Ordjagt**: find så mange ord som muligt i et bogstavgitter. Fire sværhedsgrader – **Let** (9×9), **Mellem** (11×11), **Svær** (13×13) og **Ekstrem** (15×15). Ordene ligger vandret, lodret og diagonalt, også baglæns. **1 point** for lette og mellem, **2 for svære** og **5 for ekstremt svære**. Kan spilles alene eller på skift.
+**Rettet**
+- **Solo virker nu:** én spiller kan afslutte spillervalg med «Klar!» og starte alle spil, hvor en modstander ikke er nødvendig.
+- **Tastaturet popper ikke længere op af sig selv**, når et spil starter – det dækkede spillefladen. Felter fokuseres først, når man selv trykker på dem.
+- **Samspil**: værten kan starte et spil direkte fra forsiden, og alle telefoner følger med; rummet vises som et banner på forsiden.
+- Ordjagt og solo-fix
+
 ### 0.2.100 – 2026-11-26
 
 **Tilføjet**
@@ -308,19 +318,6 @@ en kop kaffe:
 **Tilføjet**
 - **Flere engelske kort** er kommet til via den daglige udvidelse, så de engelske puljer nu tælles og vokser hver for sig.
 - Oversatte forbehold og velkomst
-
-### 0.2.93 – 2026-11-25
-
-**Rettet**
-- **Toppen er ryddet op:** én menu (⋯) samler spillere, foreslå spørgsmål, ny aften, grupper, 18+, fælles rum, sprog, om og støtte. Sprogknappen viser **🌐 DA/EN**.
-- **Spillets bjælke** er nu fast i toppen med ikoner (←, 🏁, ⚙, 🔊, 🔊, 💬), så den ikke længere brækker over to linjer eller forsvinder ved scroll.
-- **Bjælken ligger nu under statuslinjen**, så knapperne ikke skjules af ur, batteri og notifikationer.
-- **Engelsk i spilskærmen:** «Gæt», «Afslør svaret», «Næste», enheder og hjælpetekster er oversat i de spil, der findes på engelsk.
-- **Tomme kategorier** vises ikke længere, og grupper med skjulte spil skjules helt.
-- **Dansk-specifikke kategorier** (færdselsloven, postnummer, dansk fodbold, dansk reality, danske ordspil, MGP og julesange) vises ikke på engelsk – de er kun for danskere i Danmark.
-**Tilføjet**
-- **Flere engelske kort** er kommet til via den daglige udvidelse, så de engelske puljer nu tælles og vokser hver for sig.
-- Bjaelke under statuslinjen
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->

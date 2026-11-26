@@ -1,5 +1,5 @@
 {
- "spil": 99,
+ "spil": 100,
  "spoergsmaal": 19467,
  "puljer": {
   "num": 217,
@@ -121,6 +121,7 @@
   "rec": 94,
   "law": 95,
   "xh": 29,
+  "ordjagt": 0,
   "xr": 135,
   "xs": 115,
   "xq": 108,
@@ -135,7 +136,7 @@
  },
  "sprog": {
   "da": {
-   "puljer": 119,
+   "puljer": 120,
    "spoergsmaal": 18664
   },
   "en": {
@@ -231,6 +232,7 @@
   "spk": "S · P · K",
   "hangman": "Hangman",
   "grimasse": "Gæt og grimasser",
+  "ordjagt": "Ordjagt",
   "law": "Danske love & regler",
   "ftl_bil": "Færdselsloven: bil",
   "ftl_cykel": "Færdselsloven: cykel",
