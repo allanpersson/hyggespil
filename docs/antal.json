@@ -1,6 +1,6 @@
 {
  "spil": 99,
- "spoergsmaal": 19350,
+ "spoergsmaal": 19467,
  "puljer": {
   "num": 217,
   "tf": 198,
@@ -21,21 +21,21 @@
   "zip": 536,
   "weird": 173,
   "lang": 228,
-  "tf_en": 89,
-  "odd_en": 68,
-  "riddle_en": 69,
-  "num_en": 77,
-  "who_en": 65,
-  "taboo_en": 62,
+  "tf_en": 99,
+  "odd_en": 76,
+  "riddle_en": 79,
+  "num_en": 87,
+  "who_en": 74,
+  "taboo_en": 70,
   "tl_en": 1,
-  "deep_en": 68,
-  "rather_en": 69,
-  "never_en": 69,
-  "likely_en": 69,
+  "deep_en": 78,
+  "rather_en": 79,
+  "never_en": 79,
+  "likely_en": 81,
   "wheel": 400,
   "sqdal": 98,
   "sqdil": 93,
-  "sqwho": 89,
+  "sqwho": 99,
   "sqrl": 1,
   "sqglass": 1,
   "sqmarb": 1,
@@ -117,7 +117,7 @@
   "ftl_bil": 95,
   "cult": 105,
   "ftl_fod": 108,
-  "ftl_andre": 88,
+  "ftl_andre": 98,
   "rec": 94,
   "law": 95,
   "xh": 29,
@@ -136,11 +136,11 @@
  "sprog": {
   "da": {
    "puljer": 119,
-   "spoergsmaal": 18644
+   "spoergsmaal": 18664
   },
   "en": {
    "puljer": 11,
-   "spoergsmaal": 706
+   "spoergsmaal": 803
   }
  },
  "spilNavne": {

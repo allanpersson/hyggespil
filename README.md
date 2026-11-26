@@ -9,15 +9,15 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 *Hygge is the Danish tradition of being together at an easy pace – with no pressure to perform, time for each other, something good to eat and room to laugh. Hygge Games is built around exactly that: one screen, everyone can join in, and the time together matters more than the score.*
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.99<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.100<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->536<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->542<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->99 spil og 19.350 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->99 spil og 19.467 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -252,6 +252,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.100 – 2026-11-26
+
+**Tilføjet**
+- **117 nye spørgsmål og kort** fordelt på: likely_en (12), tf_en (10), riddle_en (10), num_en (10), deep_en (10), rather_en (10), never_en (10), Hvem i familien? (10), ftl_andre (10), who_en (9), odd_en (8), taboo_en (8).
+- Nye spørgsmål: 117
+
 ### 0.2.99 – 2026-11-26
 
 **Tilføjet**
@@ -315,18 +321,6 @@ en kop kaffe:
 **Tilføjet**
 - **Flere engelske kort** er kommet til via den daglige udvidelse, så de engelske puljer nu tælles og vokser hver for sig.
 - Bjaelke under statuslinjen
-
-### 0.2.92 – 2026-11-25
-
-**Rettet**
-- **Toppen er ryddet op:** én menu (⋯) samler spillere, foreslå spørgsmål, ny aften, grupper, 18+, fælles rum, sprog, om og støtte. Sprogknappen viser **🌐 DA/EN**.
-- **Spillets bjælke** er nu fast i toppen med ikoner (←, 🏁, ⚙, 🔊, 🔊, 💬), så den ikke længere brækker over to linjer eller forsvinder ved scroll.
-- **Engelsk i spilskærmen:** «Gæt», «Afslør svaret», «Næste», enheder og hjælpetekster er oversat i de spil, der findes på engelsk.
-- **Tomme kategorier** vises ikke længere, og grupper med skjulte spil skjules helt.
-- **Dansk-specifikke kategorier** (færdselsloven, postnummer, dansk fodbold, dansk reality, danske ordspil, MGP og julesange) vises ikke på engelsk – de er kun for danskere i Danmark.
-**Tilføjet**
-- **Flere engelske kort** er kommet til via den daglige udvidelse, så de engelske puljer nu tælles og vokser hver for sig.
-- Ryddelig top og engelsk UI
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
