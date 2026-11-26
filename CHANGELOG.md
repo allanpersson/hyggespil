@@ -3,6 +3,12 @@
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
 
+## 0.2.97 – 2026-11-26
+
+### Tilføjet
+- **4 nye spørgsmål og kort** fordelt på: zip (4).
+- Nye spørgsmål: 4
+
 ## 0.2.96 – 2026-11-25
 
 ### Samspil
