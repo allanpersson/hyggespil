@@ -40,7 +40,7 @@ Hvert sprog har sine egne puljer og sin egen kø. Når engelsk skal vokse:
 4. `ingest.js` skriver til den pulje, jobbet angiver; `_en`-puljer blandes aldrig med de danske.
 5. Efter kørslen opdaterer `tools/antal.js` både `sprog.da` og `sprog.en`, og README viser begge tal.
 
-Indtil den engelske pipeline kører, er følgende spil med i den engelske udgave (12 spil, ca. 120 kort): Sandt eller falsk, Find løgnen, Hvad skete først?, Gåder, Hvem/hvad er jeg?, Forbudte ord, Hellere end, Mest sandsynlig, Jeg har aldrig, Dybe samtaler, Tættest på og Fugl/fisk/midt imellem.
+Indtil den engelske pipeline kører, er følgende spil med i den engelske udgave (13 spil, ca. 120 kort): Sandt eller falsk, Find løgnen, Hvad skete først?, Gåder, Hvem/hvad er jeg?, Forbudte ord, Hellere end, Mest sandsynlig, Jeg har aldrig, Dybe samtaler, Tættest på, Fugl/fisk/midt imellem og Ordjagt. Ordjagt bruger sin egen ordbank pr. sprog (`www/ordbank.js`) i stedet for en pulje og tælles derfor ikke som spørgsmål.
 
 ## Tysk og fransk
 
