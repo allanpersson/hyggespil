@@ -9,15 +9,15 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 *Hygge is the Danish tradition of being together at an easy pace – with no pressure to perform, time for each other, something good to eat and room to laugh. Hygge Games is built around exactly that: one screen, everyone can join in, and the time together matters more than the score.*
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.98<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.99<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->529<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->536<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->99 spil og 19.169 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->99 spil og 19.350 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -252,6 +252,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.99 – 2026-11-26
+
+**Tilføjet**
+- **181 nye spørgsmål og kort** fordelt på: rim (11), riddle_en (10), num_en (10), who_en (10), deep_en (10), rather_en (10), never_en (10), likely_en (10), Dalgona (10), mus60 (10), julesange (10), julesjov (10), gamingleg (10), taboo_en (9), julekalender (9), tf_en (8), serier (8), spilnavn (8), odd_en (7), julequiz (1).
+- Nye spørgsmål: 181
+
 ### 0.2.98 – 2026-11-26
 
 **Tilføjet**
@@ -321,12 +327,6 @@ en kop kaffe:
 **Tilføjet**
 - **Flere engelske kort** er kommet til via den daglige udvidelse, så de engelske puljer nu tælles og vokser hver for sig.
 - Ryddelig top og engelsk UI
-
-### 0.2.91 – 2026-11-25
-
-**Tilføjet**
-- **270 nye spørgsmål og kort** fordelt på: musdk (31), tf_en (17), odd_en (17), riddle_en (17), rather_en (17), never_en (17), likely_en (17), who_en (16), deep_en (16), num_en (15), taboo_en (15), Destination (10), cifvine (10), ordtrappe (10), mus90 (10), gamingquiz (10), provw (9), ordlav (8), International fodbold (8).
-- Nye spørgsmål: 270
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
