@@ -3,6 +3,13 @@
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
 
+## 0.2.102 – 2026-11-26
+
+- Samspil med flere spil
+- Fjern midlertidig test
+- Oversatte forbehold og velkomst
+- Bjaelke under statuslinjen
+
 ## 0.2.101 – 2026-11-26
 
 ### Nyt spil
