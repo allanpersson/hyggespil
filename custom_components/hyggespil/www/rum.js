@@ -278,8 +278,8 @@
 
   function naesteRunde(valgtNoegle) {
     const sel = document.getElementById('rum-pulje');
-    const key = valgtNoegle || (sel && sel.value) || 'harry';
     const d = data();
+    const key = valgtNoegle || (sel && sel.value) || (d && d.spil) || 'harry';
     let liste = [];try{liste=pool(key)||[]}catch(e){}
     if (!liste.length) { toast('Puljen er tom'); return; }
     let bag = [];

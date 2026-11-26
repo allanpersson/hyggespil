@@ -1,0 +1,40 @@
+const { chromium } = require('playwright');
+(async () => {
+  const b = await chromium.launch();
+  const mk = async () => {
+    const c = await b.newContext({ viewport: { width: 390, height: 844 } });
+    const p = await c.newPage();
+    await p.addInitScript(() => {
+      localStorage.setItem('hs_forst', 'ja');
+      localStorage.setItem('hs_xlock', JSON.stringify({ s: 'x', k: 'y' }));
+      localStorage.setItem('hs_players', JSON.stringify([{ n: 'A', c: '#fff', s: 0, age: 30 }, { n: 'B', c: '#000', s: 0, age: 30 }]));
+      localStorage.setItem('hs_indst', 'true');
+    });
+    await p.goto('http://127.0.0.1:8899/hs.html');
+    await p.waitForSelector('button.gc');
+    await p.click('#menubtn');
+    await p.waitForSelector('[data-m="rum"]');
+    await p.click('[data-m="rum"]');
+    await p.waitForSelector('.modal');
+    return p;
+  };
+  const h = await mk();
+  await h.click('#rum-nyt');
+  await h.waitForTimeout(900);
+  const kode = (await h.locator('.rumkode').innerText()).trim();
+  const g = await mk();
+  await g.fill('#rum-kode', kode);
+  await g.fill('#rum-navn', 'Gæst');
+  await g.click('#rum-join');
+  await g.waitForTimeout(1500);
+  await h.selectOption('#rum-pulje', 'tl');
+  await h.click('#rum-start');
+  await h.waitForTimeout(1800);
+  console.log('host før:', await h.evaluate(() => { const d = window.HSRUM.data() || {}; return { fase: d.rum_fase, spil: d.rum_spil, svar: d.rum_svar }; }));
+  await h.click('#rum-naeste');
+  await h.waitForTimeout(2000);
+  console.log('host efter:', await h.evaluate(() => { const d = window.HSRUM.data() || {}; return { fase: d.rum_fase, spil: d.rum_spil, q: d.rum_spoergsmaal && d.rum_spoergsmaal.slags, tur: d.rum_tur }; }));
+  console.log('gæst efter:', await g.evaluate(() => { const d = window.HSRUM.data() || {}; return { fase: d.rum_fase, spil: d.rum_spil, q: d.rum_spoergsmaal && d.rum_spoergsmaal.slags, tur: d.rum_tur }; }));
+  console.log('host tekst:', await h.evaluate(() => (document.getElementById('rumspil') || {}).innerText.slice(0, 80)));
+  await b.close();
+})();

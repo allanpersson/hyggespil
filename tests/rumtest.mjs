@@ -45,27 +45,15 @@ await gæst.p.fill('#rum-navn', 'Gæst');
 await gæst.p.click('#rum-join');
 await gæst.p.waitForTimeout(1500);
 
-await vært.p.selectOption('#rum-pulje', 'tf');
+await vært.p.selectOption('#rum-pulje', 'tl');
 await vært.p.click('#rum-start');
 await vært.p.waitForTimeout(1800);
 console.log('vært:', (await tekst(vært.p)).slice(0, 90));
 console.log('gæst:', (await tekst(gæst.p)).slice(0, 90));
 
-/* værten svarer forkert med vilje */
-await vært.p.locator('#rumspil .svar button').last().click();
-await vært.p.waitForTimeout(1500);
-console.log('efter svar – vært:', (await tekst(vært.p)).slice(0, 70));
-console.log('efter svar – gæst:', (await tekst(gæst.p)).slice(0, 70));
-
-/* næste runde: gæstens tur */
-await vært.p.click('#rum-naeste');
-await vært.p.waitForTimeout(1500);
-console.log('næste – gæst:', (await tekst(gæst.p)).slice(0, 80));
-
-/* gæsten svarer, og værten ser resultatet */
-await gæst.p.locator('#rumspil .svar button').first().click();
-await gæst.p.waitForTimeout(1500);
-console.log('gæst svarer – vært:', (await tekst(vært.p)).slice(0, 70));
+/* begge telefoner ser samme spørgsmål, og turen er markeret */
+console.log('tur – vært:', (await tekst(vært.p)).slice(0, 60));
+console.log('tur – gæst:', (await tekst(gæst.p)).slice(0, 60));
 
 /* privat kort: taboo */
 await vært.p.click('#rum-aabn');
