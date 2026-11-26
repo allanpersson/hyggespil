@@ -1,6 +1,6 @@
-# Spiltest – 2026-11-25
+# Spiltest – 2026-11-26
 
-Spil testet: 97
+Spil testet: 98
 
 ## Alt i ét – random (mixall)
 - type: mix · pulje: mixall
@@ -426,6 +426,11 @@ Spil testet: 97
 - type: grimasse · pulje: deep
 - OK: startede, kunne spilles og tegnede korrekt
 - skærmbillede: `artefakter/spiltest/grimasse.png`
+
+## Ordjagt (ordjagt)
+- type: ordjagt · pulje: ordjagt
+- OK: startede, kunne spilles og tegnede korrekt
+- skærmbillede: `artefakter/spiltest/ordjagt.png`
 
 ## Danske love & regler (law)
 - type: choice · pulje: law

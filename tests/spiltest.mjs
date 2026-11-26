@@ -101,6 +101,14 @@ const spilRunde = () => page.evaluate(() => {
   if (bogstav) return klik(bogstav) && 'bogstav';
 
   /* indtastningsspil: skriv et rimeligt bud og tryk tjek/afslør */
+  /* ordjagt: tryk to felter, så runden tæller */
+  const oj = document.querySelector('.ojc');
+  if (oj) {
+    oj.click();
+    const næste = document.querySelectorAll('.ojc')[1];
+    if (næste) næste.click();
+    return 'ordjagt';
+  }
   const felt = document.querySelector('#main input:not([type=hidden]):not([type=checkbox]):not([type=radio]), #main textarea');
   if (felt) {
     const tal = document.querySelector('#main').innerText.match(/\d+/);

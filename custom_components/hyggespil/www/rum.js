@@ -276,9 +276,9 @@
     return ud.sort((a, b) => a[1].localeCompare(b[1]));
   }
 
-  function naesteRunde() {
+  function naesteRunde(valgtNoegle) {
     const sel = document.getElementById('rum-pulje');
-    const key = (sel && sel.value) || 'harry';
+    const key = valgtNoegle || (sel && sel.value) || 'harry';
     const d = data();
     let liste = [];try{liste=pool(key)||[]}catch(e){}
     if (!liste.length) { toast('Puljen er tom'); return; }
@@ -432,5 +432,47 @@
   }, 1200);
 
   window.hsRum = dialog;
+  const home0 = window.home;
+  window.home = function () {
+    const r = home0.apply(this, arguments);
+    try {
+      if (!med || !med.kode) return r;
+      const m = document.getElementById('main');
+      if (!m || document.getElementById('rumbanner')) return r;
+      const d = document.createElement('div');
+      d.id = 'rumbanner'; d.className = 'card glass';
+      d.style.cssText = 'margin:0 0 14px;padding:12px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap';
+      d.innerHTML = '<b>📱 ' + (window.HSLANG === 'en' ? 'Room ' : 'Rum ') + med.kode + '</b>'
+        + '<span class="hint" style="flex:1">' + (window.HSLANG === 'en' ? 'You are playing together' : 'I spiller sammen') + '</span>'
+        + '<button class="btn ghost" id="rum-banner-forlad">' + (window.HSLANG === 'en' ? 'Leave' : 'Forlad') + '</button>';
+      m.insertBefore(d, m.firstChild);
+      d.querySelector('#rum-banner-forlad').onclick = () => { kald({ handling: 'forlad' }).finally(() => { gemMed(null); render(); }); };
+    } catch (e) {}
+    return r;
+  };
   window.hsRumKan = () => !!(window.HSRUM && window.HSRUM.kan());
+})();
+
+
+/* I et rum kan værten starte et spil direkte fra forsiden – alle telefoner følger med. */
+(function () {
+  if (!window.hsStart) return;
+  const hs0 = window.hsStart;
+  window.hsStart = function (id) {
+    try {
+      if (med && erVaert()) {
+        const g = (window.GAMES || []).find(x => x.id === id);
+        if (g && g.key && g.kind !== 'mix' && g.kind !== 'menu') {
+          let l = [];
+          try { l = pool(g.key); } catch (e) {}
+          if (l && l.length >= 10) { naesteRunde(g.key); return; }
+        }
+      }
+      if (med && !erVaert()) {
+        toast(window.HSLANG === 'en' ? 'You are in a room – the host starts the game' : 'Du er i et rum – værten starter spillet');
+        return;
+      }
+    } catch (e) {}
+    return hs0.apply(this, arguments);
+  };
 })();

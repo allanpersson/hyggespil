@@ -359,5 +359,5 @@ window.render=function(){const r=_render2.apply(this,arguments);try{if(frisk())e
 })();
 
 /* ---- indlæs kortdata og datapakker (synkront, før start) ---- */
-['i18n','platform','hs-cfg','world','p1','p2','p3','p4','p5','p6','p7','p8','p9','map3d','resume','vf2','hs2','hs3','hs4','hs5','k1','pv','dx','sm','c1','w1','t1','gs','fb','reality','musik','film','quiz','quiz3','musikma','jul','julspil','gaming','gamingspil','en','lege','lege2','ex_daily','effekt','feedback','stotte','sporgsmal','backup','spilvalg','solo','rum-online','rum','oplaesning'].forEach(n=>document.write('<script src="'+n+'.js?v='+VER+'"></scr'+'ipt>'));
+['i18n','platform','hs-cfg','world','p1','p2','p3','p4','p5','p6','p7','p8','p9','map3d','resume','vf2','hs2','hs3','hs4','hs5','k1','pv','dx','sm','c1','w1','t1','gs','fb','reality','musik','film','quiz','quiz3','musikma','jul','julspil','gaming','gamingspil','en','ordbank','lege','lege2','ex_daily','effekt','feedback','stotte','sporgsmal','backup','spilvalg','ordjagt','solo','rum-online','rum','oplaesning'].forEach(n=>document.write('<script src="'+n+'.js?v='+VER+'"></scr'+'ipt>'));
 })();

@@ -128,6 +128,7 @@
       cifcaesar: ['Caesar’s letter', 'The alphabet is shifted – find the message'],
       cifspejl: ['Mirror writing', 'Read the text backwards'],
       cifkaede: ['The letter chain', 'The shift changes as you go'],
+      ordjagt: ['Word hunt', 'Find as many words as you can – easy for kids to extremely hard'],
       ordlav: ['Make words', 'Form as many words as you can from the letters'],
       ordkaede: ['Word chain', 'The next word starts with the last letter'],
       ordtrappe: ['Word ladder', 'Change one letter at a time'],
@@ -247,7 +248,7 @@
   const gruppe = g => (GRP[valgt] && GRP[valgt][g]) || g;
 
   /* Spil med engelsk indhold lige nu. Listen udvides, når puljerne vokser. */
-  const EN_KAN = ['ffm', 'est', 'tf', 'odd', 'tl', 'riddle', 'who', 'taboo', 'rat', 'lik', 'nev', 'deep'];
+  const EN_KAN = ['ffm', 'est', 'tf', 'odd', 'tl', 'riddle', 'who', 'taboo', 'rat', 'lik', 'nev', 'deep', 'ordjagt'];
   window.HS_EN_KAN = EN_KAN;
   window.HSI18N = { SPROG, T, GAME, KUN_DA, EN_KAN, valgt };
   window.HSLANG = valgt;

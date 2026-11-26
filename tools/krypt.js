@@ -13,7 +13,7 @@ const KRYPTO = path.join(WWW, 'hs-krypto.js');
 const FILER = ['data.js', 'data2.js', 'data3.js',
   ...Array.from({ length: 9 }, (_, i) => 'p' + (i + 1) + '.js'),
   ...Array.from({ length: 9 }, (_, i) => 'q' + (i + 1) + '.js'),
-  'qa.js', 'qb.js', 'vf.js', 'vf2.js', 'ex_daily.js', 'gs.js', 'fb.js', 'reality.js', 'musik.js', 'film.js', 'jul.js', 'gaming.js', 'en.js'];
+  'qa.js', 'qb.js', 'vf.js', 'vf2.js', 'ex_daily.js', 'gs.js', 'fb.js', 'reality.js', 'musik.js', 'film.js', 'jul.js', 'gaming.js', 'en.js', 'ordbank.js'];
 
 const nøgle = (() => {
   const k = fs.readFileSync(KRYPTO, 'utf8');

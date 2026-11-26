@@ -410,6 +410,10 @@
    "antal": 0
   },
   {
+   "pool": "ordjagt",
+   "antal": 0
+  },
+  {
    "pool": "xr",
    "antal": 0
   },
@@ -574,6 +578,7 @@
   "rec": 11,
   "law": 7,
   "xh": 0,
+  "ordjagt": 0,
   "xr": 0,
   "xs": 0,
   "xq": 0,

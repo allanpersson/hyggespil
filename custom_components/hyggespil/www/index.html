@@ -228,8 +228,8 @@ function modalHTML(){
  if(modal==='pl')return `<div class="modal"><div class="mbox"><h2 style="margin-top:0">Hvem spiller med?</h2>
  ${players.map((p,i)=>`<div class="pl"><input type="color" value="${p.c}" data-col="${i}"><div class="chip" style="--c:${p.c}">${esc(p.n)}</div><button data-del="${i}">✕</button></div>`).join('')}
  <div class="pl"><input class="in" id="np" placeholder="Skriv navn og tryk Enter" style="font-size:17px" maxlength="16"><button class="btn" id="addp" style="border-radius:14px;width:auto;height:auto">Tilføj</button></div>
- <p class="hint">Mindst 2 spillere. Med 2 spillere bliver «Fugl, fisk eller midtimellem» til klassisk «Tættest på».</p>
- <div class="row"><button class="btn green" id="closem" ${players.length<2?'disabled':''}>Klar!</button></div></div></div>`;
+ <p class="hint">${window.HSLANG==='en'?'At least 1 player. Some games need 2.':'Mindst 1 spiller. Nogle spil kræver 2.'}</p>
+ <div class="row"><button class="btn green" id="closem" ${players.length<1?'disabled':''}>${window.HSLANG==='en'?'Done!':'Klar!'}</button></div></div></div>`;
  if(modal==='q')return `<div class="modal"><div class="mbox"><h2 style="margin-top:0">Tilføj eget tal-spørgsmål</h2>
  <p class="hint" style="text-align:left">Bruges i «Fugl, fisk eller midtimellem» og «Tættest på». Gemmes kun på denne enhed.</p>
  <input class="in" id="qq" placeholder="Spørgsmål" style="font-size:16px;text-align:left"><div style="height:8px"></div>
@@ -245,7 +245,7 @@ function bindModal(){
  if(modal==='pl'){
   const addp=()=>{const v=$('np').value.trim();if(!v)return;players.push({n:v,c:COLORS[players.length%COLORS.length],s:0});save();render()};
   $('addp').onclick=addp;$('np').onkeydown=e=>{if(e.key==='Enter')addp()};$('np').focus();
-  document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{players.splice(+b.dataset.del,1);save();g={};if(view!=='home'&&players.length<2)view='home';render()});
+  document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{players.splice(+b.dataset.del,1);save();g={};if(view!=='home'&&players.length<1)view='home';render()});
   document.querySelectorAll('[data-col]').forEach(b=>b.onchange=()=>{players[+b.dataset.col].c=b.value;save();renderScore()});
  }
  if(modal==='q'&&$('saveq'))$('saveq').onclick=()=>{const q=$('qq').value.trim(),a=parseNum($('qa').value),u=$('qu').value.trim();if(!q||a===null){$('qq').classList.add('shake');return}own.push({q,a,u});LS.set('own',own);render()};
@@ -333,7 +333,7 @@ function bindGame(){
  on('shans',()=>{g.ans=true;render()});on('show',()=>{g.shown=true;render()});
  on('tmb',()=>{g.tend=Date.now()+60000;clearInterval(tid);tid=setInterval(tick,250);tick()});
  m.querySelectorAll('[data-award]').forEach(b=>b.onclick=()=>{const i=+b.dataset.award;add(i,+b.dataset.pts||1);if(b.dataset.also)add(+b.dataset.also,1);boom();next()});
- const f=m.querySelector('input.in');if(f&&!f.value)f.focus();
+ 
  if(g.tend)tick();
  if(!g.done&&KINDS[x.kind]&&KINDS[x.kind].bind)KINDS[x.kind].bind();
 }
