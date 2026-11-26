@@ -73,7 +73,8 @@ for (const g of GAMES) {
   idSet.add(g.id);
   if (!g.t) fejl.push(g.id + ': mangler titel');
   const liste = g.key ? DATA[g.key] : null;
-  if (!g.key && g.kind !== 'menu') fejl.push(g.id + ': mangler pulje-nøgle');
+  const egen = KINDS[g.kind] && KINDS[g.kind].egen;
+  if (!g.key && g.kind !== 'menu' && !egen) fejl.push(g.id + ': mangler pulje-nøgle');
   if (g.key && g.kind !== 'mix' && !Array.isArray(liste)) fejl.push(g.id + ': puljen «' + g.key + '» findes ikke');
   if (Array.isArray(liste) && liste.length === 0) advarsler.push(g.id + ': puljen er tom');
   if (g.kind !== 'menu' && !KINDS[g.kind] && !indbyggede.has(g.kind)) fejl.push(g.id + ': ukendt spillertype «' + g.kind + '»');

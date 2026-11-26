@@ -54,7 +54,7 @@ DATA.ordsplit=[
 {q:'SAND+KAST',a:'SAND',b:'KAST',ord:'SANDKAST',age:[5,9]},
 {q:'ÆBLE+MOST',a:'ÆBLE',b:'MOST',ord:'ÆBLEMOST',age:[10,16]},
 {q:'SKO+HYLLE',a:'SKO',b:'HYLLE',ord:'SKOHYLLE',age:[10,16]},
-{q:'VED+HEFT',a:'VED',b:'HEFT',ord:'VEDHEFT',age:[17,99]},
+{q:'VED+HÆFT',a:'VED',b:'HÆFT',ord:'VEDHÆFT',age:[17,99]},
 {q:'BLAD+SPRINGER',a:'BLAD',b:'SPRINGER',ord:'BLADSPRINGER',age:[17,99]},
 {q:'BARBER+MASKINE',a:'BARBER',b:'MASKINE',ord:'BARBERMASKINE',age:[17,99]}];
 /* 5) omvendt – q er ordet stavet baglæns */
@@ -262,6 +262,7 @@ A('stavboks','Stavboks','Ni bogstaver i en 3×3-boks – find det hverdagsord, d
 A('staveling','Staveling','Stav højt bogstav for bogstav. Hvert rigtigt bogstav er et point','🔠','#38b000,#9ef01a'));
 
 /* ================= ALDERSTILPASSER TRÆKNINGEN ================= */
+try{const _os=GAMES.find(x=>x.id==='ordsplit');if(_os)_os.skjult=true;}catch(e){}
 const KEYS=new Set(['ordlav','ordkaede','ordtrappe','ordsplit','omvendt','rim','langst','stavboks','staveling']);
 const d0=window.draw;
 window.draw=function(gk,list){

@@ -1,15 +1,12 @@
-/* Ordjagt: find så mange ord som muligt i et bogstavgitter.
+/* Ordjagt: find så mange ord som muligt i et bogstavgitter – uden at få ordene.
  *
  * Let (9×9) → mellem (11×11) → svær (13×13) → ekstrem (15×15).
- * Point: let/mellem = 1, svær = 2, ekstrem = 5.
- * Ordene ligger vandret, lodret og diagonalt – også baglæns.
+ * Point efter ordets sværhedsgrad: 1, 1, 2 eller 5.
+ * Ordene ligger skjult i gitteret; man markerer dem ved at trykke første og sidste bogstav.
  */
 (function () {
   if (window.__ordjagt) return;
   window.__ordjagt = true;
-
-  /* tom pulje: spillet bruger ordbanken, men forsiden og røgtesten skal se en nøgle */
-  if (!Array.isArray(DATA.ordjagt)) DATA.ordjagt = [];
 
   const EN = () => (window.HSLANG || 'da') !== 'da';
   const NIVEAU = [
@@ -28,14 +25,22 @@
     + '.ojc.sel{background:#ffb703;color:#1b1340}'
     + '.ojc.fund{background:rgba(46,196,182,.35);border-color:#2ec4b6;color:#bff7ef}'
     + '.ojwords{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:8px 0}'
-    + '.ojw{padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);font-weight:800;font-size:13px}'
-    + '.ojw.fund{background:rgba(46,196,182,.28);border-color:#2ec4b6;text-decoration:line-through;opacity:.8}'
+    + '.ojw{padding:5px 10px;border-radius:999px;background:rgba(46,196,182,.25);border:1px solid #2ec4b6;font-weight:800;font-size:13px}'
     + '.ojlvl{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:4px 0 2px}';
   document.head.appendChild(stil);
 
   function bank() {
     const alle = window.HSORD || {};
     return (alle[(window.HSLANG || 'da') === 'en' ? 'en' : 'da']) || alle.da || {};
+  }
+  let ordbogCache = null;
+  function ordbog() {
+    if (ordbogCache) return ordbogCache;
+    const m = new Map();
+    const b = bank();
+    NIVEAU.forEach((n, i) => (b[n.k] || []).forEach(w => m.set(w, NIVEAU[i].pts)));
+    ordbogCache = m;
+    return m;
   }
   const bland = a => a.map(x => [Math.random(), x]).sort((p, q) => p[0] - q[0]).map(x => x[1]);
   const bogstaver = () => (window.HSLANG === 'en' ? 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' : 'ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ');
@@ -64,19 +69,21 @@
     const lvl = NIVEAU[g.oj.level] || NIVEAU[0];
     const kilde = (bank()[lvl.k] || []).filter(w => w.length <= lvl.n - 1);
     const gitter = Array.from({ length: lvl.n }, () => Array(lvl.n).fill(''));
-    const ord = [];
+    const skjulte = [];
     for (const w of bland(kilde)) {
-      if (ord.length >= lvl.max) break;
-      if (placer(gitter, w)) ord.push(w);
+      if (skjulte.length >= lvl.max) break;
+      if (placer(gitter, w)) skjulte.push(w);
     }
     const alf = bogstaver();
     for (let r = 0; r < lvl.n; r++) for (let c = 0; c < lvl.n; c++) {
       if (!gitter[r][c]) gitter[r][c] = alf[(Math.random() * alf.length) | 0];
     }
     g.oj.grid = gitter;
-    g.oj.words = ord.map(w => ({ w, pts: lvl.pts, fundet: false }));
+    g.oj.skjulte = skjulte;
     g.oj.sel = [];
-    g.oj.fundet = 0;
+    g.oj.fundne = new Set();
+    g.oj.fundneCeller = [];
+    g.oj.fundetSkjulte = 0;
   }
 
   function vej(a, b) {
@@ -90,9 +97,7 @@
     return ud;
   }
 
-  function ordAf(celler) {
-    return celler.map(([r, c]) => g.oj.grid[r][c]).join('');
-  }
+  const ordAf = celler => celler.map(([r, c]) => g.oj.grid[r][c]).join('');
 
   function vaelg(r, c) {
     const oj = g.oj;
@@ -103,25 +108,21 @@
     const sti = vej(a, [r, c]);
     if (!sti) { oj.sel = [[r, c]]; return; }
     const tekst = ordAf(sti), omvendt = [...tekst].reverse().join('');
-    const fundet = oj.words.find(o => !o.fundet && (o.w === tekst || o.w === omvendt));
-    if (fundet) {
-      fundet.fundet = true;
-      oj.fundet++;
-      oj.fundneCeller = (oj.fundneCeller || []).concat(sti);
-      try { add(oj.turn || 0, fundet.pts); } catch (e) {}
-      try { boom(); } catch (e) {}
-      if ((window.players || []).length > 1) oj.turn = ((oj.turn || 0) + 1) % window.players.length;
-      oj.sel = [];
-      render();
-      return;
-    }
-    oj.sel = [[r, c]];
+    const ord = ordbog().has(tekst) ? tekst : ordbog().has(omvendt) ? omvendt : '';
+    if (!ord || oj.fundne.has(ord)) { oj.sel = [[r, c]]; return; }
+    const pts = ordbog().get(ord) || 1;
+    oj.fundne.add(ord);
+    oj.fundneCeller = (oj.fundneCeller || []).concat(sti);
+    if ((oj.skjulte || []).includes(ord)) oj.fundetSkjulte = (oj.fundetSkjulte || 0) + 1;
+    try { add(oj.turn || 0, pts); } catch (e) {}
+    try { boom(); } catch (e) {}
+    if ((window.players || []).length > 1) oj.turn = ((oj.turn || 0) + 1) % window.players.length;
+    oj.sel = [];
+    render();
   }
 
-  function knap(lvl) {
-    return '<button class="btn' + (g.oj.level === lvl ? '' : ' ghost') + '" data-lvl="' + lvl + '" style="padding:6px 10px;border-radius:10px">'
-      + navn(lvl) + ' · ' + NIVEAU[lvl].pts + '</button>';
-  }
+  const knap = lvl => '<button class="btn' + (g.oj.level === lvl ? '' : ' ghost') + '" data-lvl="' + lvl + '" style="padding:6px 10px;border-radius:10px">'
+    + navn(lvl) + ' · ' + NIVEAU[lvl].pts + '</button>';
 
   KINDS.ordjagt = {
     egen: true,
@@ -131,25 +132,25 @@
     },
     render() {
       const oj = g.oj, n = oj.grid.length;
-      const fundet = oj.words.filter(o => o.fundet).length;
-      const point = oj.words.filter(o => o.fundet).reduce((a, o) => a + o.pts, 0);
-      const alle = fundet === oj.words.length;
-      const fundne = new Set((oj.fundneCeller || []).map(x => x.join(',')));
+      const fundne = [...(oj.fundne || [])];
+      const point = fundne.reduce((a, w) => a + (ordbog().get(w) || 1), 0);
+      const alle = oj.skjulte && oj.fundetSkjulte >= oj.skjulte.length;
+      const fundneCeller = new Set((oj.fundneCeller || []).map(x => x.join(',')));
       const sel = new Set((oj.sel || []).map(x => x.join(',')));
       return '<div class="card glass"><div class="row" style="justify-content:space-between">'
         + '<span class="tag">🔎 ' + (EN() ? 'Word hunt' : 'Ordjagt') + '</span>'
-        + '<span class="tag">' + (EN() ? 'Found ' : 'Fundet ') + fundet + '/' + oj.words.length + ' · ' + point + ' ' + (EN() ? 'points' : 'point') + '</span>'
+        + '<span class="tag">' + (EN() ? 'Found ' : 'Fundet ') + fundne.length + ' · ' + point + ' ' + (EN() ? 'points' : 'point') + '</span>'
         + '</div>'
         + '<div class="ojlvl">' + [0, 1, 2, 3].map(knap).join('') + '</div>'
         + '<p class="hint">' + (EN()
-          ? 'Find the words in the grid – across, down or diagonally. Tap the first and the last letter.'
-          : 'Find ordene i gitteret – vandret, lodret eller diagonalt. Tryk på det første og det sidste bogstav.') + '</p>'
+          ? 'Find words in the grid – across, down or diagonally. Tap the first and the last letter. The words are not shown.'
+          : 'Find ordene i gitteret – vandret, lodret eller diagonalt. Tryk på det første og det sidste bogstav. Ordene vises ikke.') + '</p>'
         + '<div class="ojgrid" style="--n:' + n + '">' + oj.grid.map((række, r) => række.map((b, c) => {
           const key = r + ',' + c;
-          return '<button class="ojc' + (fundne.has(key) ? ' fund' : '') + (sel.has(key) ? ' sel' : '') + '" data-r="' + r + '" data-c="' + c + '">' + b + '</button>';
+          return '<button class="ojc' + (fundneCeller.has(key) ? ' fund' : '') + (sel.has(key) ? ' sel' : '') + '" data-r="' + r + '" data-c="' + c + '">' + b + '</button>';
         }).join('')).join('') + '</div>'
-        + '<div class="ojwords">' + oj.words.map(o => '<span class="ojw' + (o.fundet ? ' fund' : '') + '">' + o.w + ' <b>+' + o.pts + '</b></span>').join('') + '</div>'
-        + (alle ? '<p class="hint" style="color:#ffb703;font-weight:900">' + (EN() ? 'All words found! 🎉' : 'Alle ord fundet! 🎉') + '</p>' : '')
+        + (fundne.length ? '<div class="ojwords">' + fundne.map(w => '<span class="ojw">' + w + '</span>').join('') + '</div>' : '')
+        + (alle ? '<p class="hint" style="color:#ffb703;font-weight:900">' + (EN() ? 'All hidden words found! 🎉' : 'Alle skjulte ord fundet! 🎉') + '</p>' : '')
         + '<div class="row"><button class="btn big green" id="ojny">' + (EN() ? 'New words' : 'Nye ord') + '</button></div>'
         + '</div>';
     },
@@ -172,7 +173,7 @@
 
   if (!GAMES.some(g => g.id === 'ordjagt')) {
     GAMES.push({
-      id: 'ordjagt', grp: '🔤 Ordspil', key: 'ordjagt', kind: 'ordjagt',
+      id: 'ordjagt', grp: '🔤 Ordspil', key: '', kind: 'ordjagt',
       t: 'Ordjagt', d: 'Find så mange ord som muligt – let for børn til ekstremt svært',
       e: '🔎', g: 'linear-gradient(135deg,#0f766e,#f59e0b)', min: 1,
     });

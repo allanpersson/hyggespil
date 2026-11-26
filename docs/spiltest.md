@@ -1,6 +1,6 @@
 # Spiltest – 2026-11-26
 
-Spil testet: 98
+Spil testet: 97
 
 ## Alt i ét – random (mixall)
 - type: mix · pulje: mixall
@@ -287,11 +287,6 @@ Spil testet: 98
 - OK: startede, kunne spilles og tegnede korrekt
 - skærmbillede: `artefakter/spiltest/ordtrappe.png`
 
-## Ordsplit (ordsplit)
-- type: w1 · pulje: ordsplit
-- OK: startede, kunne spilles og tegnede korrekt
-- skærmbillede: `artefakter/spiltest/ordsplit.png`
-
 ## Baglæns (omvendt)
 - type: w1 · pulje: omvendt
 - OK: startede, kunne spilles og tegnede korrekt
@@ -428,7 +423,7 @@ Spil testet: 98
 - skærmbillede: `artefakter/spiltest/grimasse.png`
 
 ## Ordjagt (ordjagt)
-- type: ordjagt · pulje: ordjagt
+- type: ordjagt · pulje: -
 - OK: startede, kunne spilles og tegnede korrekt
 - skærmbillede: `artefakter/spiltest/ordjagt.png`
 

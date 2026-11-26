@@ -177,6 +177,62 @@ const ok = (navn, ja) => { antal++; console.log((ja ? 'OK  ' : 'FEJL') + '  ' + 
   await ctx.close();
 }
 
+/* ---------- 5) Ordhjulet: bynavne og én linje ---------- */
+{
+  const { ctx, page } = await nySide(() => {
+    localStorage.setItem('hs_forst', 'ja');
+    localStorage.setItem('hs_xlock', JSON.stringify({ s: 'salt', k: 'kontrol' }));
+    localStorage.setItem('hs_players', JSON.stringify([{ n: 'A', c: '#ff5d8f', s: 0, age: 30 }, { n: 'B', c: '#ffb703', s: 0, age: 30 }]));
+    localStorage.setItem('hs_indst', 'true');
+  });
+  await page.evaluate(() => window.hsStart('wheel'));
+  const s = page.locator('#hsv-startspil'); if (await s.count()) await s.click();
+  await page.waitForSelector('#main .wboard');
+  const mål = await page.evaluate(() => {
+    const prøv = t => {
+      g.pz = { c: 'Dansk by', t }; g.ph = 'spin'; g.msg = ''; render();
+      const ord = [...document.querySelectorAll('.wword')];
+      const board = document.querySelector('.wboard');
+      return {
+        linjer: new Set(ord.map(w => Math.round(w.getBoundingClientRect().top))).size,
+        over: board.scrollWidth > board.clientWidth + 1,
+        side: document.documentElement.scrollWidth > document.documentElement.clientWidth,
+      };
+    };
+    return {
+      kort: prøv('SVENSTRUP'),
+      langt: prøv('VESTER SKERNINGE'),
+      navne: [hsByNavn('Svenstrup J'), hsByNavn('København K: Dagbladet Børsen'), hsByNavn('Nørre Nebel')],
+    };
+  });
+  ok('ordhjulet: ét ord står på én linje', mål.kort.linjer === 1 && !mål.kort.over && !mål.kort.side);
+  ok('ordhjulet: langt svar flyder ikke over', !mål.langt.over && !mål.langt.side);
+  ok('ordhjulet: bynavne renses for distrikter og posthuse', mål.navne[0] === 'Svenstrup' && mål.navne[1] === '' && mål.navne[2] === 'Nørre Nebel');
+  await ctx.close();
+}
+
+/* ---------- 6) Tilbageknappen ---------- */
+{
+  const { ctx, page } = await nySide(() => {
+    localStorage.setItem('hs_forst', 'ja');
+    localStorage.setItem('hs_xlock', JSON.stringify({ s: 'salt', k: 'kontrol' }));
+    localStorage.setItem('hs_players', JSON.stringify([{ n: 'A', c: '#ff5d8f', s: 0, age: 30 }, { n: 'B', c: '#ffb703', s: 0, age: 30 }]));
+    localStorage.setItem('hs_indst', 'true');
+  });
+  await page.evaluate(() => window.hsStart('tf'));
+  const s = page.locator('#hsv-startspil'); if (await s.count()) await s.click();
+  await page.waitForSelector('#main .bar');
+  const iSpil = await page.evaluate(() => window.hsTilbage());
+  const hjemme = await page.evaluate(() => ({ tilbage: window.hsTilbage(), bar: !!document.querySelector('#main .bar') }));
+  await page.click('#menubtn');
+  await page.waitForSelector('.modal');
+  const dialog = await page.evaluate(() => ({ tilbage: window.hsTilbage(), modal: !!document.querySelector('.modal') }));
+  ok('tilbage: spil → hjem', iSpil === true && !hjemme.bar);
+  ok('tilbage: hjemme lukker ikke appen', hjemme.tilbage === false);
+  ok('tilbage: dialog lukkes', dialog.tilbage === true && !dialog.modal);
+  await ctx.close();
+}
+
 await browser.close();
 console.log(antal + ' tjek, ' + fejl.length + ' sidefejl');
 if (fejl.length) console.log(fejl.slice(0, 6).join('\n'));

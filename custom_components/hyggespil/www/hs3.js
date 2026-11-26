@@ -33,7 +33,7 @@ wst.textContent='.wcard{transition:box-shadow .4s}.wturn{display:flex;align-item
 +'.wt.on{background:linear-gradient(180deg,#fff,#dfe6f5);color:#0b1d44;box-shadow:0 3px 8px rgba(0,0,0,.35)}.wt.flip{animation:wflip .75s cubic-bezier(.3,1.4,.5,1) both}@keyframes wflip{0%{transform:rotateY(90deg) scale(.8)}100%{transform:rotateY(0) scale(1)}}.wt.pun{background:none;border:0;box-shadow:none;color:#fff;width:calc(var(--tw)*.5)}'
 +'.wcash{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:6px 0}.wcash span{padding:6px 12px;border-radius:14px;border:2px solid;font-weight:800;opacity:.75}.wcash span.act{opacity:1;transform:scale(1.08);box-shadow:0 0 18px currentColor}'
 +'.wwheel{position:relative;width:min(78vw,320px);margin:6px auto}.wwheel svg{width:100%;display:block;filter:drop-shadow(0 8px 14px rgba(0,0,0,.45))}.wptr{position:absolute;left:50%;top:-6px;transform:translateX(-50%);width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-top:28px solid #ffd166;filter:drop-shadow(0 2px 3px rgba(0,0,0,.6));z-index:2}'
-+'.wkb{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0}.wkb button{width:42px;height:46px;border-radius:10px;font-weight:800;font-size:18px;background:rgba(255,255,255,.16);color:#fff;border:0}.wkb button:disabled{opacity:.22}.wsol{padding:14px;border-radius:16px;background:rgba(255,255,255,.1);font-weight:900;font-size:clamp(20px,5vw,30px);letter-spacing:.06em;text-align:center;margin:10px 0}';
++'.wkb{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0}.wkb button{width:42px;height:46px;border-radius:10px;font-weight:800;font-size:18px;background:rgba(255,255,255,.16);color:#fff;border:0}.wkb button:disabled{opacity:.22}.wsol{padding:14px;border-radius:16px;background:rgba(255,255,255,.1);font-weight:900;font-size:clamp(20px,5vw,30px);letter-spacing:.06em;text-align:center;margin:10px 0;overflow-wrap:anywhere}';
 document.head.appendChild(wst);
 /* Animation når en spiller falder på glasbroen */
 const gst=document.createElement('style');
@@ -67,10 +67,25 @@ const WCOL=['#000000','#7a7d00','#ff6a00','#0093dd','#0a8f3c','#ff6a00','#fff200
 const WVIST={'MIST TUR':'TABT TUR','GRATIS':'JOKER'};
 const used=new Set();
 function ful(e){const m=/«(.+?)»/.exec(e||'');return m?m[1]:null}
+/* Postnummerlisten har også posthuse og distriktsforkortelser ("Svenstrup J", "Odense C").
+   I Ordhjulet bruges kun selve bynavnet, så svaret kan stå på én linje. */
+const BYDROP=new Set(['C','K','V','N','S','Ø','M','J','L','F','B','NV','NØ','SV','SØ','JYLL','VESTJ','MIDTSJ','ØSTJ','NORDJ','SYDJ','ST']);
+function rensBy(s){
+ let x=String(s).trim();
+ if(/[0-9:.]/.test(x))return '';
+ if(/\b(Posthus|Postboks|Postbutik|Pakkecenter|Postcenter)\b/i.test(x))return '';
+ const d=x.split(/\s+/);
+ while(d.length>1&&BYDROP.has(d[d.length-1].toUpperCase()))d.pop();
+ x=d.join(' ');
+ const n=[...x].filter(c=>/[A-Za-zÆØÅæøå]/.test(c)).length;
+ if(n<3||n>18)return '';
+ return x;
+}
+window.hsByNavn=rensBy;
 function puzzle(){
  const src=[
   ['Ordsprog',()=>{const l=(DATA.prov||[]).map(i=>ful(i.e)).filter(Boolean);return l.length?pick(l):null}],
-  ['Dansk by',()=>{const l=(DATA.zip||[]).map(i=>i.o&&i.o[i.a]).filter(Boolean);return l.length?pick(l):null}],
+  ['Dansk by',()=>{const l=(DATA.zip||[]).map(i=>i.o&&i.o[i.a]).filter(Boolean).map(rensBy).filter(Boolean);return l.length?pick(l):null}],
   ['Land',()=>{const l=(DATA.city||[]).map(i=>i.o&&i.o[i.a]).filter(Boolean);return l.length?pick(l):null}],
   ['Dyr',()=>{const l=(DATA.kwho||[]).map(i=>i.a).filter(Boolean);return l.length?pick(l):null}],
   ['Hvem eller hvad?',()=>{const l=(DATA.who||[]).map(i=>i.a).filter(Boolean);return l.length?pick(l):null}]];
@@ -118,7 +133,13 @@ function wheelSVG(rot){
 }
 function tilesHTML(){
  const t=g.pz.t,rv=g.rv,all=g.ph==='done',words=t.split(' '),ml=Math.max.apply(null,words.map(w=>w.length));
- const avail=Math.min(window.innerWidth,560)-70,tw=Math.max(18,Math.min(40,Math.floor(avail/Math.max(ml,6))-5));
+ const bredde=Math.min(window.innerWidth,560),avail=bredde-70;
+ /* Hold hele svaret på én linje, når det kan lade sig gøre – også når det består af flere ord.
+    Er svaret for langt til det, ombrydes der ved mellemrummene i stedet. */
+ const antal=[...t].filter(c=>c!==' ').length,mln=words.length;
+ const plads=bredde-60-8-(antal-mln)*4-(mln-1)*18;
+ const twEns=Math.floor(plads/Math.max(antal,1));
+ const tw=twEns>=16?Math.min(40,twEns):Math.max(18,Math.min(40,Math.floor(avail/Math.max(ml,6))-5));
  let k=0;
  return '<div class="wboard" style="--tw:'+tw+'px">'+words.map(w=>'<div class="wword">'+[...w].map(c=>{
   if(!isLetter(c))return '<div class="wt on pun">'+c+'</div>';
@@ -145,7 +166,7 @@ KINDS.wheel={
   }else if(g.ph==='spinning'){
    o+='<div class="wwheel"><div class="wptr"></div>'+wheelSVG(g.wr)+'</div><p class="hint">Hjulet snurrer…</p>';
   }else if(g.ph==='pick'){o+='<p class="hint">Hjulet stoppede på <b style="font-size:1.3em">'+g.wv+'</b> – vælg en konsonant (du får '+g.wv+' pr. forekomst).</p>'+keys(cons);}
-  else if(g.ph==='vowel'){o+='<p class="hint">Vælg en vokal (koster '+VCOST+').</p>'+keys(vow)+'<div class="row"><button class="btn ghost" id="wback">Fortryd</button></div>';}
+  else if(g.ph==='vowel'){o+='<p class="hint">Vælg en vokal (koster '+VCOST+' – og turen, hvis den ikke er i ordet).</p>'+keys(vow)+'<div class="row"><button class="btn ghost" id="wback">Fortryd</button></div>';}
   else if(g.ph==='free'){o+='<p class="hint"><b>GRATIS bogstav!</b> Vælg frit en vokal eller konsonant.</p>'+keys([...ABC]);}
   else if(g.ph==='solve'){o+='<p class="hint">'+esc(p.n)+': skriv løsningen – eller sig den højt, og vis så løsningen til dommerne.</p><div class="est"><div class="p" style="--c:'+p.c+'"><input class="in" id="wsin" placeholder="Skriv løsningen" autocomplete="off" value="'+esc(g.sol||'')+'"></div></div><div class="row"><button class="btn big green" id="wcheck">✅ Tjek løsningen</button></div><div class="row"><button class="btn ghost" id="wshow">👁️ Jeg sagde den højt – vis løsningen</button><button class="btn ghost" id="wback">Fortryd</button></div>';}
   else if(g.ph==='judge'){o+='<div class="wsol">'+esc(g.pz.t)+'</div><p class="hint">Dommere (de andre): sagde '+esc(p.n)+' præcis denne løsning?</p><div class="row"><button class="btn big green" id="wok">✅ Rigtigt</button><button class="btn big red" id="wno">❌ Forkert</button></div>';}
@@ -155,6 +176,24 @@ KINDS.wheel={
  },
  bind(){
   const $=id=>document.getElementById(id);
+  /* Tilpas brikkerne til den virkelige bredde: hele svaret på én linje, når det kan være der.
+     Er svaret for langt, ombrydes det ved mellemrummene, så hvert ord stadig står på én linje. */
+  const tilpas=()=>{
+   const board=document.querySelector('.wboard');
+   if(!board)return;
+   const ord=[...board.querySelectorAll('.wword')].filter(w=>w.children.length);
+   if(!ord.length)return;
+   const antal=ord.reduce((a,w)=>a+w.children.length,0),mellemrum=ord.length;
+   const plads=board.clientWidth-4;
+   let tw=Math.floor((plads-(antal-mellemrum)*4-(mellemrum-1)*18)/Math.max(antal,1));
+   if(tw<16){
+    const ml=Math.max(...ord.map(w=>w.children.length));
+    tw=Math.floor((plads-(ml-1)*4)/Math.max(ml,1));
+   }
+   tw=Math.max(11,Math.min(40,tw));
+   board.style.setProperty('--tw',tw+'px');
+  };
+  tilpas();
   const guess=(l,cost,val)=>{
    if(g.rv.includes(l))return;g.rv.push(l);const n=cnt(g.pz.t,l);
    if(cost)g.cash[g.wt]=(g.cash[g.wt]||0)-cost;

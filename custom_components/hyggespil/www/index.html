@@ -105,6 +105,18 @@ const hsNeverIkon=()=>(players.some(p=>p&&p.age>0&&p.age<18)?'🥤':'🍷');
 const hsBarnMed=()=>players.some(p=>p&&p.age>0&&p.age<18);
 const skalViseDisc=()=>{try{return localStorage.getItem('hs_disclaimer')!=='ja'}catch(e){return false}};
 function hsDiscLuk(){try{localStorage.setItem('hs_disclaimer','ja')}catch(e){};const d=document.getElementById('discl');if(d)d.remove()}
+/* Android-tilbage: luk dialog, gå ud af spillet eller hjem – i stedet for at lukke appen. */
+window.hsTilbage=function(){
+ try{
+  if(typeof modal!=='undefined'&&modal){modal=null;render();return true}
+  const modals=[...document.querySelectorAll('.modal')];
+  if(modals.length){modals[modals.length-1].remove();return true}
+  const rum=document.getElementById('rumspil');
+  if(rum&&getComputedStyle(rum).display!=='none'){rum.style.display='none';return true}
+  if(typeof view!=='undefined'&&view!=='home'){go('home');return true}
+ }catch(e){}
+ return false;
+};
 function hsOm(){
  const da = (window.HSLANG||'da')==='da';
  const tekst = da
