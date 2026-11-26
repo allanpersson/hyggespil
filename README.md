@@ -9,15 +9,15 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 *Hygge is the Danish tradition of being together at an easy pace – with no pressure to perform, time for each other, something good to eat and room to laugh. Hygge Games is built around exactly that: one screen, everyone can join in, and the time together matters more than the score.*
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.97<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.98<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->526<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->529<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->99 spil og 19.003 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->99 spil og 19.169 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -252,6 +252,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.98 – 2026-11-26
+
+**Tilføjet**
+- **166 nye spørgsmål og kort** fordelt på: filmdk (11), riddle_en (10), num_en (10), deep_en (10), rather_en (10), never_en (10), likely_en (10), Stormester (10), cifked (10), omvendt (10), who_en (9), cifbrl (9), tf_en (8), taboo_en (8), cifmors (8), roller (8), film10 (7), julequiz (6), odd_en (2).
+- Nye spørgsmål: 166
+
 ### 0.2.97 – 2026-11-26
 
 **Tilføjet**
@@ -321,12 +327,6 @@ en kop kaffe:
 **Tilføjet**
 - **270 nye spørgsmål og kort** fordelt på: musdk (31), tf_en (17), odd_en (17), riddle_en (17), rather_en (17), never_en (17), likely_en (17), who_en (16), deep_en (16), num_en (15), taboo_en (15), Destination (10), cifvine (10), ordtrappe (10), mus90 (10), gamingquiz (10), provw (9), ordlav (8), International fodbold (8).
 - Nye spørgsmål: 270
-
-### 0.2.90 – 2026-11-25
-
-**Tilføjet**
-- **51 nye spørgsmål og kort** fordelt på: harry (11), cifsym (10), cifspjl (10), film90 (10), ftl_fod (10).
-- Nye spørgsmål: 51
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
