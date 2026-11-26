@@ -9,15 +9,15 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 *Hygge is the Danish tradition of being together at an easy pace – with no pressure to perform, time for each other, something good to eat and room to laugh. Hygge Games is built around exactly that: one screen, everyone can join in, and the time together matters more than the score.*
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.102<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.103<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->556<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->559<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->100 spil og 19.467 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->99 spil og 19.467 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -252,6 +252,20 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.103 – 2026-11-26
+
+**Nyt spil**
+- **Ordjagt**: find så mange ord som muligt i et bogstavgitter. Fire sværhedsgrader – **Let** (9×9), **Mellem** (11×11), **Svær** (13×13) og **Ekstrem** (15×15). Ordene ligger skjult vandret, lodret og diagonalt, også baglæns – man finder dem ved at trykke på det første og det sidste bogstav. **1 point** for lette og mellem, **2 for svære** og **5 for ekstremt svære**. Kan spilles alene eller på skift.
+**Rettet**
+- **Ordhjulet**: hele svaret står nu på én linje, så enkelte bogstaver ikke havner alene på næste linje. Bynavne vises uden postdistrikt («Svenstrup J» → «Svenstrup»), og der står nu, at en forkert købt vokal også koster turen.
+- **Ordsplit** er skjult, indtil spillet er lavet om – «VED+HEFT» var desuden forkert (det hedder VEDHÆFT).
+- **Android**: telefonens tilbageknap går nu tilbage i appen – lukker en dialog eller går hjem fra et spil – i stedet for at lukke appen.
+- **Solo virker nu:** én spiller kan afslutte spillervalg med «Klar!» og starte alle spil, hvor en modstander ikke er nødvendig.
+- **Tastaturet popper ikke længere op af sig selv**, når et spil starter – det dækkede spillefladen. Felter fokuseres først, når man selv trykker på dem.
+- **Samspil**: værten kan starte et spil direkte fra forsiden, og alle telefoner følger med; rummet vises som et banner på forsiden.
+- Ordhjulet og tilbageknap
+- Fjern debug-test
+
 ### 0.2.102 – 2026-11-26
 
 - Samspil med flere spil
@@ -303,13 +317,6 @@ en kop kaffe:
 **Tilføjet**
 - **20 nye spørgsmål og kort** fordelt på: julefilm (10), cult (10).
 - Samspil med flere spil
-
-### 0.2.95 – 2026-11-25
-
-**Tilføjet**
-- **208 nye spørgsmål og kort** fordelt på: tf_en (20), odd_en (20), num_en (20), film00 (20), riddle_en (10), who_en (10), taboo_en (10), deep_en (10), rather_en (10), never_en (10), likely_en (10), Dansk fodbold (10), mgp (10), disney (10), gaminghistorie (10), Skøre rekorder (10), ordsplit (8).
-- Nye spørgsmål: 208
-- Fjern midlertidig test
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->

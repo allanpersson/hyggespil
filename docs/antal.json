@@ -1,5 +1,5 @@
 {
- "spil": 100,
+ "spil": 99,
  "spoergsmaal": 19467,
  "puljer": {
   "num": 217,
@@ -121,7 +121,6 @@
   "rec": 94,
   "law": 95,
   "xh": 29,
-  "ordjagt": 0,
   "xr": 135,
   "xs": 115,
   "xq": 108,
@@ -136,7 +135,7 @@
  },
  "sprog": {
   "da": {
-   "puljer": 120,
+   "puljer": 119,
    "spoergsmaal": 18664
   },
   "en": {
@@ -202,7 +201,6 @@
   "ordlav": "Ord lav",
   "ordkaede": "Ordkæde",
   "ordtrappe": "Ordtrappe",
-  "ordsplit": "Ordsplit",
   "omvendt": "Baglæns",
   "rim": "Rim",
   "langst": "Længste ord",
