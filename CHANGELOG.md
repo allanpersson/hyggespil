@@ -3,6 +3,13 @@
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
 
+## 0.2.104 – 2026-11-27
+
+### Tilføjet
+- **5 nye spørgsmål og kort** fordelt på: zip (5).
+- Nye spørgsmål: 5
+- Dokumentér Ordjagt
+
 ## 0.2.103 – 2026-11-26
 
 ### Nyt spil

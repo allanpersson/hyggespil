@@ -9,15 +9,15 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 *Hygge is the Danish tradition of being together at an easy pace – with no pressure to perform, time for each other, something good to eat and room to laugh. Hygge Games is built around exactly that: one screen, everyone can join in, and the time together matters more than the score.*
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.103<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.104<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->559<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->563<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->99 spil og 19.467 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->99 spil og 19.472 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -252,6 +252,13 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.104 – 2026-11-27
+
+**Tilføjet**
+- **5 nye spørgsmål og kort** fordelt på: zip (5).
+- Nye spørgsmål: 5
+- Dokumentér Ordjagt
+
 ### 0.2.103 – 2026-11-26
 
 **Nyt spil**
@@ -306,17 +313,6 @@ en kop kaffe:
 **Tilføjet**
 - **4 nye spørgsmål og kort** fordelt på: zip (4).
 - Nye spørgsmål: 4
-
-### 0.2.96 – 2026-11-25
-
-**Samspil**
-- **Flere spil i rummet:** nu kan næsten alle egnede spil deles – quiz, sandt/falsk, find løgnen, hvad skete først, gåder, kortspil som «Jeg har aldrig» og «Dybe samtaler», «Hellere end» og «Forklar ordet». Værten vælger blot spillet i listen.
-- **Enklere:** værten er automatisk med i rummet med sit eget navn, og der er kun ét rum at oprette. Gæsterne skriver koden og deres navn.
-- **Bedre rumskærm:** spillenes navn vises, kort og svarmuligheder bliver ens på alle telefoner, og kun den, hvis tur det er, kan svare.
-- **Robusthed:** gæsten synkroniserer løbende, så en mistet besked ikke stopper spillet.
-**Tilføjet**
-- **20 nye spørgsmål og kort** fordelt på: julefilm (10), cult (10).
-- Samspil med flere spil
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
