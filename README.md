@@ -9,15 +9,15 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 *Hygge is the Danish tradition of being together at an easy pace – with no pressure to perform, time for each other, something good to eat and room to laugh. Hygge Games is built around exactly that: one screen, everyone can join in, and the time together matters more than the score.*
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.107<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.108<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->573<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->579<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->99 spil og 19.664 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->99 spil og 19.852 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -252,6 +252,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.108 – 2026-11-27
+
+**Tilføjet**
+- **188 nye spørgsmål og kort** fordelt på: cifsym (17), who_en (10), taboo_en (10), deep_en (10), rather_en (10), never_en (10), likely_en (10), cifvine (10), cifspjl (10), ordtrappe (10), stavboks (10), staveling (10), mus90 (10), harry (10), gamingquiz (10), odd_en (9), Destination (9), mus70 (9), riddle_en (4).
+- Nye spørgsmål: 188
+
 ### 0.2.107 – 2026-11-27
 
 **Rettet**
@@ -309,12 +315,6 @@ en kop kaffe:
 - **Tastaturet popper ikke længere op af sig selv**, når et spil starter – det dækkede spillefladen. Felter fokuseres først, når man selv trykker på dem.
 - **Samspil**: værten kan starte et spil direkte fra forsiden, og alle telefoner følger med; rummet vises som et banner på forsiden.
 - Ordjagt og solo-fix
-
-### 0.2.100 – 2026-11-26
-
-**Tilføjet**
-- **117 nye spørgsmål og kort** fordelt på: likely_en (12), tf_en (10), riddle_en (10), num_en (10), deep_en (10), rather_en (10), never_en (10), Hvem i familien? (10), ftl_andre (10), who_en (9), odd_en (8), taboo_en (8).
-- Nye spørgsmål: 117
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
