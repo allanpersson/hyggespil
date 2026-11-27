@@ -3,6 +3,12 @@
 Versionerne følger [Semantic Versioning](https://semver.org/lang/da/).
 
 
+## 0.2.109 – 2026-11-27
+
+### Tilføjet
+- **113 nye spørgsmål og kort** fordelt på: langst (20), riddle_en (10), taboo_en (10), Dystre valg (10), cifcol (10), ordkaede (10), Græker eller sygdom (10), film10 (10), who_en (9), ordsplit (8), musma (6).
+- Nye spørgsmål: 113
+
 ## 0.2.108 – 2026-11-27
 
 ### Tilføjet
