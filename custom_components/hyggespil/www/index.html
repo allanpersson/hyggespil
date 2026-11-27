@@ -45,6 +45,7 @@ body.igang header{display:none}
 .gc .mn{position:absolute;top:12px;right:14px;font-size:12px;background:rgba(10,6,25,.55);backdrop-filter:blur(4px);padding:3px 9px;border-radius:20px;z-index:2;font-weight:700}
 
 .pswrap{margin-top:auto;display:flex;flex-direction:column;align-items:flex-start;gap:4px;max-width:100%}.pswrap .ps{position:static;font-size:11px;opacity:.9;text-shadow:0 1px 3px rgba(0,0,0,.5);max-width:100%;overflow-wrap:anywhere;line-height:1.25}.pswrap .ps.snart{background:rgba(124,58,237,.6);border:1px solid #a78bfa;padding:2px 8px;border-radius:999px;font-weight:800;opacity:1;color:#fff}
+.mangler{margin-top:6px;align-self:flex-start;background:rgba(230,57,70,.92);color:#fff;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:800;line-height:1.3;max-width:100%;overflow-wrap:anywhere}
 .pswrap .ps.ny{background:rgba(20,12,40,.55);border:1px solid rgba(255,183,3,.75);padding:3px 9px;border-radius:999px;font-weight:800;opacity:1;font-size:10.5px;color:#ffe9b0}
 .card{padding:26px;margin-bottom:16px;animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
 @keyframes pop{from{opacity:0;transform:scale(.92) translateY(14px)}}
@@ -124,10 +125,12 @@ function hsOm(){
    +'<p class="hint" style="text-align:left"><b>Hygge</b> er den danske tradition for at være sammen i et roligt tempo – uden præstationspres, med tid til hinanden, noget godt at spise og plads til at grine. Det handler ikke om at vinde, men om at være sammen.</p>'
    +'<p class="hint" style="text-align:left">Hygge Games er bygget op om netop det: én skærm, alle kan være med, og samværet er vigtigere end pointene. Spillene er korte nok til, at man kan tale sammen undervejs.</p>'
    +'<p class="hint" style="text-align:left">Alt indhold er skrevet til Hygge Games – inspireret af klassiske selskabsspil, gamle lege og traditioner, aldrig kopieret. Kan du lide et spil, så køb den fysiske udgave, hvis den findes.</p>'
+   +'<p class="hint" style="text-align:left;font-size:12px;opacity:.85">Ordjagt bruger en filtreret ordliste fra FrequencyWords (CC BY-SA 4.0). Se tredjepartsnoterne i projektet.</p>'
   : '<h2 style="margin-top:0">🎲 About Hygge Games</h2>'
    +'<p class="hint" style="text-align:left"><b>Hygge</b> is the Danish tradition of being together at an easy pace – with no pressure to perform, time for each other, something good to eat and room to laugh. It is not about winning; it is about being together.</p>'
    +'<p class="hint" style="text-align:left">Hygge Games is built around exactly that: one screen, everyone can join in, and the time together matters more than the score.</p>'
-   +'<p class="hint" style="text-align:left">All content is written for Hygge Games – inspired by classic party games, old playground games and traditions, never copied. If you like a game, please buy the physical original where one exists.</p>';
+   +'<p class="hint" style="text-align:left">All content is written for Hygge Games – inspired by classic party games, old playground games and traditions, never copied. If you like a game, please buy the physical original where one exists.</p>'
+   +'<p class="hint" style="text-align:left;font-size:12px;opacity:.85">Word hunt uses a filtered word list from FrequencyWords (CC BY-SA 4.0). See the third-party notices in the project.</p>';
  const d=document.createElement('div');d.className='modal';d.style.zIndex='80';
  d.innerHTML='<div class="mbox" style="width:min(560px,100%)">'+tekst
   +'<div class="row" style="margin-top:14px"><button class="btn big green" id="om-luk">'+(da?'Forstået':'Got it')+'</button></div></div>';
@@ -281,13 +284,31 @@ function home(){
  let tot=0,h='';
  const synlig=x=>!x.skjult&&alderOK(x)&&!(window.HSLANG!=='da'&&window.hsKunDa&&hsKunDa(x.id))&&(window.HSLANG==='da'||(window.HS_EN_KAN||[]).includes(x.id));
  for(const grp of [...new Set(GAMES.filter(synlig).map(x=>x.grp))]){
-  h+=`<div class="grp">${hsGruppe(grp)}</div><div class="grid">${GAMES.filter(x=>x.grp===grp&&synlig(x)).map(x=>{const liste=x.kind==='menu'?(x.sub||[]).reduce((a,z)=>a.concat(pool(z.key)),[]):pool(x.key),n=x.antalPuljer?x.antalPuljer.reduce((a,k)=>a+pool(k).length,0):(x.antal!=null?x.antal:liste.length);const harAlder=liste.some(i=>i&&typeof i.age==='number');const gruppeMin=harAlder?Math.min(...[[3,5],[6,8],[9,11],[12,14]].map(([a,b])=>liste.filter(i=>!i||typeof i.age!=='number'||(i.age>=a&&i.age<=b)).length)):n;const graense=x.kommerSnart!=null?x.kommerSnart:(x.ny?50:0),enkelt=n<=1,snart=graense&&n<=graense,ny=!enkelt&&!snart&&(n<100||gruppeMin<100);return `<button class="gc" style="--g:${x.g}" onclick="hsStart('${x.id}')"><div class="em">${x.id==='nev'?hsNeverIkon():(x.id==='dare'?hsDareIkon():x.e)}</div><div class="t">${x.id==='dare'?hsDareTitel():hsNavn(x.id,'t',x.t)}</div><div class="d">${hsNavn(x.id,'d',x.d)}</div><div class="mn">${x.min<=1?t('solo'):t('playersMin',x.min)}</div>${enkelt?'':`<div class="pswrap"><div class="ps">${t('inPool',n)}</div>${snart?'<div class="ps snart">'+t('comingSoon')+' · '+(graense+1)+'</div>':''}${ny?'<div class="ps ny">'+t('newPool')+'</div>':''}</div>`}</button>`}).join('')}</div>`}
+  h+=`<div class="grp">${hsGruppe(grp)}</div><div class="grid">${GAMES.filter(x=>x.grp===grp&&synlig(x)).map(x=>{const liste=x.kind==='menu'?(x.sub||[]).reduce((a,z)=>a.concat(pool(z.key)),[]):pool(x.key),n=x.antalPuljer?x.antalPuljer.reduce((a,k)=>a+pool(k).length,0):(x.antal!=null?x.antal:liste.length);const harAlder=liste.some(i=>i&&typeof i.age==='number');const gruppeMin=harAlder?Math.min(...[[3,5],[6,8],[9,11],[12,14]].map(([a,b])=>liste.filter(i=>!i||typeof i.age!=='number'||(i.age>=a&&i.age<=b)).length)):n;const graense=x.kommerSnart!=null?x.kommerSnart:(x.ny?50:0),enkelt=n<=1,snart=graense&&n<=graense,ny=!enkelt&&!snart&&(n<100||gruppeMin<100);return `<button class="gc" style="--g:${x.g}" onclick="hsStart('${x.id}')"><div class="em">${x.id==='nev'?hsNeverIkon():(x.id==='dare'?hsDareIkon():x.e)}</div><div class="t">${x.id==='dare'?hsDareTitel():hsNavn(x.id,'t',x.t)}</div><div class="d">${hsNavn(x.id,'d',x.d)}</div>${players.length<x.min?'<div class="mangler">'+t('needPlayers',x.min)+'</div>':''}<div class="mn"${players.length<x.min?' style="background:rgba(230,57,70,.92)"':''}>${x.min<=1?t('solo'):t('playersMin',x.min)}</div>${enkelt?'':`<div class="pswrap"><div class="ps">${t('inPool',n)}</div>${snart?'<div class="ps snart">'+t('comingSoon')+' · '+(graense+1)+'</div>':''}${ny?'<div class="ps ny">'+t('newPool')+'</div>':''}</div>`}</button>`}).join('')}</div>`}
  const keys=[...new Set(GAMES.filter(x=>x.key&&alderOK(x)).map(x=>x.key))];tot=keys.reduce((s,k)=>s+(pool(k).length>1?pool(k).length:0),0);
  document.getElementById('main').innerHTML=h+`<p class="hint" style="margin-top:22px">${window.HSLANG!=='da'&&!tot?t('moreEnglish'):t('total',tot)}</p>`
  + (skalViseDisc() ? discHTML() : '') +`<p class="hint" style="margin-top:12px;text-align:center;font-size:12px">Hygge Games v${(window.HSCFG&&HSCFG.version)||''} · ${window.HSPLAY?'<button class="btn ghost" id="fstotte" style="padding:2px 8px;font-size:12px" onclick="window.hsStotte&&window.hsStotte()">☕ '+t('support')+'</button>':`<a href="${(window.HSCFG&&HSCFG.kaffe)||'https://buymeacoffee.com/i8B3Mn5'}" target="_blank" rel="noopener" style="color:#ffb703;font-weight:800;text-decoration:none">☕ ${t('coffee')}</a>`} · <button class="btn ghost" id="fhome" style="padding:2px 8px;font-size:12px">💬 ${t('feedback')}</button> · <a href="#" onclick="hsOm();return false" style="color:#b9b4d6;text-decoration:none">${t('about')}</a></p>`;
 }
-function start(id){const x=gm(id);if(players.length<x.min){alert('Der skal mindst være '+x.min+' spillere – tilføj flere under «Spillere».');return}
+function start(id){const x=gm(id);if(players.length<x.min){manglerSpillere(x);return}
  g={turn:-1,gp:{}};let v=id;if(id==='ffm'&&players.length<3){v='est';g.fb=true}view=v;next()}
+/* Tydelig besked, når et spil kræver flere spillere, end der er lige nu. */
+function manglerSpillere(x){
+ const da=(window.HSLANG||'da')==='da';
+ const d=document.createElement('div');d.className='modal';d.style.zIndex='82';
+ const navn=x?(da?x.t:(window.hsNavn?hsNavn(x.id,'t',x.t):x.t)):'';
+ d.innerHTML='<div class="mbox" style="max-width:420px;text-align:center">'
+  +'<div style="font-size:46px;line-height:1.1">👥</div>'
+  +'<h2 style="margin:8px 0 4px">'+(da?'Der mangler en spiller':'Need another player')+'</h2>'
+  +'<p class="hint" style="text-align:left">'+(da
+    ?'«'+esc(navn)+'» kræver mindst <b>'+x.min+' spillere</b>. I er kun <b>'+players.length+'</b> lige nu.'
+    :'“'+esc(navn)+'” needs at least <b>'+x.min+' players</b>. You are only <b>'+players.length+'</b> right now.')+'</p>'
+  +'<div class="row" style="margin-top:14px"><button class="btn big green" id="mangler-tilf">'+(da?'Tilføj spiller':'Add player')+'</button>'
+  +'<button class="btn ghost" id="mangler-luk">'+(da?'Vælg et andet spil':'Choose another game')+'</button></div></div>';
+ document.body.appendChild(d);
+ d.querySelector('#mangler-tilf').onclick=()=>{d.remove();modal='pl';render()};
+ d.querySelector('#mangler-luk').onclick=()=>d.remove();
+ d.addEventListener('click',e=>{if(e.target===d)d.remove()});
+}
 function next(){
  clearInterval(tid);const x=gm(view);
  g.sel=null;g.reveal=false;g.assign={};g.b=null;g.ph=0;g.cl=1;g.shown=false;g.ans=false;g.tend=null;g.done=false;

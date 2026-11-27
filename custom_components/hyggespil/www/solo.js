@@ -12,7 +12,8 @@
   const SOLO = new Set([
     /* quiz og viden */
     'tf', 'odd', 'tl', 'riddle', 'who', 'rec', 'city', 'weird', 'lang', 'pin', 'dx',
-    'wheel', 'est', 'hangman', 'deep',
+    'wheel', 'est', 'hangman', 'deep', 'law', 'zip', 'mys',
+    'ftl', 'ftl_bil', 'ftl_cykel', 'ftl_fod', 'ftl_andre',
     /* musik, film, serier */
     'mus60', 'mus70', 'mus80', 'mus90', 'mus00', 'mus10', 'musdk', 'mgp', 'bmgp',
     'film80', 'film90', 'film00', 'film10', 'filmdk', 'harry', 'kpop', 'disney',
@@ -28,13 +29,35 @@
     'uret', 'bogstavværdi',
     /* blandet og temaer */
     'gamingmix', 'prov', 'provc', 'provw', 'grsyg', 'reality', 'fbdk', 'fbint',
+    /* opgaver og spil, hvor man sagtens kan være én */
+    'dare', 'sqdal', 'sqdil', 'rat', 'inuit', 'lot', 'shagai', 'yut',
     /* børnespil der kan spilles alene */
     'kwho', 'kriddle', 'kquiz', 'ktf', 'kodd', 'kest', 'kword', 'klik', 'krather',
   ]);
 
+  /* Nogle spil tilføjes først, når alle filer er læst (fx Færdselsloven og
+     verdensspillene). Derfor sættes mindsteantallet både nu og igen, når
+     forsiden tegnes, og når et spil startes. */
+  function anvend() {
+    try {
+      for (const g of (window.GAMES || [])) {
+        if (g && SOLO.has(g.id)) g.min = 1;
+      }
+    } catch (e) {}
+  }
+  anvend();
+  window.hsSolo = anvend;
   try {
-    for (const g of (window.GAMES || [])) {
-      if (g && SOLO.has(g.id)) g.min = 1;
-    }
+    const f0 = window.HS_FINISH;
+    window.HS_FINISH = function () { f0 && f0(); anvend(); };
   } catch (e) {}
+  try {
+    const h0 = window.home;
+    if (h0) window.home = function () { anvend(); return h0.apply(this, arguments); };
+  } catch (e) {}
+  try {
+    const s0 = window.hsStart;
+    if (s0) window.hsStart = function () { anvend(); return s0.apply(this, arguments); };
+  } catch (e) {}
+  try { setTimeout(anvend, 0); } catch (e) {}
 })();

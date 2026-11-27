@@ -33,13 +33,20 @@
     const alle = window.HSORD || {};
     return (alle[(window.HSLANG || 'da') === 'en' ? 'en' : 'da']) || alle.da || {};
   }
-  let ordbogCache = null;
+  let ordbogCache = null, ordbogSprog = '';
   function ordbog() {
-    if (ordbogCache) return ordbogCache;
+    const sp = EN() ? 'en' : 'da';
+    if (ordbogCache && ordbogSprog === sp) return ordbogCache;
     const m = new Map();
     const b = bank();
     NIVEAU.forEach((n, i) => (b[n.k] || []).forEach(w => m.set(w, NIVEAU[i].pts)));
+    /* Også andre rigtige ord i gitteret kan give point. De lette ord giver 1,
+       de lidt længere 2 og de rigtig lange 5 – som de svære niveauer. */
+    (b.ord || []).forEach(w => {
+      if (!m.has(w)) m.set(w, w.length >= 8 ? 5 : w.length >= 5 ? 2 : 1);
+    });
     ordbogCache = m;
+    ordbogSprog = sp;
     return m;
   }
   const bland = a => a.map(x => [Math.random(), x]).sort((p, q) => p[0] - q[0]).map(x => x[1]);
@@ -84,6 +91,7 @@
     g.oj.fundne = new Set();
     g.oj.fundneCeller = [];
     g.oj.fundetSkjulte = 0;
+    g.oj.msg = '';
   }
 
   function vej(a, b) {
@@ -101,15 +109,29 @@
 
   function vaelg(r, c) {
     const oj = g.oj;
+    oj.msg = '';
     if (oj.sel.length >= 2) oj.sel = [];
     if (!oj.sel.length) { oj.sel = [[r, c]]; return; }
     const a = oj.sel[0];
     if (a[0] === r && a[1] === c) { oj.sel = []; return; }
     const sti = vej(a, [r, c]);
-    if (!sti) { oj.sel = [[r, c]]; return; }
+    if (!sti) {
+      oj.sel = [[r, c]];
+      oj.msg = EN() ? 'Choose the letters in a straight line' : 'Vælg bogstaverne på en lige linje';
+      return;
+    }
     const tekst = ordAf(sti), omvendt = [...tekst].reverse().join('');
     const ord = ordbog().has(tekst) ? tekst : ordbog().has(omvendt) ? omvendt : '';
-    if (!ord || oj.fundne.has(ord)) { oj.sel = [[r, c]]; return; }
+    if (!ord) {
+      oj.sel = [[r, c]];
+      oj.msg = EN() ? 'That is not a word in the list – try another' : 'Det ord står ikke i ordlisten – prøv et andet';
+      return;
+    }
+    if (oj.fundne.has(ord)) {
+      oj.sel = [[r, c]];
+      oj.msg = EN() ? 'Already found' : 'Allerede fundet';
+      return;
+    }
     const pts = ordbog().get(ord) || 1;
     oj.fundne.add(ord);
     oj.fundneCeller = (oj.fundneCeller || []).concat(sti);
@@ -143,8 +165,9 @@
         + '</div>'
         + '<div class="ojlvl">' + [0, 1, 2, 3].map(knap).join('') + '</div>'
         + '<p class="hint">' + (EN()
-          ? 'Find words in the grid – across, down or diagonally. Tap the first and the last letter. The words are not shown.'
-          : 'Find ordene i gitteret – vandret, lodret eller diagonalt. Tryk på det første og det sidste bogstav. Ordene vises ikke.') + '</p>'
+          ? 'Find words in the grid – across, down or diagonally. Tap the first and the last letter. The hidden words are not shown – other real words count too (1/2/5 points by length).'
+          : 'Find ord i gitteret – vandret, lodret eller diagonalt. Tryk på det første og det sidste bogstav. De skjulte ord vises ikke – andre rigtige ord tæller også (1/2/5 point efter længde).') + '</p>'
+        + (oj.msg ? '<p class="hint" style="color:#ffb703;font-weight:800">' + oj.msg + '</p>' : '')
         + '<div class="ojgrid" style="--n:' + n + '">' + oj.grid.map((række, r) => række.map((b, c) => {
           const key = r + ',' + c;
           return '<button class="ojc' + (fundneCeller.has(key) ? ' fund' : '') + (sel.has(key) ? ' sel' : '') + '" data-r="' + r + '" data-c="' + c + '">' + b + '</button>';

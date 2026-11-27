@@ -42,6 +42,7 @@ Hjulet er **tegnet til Hyggespil** som SVG: egne farver, egne felter og egne væ
 |---|---|---|---|
 | three.js r149 | MIT | licens- og copyrighttekst med | `three.min.js` har headeren; teksten står i `THIRD_PARTY_NOTICES.md` |
 | Natural Earth 1:50m | Public domain | ingen | krediteres i noterne |
+| FrequencyWords (Ordjagtens ordliste) | CC BY-SA 4.0 | kreditering + samme licens for listen | `THIRD_PARTY_NOTICES.md` og **Om** |
 | Lyde fra OpenGameArt | CC0 / CC-BY 3.0 / CC-BY 4.0 | kreditering ved CC-BY | `THIRD_PARTY_NOTICES.md`, `docs/lyd.md`, `lyd/CREDITS.txt` og link i **Om spillene** |
 | Emoji og skrifttyper | enhedens egne | ingen | intet følger med |
 | `sirene.mp3` | egen syntese (MIT) | ingen | `tools/lav_lyde.py` |

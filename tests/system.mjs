@@ -265,6 +265,50 @@ const ok = (navn, ja) => { antal++; console.log((ja ? 'OK  ' : 'FEJL') + '  ' + 
   await ctx.close();
 }
 
+/* ---------- 8) Spil der ikke længere kræver to ---------- */
+{
+  const { ctx, page } = await nySide(() => {
+    localStorage.setItem('hs_forst', 'ja');
+    localStorage.setItem('hs_xlock', JSON.stringify({ s: 'salt', k: 'kontrol' }));
+    localStorage.setItem('hs_players', JSON.stringify([{ n: 'Solo', c: '#ff5d8f', s: 0, age: 40 }]));
+    localStorage.setItem('hs_indst', 'true');
+    localStorage.setItem('hs_16', 'ja');
+    localStorage.setItem('hs_disclaimer', 'ja');
+  });
+  const nye = ['law', 'zip', 'mys', 'ftl', 'ftl_bil', 'ftl_cykel', 'ftl_fod', 'ftl_andre', 'dare', 'sqdal', 'sqdil', 'rat', 'inuit', 'lot', 'shagai', 'yut'];
+  const min = await page.evaluate(ids => ids.map(id => {
+    const g = (window.GAMES || []).find(x => x.id === id);
+    return g ? g.min : -1;
+  }), nye);
+  ok('quiz, love og opgaver kan spilles alene', min.every(x => x === 1));
+
+  const kortTekst = await page.evaluate(() => {
+    const b = [...document.querySelectorAll('button.gc')].find(x => /Forbudte ord/.test(x.innerText));
+    return b ? b.innerText : '';
+  });
+  ok('kortet viser tydeligt at spillet kræver 2', /Kræver 2 spillere/.test(kortTekst));
+
+  await page.locator('button.gc', { hasText: 'Forbudte ord' }).first().click();
+  await page.waitForSelector('.modal');
+  const besked = await page.evaluate(() => (document.querySelector('.modal') || {}).innerText || '');
+  ok('tydelig besked når et spil kræver flere', /kræver mindst 2 spillere/.test(besked) && /Tilføj spiller/.test(besked));
+  await page.evaluate(() => document.querySelectorAll('.modal').forEach(m => m.remove()));
+
+  const før = fejl.length;
+  const soloFejl = [];
+  for (const id of nye) {
+    await page.evaluate(id => { try { window.hsStart(id); } catch (e) {} }, id);
+    const s = page.locator('#hsv-startspil'); if (await s.count()) await s.click().catch(() => {});
+    await page.waitForTimeout(220);
+    if (!(await page.locator('#main .card').count())) soloFejl.push(id);
+    await page.evaluate(() => { try { window.go('home'); } catch (e) {} });
+    await page.waitForTimeout(80);
+  }
+  ok('alle de nye solo-spil kan åbnes med én spiller', soloFejl.length === 0);
+  ok('ingen sidefejl i de nye solo-spil', fejl.length === før);
+  await ctx.close();
+}
+
 await browser.close();
 console.log(antal + ' tjek, ' + fejl.length + ' sidefejl');
 if (fejl.length) console.log(fejl.slice(0, 6).join('\n'));

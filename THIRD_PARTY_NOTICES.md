@@ -70,3 +70,13 @@ fotografiet af det oprindelige hjul, da 「Lykkehjulet» havde premiere i 1988:
 - Ophavsret: Germanname1990 (Wikimedia Commons), 2008.
 - Licens: CC BY-SA 3.0 — billedet er IKKE lagt ind i repoet, kun brugt som visuel reference.
 - Hvis hjulets udseende ændres efter fotografien, sættes credit: «Foto: Germanname1990 / Wikimedia Commons, CC BY-SA 3.0».
+
+## Ordjagt – filtreret ordliste
+
+`custom_components/hyggespil/www/ordbank.js` indeholder de kuraterede niveaulister og en filtreret ordliste, som bruges til at godkende ord, spilleren selv finder i gitteret.
+
+- Kilde: FrequencyWords af Hermit Dave – https://github.com/hermitdave/FrequencyWords
+- Filer: `da_50k.txt` og `en_50k.txt` (OpenSubtitles 2018)
+- Licens: CC BY-SA 4.0 – https://creativecommons.org/licenses/by-sa/4.0/
+- Ændringer: Listen er filtreret til bogstaver, længde 2–14, uden stødende ord og uden ord, der allerede står i niveaulisterne. Ændringerne er delt under samme licens.
+- Ordlisten ligger krypteret i repoet og bruges kun lokalt i spillet; der sendes intet.
