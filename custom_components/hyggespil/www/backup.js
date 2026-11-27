@@ -4,7 +4,7 @@
 (function(){
 if(window.__backupLoaded)return;window.__backupLoaded=true;
 const NØGLER=['hs_players','hs_own','hs_groups','hs_resume2','hs_xlock','hs_forst','hs_cfg','hs_feedback_sent','hs_errorlog'];
-const praefiks=['hs_seen2_','hs_hjem'];
+const praefiks=['hs_seen2_','hs_set_','hs_hjem'];
 function samling(){
  const data={_art:'hyggespil-data',_version:(window.HSCFG||{}).version||'?',_tidspunkt:new Date().toISOString(),nøgle:HSCFG&&HSCFG.repo||'',indhold:{}};
  NØGLER.forEach(k=>{const v=localStorage.getItem(k);if(v!==null)data.indhold[k]=v});

@@ -235,6 +235,36 @@ const ok = (navn, ja) => { antal++; console.log((ja ? 'OK  ' : 'FEJL') + '  ' + 
   await ctx.close();
 }
 
+/* ---------- 7) Samme person med ny makker ---------- */
+{
+  const { ctx, page } = await nySide(() => {
+    localStorage.setItem('hs_forst', 'ja');
+    localStorage.setItem('hs_xlock', JSON.stringify({ s: 'salt', k: 'kontrol' }));
+    localStorage.setItem('hs_players', JSON.stringify([{ n: 'Allan', c: '#ff5d8f', s: 0, age: 40 }, { n: 'Datter', c: '#ffb703', s: 0, age: 12 }]));
+    localStorage.setItem('hs_indst', 'true');
+    localStorage.removeItem('hs_seen2_makker');
+    localStorage.removeItem('hs_set_n:allan');
+    localStorage.removeItem('hs_set_n:kaereste');
+  });
+  const r = await page.evaluate(() => {
+    const P = Array.from({ length: 30 }, (_, i) => ({ q: 'M' + i }));
+    const træk = n => { const a = []; for (let i = 0; i < n; i++) a.push(draw('makker', P).q); return a; };
+    const medDatter = træk(8);
+    players = [{ n: 'Allan', c: '#fff', s: 0, age: 40 }, { n: 'Kaereste', c: '#000', s: 0, age: 40 }];
+    localStorage.removeItem('hs_seen2_makker');
+    const medKaereste = træk(8);
+    return {
+      medDatter, medKaereste,
+      overlap: medDatter.filter(x => medKaereste.includes(x)),
+      historik: JSON.parse(localStorage.getItem('hs_set_n:allan') || '[]').length,
+    };
+  });
+  ok('samme person får ikke samme spørgsmål med ny makker', r.overlap.length === 0);
+  ok('spillerens historik huskes på tværs af makkere', r.historik >= 16);
+  ok('trækket giver ikke gentagelser i samme pulje', new Set(r.medDatter).size === 8 && new Set(r.medKaereste).size === 8);
+  await ctx.close();
+}
+
 await browser.close();
 console.log(antal + ' tjek, ' + fejl.length + ' sidefejl');
 if (fejl.length) console.log(fejl.slice(0, 6).join('\n'));

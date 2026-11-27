@@ -129,11 +129,42 @@ function norm(gk,it){
  if(Array.isArray(c.p)&&typeof c.a==='number'){const r=shufOpts(c.p,c.a);c.p=r.arr;c.a=r.a}
  else if(Array.isArray(c.o)&&typeof c.a==='number'){const r=shufOpts(c.o,c.a);c.o=r.arr;c.a=r.a}
  return c}
-const LAST={};
+const LAST={},BAG={},HIST={};
+const blandKort=a=>{for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const spillerNoegle=p=>{const n=String((p&&p.n)||'').trim().toLowerCase();return n?'n:'+n:''};
+function spillerHistorik(pid){
+ if(!HIST[pid]){try{HIST[pid]=new Set(LS.get('set_'+pid,[]))}catch(e){HIST[pid]=new Set()}}
+ return HIST[pid];
+}
+/* Træk et kort, så den samme person ikke får de samme spørgsmål igen – også når
+   personen skifter makker. Hver spillers historik følger navnet og deles på tværs
+   af grupper og spil; enhedens historik pr. pulje bevares som sikkerhedsnet.
+   Spørgsmålene trækkes i en tilfældig rækkefølge pr. pulje (shuffle-bag). */
 window.draw=function(gk,list){
- let it,t=0;const last=LAST[gk];
- do{it=list[Math.random()*list.length|0]}while(list.length>1&&idOf(it)===last&&++t<6);
- LAST[gk]=idOf(it);return norm(gk,it)};
+ if(!Array.isArray(list)||!list.length)return list&&list[0];
+ const ids=list.map(idOf);
+ const enhed=new Set(LS.get('seen2_'+gk,[]));
+ const navne=[...new Set((typeof players!=='undefined'&&Array.isArray(players)?players:[]).map(spillerNoegle).filter(Boolean))].slice(0,16);
+ const hist=navne.map(spillerHistorik);
+ const fri=(i,medSpillere,medEnhed)=>(!medSpillere||hist.every(h=>!h.has(ids[i])))&&(!medEnhed||!enhed.has(ids[i]));
+ let valg=[];
+ for(const [medSpillere,medEnhed] of [[true,true],[true,false],[false,true]]){
+  valg=list.map((_,i)=>i).filter(i=>fri(i,medSpillere,medEnhed));
+  if(valg.length)break;
+ }
+ if(!valg.length){enhed.clear();valg=list.map((_,i)=>i)}
+ const ok=new Set(valg);
+ let bag=BAG[gk];
+ if(!bag||!bag.length)bag=BAG[gk]=blandKort(ids.slice());
+ let id=null;
+ while(bag.length){const k=bag.pop();const i=ids.indexOf(k);if(i>=0&&ok.has(i)){id=k;break}}
+ if(!id){bag=BAG[gk]=blandKort(valg.map(i=>ids[i]));id=bag.pop()}
+ const it=list[Math.max(0,ids.indexOf(id))];
+ enhed.add(id);
+ LS.set('seen2_'+gk,[...enhed].slice(-2000));
+ navne.forEach((pid,k)=>{const h=hist[k];h.add(id);LS.set('set_'+pid,[...h].slice(-1000))});
+ LAST[gk]=id;
+ return norm(gk,it)};
 
 /* ---- fejlsikring: et defekt kort springes over ---- */
 const _game=window.game;let fails=0;
