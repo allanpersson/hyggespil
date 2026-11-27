@@ -67,16 +67,12 @@ const WCOL=['#000000','#7a7d00','#ff6a00','#0093dd','#0a8f3c','#ff6a00','#fff200
 const WVIST={'MIST TUR':'TABT TUR','GRATIS':'JOKER'};
 const used=new Set();
 function ful(e){const m=/«(.+?)»/.exec(e||'');return m?m[1]:null}
-/* Postnummerlisten har også posthuse og distriktsforkortelser ("Svenstrup J", "Odense C").
-   I Ordhjulet bruges kun selve bynavnet, så svaret kan stå på én linje. */
-const BYDROP=new Set(['C','K','V','N','S','Ø','M','J','L','F','B','NV','NØ','SV','SØ','JYLL','VESTJ','MIDTSJ','ØSTJ','NORDJ','SYDJ','ST']);
+/* Postnummerlisten har også spørgsmål, hvor svaret er et posthus eller en beskrivelse.
+   Her bruges kun rigtige bynavne – og de officielle navne bevares, fx «Svenstrup J». */
 function rensBy(s){
  let x=String(s).trim();
  if(/[0-9:.]/.test(x))return '';
  if(/\b(Posthus|Postboks|Postbutik|Pakkecenter|Postcenter)\b/i.test(x))return '';
- const d=x.split(/\s+/);
- while(d.length>1&&BYDROP.has(d[d.length-1].toUpperCase()))d.pop();
- x=d.join(' ');
  const n=[...x].filter(c=>/[A-Za-zÆØÅæøå]/.test(c)).length;
  if(n<3||n>18)return '';
  return x;
@@ -85,7 +81,10 @@ window.hsByNavn=rensBy;
 function puzzle(){
  const src=[
   ['Ordsprog',()=>{const l=(DATA.prov||[]).map(i=>ful(i.e)).filter(Boolean);return l.length?pick(l):null}],
-  ['Dansk by',()=>{const l=(DATA.zip||[]).map(i=>i.o&&i.o[i.a]).filter(Boolean).map(rensBy).filter(Boolean);return l.length?pick(l):null}],
+  ['Dansk by',()=>{
+   const rå=window.HSZIPBY&&window.HSZIPBY.length?window.HSZIPBY:(DATA.zip||[]).map(i=>i.o&&i.o[i.a]);
+   const l=[...new Set(rå.filter(Boolean).map(rensBy).filter(Boolean))];
+   return l.length?pick(l):null}],
   ['Land',()=>{const l=(DATA.city||[]).map(i=>i.o&&i.o[i.a]).filter(Boolean);return l.length?pick(l):null}],
   ['Dyr',()=>{const l=(DATA.kwho||[]).map(i=>i.a).filter(Boolean);return l.length?pick(l):null}],
   ['Hvem eller hvad?',()=>{const l=(DATA.who||[]).map(i=>i.a).filter(Boolean);return l.length?pick(l):null}]];

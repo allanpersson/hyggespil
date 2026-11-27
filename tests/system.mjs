@@ -201,13 +201,15 @@ const ok = (navn, ja) => { antal++; console.log((ja ? 'OK  ' : 'FEJL') + '  ' + 
     };
     return {
       kort: prøv('SVENSTRUP'),
+      officielt: prøv('SVENSTRUP J'),
       langt: prøv('VESTER SKERNINGE'),
-      navne: [hsByNavn('Svenstrup J'), hsByNavn('København K: Dagbladet Børsen'), hsByNavn('Nørre Nebel')],
+      navne: [hsByNavn('Svenstrup J'), hsByNavn('København K: Dagbladet Børsen'), hsByNavn('Nørre Nebel'), (window.HSZIPBY || []).includes('Svenstrup J')],
     };
   });
   ok('ordhjulet: ét ord står på én linje', mål.kort.linjer === 1 && !mål.kort.over && !mål.kort.side);
+  ok('ordhjulet: officielt bynavn med distrikt står på én linje', mål.officielt.linjer === 1 && !mål.officielt.over && !mål.officielt.side);
   ok('ordhjulet: langt svar flyder ikke over', !mål.langt.over && !mål.langt.side);
-  ok('ordhjulet: bynavne renses for distrikter og posthuse', mål.navne[0] === 'Svenstrup' && mål.navne[1] === '' && mål.navne[2] === 'Nørre Nebel');
+  ok('ordhjulet: officielle bynavne bevares, posthuse frasorteres', mål.navne[0] === 'Svenstrup J' && mål.navne[1] === '' && mål.navne[2] === 'Nørre Nebel' && mål.navne[3] === true);
   await ctx.close();
 }
 

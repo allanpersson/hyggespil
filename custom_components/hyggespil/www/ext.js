@@ -71,6 +71,8 @@ function expand(){
   else if(k==='city'){const by={};rows.forEach(r=>{(by[r[2]]=by[r[2]]||new Set()).add(r[1])});const all=[...new Set(rows.map(r=>r[1]))];
    add(k,rows.map(r=>{const w=sh([...by[r[2]]].filter(c=>c!==r[1])).slice(0,3);for(const c of sh(all)){if(w.length>=3)break;if(c!==r[1]&&!w.includes(c))w.push(c)}return {q:'I hvilket land ligger '+r[0]+'?',o:[r[1]].concat(w),a:0}}))}
   else if(k==='zip'){const towns=[...new Set(rows.map(r=>r[1]))];
+   /* De officielle bynavne fra postnummerlisten – også «Svenstrup J» og «København K». */
+   window.HSZIPBY=towns.slice();
    add(k,rows.map(r=>{const near=sh(rows.filter(x=>x[1]!==r[1]&&x[0][0]===r[0][0]).map(x=>x[1]));const w=[...new Set(near)].slice(0,3);for(const c of sh(towns)){if(w.length>=3)break;if(c!==r[1]&&!w.includes(c))w.push(c)}return {q:'Hvilken by hører postnummer '+r[0]+' til?',o:[r[1]].concat(w),a:0}}))}
   else if(k==='lang'){const langs=[...new Set(rows.map(r=>r[1]))];
    add(k,rows.map(r=>({q:'Hvilket sprog stammer «'+r[0]+'» fra?',o:[r[1]].concat(sh(langs.filter(l=>l!==r[1])).slice(0,3)),a:0,e:'«'+r[0]+'»: '+r[2]+' ('+r[1]+')'})))}

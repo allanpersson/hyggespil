@@ -1,4 +1,4 @@
-# Spiltest – 2026-11-26
+# Spiltest – 2026-11-27
 
 Spil testet: 97
 
