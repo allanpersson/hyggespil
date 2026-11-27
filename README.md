@@ -9,9 +9,9 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 *Hygge is the Danish tradition of being together at an easy pace – with no pressure to perform, time for each other, something good to eat and room to laugh. Hygge Games is built around exactly that: one screen, everyone can join in, and the time together matters more than the score.*
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.106<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.107<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->569<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->573<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
@@ -252,6 +252,14 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.107 – 2026-11-27
+
+**Rettet**
+- **Hver spiller husker nu sine egne spørgsmål.** Når du skifter makker – fx fra datteren til kæresten – undgår spillet de spørgsmål, du allerede har fået. Historikken følger spillernavnet og gælder på tværs af grupper og spil, så den samme person ikke skal se det samme igen, bare fordi der er en anden med ved bordet.
+- **Mere tilfældig rækkefølge i hver pulje.** Spørgsmålene trækkes nu i en tilfældig rækkefølge pr. pulje (shuffle-bag), så det ikke er de samme, der kommer først hver gang. Trækket gentager heller ikke et spørgsmål, før puljen er brugt.
+- **Historikken kommer med i sikkerhedskopien**, så den ikke forsvinder, når man flytter spillet til en ny telefon.
+- Spillerhistorik og tilfældig rækkefølge
+
 ### 0.2.106 – 2026-11-27
 
 **Rettet**
@@ -307,12 +315,6 @@ en kop kaffe:
 **Tilføjet**
 - **117 nye spørgsmål og kort** fordelt på: likely_en (12), tf_en (10), riddle_en (10), num_en (10), deep_en (10), rather_en (10), never_en (10), Hvem i familien? (10), ftl_andre (10), who_en (9), odd_en (8), taboo_en (8).
 - Nye spørgsmål: 117
-
-### 0.2.99 – 2026-11-26
-
-**Tilføjet**
-- **181 nye spørgsmål og kort** fordelt på: rim (11), riddle_en (10), num_en (10), who_en (10), deep_en (10), rather_en (10), never_en (10), likely_en (10), Dalgona (10), mus60 (10), julesange (10), julesjov (10), gamingleg (10), taboo_en (9), julekalender (9), tf_en (8), serier (8), spilnavn (8), odd_en (7), julequiz (1).
-- Nye spørgsmål: 181
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
