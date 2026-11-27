@@ -9,9 +9,9 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 *Hygge is the Danish tradition of being together at an easy pace – with no pressure to perform, time for each other, something good to eat and room to laugh. Hygge Games is built around exactly that: one screen, everyone can join in, and the time together matters more than the score.*
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.109<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.110<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->582<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->588<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
@@ -252,6 +252,15 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.110 – 2026-11-27
+
+**Rettet**
+- **Tydelig besked, når et spil kræver flere spillere.** Kortet viser nu «Kræver 2 spillere», og når man prøver at åbne spillet, kommer der en dialog med knappen «Tilføj spiller» – i stedet for en lille besked, der let blev overset.
+- **Færre spil kræver unødvendigt to spillere.** Quiz, danske love & regler, postnumre, færdselsloven, mysterier, dilemmaer, «Hellere end», Dalgona, Lotería, Yut, Shagai og Inuit-legene kan nu spilles alene. Kun spil, hvor roller eller afstemning er selve pointen, kræver stadig flere.
+- **Ordjagt accepterer nu også de ord, du selv finder.** Ud over de skjulte ord godkendes en stor filtreret dansk/engelsk ordliste, så fx «by» og «le» tæller. Korte ord giver 1 point, mellemlange 2 og lange 5. En forkert markering giver en tydelig besked i stedet for at forsvinde.
+- **Ordjagtens ordliste er krediteret** (FrequencyWords, CC BY-SA 4.0) i tredjepartsnoterne og under «Om».
+- Solo og større ordbank
+
 ### 0.2.109 – 2026-11-27
 
 **Tilføjet**
@@ -304,13 +313,6 @@ en kop kaffe:
 - **Samspil**: værten kan starte et spil direkte fra forsiden, og alle telefoner følger med; rummet vises som et banner på forsiden.
 - Ordhjulet og tilbageknap
 - Fjern debug-test
-
-### 0.2.102 – 2026-11-26
-
-- Samspil med flere spil
-- Fjern midlertidig test
-- Oversatte forbehold og velkomst
-- Bjaelke under statuslinjen
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
