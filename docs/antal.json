@@ -1,6 +1,6 @@
 {
  "spil": 99,
- "spoergsmaal": 19965,
+ "spoergsmaal": 19971,
  "puljer": {
   "num": 217,
   "tf": 198,
@@ -18,7 +18,7 @@
   "tl": 133,
   "city": 329,
   "geo": 290,
-  "zip": 541,
+  "zip": 547,
   "weird": 173,
   "lang": 228,
   "tf_en": 99,
@@ -136,7 +136,7 @@
  "sprog": {
   "da": {
    "puljer": 119,
-   "spoergsmaal": 18973
+   "spoergsmaal": 18979
   },
   "en": {
    "puljer": 11,
