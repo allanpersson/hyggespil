@@ -9,15 +9,15 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 *Hygge is the Danish tradition of being together at an easy pace – with no pressure to perform, time for each other, something good to eat and room to laugh. Hygge Games is built around exactly that: one screen, everyone can join in, and the time together matters more than the score.*
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.112<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.113<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->604<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->611<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->99 spil og 20.157 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->99 spil og 20.284 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -252,6 +252,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.113 – 2026-11-28
+
+**Tilføjet**
+- **127 nye spørgsmål og kort** fordelt på: julesange (11), deep_en (10), Dalgona (10), cifked (10), omvendt (10), International fodbold (10), mus60 (10), filmdk (10), julekalender (10), julesjov (10), gamingleg (10), ftl_cykel (9), film80 (6), ftl_andre (1).
+- Nye spørgsmål: 127
+
 ### 0.2.112 – 2026-11-28
 
 **Tilføjet**
@@ -298,12 +304,6 @@ en kop kaffe:
 **Rettet**
 - **Ordhjulet**: bynavnene vises nu med deres officielle navn fra postnummerlisten – fx **Svenstrup J**, **København K** og **Viby J**. Kun rigtige bynavne bruges; posthuse, pakkecentre og beskrivelser er sorteret fra. Det officielle navn holdes på én linje, også når det slutter med et distriktsbogstav.
 - Officielle bynavne i Ordhjulet
-
-### 0.2.105 – 2026-11-27
-
-**Tilføjet**
-- **192 nye spørgsmål og kort** fordelt på: provw (19), odd_en (10), riddle_en (10), num_en (10), who_en (10), deep_en (10), rather_en (10), never_en (10), likely_en (10), Ordsprog (10), cifcaes (10), Dansk reality (10), mus80 (10), mus00 (10), bmgp (10), International fodbold (9), film90 (9), film80 (8), taboo_en (7).
-- Nye spørgsmål: 192
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
