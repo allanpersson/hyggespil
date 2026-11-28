@@ -9,15 +9,15 @@ Spillet kører lokalt i din Home Assistant og bruger ingen konto, sky eller ekst
 
 *Hygge is the Danish tradition of being together at an easy pace – with no pressure to perform, time for each other, something good to eat and room to laugh. Hygge Games is built around exactly that: one screen, everyone can join in, and the time together matters more than the score.*
 
-**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.111<!-- version:end -->
+**Udvikler:** Allan Persson · **Licens:** MIT <!-- version:start -->· **Version:** 0.2.112<!-- version:end -->
 
-**Hentet fra GitHub:** <!-- downloads:start -->601<!-- downloads:end --> gange
+**Hentet fra GitHub:** <!-- downloads:start -->604<!-- downloads:end --> gange
 
 ![Forsiden med spiloversigten](docs/forside.jpg)
 
 ## Indhold
 
-<!-- tal:start -->99 spil og 19.971 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
+<!-- tal:start -->99 spil og 20.157 spørgsmål, opgaver og kort<!-- tal:end --> på dansk:
 
 | Gruppe | Spil |
 |---|---|
@@ -252,6 +252,12 @@ en kop kaffe:
 ## Nyheder
 
 <!-- nyheder:start -->
+### 0.2.112 – 2026-11-28
+
+**Tilføjet**
+- **186 nye spørgsmål og kort** fordelt på: serier (18), cifbrl (12), cifmors (12), odd_en (10), Stormester (10), Dansk fodbold (10), mgp (10), roller (10), julequiz (10), julefilm (10), spilnavn (10), gaminghistorie (10), ftl_bil (10), Skøre rekorder (10), disney (9), Love & regler (9), num_en (8), taboo_en (8).
+- Nye spørgsmål: 186
+
 ### 0.2.111 – 2026-11-28
 
 **Tilføjet**
@@ -298,13 +304,6 @@ en kop kaffe:
 **Tilføjet**
 - **192 nye spørgsmål og kort** fordelt på: provw (19), odd_en (10), riddle_en (10), num_en (10), who_en (10), deep_en (10), rather_en (10), never_en (10), likely_en (10), Ordsprog (10), cifcaes (10), Dansk reality (10), mus80 (10), mus00 (10), bmgp (10), International fodbold (9), film90 (9), film80 (8), taboo_en (7).
 - Nye spørgsmål: 192
-
-### 0.2.104 – 2026-11-27
-
-**Tilføjet**
-- **5 nye spørgsmål og kort** fordelt på: zip (5).
-- Nye spørgsmål: 5
-- Dokumentér Ordjagt
 
 Ældre versioner (beta) og hele historikken: [CHANGELOG.md](CHANGELOG.md) · [alle udgivelser](https://github.com/allanpersson/hyggespil/releases)
 <!-- nyheder:end -->
